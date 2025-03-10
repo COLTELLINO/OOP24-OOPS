@@ -11,7 +11,7 @@ public class GamePanel extends MyPanel {
      * @param screenWidth
      * @param screenHeight
      */
-    public GamePanel(final int screenWidth, final int screenHeight) {
+    protected GamePanel(final int screenWidth, final int screenHeight) {
         super(screenWidth, screenHeight);
         super.setBackground(Color.BLACK);
     }
@@ -19,7 +19,7 @@ public class GamePanel extends MyPanel {
     *  Draws current panel.
     */
     @Override
-    public void draw() {
+    protected void draw() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'draw'");
     }

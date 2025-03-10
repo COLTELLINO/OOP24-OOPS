@@ -7,7 +7,6 @@ import it.unibo.oops.controller.gamestate.GameState;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-
 /**
  * 
  */
@@ -65,6 +64,12 @@ public final class DrawViewImpl implements DrawView {
      */
     public GameState getCurrentGameState() {
         return currentGameState;
+    }
+    /**
+     *  Memorizes current screen dimensions in the current panel.
+     */
+    public void setScreenDimension() {
+        this.currentPanel.setScreenDimensions(d);
     }
     /**
     *  Draws current panel.

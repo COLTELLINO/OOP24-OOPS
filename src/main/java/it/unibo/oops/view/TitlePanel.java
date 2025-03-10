@@ -11,7 +11,7 @@ public class TitlePanel extends MyPanel {
      * @param screenWidth
      * @param screenHeight
      */
-    public TitlePanel(final int screenWidth, final int screenHeight) {
+    protected TitlePanel(final int screenWidth, final int screenHeight) {
         super(screenWidth, screenHeight);
         super.setBackground(Color.WHITE);
     }
@@ -19,7 +19,7 @@ public class TitlePanel extends MyPanel {
     *  Draws current panel.
     */
     @Override
-    public void draw() {
+    protected void draw() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'draw'");
     }
