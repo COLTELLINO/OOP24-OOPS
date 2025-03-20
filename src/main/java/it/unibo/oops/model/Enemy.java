@@ -69,26 +69,9 @@ public abstract class Enemy extends Entity {
      */
     @Override
     public void update() {
-        final Direction direction;
-        if (player.getX() < this.getX()) {
-            if (player.getY() < this.getY()) {
-                direction = Direction.UP;
-            } else {
-                direction = Direction.LEFT;
-            }
-        } else {
-            if (player.getY() < this.getY()) {
-                direction = Direction.RIGHT;
-            } else {
-                direction = Direction.DOWN;
-            }
-        }
-        switch (direction) {
-            case Direction.UP -> setY(getY() - getSpeed());
-            case Direction.DOWN -> setY(getY() + getSpeed());
-            case Direction.LEFT -> setX(getX() - getSpeed());
-            case Direction.RIGHT -> setX(getX() + getSpeed());
-            default -> throw new IllegalArgumentException();
-       }
+        final int xDistance = Integer.compare(player.getX(), this.getX());
+        final int yDistance = Integer.compare(player.getY(), this.getY());
+        this.setX(getX() + xDistance * getSpeed());
+        this.setY(getY() + yDistance * getSpeed());
     }
 }
