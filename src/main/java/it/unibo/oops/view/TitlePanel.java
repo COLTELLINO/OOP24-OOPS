@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
-import it.unibo.oops.controller.gamestate.GameState;
+import it.unibo.oops.controller.GameState;
 /**
  * 
  */

@@ -56,10 +56,10 @@ public abstract class Enemy extends Entity {
         //     g2.drawImage(image, getX(), getY(), null);
         // } catch (IOException e) {
         //     Logger.getLogger(this.getClass().getName()).
-        //     log(Level.SEVERE, "An InterruptedException occurred: ", e);
+        //     log(Level.SEVERE, "An IOException occurred: ", e);
         // } catch (IllegalArgumentException e) {
         //     Logger.getLogger(this.getClass().getName()).
-        //     log(Level.SEVERE, "An InterruptedException occurred: ", e);
+        //     log(Level.SEVERE, "An IllegalArgumentException occurred: ", e);
         // }
         g2.setColor(Color.RED);
         g2.fillOval(getX(), getY(), getSize() / 2, getSize() / 2);

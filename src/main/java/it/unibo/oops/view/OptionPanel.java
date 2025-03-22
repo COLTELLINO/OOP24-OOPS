@@ -14,9 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
-//import java.awt.event.ActionListener;
-import it.unibo.oops.controller.gamestate.GameState;
-//import it.unibo.oops.view.DrawView;
+import it.unibo.oops.controller.GameState;
 
 /**
 *

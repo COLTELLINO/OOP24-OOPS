@@ -28,7 +28,7 @@ public class EnemyManager {
     * Updates every enemy.
     */
     public void update() {
-        if (enemyList.size() >= WAVE_SIZE) {
+        if (!enemyList.isEmpty() && enemyList.size() >= WAVE_SIZE) {
             for (int i = 0; i < WAVE_SIZE; i++) {
                 if (!enemyList.get(i).isPositioned()) {
                     final double angle = 2 * Math.PI * i / WAVE_SIZE;

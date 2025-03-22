@@ -1,15 +1,23 @@
 package it.unibo.oops.controller;
 
-import it.unibo.oops.controller.gamestate.GameState;
+import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.SwingUtilities;
+
+import it.unibo.oops.model.AudioHandler;
 import it.unibo.oops.model.EnemyFactory;
 import it.unibo.oops.model.EnemyFactoryImpl;
 import it.unibo.oops.model.EnemyManager;
 import it.unibo.oops.model.ExperienceManager;
+import it.unibo.oops.model.Percentage;
 import it.unibo.oops.model.Player;
 import it.unibo.oops.model.Timer;
 import it.unibo.oops.model.TimerImpl;
 import it.unibo.oops.model.WeaponManager;
 import it.unibo.oops.view.DrawViewImpl;
+import javafx.application.Platform;
 /**
 * 
 */
@@ -33,18 +41,31 @@ public class GameThreadImpl implements Runnable, GameThread {
     private final EnemyFactory enemyFactory = new EnemyFactoryImpl();
     private final WeaponManager weaponManager = new WeaponManager(player);
     private final ExperienceManager experienceManager = new ExperienceManager(/*FPS, */player);
-    private final DrawViewImpl window = 
-    new DrawViewImpl(GameState.TITLESTATE, this.player, this.enemyManager, this.weaponManager, this.experienceManager);
+    private final AudioHandler audioHandler = new AudioHandler();
 
+    private DrawViewImpl window;
     private Boolean running = true;
     /**
      *
      */
     public GameThreadImpl() {
-        this.startThread();
         final InputHandler inputHandler = new InputHandler(player);
-        window.addKeyListener(inputHandler);
-        window.setFocusable(true);
+        try {
+            SwingUtilities.invokeAndWait(() -> {
+                window = new DrawViewImpl(GameState.TITLESTATE, player, enemyManager, weaponManager, experienceManager);
+                window.addKeyListener(inputHandler);
+                window.setFocusable(true);
+            });
+        } catch (InvocationTargetException e) {
+            Logger.getLogger(this.getClass().getName()).
+            log(Level.SEVERE, "An InvocationTargetException occurred: ", e);
+        } catch (InterruptedException e) {
+            Logger.getLogger(this.getClass().getName()).
+            log(Level.SEVERE, "An InterruptedException occurred: ", e);
+        }
+        Platform.startup(() -> { });
+        audioHandler.setVolume(Percentage.TEN_PERCENT);
+        this.startThread();
     }
     /**
      * Starts the gameThread.
@@ -66,13 +87,13 @@ public class GameThreadImpl implements Runnable, GameThread {
     @Override
     public void run() {
         while (running) {
-            timer.update(this::update);
             if (this.window.getCurrentGameState() == GameState.PLAYSTATE) {
                 this.enemyManager.
                 addEnemy(this.enemyFactory.
-                createSlime(ENEMY_X, ENEMY_Y, ENEMY_MAXHEALTH, ENEMY_HEALTH, ENEMY_SPEED, ENEMY_SIZE * 2, this.player));
+                createSlime(ENEMY_X, ENEMY_Y, ENEMY_MAXHEALTH, ENEMY_HEALTH, ENEMY_SPEED, ENEMY_SIZE * 2, this.player)); 
                 this.window.repaint();
             }
+            timer.update(this::update);
         }
     }
     /**
@@ -80,11 +101,13 @@ public class GameThreadImpl implements Runnable, GameThread {
      */
     @Override
     public void update() {
-        if (this.window.getCurrentGameState() == GameState.PLAYSTATE) {
-            weaponManager.update();
-            experienceManager.update();
-            player.update();
-            enemyManager.update();
-        }
+        SwingUtilities.invokeLater(() -> {
+            if (this.window.getCurrentGameState() == GameState.PLAYSTATE) {
+                weaponManager.update();
+                experienceManager.update();
+                player.update();
+                enemyManager.update();
+            }
+        });
     }
 }

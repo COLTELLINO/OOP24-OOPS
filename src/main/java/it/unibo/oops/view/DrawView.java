@@ -1,6 +1,6 @@
 package it.unibo.oops.view;
 
-import it.unibo.oops.controller.gamestate.GameState;
+import it.unibo.oops.controller.GameState;
 /**
 *
 */

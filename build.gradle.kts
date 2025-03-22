@@ -1,5 +1,5 @@
 plugins {
-    // Apply the java plugin to add support for Java
+    // Apply the Java plugin to add support for Java
     java
 
     // Apply the application plugin to add support for building a CLI application
@@ -13,9 +13,11 @@ plugins {
      */
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("org.danilopianini.gradle-java-qa") version "1.77.0"
+    id("org.openjfx.javafxplugin") version "0.0.14"
 }
 
-repositories { // Where to search for dependencies
+repositories { 
+    // Where to search for dependencies
     mavenCentral()
 }
 
@@ -23,10 +25,9 @@ dependencies {
     // Suppressions for SpotBugs
     compileOnly("com.github.spotbugs:spotbugs-annotations:4.8.6")
 
-    // Maven dependencies are composed by a group name, a name and a version, separated by colons
+    // Maven dependencies
     implementation("com.omertron:API-OMDB:1.5")
     implementation("org.jooq:jool:0.9.15")
-
     /*
      * Simple Logging Facade for Java (SLF4J) with Apache Log4j
      * See: http://www.slf4j.org/
@@ -38,14 +39,18 @@ dependencies {
 
     // JUnit API and testing engine
     val jUnitVersion = "5.11.3"
-    // when dependencies share the same version, grouping in a val helps to keep them in sync
     testImplementation("org.junit.jupiter:junit-jupiter-api:$jUnitVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$jUnitVersion")
 }
 
+javafx {
+    version = "21"
+    modules = listOf("javafx.media")
+}
+
 application {
     // Define the main class for the application.
-    mainClass.set("it.unibo.sampleapp.RateAMovie")
+    mainClass.set("it.unibo.oops.controller.MainApp")
 }
 
 tasks.test {
@@ -55,4 +60,3 @@ tasks.test {
         showStandardStreams = true
     }
 }
-

@@ -1,7 +1,8 @@
 package it.unibo.oops.view;
 
 import java.awt.event.KeyListener;
-import it.unibo.oops.controller.gamestate.GameState;
+
+import it.unibo.oops.controller.GameState;
 import it.unibo.oops.model.EnemyManager;
 import it.unibo.oops.model.ExperienceManager;
 import it.unibo.oops.model.Player;
