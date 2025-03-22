@@ -12,10 +12,10 @@ justification = "To position the weapon, the player size and position are needed
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
 public class Sword extends Weapon {
 
-    private static final int WIDTH = 10;
-    private static final int HEIGHT = 30;
+    private static final int WIDTH = 15;
+    private static final int HEIGHT = 45;
     private static final double DURATION = 30;
-    private static final double COOLDOWN = 90;
+    private static final double COOLDOWN = 60;
 
     private double timer;
     private double cooldown;
@@ -59,27 +59,32 @@ public class Sword extends Weapon {
         if (active) {
             g.setColor(Color.BLUE);
             int drawX = player.getX(), drawY = player.getY();
+            int swordWidth = WIDTH, swordHeight = HEIGHT; 
             switch (player.getDirection()) {
                 case Direction.UP:
-                    drawX = player.getX() + WIDTH * 2;
+                    drawX = player.getX() + player.getSize() / 2 - WIDTH / 2;
                     drawY = player.getY() - HEIGHT;
                     break;
-                case Direction.RIGHT: 
-                    drawX = WIDTH;
-                    drawY = HEIGHT / 2;
+                case Direction.RIGHT:
+                    drawX = player.getX() + player.getSize();
+                    drawY = player.getY() + player.getSize() / 2 - WIDTH / 2;
+                    swordWidth = HEIGHT; 
+                    swordHeight = WIDTH;
                     break;
                 case Direction.DOWN:
-                    drawX = WIDTH / 2;
-                    drawY = HEIGHT;
+                    drawX = player.getX() + player.getSize() / 2 - WIDTH / 2;
+                    drawY = player.getY() + player.getSize();
                     break;
                 case Direction.LEFT:
-                    drawX = WIDTH / 2;
-                    drawY = HEIGHT / 2;
+                    drawX = player.getX() - HEIGHT;
+                    drawY = player.getY() + player.getSize() / 2 - WIDTH / 2;
+                    swordWidth = HEIGHT;
+                    swordHeight = WIDTH;
                     break;
                 default:
                     break;
             }
-            g.fillRect(drawX, drawY, WIDTH, HEIGHT);
+            g.fillRect(drawX, drawY, swordWidth, swordHeight);
         }
     }
 }
