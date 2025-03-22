@@ -59,8 +59,10 @@ public class EnemyManager {
      * @param g2d
      */
     public void draw(final Graphics2D g2d) {
-        for (int i = 0; i < WAVE_SIZE; i++) {
-            enemyList.get(i).draw(g2d);
+        if (!enemyList.isEmpty()) {
+            for (int i = 0; i < WAVE_SIZE; i++) {
+                enemyList.get(i).draw(g2d);
+            }
         }
         //System.out.println(enemyList.size());
     }

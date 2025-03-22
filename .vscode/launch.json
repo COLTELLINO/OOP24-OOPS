@@ -8,7 +8,7 @@
             "type": "java",
             "name": "MainApp",
             "request": "launch",
-            "mainClass": "it.unibo.oops.controller.MainApp",
+            "mainClass": "it.unibo.oops.MainApp",
             "projectName": "sample-gradle-project-OOP24-OOPS"
         },
         {
@@ -22,14 +22,14 @@
             "type": "java",
             "name": "MainApp",
             "request": "launch",
-            "mainClass": "it.unibo.oops.controller.MainApp",
+            "mainClass": "it.unibo.oops.MainApp",
             "projectName": "OOP24-OOPS"
         },
         {
             "type": "java",
             "name": "MainApp",
             "request": "launch",
-            "mainClass": "it.unibo.oops.controller.MainApp",
+            "mainClass": "it.unibo.oops.MainApp",
             "projectName": "sample-gradle-project-OOP24-OOPS"
         },
         {
@@ -42,7 +42,7 @@
             "type": "java",
             "name": "MainApp",
             "request": "launch",
-            "mainClass": "it.unibo.oops.view.MainApp",
+            "mainClass": "it.unibo.oops.MainApp",
             "projectName": "sample-gradle-project-OOP24-OOPS"
         }
     ]

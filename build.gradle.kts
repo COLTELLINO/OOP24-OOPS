@@ -42,12 +42,6 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:$jUnitVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$jUnitVersion")
 }
-
-javafx {
-    version = "21"
-    modules = listOf("javafx.media")
-}
-
 application {
     // Define the main class for the application.
     mainClass.set("it.unibo.oops.controller.MainApp")

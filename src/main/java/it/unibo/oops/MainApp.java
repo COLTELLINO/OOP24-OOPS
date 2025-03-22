@@ -1,4 +1,6 @@
-package it.unibo.oops.controller;
+package it.unibo.oops;
+
+import it.unibo.oops.controller.GameThreadImpl;
 
 final class MainApp {
     private MainApp() {

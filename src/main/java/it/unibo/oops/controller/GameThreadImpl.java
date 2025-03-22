@@ -17,7 +17,6 @@ import it.unibo.oops.model.Timer;
 import it.unibo.oops.model.TimerImpl;
 import it.unibo.oops.model.WeaponManager;
 import it.unibo.oops.view.DrawViewImpl;
-import javafx.application.Platform;
 /**
 * 
 */
@@ -56,15 +55,11 @@ public class GameThreadImpl implements Runnable, GameThread {
                 window.addKeyListener(inputHandler);
                 window.setFocusable(true);
             });
-        } catch (InvocationTargetException e) {
-            Logger.getLogger(this.getClass().getName()).
-            log(Level.SEVERE, "An InvocationTargetException occurred: ", e);
-        } catch (InterruptedException e) {
-            Logger.getLogger(this.getClass().getName()).
-            log(Level.SEVERE, "An InterruptedException occurred: ", e);
+        } catch (InvocationTargetException | InterruptedException e) {
+            Logger.getLogger(this.getClass().getName())
+                    .log(Level.SEVERE, e.getClass().getSimpleName() + " occurred: ", e);
         }
-        Platform.startup(() -> { });
-        audioHandler.setVolume(Percentage.TEN_PERCENT);
+        audioHandler.playSoundEffect(1, Percentage.TEN_PERCENT);
         this.startThread();
     }
     /**
