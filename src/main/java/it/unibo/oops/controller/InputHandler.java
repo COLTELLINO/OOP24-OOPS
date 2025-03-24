@@ -13,7 +13,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  */
 @SuppressFBWarnings(value = {"EI2"}, 
 justification = "To change the player's position it has to be an externally mutable class.")
-public class InputHandler extends KeyAdapter {
+public final class InputHandler extends KeyAdapter {
     private final Player player;
 
     /**
@@ -39,6 +39,21 @@ public class InputHandler extends KeyAdapter {
             player.setDirection(Direction.LEFT);
         } else if (key == KeyEvent.VK_D) {
             player.setDirection(Direction.RIGHT);
+        }
+    }
+
+    /**
+     * Handles the key release events. Subclasses can override this method to provide
+     * custom behavior, but they must ensure to call the superclass implementation
+     * to maintain the default behavior.
+     * 
+     * @param e the KeyEvent that contains the key code
+     */
+    @Override
+    public void keyReleased(final KeyEvent e) {
+        final int key = e.getKeyCode();
+        if (key == KeyEvent.VK_W || key == KeyEvent.VK_S || key == KeyEvent.VK_A || key == KeyEvent.VK_D) {
+            player.setDirection(Direction.NONE);
         }
     }
 }

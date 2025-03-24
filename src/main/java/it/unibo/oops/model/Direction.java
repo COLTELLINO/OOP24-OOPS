@@ -6,5 +6,5 @@ public enum Direction {
     /**
     * 
     */
-    UP, DOWN, LEFT, RIGHT, UPLEFT, UPRIGHT, DOWNRIGHT, DOWNLEFT;
+    NONE, UP, DOWN, LEFT, RIGHT, UPLEFT, UPRIGHT, DOWNRIGHT, DOWNLEFT;
 }

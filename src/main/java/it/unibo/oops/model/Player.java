@@ -19,7 +19,7 @@ public class Player extends Entity {
      */
     public Player(final int x, final int y, final int maxHealth, final int health, final int speed, final int size) {
         super(x, y, maxHealth, health, speed, size);
-        this.direction = Direction.UP;
+        this.direction = Direction.NONE;
     }
     /**
      * @return the facing direction of the player.
@@ -52,22 +52,24 @@ public class Player extends Entity {
      */
     @Override
     public void update() {
-       switch (direction) {
-            case Direction.UP:
+        switch (direction) {
+            case UP:
                 setY(getY() - getSpeed());
                 break;
-            case Direction.DOWN:
+            case DOWN:
                 setY(getY() + getSpeed());
                 break;
-            case Direction.LEFT:
+            case LEFT:
                 setX(getX() - getSpeed());
                 break;
-            case Direction.RIGHT:
+            case RIGHT:
                 setX(getX() + getSpeed());
                 break;
+            case NONE:
+                return;
             default:
                 throw new IllegalArgumentException();
-       }
+        }
     }
     /**
      * Draws the player.
