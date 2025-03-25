@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 
 import it.unibo.oops.model.AudioHandler;
+import it.unibo.oops.model.AudioHandlerImpl;
 import it.unibo.oops.model.EnemyFactory;
 import it.unibo.oops.model.EnemyFactoryImpl;
 import it.unibo.oops.model.EnemyManager;
@@ -40,7 +41,7 @@ public class GameThreadImpl implements Runnable, GameThread {
     private final EnemyFactory enemyFactory = new EnemyFactoryImpl();
     private final WeaponManager weaponManager = new WeaponManager(player);
     private final ExperienceManager experienceManager = new ExperienceManager(/*FPS, */player);
-    private final AudioHandler audioHandler = new AudioHandler();
+    private final AudioHandler audioHandler = new AudioHandlerImpl();
 
     private DrawViewImpl window;
     private Boolean running = true;
