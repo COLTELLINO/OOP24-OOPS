@@ -13,7 +13,6 @@ plugins {
      */
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("org.danilopianini.gradle-java-qa") version "1.77.0"
-    id("org.openjfx.javafxplugin") version "0.0.14"
 }
 
 repositories { 

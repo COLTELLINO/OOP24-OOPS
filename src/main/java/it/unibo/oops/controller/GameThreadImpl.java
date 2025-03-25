@@ -59,7 +59,7 @@ public class GameThreadImpl implements Runnable, GameThread {
             Logger.getLogger(this.getClass().getName())
                     .log(Level.SEVERE, e.getClass().getSimpleName() + " occurred: ", e);
         }
-        audioHandler.playSoundEffect(1, Percentage.TEN_PERCENT);
+        audioHandler.playSoundEffect(2, Percentage.TEN_PERCENT);
         this.startThread();
     }
     /**

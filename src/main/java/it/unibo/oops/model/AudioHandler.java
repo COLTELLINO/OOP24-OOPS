@@ -29,6 +29,7 @@ public class AudioHandler {
     public AudioHandler() {
         this.soundList.add(AudioHandler.class.getResource("./resources/Audio/Music/test.wav"));
         this.soundList.add(AudioHandler.class.getResource("./resources/Audio/SoundEffects/test.wav"));
+        this.soundList.add(AudioHandler.class.getResource("null"));
     }
 
     /**
