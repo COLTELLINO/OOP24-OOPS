@@ -8,6 +8,12 @@
             "type": "java",
             "name": "MainApp",
             "request": "launch",
+            "mainClass": "it.unibo.oops.MainApp"
+        },
+        {
+            "type": "java",
+            "name": "MainApp",
+            "request": "launch",
             "mainClass": "it.unibo.oops.MainApp",
             "projectName": "sample-gradle-project-OOP24-OOPS"
         },

@@ -27,8 +27,8 @@ public class AudioHandler {
      * Initializes the AudioHandler and adds audio files to the sound list.
     */
     public AudioHandler() {
-        this.soundList.add(AudioHandler.class.getResource("./resources/Audio/Music/test.wav"));
-        this.soundList.add(AudioHandler.class.getResource("./resources/Audio/SoundEffects/test.wav"));
+        this.soundList.add(AudioHandler.class.getResource("/Audio/Music/test.wav"));
+        this.soundList.add(AudioHandler.class.getResource("/Audio/SoundEffects/test.wav"));
         this.soundList.add(AudioHandler.class.getResource("null"));
     }
 

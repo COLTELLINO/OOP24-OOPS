@@ -1,13 +1,12 @@
 package it.unibo.oops.model;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
-// import java.awt.image.BufferedImage;
-// import java.io.IOException;
-// import java.util.logging.Level;
-// import java.util.logging.Logger;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-// import javax.imageio.ImageIO;
+import javax.imageio.ImageIO;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 /**
@@ -50,19 +49,14 @@ public abstract class Enemy extends Entity {
      */
     @Override
     public void draw(final Graphics2D g2) {
-        // try {
-        //     final BufferedImage image = 
-        //     ImageIO.read(this.getClass().getResource("./resources/Monster/" + this.getClass().getSimpleName() + ".png"));
-        //     g2.drawImage(image, getX(), getY(), null);
-        // } catch (IOException e) {
-        //     Logger.getLogger(this.getClass().getName()).
-        //     log(Level.SEVERE, "An IOException occurred: ", e);
-        // } catch (IllegalArgumentException e) {
-        //     Logger.getLogger(this.getClass().getName()).
-        //     log(Level.SEVERE, "An IllegalArgumentException occurred: ", e);
-        // }
-        g2.setColor(Color.RED);
-        g2.fillOval(getX(), getY(), getSize() / 2, getSize() / 2);
+        try {
+            final BufferedImage image = 
+            ImageIO.read(this.getClass().getResource("/Monster/" + this.getClass().getSimpleName() + ".png"));
+            g2.drawImage(image, getX(), getY(), null);
+        } catch (IOException | IllegalArgumentException e) {
+            Logger.getLogger(this.getClass().getName())
+                    .log(Level.SEVERE, e.getClass().getSimpleName() + " occurred: ", e);
+        }
     }
     /**
      * Updates current enemy.

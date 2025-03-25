@@ -9,4 +9,3 @@ final class MainApp {
         new GameThreadImpl();
     }
 }
-
