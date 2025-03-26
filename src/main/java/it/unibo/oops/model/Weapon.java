@@ -10,6 +10,7 @@ public abstract class Weapon {
     public abstract void update();
     /**
      * Draws the Item.
+     * @param g
      */
     public abstract void draw(Graphics g); 
 }

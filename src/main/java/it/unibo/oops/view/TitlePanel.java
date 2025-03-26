@@ -1,9 +1,21 @@
 package it.unibo.oops.view;
 
-import javax.swing.*;
-import java.awt.*;
-import it.unibo.oops.controller.gamestate.GameState;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
 
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+
+import it.unibo.oops.controller.GameState;
+/**
+ * 
+ */
 public class TitlePanel extends MyPanel {
     @SuppressWarnings("unused") // TEMPORARY
     private static final double serialVersionUID = getSerialVersionUID();
@@ -19,21 +31,24 @@ public class TitlePanel extends MyPanel {
         super.setLayout(new BorderLayout());
         this.drawView = drawView;
 
-        JLabel titleLabel = new JLabel("OOP Survivors", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        final JLabel titleLabel = new JLabel("OOP Survivors", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, FONT_SIZE));
         super.add(titleLabel, BorderLayout.NORTH);
 
-        JPanel buttonPanel = new JPanel(new GridLayout(4, 1, 10, 10));
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
+        final JPanel buttonPanel = new JPanel(new GridLayout(ROWS, COLUMNS, GAP, GAP));
+        buttonPanel.
+        setBorder(BorderFactory.createEmptyBorder(VERTICAL_BORDER, HORIZONTAL_BORDER, VERTICAL_BORDER, HORIZONTAL_BORDER));
 
-        JButton newGameButton = new JButton("New Game");
-        JButton loadGameButton = new JButton("Load Game");
-        JButton settingsButton = new JButton("Settings");
-        JButton quitButton = new JButton("Quit");
+        final JButton newGameButton = new JButton("New Game");
+        final JButton loadGameButton = new JButton("Load Game");
+        final JButton settingsButton = new JButton("Settings");
+        final JButton quitButton = new JButton("Quit");
 
-        newGameButton.addActionListener(e -> drawView.changeGameState(GameState.PLAYSTATE));
-        settingsButton.addActionListener(e -> drawView.changeGameState(GameState.TITLEOPTIONSTATE));
-        quitButton.addActionListener(e -> System.exit(0));
+        newGameButton.addActionListener(e -> this.drawView.changeGameState(GameState.PLAYSTATE));
+        settingsButton.addActionListener(e -> this.drawView.changeGameState(GameState.TITLEOPTIONSTATE));
+        quitButton.addActionListener(e -> {
+            SwingUtilities.getWindowAncestor(quitButton).dispose();
+        });
 
         buttonPanel.add(newGameButton);
         buttonPanel.add(loadGameButton);

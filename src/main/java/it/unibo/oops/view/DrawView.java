@@ -1,6 +1,6 @@
 package it.unibo.oops.view;
 
-import it.unibo.oops.controller.gamestate.GameState;
+import it.unibo.oops.controller.GameState;
 /**
 *
 */
@@ -15,4 +15,12 @@ public interface DrawView {
      * @param gameState 
      */
     void changeGameState(GameState gameState);
+    /**
+     *  @return the current gameState.
+     */
+    GameState getCurrentGameState();
+    /**
+     *  Repaints the current Panel.
+     */
+    void repaint();
 }
