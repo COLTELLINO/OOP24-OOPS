@@ -17,32 +17,30 @@ import javax.swing.SwingUtilities;
 
 import it.unibo.oops.controller.GameState;
 
-/**
-*
-*/
 public class OptionPanel extends MyPanel {
-    @SuppressWarnings("unused") // TEMPORARY
-    private static final double serialVersionUID = getSerialVersionUID();
-    //private final DrawView drawView;
-            /**
-             * @param screenWidth
-             * @param screenHeight
-             * @param drawView
-             */
-            public OptionPanel(final int screenWidth, final int screenHeight, final DrawView drawView) {
-                super.setPreferredSize(new Dimension(screenWidth, screenHeight));
-                super.setLayout(new BorderLayout());
+    private static final long serialVersionUID = 1L; 
 
-                final JLabel titleLabel = new JLabel("Settings", SwingConstants.CENTER);
-                titleLabel.setFont(new Font("Arial", Font.BOLD, FONT_SIZE));
-            super.add(titleLabel, BorderLayout.NORTH);
+    private static final int FONT_SIZE = 24;
+    private static final int VERTICAL_BORDER = 10;
+    private static final int ROWS = 3;
+    private static final int COLUMNS = 2;
+    private static final int GAP = 5;
 
-            final JPanel outerPanel = new JPanel(new BorderLayout());
-            outerPanel.
-            setBorder(BorderFactory.createEmptyBorder(VERTICAL_BORDER, VERTICAL_BORDER, VERTICAL_BORDER, VERTICAL_BORDER));
+    private final JTextField screenSizeField; // Declared here
+    private final JPanel screenSizePanel;
+
+    public OptionPanel(final int screenWidth, final int screenHeight, final DrawView drawView) {
+        super.setPreferredSize(new Dimension(screenWidth, screenHeight));
+        super.setLayout(new BorderLayout());
+
+        final JLabel titleLabel = new JLabel("Settings", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, FONT_SIZE));
+        super.add(titleLabel, BorderLayout.NORTH);
+
+        final JPanel outerPanel = new JPanel(new BorderLayout());
+        outerPanel.setBorder(BorderFactory.createEmptyBorder(VERTICAL_BORDER, VERTICAL_BORDER, VERTICAL_BORDER, VERTICAL_BORDER));
 
         final JPanel buttonPanel = new JPanel(new GridLayout(ROWS, COLUMNS, GAP, GAP));
-
 
         JButton fullscreenButton = new JButton("Fullscreen");
         JButton screenSizeButton = new JButton("Screen Size");
@@ -50,24 +48,25 @@ public class OptionPanel extends MyPanel {
         JButton sfxButton = new JButton("SFX");
         JButton returnButton = new JButton("Return");
 
-
         fullscreenButton.addActionListener(e -> toggleFullscreen());
-        //screenSizeButton.addActionListener(e -> changeScreenSize());
-        screenSizeField.addActionListener(e -> changeScreenSize(screenSizeField));
-        screenSizeButton.addActionListener(e -> changeScreenSize(screenSizeField));
+        returnButton.addActionListener(e -> drawView.changeGameState(GameState.TITLESTATE));
+
+        // Fix: Initialize screenSizeField and screenSizePanel
+        screenSizeField = new JTextField(10);
+        screenSizePanel = new JPanel(new BorderLayout());
+
+        screenSizeButton.addActionListener(e -> changeScreenSize());
+        screenSizeField.addActionListener(e -> changeScreenSize());
+
         screenSizePanel.add(screenSizeButton, BorderLayout.WEST);
         screenSizePanel.add(screenSizeField, BorderLayout.CENTER);
 
-        returnButton.addActionListener(e -> drawView.changeGameState(GameState.TITLESTATE));
-
         buttonPanel.add(fullscreenButton);
-        //buttonPanel.add(screenSizeButton);
-        buttonPanel.add(screenSizePanel);
+        buttonPanel.add(screenSizePanel); // Now correctly referenced
         buttonPanel.add(volumeButton);
         buttonPanel.add(sfxButton);
         buttonPanel.add(returnButton);
 
-        
         outerPanel.add(buttonPanel, BorderLayout.CENTER);
         super.add(outerPanel, BorderLayout.WEST);
     }
@@ -76,11 +75,7 @@ public class OptionPanel extends MyPanel {
         final JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
         if (frame != null) {
             final boolean isFullscreen = frame.getExtendedState() == JFrame.MAXIMIZED_BOTH;
-            if (isFullscreen) {
-                frame.setExtendedState(JFrame.NORMAL);
-            } else {
-                frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-            }
+            frame.setExtendedState(isFullscreen ? JFrame.NORMAL : JFrame.MAXIMIZED_BOTH);
         }
     }
 
@@ -89,17 +84,17 @@ public class OptionPanel extends MyPanel {
         if (frame != null) {
             String widthInput = JOptionPane.showInputDialog(frame, "Enter width:", "Screen Size", JOptionPane.PLAIN_MESSAGE);
             String heightInput = JOptionPane.showInputDialog(frame, "Enter height:", "Screen Size", JOptionPane.PLAIN_MESSAGE);
-            
+
             if (widthInput != null && heightInput != null) {
                 try {
                     int width = Integer.parseInt(widthInput);
                     int height = Integer.parseInt(heightInput);
                     frame.setSize(width, height);
+                    screenSizeField.setText(width + "x" + height); // No more unresolved variable error
                 } catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(frame, "Invalid input. Please enter numeric values.", "Error", JOptionPane.ERROR_MESSAGE);
+                    screenSizeField.setText("Invalid! Use: 1090x180");
                 }
-            } else {
-                screenSizeField.setText("Invalid! Use: 1090x180");
             }
         }
     }
