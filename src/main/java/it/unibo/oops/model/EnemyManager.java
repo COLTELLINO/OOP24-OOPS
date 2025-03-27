@@ -14,13 +14,13 @@ import java.util.Iterator;
 justification = "To spawn enemies around the player, its position is needed, " 
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
 public class EnemyManager {
-    private static final int WAVE_SIZE = 8;
-    private static final int MAX_ENEMIES = 8;
+    private static final int WAVE_SIZE = 30;
+    private static final int MAX_ENEMIES = 30;
     private static final int SPAWN_DISTANCE = 200;
 
     private final List<Enemy> enemiesToSpawn = new ArrayList<>();
     private final List<Enemy> activeEnemies = new ArrayList<>();
-    private final Timer waveTimer = new TimerImpl(180);
+    private final Timer waveTimer = new TimerImpl(120);
     private final Player player;
     /**
      * @param player
@@ -56,14 +56,14 @@ public class EnemyManager {
      */
     private void spawnEnemy(final Enemy enemy, final int wavePosition) {
         final double angle = 2 * Math.PI * wavePosition / WAVE_SIZE;
-        final double x = player.getX() + player.getSize() / 2 
+        final double x = player.getX() + player.getSize()
                 + SPAWN_DISTANCE * Math.cos(angle) - enemy.getSize() / 2;
-        final double y = player.getY() + player.getSize() / 2
+        final double y = player.getY() + player.getSize()
                 + SPAWN_DISTANCE * Math.sin(angle) - enemy.getSize() / 2;
         enemy.setX((int) x);
         enemy.setY((int) y);
         enemy.setSpawned(true);
-        enemy.setSpeed(1);
+        enemy.setSpeed(0);
     }
     /**
      * Updates all active enemies. 
