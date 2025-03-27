@@ -40,7 +40,7 @@ public class GameThreadImpl implements Runnable, GameThread {
     private final EnemyManager enemyManager = new EnemyManager(player);
     private final EnemyFactory enemyFactory = new EnemyFactoryImpl();
     private final WeaponManager weaponManager = new WeaponManager(player);
-    private final ExperienceManager experienceManager = new ExperienceManager(/*FPS, */player);
+    private final ExperienceManager experienceManager = new ExperienceManager(player);
     private final AudioHandler audioHandler = new AudioHandlerImpl();
 
     private DrawViewImpl window;

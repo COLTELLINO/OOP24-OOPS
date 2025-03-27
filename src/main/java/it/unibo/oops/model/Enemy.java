@@ -16,7 +16,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 justification = "To move enemies towards the player, its position is needed, " 
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
 public abstract class Enemy extends Entity {
-    private boolean isPositioned;
+    private boolean hasSpawned;
     private final Player player;
     /**
      * @param x
@@ -35,14 +35,14 @@ public abstract class Enemy extends Entity {
     /**
      * @return if the enemy has been positioned.
      */
-    public boolean isPositioned() {
-        return isPositioned;
+    public boolean hasSpawned() {
+        return hasSpawned;
     }
     /**
-     * @param isPositioned
+     * @param hasSpawned
      */
-    public void setPosition(final boolean isPositioned) {
-        this.isPositioned = isPositioned;
+    public void setSpawned(final boolean hasSpawned) {
+        this.hasSpawned = hasSpawned;
     }
     /**
      * Draws current enemy.
@@ -52,7 +52,7 @@ public abstract class Enemy extends Entity {
         try {
             final BufferedImage image = 
             ImageIO.read(this.getClass().getResource("/Monster/" + this.getClass().getSimpleName() + ".png"));
-            g2.drawImage(image, getX(), getY(), null);
+            g2.drawImage(image, getX() + image.getWidth(), getY() + image.getHeight(), null);
         } catch (IOException | IllegalArgumentException e) {
             Logger.getLogger(this.getClass().getName())
                     .log(Level.SEVERE, e.getClass().getSimpleName() + " occurred: ", e);
@@ -67,5 +67,8 @@ public abstract class Enemy extends Entity {
         final int yDistance = Integer.compare(player.getY(), this.getY());
         this.setX(getX() + xDistance * getSpeed());
         this.setY(getY() + yDistance * getSpeed());
+        if (this.getX() == player.getX() && this.getY() == player.getY()) {
+            this.setAlive(false);
+        }
     }
 }
