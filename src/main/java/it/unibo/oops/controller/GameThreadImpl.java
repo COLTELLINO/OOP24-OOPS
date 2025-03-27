@@ -26,17 +26,20 @@ public class GameThreadImpl implements Runnable, GameThread {
     private static final int PLAYER_Y = 200;
     private static final int PLAYER_MAX_HEALTH = 100;
     private static final int PLAYER_HEALTH = 100;
+    private static final int PLAYER_ATTACK = 5;
     private static final int PLAYER_SPEED = 5;
     private static final int PLAYER_SIZE = 50;
     private static final int ENEMY_X = 300;
     private static final int ENEMY_Y = 200;
     private static final int ENEMY_MAXHEALTH = 100;
     private static final int ENEMY_HEALTH = 100;
+    private static final int ENEMY_ATTACK = 5;
     private static final int ENEMY_SPEED = 2;
     private static final int ENEMY_SIZE = 50;
 
     private final Timer timer = new TimerImpl(1);
-    private final Player player = new Player(PLAYER_X, PLAYER_Y, PLAYER_MAX_HEALTH, PLAYER_HEALTH, PLAYER_SPEED, PLAYER_SIZE);
+    private final Player player = new Player(PLAYER_X, PLAYER_Y, PLAYER_MAX_HEALTH, PLAYER_HEALTH,
+            PLAYER_ATTACK, PLAYER_SPEED, PLAYER_SIZE);
     private final EnemyManager enemyManager = new EnemyManager(player);
     private final EnemyFactory enemyFactory = new EnemyFactoryImpl();
     private final WeaponManager weaponManager = new WeaponManager(player);
@@ -86,7 +89,8 @@ public class GameThreadImpl implements Runnable, GameThread {
             if (this.window.getCurrentGameState() == GameState.PLAYSTATE) {
                 this.enemyManager.
                 addEnemy(this.enemyFactory.
-                createSlime(ENEMY_X, ENEMY_Y, ENEMY_MAXHEALTH, ENEMY_HEALTH, ENEMY_SPEED, ENEMY_SIZE * 2, this.player)); 
+                createSlime(ENEMY_X, ENEMY_Y, ENEMY_MAXHEALTH, ENEMY_HEALTH, ENEMY_ATTACK,
+                        ENEMY_SPEED, ENEMY_SIZE * 2, this.player)); 
                 this.window.repaint();
             }
             timer.update(this::update);

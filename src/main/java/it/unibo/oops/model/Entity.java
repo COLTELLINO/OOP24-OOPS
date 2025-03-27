@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
     private int x, y;         // Posizione
     private int maxHealth;    // Salute Massima
     private int health;          // Salute
+    private int attack;
     private int size;        // Velocità
     private int speed;        // Velocità
     private boolean isAlive;     // Stato
@@ -16,14 +17,17 @@ import java.awt.Graphics2D;
      * @param y
      * @param maxHealth
      * @param health
+     * @param attack
      * @param speed
      * @param size
      */
-    public Entity(final int x, final int y, final int maxHealth, final int health, final int speed, final int size) {
+    public Entity(final int x, final int y, final int maxHealth, final int health, final int attack,
+            final int speed, final int size) {
         this.x = x;
         this.y = y;
         this.maxHealth = maxHealth;
         this.health = health;
+        this.attack = attack;
         this.speed = speed;
         this.size = size;
         this.isAlive = true;
@@ -60,6 +64,12 @@ import java.awt.Graphics2D;
      */
     public int getHealth() {
         return health;
+    }
+    /**
+     * @return the Entity's attack value. 
+     */
+    public int getAttack() {
+        return attack;
     }
     /**
      * @return the Entity's speed value. 
@@ -108,6 +118,13 @@ import java.awt.Graphics2D;
      */
     public void setHealth(final int health) {
         this.health = health;
+    }
+    /**
+     * Sets the Entity's attack value. 
+     * @param attack
+     */
+    public void setAttack(final int attack) {
+        this.attack = attack;
     }
     /**
      * Sets the Entity's size value.
