@@ -11,7 +11,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 justification = "To position the weapon, the player size and position are needed, "
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
 public class Sword extends Weapon {
-
+    //NOTA: DURATION COOLDOWN e TIMER DOVREBBERO POTER USUFRUIRE DELLA CLASSE TIMER CREANDO UN 
+    //TIMERIMPL(60) (con 60 == 1 secondo a 60 FPS) - Java-The-Cup
     private static final int WIDTH = 15;
     private static final int HEIGHT = 45;
     private static final double DURATION = 30;
