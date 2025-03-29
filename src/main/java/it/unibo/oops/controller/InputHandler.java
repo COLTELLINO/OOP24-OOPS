@@ -4,17 +4,20 @@ import it.unibo.oops.model.Player;
 import it.unibo.oops.model.Direction;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.HashSet;
+import java.util.Set;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Class that handles the key events for controlling the player.
- * 
+ *
  */
-@SuppressFBWarnings(value = {"EI2"}, 
+@SuppressFBWarnings(value = {"EI2"},
 justification = "To change the player's position it has to be an externally mutable class.")
 public final class InputHandler extends KeyAdapter {
     private final Player player;
+    private final Set<Integer> pressedKeys = new HashSet<>();
 
     /**
      * Constructor that initializes the InputHandler with the player.
@@ -30,29 +33,46 @@ public final class InputHandler extends KeyAdapter {
      */
     @Override
     public void keyPressed(final KeyEvent e) {
-        final int key = e.getKeyCode();
-        if (key == KeyEvent.VK_W) {
-            player.setDirection(Direction.UP);
-        } else if (key == KeyEvent.VK_S) {
-            player.setDirection(Direction.DOWN);
-        } else if (key == KeyEvent.VK_A) {
-            player.setDirection(Direction.LEFT);
-        } else if (key == KeyEvent.VK_D) {
-            player.setDirection(Direction.RIGHT);
-        }
+        pressedKeys.add(e.getKeyCode());
+        updateDirection();
     }
 
     /**
-     * Handles the key release events. Subclasses can override this method to provide
-     * custom behavior, but they must ensure to call the superclass implementation
-     * to maintain the default behavior.
-     * 
+     * Handles the key release events.
      * @param e the KeyEvent that contains the key code
      */
     @Override
     public void keyReleased(final KeyEvent e) {
-        final int key = e.getKeyCode();
-        if (key == KeyEvent.VK_W || key == KeyEvent.VK_S || key == KeyEvent.VK_A || key == KeyEvent.VK_D) {
+        pressedKeys.remove(e.getKeyCode());
+        updateDirection();
+    }
+
+    /**
+     * Updates the player's direction based on currently pressed keys.
+     */
+    private void updateDirection() {
+        final boolean up = pressedKeys.contains(KeyEvent.VK_W);
+        final boolean down = pressedKeys.contains(KeyEvent.VK_S);
+        final boolean left = pressedKeys.contains(KeyEvent.VK_A);
+        final boolean right = pressedKeys.contains(KeyEvent.VK_D);
+
+        if (up && left) {
+            player.setDirection(Direction.UPLEFT);
+        } else if (up && right) {
+            player.setDirection(Direction.UPRIGHT);
+        } else if (down && left) {
+            player.setDirection(Direction.DOWNLEFT);
+        } else if (down && right) {
+            player.setDirection(Direction.DOWNRIGHT);
+        } else if (up) {
+            player.setDirection(Direction.UP);
+        } else if (down) {
+            player.setDirection(Direction.DOWN);
+        } else if (left) {
+            player.setDirection(Direction.LEFT);
+        } else if (right) {
+            player.setDirection(Direction.RIGHT);
+        } else {
             player.setDirection(Direction.NONE);
         }
     }

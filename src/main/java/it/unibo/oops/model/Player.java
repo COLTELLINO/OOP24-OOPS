@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Color;
 
 /**
- * 
+ *
  */
 public class Player extends Entity {
     private Direction direction;
@@ -18,8 +18,8 @@ public class Player extends Entity {
      * @param speed
      * @param size
      */
-    public Player(final int x, final int y, final int maxHealth, final int health, final int attack, 
-            final int speed, final int size) {
+    public Player(final int x, final int y, final int maxHealth, final int health, final int attack,
+                  final int speed, final int size) {
         super(x, y, maxHealth, health, attack, speed, size);
         this.direction = Direction.NONE;
     }
@@ -54,24 +54,58 @@ public class Player extends Entity {
      */
     @Override
     public void update() {
+        int dx = 0;
+        int dy = 0;
+        final int speed = getSpeed();
+        boolean diagonal = false;
+
         switch (direction) {
             case UP:
-                setY(getY() - getSpeed());
+                dy = -speed;
                 break;
             case DOWN:
-                setY(getY() + getSpeed());
+                dy = speed;
                 break;
             case LEFT:
-                setX(getX() - getSpeed());
+                dx = -speed;
                 break;
             case RIGHT:
-                setX(getX() + getSpeed());
+                dx = speed;
+                break;
+            case UPLEFT:
+                dx = -speed;
+                dy = -speed;
+                diagonal = true;
+                break;
+            case UPRIGHT:
+                dx = speed;
+                dy = -speed;
+                diagonal = true;
+                break;
+            case DOWNLEFT:
+                dx = -speed;
+                dy = speed;
+                diagonal = true;
+                break;
+            case DOWNRIGHT:
+                dx = speed;
+                dy = speed;
+                diagonal = true;
                 break;
             case NONE:
                 return;
             default:
                 throw new IllegalArgumentException();
         }
+
+
+        if (diagonal) {
+            dx /= Math.sqrt(2);
+            dy /= Math.sqrt(2);
+        }
+
+        setX(getX() + dx);
+        setY(getY() + dy);
     }
     /**
      * Draws the player.
@@ -79,7 +113,7 @@ public class Player extends Entity {
      */
     @Override
     public void draw(final Graphics2D g) {
-        g.setColor(Color.GREEN);    //colore rettangolo
+        g.setColor(Color.GREEN);
         g.fillRect(getX(), getY(), getSize(), getSize());
     }
 }
