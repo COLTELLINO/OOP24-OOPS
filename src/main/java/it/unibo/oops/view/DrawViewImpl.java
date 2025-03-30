@@ -98,12 +98,6 @@ public final class DrawViewImpl implements DrawView {
     public void repaint() {
         this.currentPanel.repaint();
     }
-    // /**
-    //  *  @return the current Panel.
-    //  */
-    // private MyPanel getCurrentPanel() {
-    //     return this.currentPanel;
-    // }
     /**
      * Adds a key listener to the frame.
      * 

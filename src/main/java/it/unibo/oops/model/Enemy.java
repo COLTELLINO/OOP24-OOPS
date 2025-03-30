@@ -53,7 +53,7 @@ public abstract class Enemy extends Entity {
         try {
             final BufferedImage image = 
             ImageIO.read(this.getClass().getResource("/Monster/" + this.getClass().getSimpleName() + ".png"));
-            g2.drawImage(image, getX() + image.getWidth(), getY() + image.getHeight(), null);
+            g2.drawImage(image, getX() - image.getWidth() / 2, getY() - image.getHeight() / 2, null);
         } catch (IOException | IllegalArgumentException e) {
             Logger.getLogger(this.getClass().getName())
                     .log(Level.SEVERE, e.getClass().getSimpleName() + " occurred: ", e);
@@ -64,12 +64,13 @@ public abstract class Enemy extends Entity {
      */
     @Override
     public void update() {
-        final int xDistance = Integer.compare(player.getX(), this.getX());
-        final int yDistance = Integer.compare(player.getY(), this.getY());
+        final int xDistance = Integer.compare(player.getX() + player.getSize() / 2, this.getX());
+        final int yDistance = Integer.compare(player.getY() + player.getSize() / 2, this.getY());
         this.setX(getX() + xDistance * getSpeed());
         this.setY(getY() + yDistance * getSpeed());
         if (this.getX() == player.getX() && this.getY() == player.getY()) {
-            this.setAlive(false);
+            //this.setAlive(false);
+            player.setHealth(player.getHealth() - this.getAttack());
         }
     }
 }
