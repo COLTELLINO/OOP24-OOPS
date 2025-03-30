@@ -69,7 +69,7 @@ public abstract class Enemy extends Entity {
         this.setX(getX() + xDistance * getSpeed());
         this.setY(getY() + yDistance * getSpeed());
         if (this.getX() == player.getX() && this.getY() == player.getY()) {
-            //this.setAlive(false);
+            this.setAlive(false);
             player.setHealth(player.getHealth() - this.getAttack());
         }
     }
