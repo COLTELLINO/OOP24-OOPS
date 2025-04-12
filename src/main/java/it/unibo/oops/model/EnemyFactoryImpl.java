@@ -19,4 +19,14 @@ public class EnemyFactoryImpl implements EnemyFactory {
             final int speed, final int size, final Player player) {
         return new Slime(x, y, maxHealth, health, attack, speed, size, player);
     }
+    /**
+     * @param x
+     * @param y
+     * @param player
+     * @return a new instance of a Slime enemy with base stats.
+     */
+    @Override
+    public Enemy createBaseSlime(final int x, final int y, final Player player) {
+        return Slime.createDefault(x, y, player);
+    }
 }

@@ -1,8 +1,22 @@
 package it.unibo.oops.model;
+
+import java.net.URL;
+import java.util.List;
+
 /**
  * 
  */
 public interface AudioHandler {
+    /**
+     * Adds an url to the soundList.
+     * @param url
+     */
+    void addSound(URL url);
+    /**
+     * Adds a list of urls to the soundList.
+     * @param urlList
+     */
+    void addSoundList(List<URL> urlList);
     /**
      * Plays a music file in a loop.
      * @param i

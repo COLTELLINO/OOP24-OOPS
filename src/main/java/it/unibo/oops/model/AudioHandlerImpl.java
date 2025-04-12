@@ -15,13 +15,12 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
- * Handles audio playback using MP3SPI and the Java Sound API.
+ * Handles audio playback.
  */
 public class AudioHandlerImpl implements AudioHandler {
     private static final float FLOAT_DB = 20.0f;
     private final List<URL> soundList = new ArrayList<>();
     private Clip clip;
-
 
     /**
      * Initializes the AudioHandler and adds audio files to the sound list.
@@ -29,9 +28,29 @@ public class AudioHandlerImpl implements AudioHandler {
     public AudioHandlerImpl() {
         this.soundList.add(AudioHandlerImpl.class.getResource("/Audio/Music/test.wav"));
         this.soundList.add(AudioHandlerImpl.class.getResource("/Audio/SoundEffects/test.wav"));
-        this.soundList.add(AudioHandlerImpl.class.getResource("null"));
     }
-
+    /**
+     * Adds an url to the soundList.
+     * @param url
+     */
+    @Override
+    public void addSound(final URL url) {
+        if (url != null) {
+            this.soundList.add(url);
+        }
+    }
+    /**
+     * Adds a list of urls to the soundList.
+     * @param urlList
+     */
+    @Override
+    public void addSoundList(final List<URL> urlList) {
+        for (final URL url : urlList) {
+            if (url != null) {
+                this.soundList.add(url);
+            }
+        }
+    }
     /**
      * Plays a music file in a loop.
      * @param i
@@ -64,11 +83,9 @@ public class AudioHandlerImpl implements AudioHandler {
         this.setVolume(percentage);
         this.play();
     }
-
     /**
-     * Sets the volume for the audio playback.
-     *
-     * @param volumeScale the volume scale as a Percentage object
+     * Sets the volume of the audio clip.
+     * @param volumeScale
      */
     private void setVolume(final Percentage volumeScale) {
         if (clip != null && clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
@@ -77,13 +94,12 @@ public class AudioHandlerImpl implements AudioHandler {
             volumeControl.setValue(dB);
         }
     }
-
     /**
      * Sets the audio file to be played.
      * @param i the index of the audio file in the sound list
      */
     private void setFile(final int i) {
-        if (this.soundList.get(i) != null) {
+        if (this.soundList.size() > i && this.soundList.get(i) != null) {
             try {
                 clip = AudioSystem.getClip();
                 clip.open(AudioSystem.getAudioInputStream(new File(this.soundList.get(i).getPath())));
@@ -93,7 +109,6 @@ public class AudioHandlerImpl implements AudioHandler {
             }
         }
     }
-
     /**
      * Plays the currently set audio file.
      */

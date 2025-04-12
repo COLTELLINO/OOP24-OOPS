@@ -24,6 +24,7 @@ public class GamePanel extends MyPanel {
     private final transient WeaponManager weaponManager;
     @SuppressWarnings("unused") // TEMPORARY
     private final transient ExperienceManager experienceManager;
+    private final transient EnemyRenderer enemyRenderer = new EnemyRendererImpl();
     /**
      * @param screenWidth
      * @param screenHeight
@@ -50,7 +51,7 @@ public class GamePanel extends MyPanel {
         super.paintComponent(g);
         final Graphics2D g2d = (Graphics2D) g;
         this.player.draw(g2d);
-        this.enemyManager.draw(g2d);
+        this.enemyRenderer.drawEnemyList(this.enemyManager.getSpawnedEnemies(), g2d);
         this.weaponManager.draw(g2d);
     }
 }

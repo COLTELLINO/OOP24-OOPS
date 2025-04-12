@@ -11,6 +11,7 @@ import it.unibo.oops.model.AudioHandlerImpl;
 import it.unibo.oops.model.EnemyFactory;
 import it.unibo.oops.model.EnemyFactoryImpl;
 import it.unibo.oops.model.EnemyManager;
+import it.unibo.oops.model.EnemyManagerImpl;
 import it.unibo.oops.model.ExperienceManager;
 import it.unibo.oops.model.Percentage;
 import it.unibo.oops.model.Player;
@@ -29,22 +30,18 @@ public class GameThreadImpl implements Runnable, GameThread {
     private static final int PLAYER_ATTACK = 5;
     private static final int PLAYER_SPEED = 5;
     private static final int PLAYER_SIZE = 50;
-    private static final int ENEMY_X = 300;
-    private static final int ENEMY_Y = 200;
-    private static final int ENEMY_MAXHEALTH = 100;
-    private static final int ENEMY_HEALTH = 100;
-    private static final int ENEMY_ATTACK = 5;
-    private static final int ENEMY_SPEED = 2;
-    private static final int ENEMY_SIZE = 32;
+    private static final int ENEMY_X = 500;
+    private static final int ENEMY_Y = 500;
 
     private final Timer timer = new TimerImpl(1);
     private final Player player = new Player(PLAYER_X, PLAYER_Y, PLAYER_MAX_HEALTH, PLAYER_HEALTH,
             PLAYER_ATTACK, PLAYER_SPEED, PLAYER_SIZE);
-    private final EnemyManager enemyManager = new EnemyManager(player);
+    private final EnemyManager enemyManager = new EnemyManagerImpl(player);
     private final EnemyFactory enemyFactory = new EnemyFactoryImpl();
     private final WeaponManager weaponManager = new WeaponManager(player);
     private final ExperienceManager experienceManager = new ExperienceManager(player);
     private final AudioHandler audioHandler = new AudioHandlerImpl();
+
 
     private DrawViewImpl window;
     private Boolean running = true;
@@ -88,10 +85,7 @@ public class GameThreadImpl implements Runnable, GameThread {
         while (running) {
             if (this.window.getCurrentGameState() == GameState.PLAYSTATE) {
                 this.enemyManager.
-                addEnemy(this.enemyFactory.
-                createSlime(ENEMY_X, ENEMY_Y, ENEMY_MAXHEALTH, ENEMY_HEALTH, ENEMY_ATTACK,
-                        ENEMY_SPEED, ENEMY_SIZE * 2, this.player)); 
-                this.window.repaint();
+                addEnemy(this.enemyFactory.createBaseSlime(ENEMY_X, ENEMY_Y, player));
             }
             timer.update(this::update);
         }
@@ -109,5 +103,6 @@ public class GameThreadImpl implements Runnable, GameThread {
                 enemyManager.update();
             }
         });
+        this.window.repaint();
     }
 }

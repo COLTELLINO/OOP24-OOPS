@@ -1,6 +1,7 @@
 package it.unibo.oops.model;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
     /**
      * 
      */
@@ -12,6 +13,8 @@ import java.awt.Graphics2D;
     private int size;        // Velocità
     private int speed;        // Velocità
     private boolean isAlive;     // Stato
+    private Rectangle hitBox;
+    private boolean showHitbox;
     /**
      * @param x
      * @param y
@@ -31,6 +34,8 @@ import java.awt.Graphics2D;
         this.speed = speed;
         this.size = size;
         this.isAlive = true;
+        this.showHitbox = true;
+        this.hitBox = new Rectangle(x, y, size, size);
     }
     /**
      * Draws an entity.
@@ -89,7 +94,12 @@ import java.awt.Graphics2D;
     public boolean isAlive() {
         return isAlive;
     }
-
+    /**
+     * @return if the hitboxes are showed. 
+     */
+    public boolean showHitbox() {
+        return showHitbox;
+    }
     // Setter per la salute e altre variabili, se necessario
     /**
      * Sets the Entity's x position.
@@ -97,6 +107,7 @@ import java.awt.Graphics2D;
      */
     public void setX(final int x) {
         this.x = x;
+        this.setHitbox(x, hitBox.y, hitBox.width, hitBox.height);
     }
     /**
      * Sets the Entity's y position. 
@@ -104,6 +115,7 @@ import java.awt.Graphics2D;
      */
     public void setY(final int y) {
         this.y = y;
+        this.setHitbox(hitBox.x, y, hitBox.width, hitBox.height);
     }
     /**
      * Sets the Entity's max health value. 
@@ -132,6 +144,7 @@ import java.awt.Graphics2D;
      */
     public void setSize(final int size) {
         this.size = size;
+        this.setHitbox(hitBox.x, hitBox.y, size, size);
     }
     /**
      * Sets the Entity's speed value.
@@ -146,5 +159,22 @@ import java.awt.Graphics2D;
      */
     public void setAlive(final boolean isAlive) {
         this.isAlive = isAlive;
+    }
+    /**
+     * Shows hitboxes when true.
+     * @param show
+     */
+    public void showHitbox(final boolean show) {
+        this.showHitbox = show;
+     }
+    /**
+     * Sets the Entity's hitbox.
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     */
+    private void setHitbox(final int x, final int y, final int width, final int height) {
+        this.hitBox = new Rectangle(x, y, width, height);
     }
 }

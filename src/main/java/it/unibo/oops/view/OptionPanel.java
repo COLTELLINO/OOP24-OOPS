@@ -16,7 +16,9 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import it.unibo.oops.controller.GameState;
-
+/**
+ * 
+ */
 public class OptionPanel extends MyPanel {
     private static final long serialVersionUID = 1L; 
 
@@ -28,7 +30,11 @@ public class OptionPanel extends MyPanel {
 
     private final JTextField screenSizeField; // Declared here
     private final JPanel screenSizePanel;
-
+    /**
+     * @param screenWidth
+     * @param screenHeight
+     * @param drawView
+     */
     public OptionPanel(final int screenWidth, final int screenHeight, final DrawView drawView) {
         super.setPreferredSize(new Dimension(screenWidth, screenHeight));
         super.setLayout(new BorderLayout());
@@ -42,11 +48,11 @@ public class OptionPanel extends MyPanel {
 
         final JPanel buttonPanel = new JPanel(new GridLayout(ROWS, COLUMNS, GAP, GAP));
 
-        JButton fullscreenButton = new JButton("Fullscreen");
-        JButton screenSizeButton = new JButton("Screen Size");
-        JButton volumeButton = new JButton("Volume");
-        JButton sfxButton = new JButton("SFX");
-        JButton returnButton = new JButton("Return");
+        final JButton fullscreenButton = new JButton("Fullscreen");
+        final JButton screenSizeButton = new JButton("Screen Size");
+        final JButton volumeButton = new JButton("Volume");
+        final JButton sfxButton = new JButton("SFX");
+        final JButton returnButton = new JButton("Return");
 
         fullscreenButton.addActionListener(e -> toggleFullscreen());
         returnButton.addActionListener(e -> drawView.changeGameState(GameState.TITLESTATE));
@@ -80,19 +86,22 @@ public class OptionPanel extends MyPanel {
     }
 
     private void changeScreenSize() {
-        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        final JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
         if (frame != null) {
-            String widthInput = JOptionPane.showInputDialog(frame, "Enter width:", "Screen Size", JOptionPane.PLAIN_MESSAGE);
-            String heightInput = JOptionPane.showInputDialog(frame, "Enter height:", "Screen Size", JOptionPane.PLAIN_MESSAGE);
+            final String widthInput = 
+                JOptionPane.showInputDialog(frame, "Enter width:", "Screen Size", JOptionPane.PLAIN_MESSAGE);
+            final String heightInput = 
+                JOptionPane.showInputDialog(frame, "Enter height:", "Screen Size", JOptionPane.PLAIN_MESSAGE);
 
             if (widthInput != null && heightInput != null) {
                 try {
-                    int width = Integer.parseInt(widthInput);
-                    int height = Integer.parseInt(heightInput);
+                    final int width = Integer.parseInt(widthInput);
+                    final int height = Integer.parseInt(heightInput);
                     frame.setSize(width, height);
                     screenSizeField.setText(width + "x" + height); // No more unresolved variable error
                 } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(frame, "Invalid input. Please enter numeric values.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.
+                    showMessageDialog(frame, "Invalid input. Please enter numeric values.", "Error", JOptionPane.ERROR_MESSAGE);
                     screenSizeField.setText("Invalid! Use: 1090x180");
                 }
             }

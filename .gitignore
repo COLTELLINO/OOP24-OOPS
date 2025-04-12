@@ -6,7 +6,7 @@ build/
 bin/
 
 # Ignore Idea customizations
-.idea
+.idea/
 
 # Ignore Eclipse settings
 .project
