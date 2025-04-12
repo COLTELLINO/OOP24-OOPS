@@ -95,14 +95,14 @@ public class GameThreadImpl implements Runnable, GameThread {
      */
     @Override
     public void update() {
+        if (this.window.getCurrentGameState() == GameState.PLAYSTATE) {
+            weaponManager.update();
+            experienceManager.update();
+            player.update();
+            enemyManager.update();
+        }
         SwingUtilities.invokeLater(() -> {
-            if (this.window.getCurrentGameState() == GameState.PLAYSTATE) {
-                weaponManager.update();
-                experienceManager.update();
-                player.update();
-                enemyManager.update();
-            }
+            this.window.repaint();
         });
-        this.window.repaint();
     }
 }
