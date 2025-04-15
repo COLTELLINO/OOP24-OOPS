@@ -4,15 +4,14 @@ package it.unibo.oops.model;
  */
 public class BossEnemy extends EnemyDecorator {
     private static final int SPEED_SCALE = 2;
-    /**
-     * Adjusts the scale of boss enemies.
-     */
-    protected static final int SIZE_SCALE = 2;
+    private static final int SIZE_SCALE = 2;
+    private final int sizeScale;
     /**
      * @param enemy
      */
     public BossEnemy(final Enemy enemy) {
         super(enemy);
+        this.sizeScale = enemy.getSizeScale() * SIZE_SCALE;
         super.setSpeed(enemy.getSpeed() * SPEED_SCALE);
         super.setSize(enemy.getSize() * SIZE_SCALE);
     }
@@ -21,7 +20,7 @@ public class BossEnemy extends EnemyDecorator {
      */
     @Override
     public int getSizeScale() {
-        return SIZE_SCALE;
+        return this.sizeScale;
     }
     /**
      * @return the name of the enemy class matching with its image.

@@ -53,7 +53,7 @@ public abstract class Enemy extends Entity {
         return isSpawned;
     }
     /**
-     * @return the target player.
+     * @return the size scaling of the enemy.
      */
     public int getSizeScale() {
         return 1;
