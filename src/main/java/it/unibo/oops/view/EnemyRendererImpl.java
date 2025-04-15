@@ -7,9 +7,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.imageio.ImageIO;
-
 import it.unibo.oops.model.Enemy;
 /**
  * Class used to draw enemies.
@@ -24,12 +22,12 @@ public class EnemyRendererImpl implements EnemyRenderer {
     public void drawEnemy(final Enemy enemy, final Graphics2D g2) {
         try {
             final BufferedImage image = 
-            ImageIO.read(this.getClass().getResource("/Monster/" + enemy.getClass().getSimpleName() + ".png"));
-            g2.drawImage(image, enemy.getX() - image.getWidth() / 2, enemy.getY() - image.getHeight() / 2, null);
+            ImageIO.read(this.getClass().getResource("/Monster/" + enemy.getEnemyName() + ".png"));
+            g2.drawImage(image, enemy.getX(), enemy.getY(), image.getWidth() * enemy.getSizeScale(),
+                image.getHeight() * enemy.getSizeScale(), null);
             if (enemy.showHitbox()) {
                 g2.setColor(Color.RED);
-                g2.drawRect(enemy.getX() - image.getWidth() / 2, enemy.getY()  - image.getHeight() / 2,
-                    enemy.getSize(), enemy.getSize());
+                g2.drawRect(enemy.getX(), enemy.getY(), enemy.getSize(), enemy.getSize());
             }
         } catch (IOException | IllegalArgumentException e) {
             Logger.getLogger(this.getClass().getName())

@@ -97,13 +97,10 @@ public class Player extends Entity {
             default:
                 throw new IllegalArgumentException();
         }
-
-
         if (diagonal) {
             dx /= Math.sqrt(2);
             dy /= Math.sqrt(2);
         }
-
         setX(getX() + dx);
         setY(getY() + dy);
     }

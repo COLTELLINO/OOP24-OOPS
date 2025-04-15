@@ -41,11 +41,13 @@ import java.awt.Rectangle;
      * Draws an entity.
      * @param g
      */
-    public abstract void draw(Graphics2D g);
+    protected void draw(final Graphics2D g) {
+
+    }
     /**
      * Updates the entity.
      */
-    public abstract void update();
+    protected abstract void update();
     /**
      * @return the entity's X coordinate.
      */
@@ -61,25 +63,25 @@ import java.awt.Rectangle;
     /**
      * @return the Entity's max health value. 
      */
-    public int getMaxHealth() {
+    protected int getMaxHealth() {
         return maxHealth;
     }
     /**
      * @return the Entity's health value. 
      */
-    public int getHealth() {
+    protected int getHealth() {
         return health;
     }
     /**
      * @return the Entity's attack value. 
      */
-    public int getAttack() {
+    protected int getAttack() {
         return attack;
     }
     /**
      * @return the Entity's speed value. 
      */
-    public int getSpeed() {
+    protected int getSpeed() {
         return speed;
     }
     /**
@@ -91,7 +93,7 @@ import java.awt.Rectangle;
     /**
      * @return the Entity's alive status. 
      */
-    public boolean isAlive() {
+    protected boolean isAlive() {
         return isAlive;
     }
     /**
@@ -105,7 +107,7 @@ import java.awt.Rectangle;
      * Sets the Entity's x position.
      * @param x 
      */
-    public void setX(final int x) {
+    protected void setX(final int x) {
         this.x = x;
         this.setHitbox(x, hitBox.y, hitBox.width, hitBox.height);
     }
@@ -113,7 +115,7 @@ import java.awt.Rectangle;
      * Sets the Entity's y position. 
      * @param y
      */
-    public void setY(final int y) {
+    protected void setY(final int y) {
         this.y = y;
         this.setHitbox(hitBox.x, y, hitBox.width, hitBox.height);
     }
@@ -121,28 +123,28 @@ import java.awt.Rectangle;
      * Sets the Entity's max health value. 
      * @param maxHealth
      */
-    public void setMaxHealth(final int maxHealth) {
+    protected void setMaxHealth(final int maxHealth) {
         this.maxHealth = maxHealth;
     }
     /**
      * Sets the Entity's health value. 
      * @param health
      */
-    public void setHealth(final int health) {
+    protected void setHealth(final int health) {
         this.health = health;
     }
     /**
      * Sets the Entity's attack value. 
      * @param attack
      */
-    public void setAttack(final int attack) {
+    protected void setAttack(final int attack) {
         this.attack = attack;
     }
     /**
      * Sets the Entity's size value.
      * @param size
      */
-    public void setSize(final int size) {
+    protected void setSize(final int size) {
         this.size = size;
         this.setHitbox(hitBox.x, hitBox.y, size, size);
     }
@@ -150,21 +152,21 @@ import java.awt.Rectangle;
      * Sets the Entity's speed value.
      * @param speed
      */
-    public void setSpeed(final int speed) {
+    protected void setSpeed(final int speed) {
         this.speed = speed;
     }
     /**
      * Sets the Entity's alive status. 
      * @param isAlive
      */
-    public void setAlive(final boolean isAlive) {
+    protected void setAlive(final boolean isAlive) {
         this.isAlive = isAlive;
     }
     /**
      * Shows hitboxes when true.
      * @param show
      */
-    public void showHitbox(final boolean show) {
+    protected void showHitbox(final boolean show) {
         this.showHitbox = show;
      }
     /**

@@ -20,7 +20,7 @@ public interface EnemyManager {
      */
     void spawnEnemy(Enemy enemy);
     /**
-     * Get a list of all spawned enemies
+     * Get a list of all spawned enemies.
      * @return all spawned enemies as a list.
      */
     List<Enemy> getSpawnedEnemies();

@@ -8,6 +8,7 @@ import javax.swing.SwingUtilities;
 
 import it.unibo.oops.model.AudioHandler;
 import it.unibo.oops.model.AudioHandlerImpl;
+import it.unibo.oops.model.BossEnemy;
 import it.unibo.oops.model.EnemyFactory;
 import it.unibo.oops.model.EnemyFactoryImpl;
 import it.unibo.oops.model.EnemyManager;
@@ -34,14 +35,14 @@ public class GameThreadImpl implements Runnable, GameThread {
     private static final int ENEMY_Y = 500;
 
     private final Timer timer = new TimerImpl(1);
+    private final Timer spawnTestTimer = new TimerImpl(600);
     private final Player player = new Player(PLAYER_X, PLAYER_Y, PLAYER_MAX_HEALTH, PLAYER_HEALTH,
-            PLAYER_ATTACK, PLAYER_SPEED, PLAYER_SIZE);
+        PLAYER_ATTACK, PLAYER_SPEED, PLAYER_SIZE);
     private final EnemyManager enemyManager = new EnemyManagerImpl(player);
     private final EnemyFactory enemyFactory = new EnemyFactoryImpl();
     private final WeaponManager weaponManager = new WeaponManager(player);
     private final ExperienceManager experienceManager = new ExperienceManager(player);
     private final AudioHandler audioHandler = new AudioHandlerImpl();
-
 
     private DrawViewImpl window;
     private Boolean running = true;
@@ -58,7 +59,7 @@ public class GameThreadImpl implements Runnable, GameThread {
             });
         } catch (InvocationTargetException | InterruptedException e) {
             Logger.getLogger(this.getClass().getName())
-                    .log(Level.SEVERE, e.getClass().getSimpleName() + " occurred: ", e);
+                .log(Level.SEVERE, e.getClass().getSimpleName() + " occurred: ", e);
         }
         audioHandler.playSoundEffect(1, Percentage.TEN_PERCENT);
         this.startThread();
@@ -86,6 +87,9 @@ public class GameThreadImpl implements Runnable, GameThread {
             if (this.window.getCurrentGameState() == GameState.PLAYSTATE) {
                 this.enemyManager.
                 addEnemy(this.enemyFactory.createBaseSlime(ENEMY_X, ENEMY_Y, player));
+                spawnTestTimer.update(() -> {
+                    this.enemyManager.spawnEnemy(new BossEnemy(this.enemyFactory.createBaseSlime(ENEMY_X, ENEMY_Y, player)));
+                });
             }
             timer.update(this::update);
         }
