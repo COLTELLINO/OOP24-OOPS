@@ -70,9 +70,9 @@ public class EnemyManagerImpl implements EnemyManager {
      */
     private void spawnEnemyInWave(final Enemy enemy, final int wavePosition) {
         final double angle = 2 * Math.PI * wavePosition / WAVE_SIZE;
-        final double x = player.getX() + player.getSize()
+        final double x = player.getX() + player.getSize() / 2
                 + SPAWN_DISTANCE * Math.cos(angle) - (double) enemy.getSize() / 2;
-        final double y = player.getY() + player.getSize()
+        final double y = player.getY() + player.getSize() / 2
                 + SPAWN_DISTANCE * Math.sin(angle) - (double) enemy.getSize() / 2;
         enemy.setX((int) x);
         enemy.setY((int) y);
