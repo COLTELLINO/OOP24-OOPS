@@ -34,16 +34,19 @@ public abstract class Enemy extends Entity {
      */
     @Override
     public void update() {
-        final int xDistance = Integer.compare(player.getX() + player.getSize() / 2, this.getX() + this.getSize() / 2);
-        final int yDistance = Integer.compare(player.getY() + player.getSize() / 2, this.getY() + this.getSize() / 2);
+        final int playerCenterX = player.getX() + player.getSize() / 2;
+        final int playerCenterY = player.getY() + player.getSize() / 2;
         for (int i = 0; i < getSpeed(); i++) {
-            this.setX(getX() + xDistance);
-            this.setY(getY() + yDistance); 
-            if (this.getX() + this.getSize() / 2 == player.getX() + player.getSize() / 2 
-            && this.getY() + this.getSize() / 2 == player.getY() + player.getSize() / 2) {
+            final int enemyCenterX = this.getX() + this.getSize() / 2;
+            final int enemyCenterY = this.getY() + this.getSize() / 2;
+            final int xDistance = Integer.compare(playerCenterX, enemyCenterX);
+            final int yDistance = Integer.compare(playerCenterY, enemyCenterY); 
+            if (enemyCenterX == playerCenterX && enemyCenterY == playerCenterY) {
                 player.setHealth(player.getHealth() - this.getAttack());
                 return;
             }
+            this.setX(getX() + xDistance);
+            this.setY(getY() + yDistance);
         }
     }
     /**
