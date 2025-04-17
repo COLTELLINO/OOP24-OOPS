@@ -7,7 +7,7 @@ public class Slime extends Enemy {
     private static final int BASE_MAXHEALTH = 100;
     private static final int BASE_HEALTH = 100;
     private static final int BASE_ATTACK = 5;
-    private static final int BASE_SPEED = 1;
+    private static final int BASE_SPEED = 0;
     private static final int BASE_SIZE = 32;
     /**
      * @param x
