@@ -99,7 +99,7 @@ import java.awt.Rectangle;
     /**
      * @return if the hitboxes are showed. 
      */
-    public boolean showHitbox() {
+    public boolean isShowHitbox() {
         return showHitbox;
     }
     // Setter per la salute e altre variabili, se necessario
@@ -166,7 +166,7 @@ import java.awt.Rectangle;
      * Shows hitboxes when true.
      * @param show
      */
-    protected void showHitbox(final boolean show) {
+    protected void setShowHitbox(final boolean show) {
         this.showHitbox = show;
      }
     /**

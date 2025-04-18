@@ -13,8 +13,8 @@ import java.util.Iterator;
 justification = "To spawn enemies around the player, its position is needed, " 
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
 public class EnemyManagerImpl implements EnemyManager {
-    private static final int WAVE_SIZE = 160;
-    private static final int MAX_ENEMIES = 320;
+    private static final int WAVE_SIZE = 6;
+    private static final int MAX_ENEMIES = 12;
     private static final int SPAWN_DISTANCE = 200;
 
     private final List<Enemy> activeEnemies = new ArrayList<>();

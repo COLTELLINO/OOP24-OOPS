@@ -9,6 +9,8 @@ justification = "To move enemies towards the player, its position is needed, "
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
 public abstract class Enemy extends Entity {
     private boolean isSpawned;
+    private boolean isBoss;
+    private int sizeScale = 1;
     private final Player player;
     /**
      * @param x
@@ -29,7 +31,7 @@ public abstract class Enemy extends Entity {
      * @return the name of the enemy class matching with its image.
      */
     public abstract String getEnemyName();
-        /**
+    /**
      * Updates current enemy.
      */
     @Override
@@ -56,10 +58,10 @@ public abstract class Enemy extends Entity {
         return isSpawned;
     }
     /**
-     * @return the size scaling of the enemy.
+     * @return the scaling of the enemy size.
      */
     public int getSizeScale() {
-        return 1;
+        return sizeScale;
     }
     /**
      * @return the target player.
@@ -68,9 +70,27 @@ public abstract class Enemy extends Entity {
         return this.player;
     }
     /**
+     * @return if the enemy is a Boss. 
+     */
+    protected boolean isBoss() {
+        return isBoss;
+    }
+    /**
      * @param isSpawned
      */
     protected void setSpawned(final boolean isSpawned) {
         this.isSpawned = isSpawned;
+    }
+    /**
+     * @param isBoss
+     */
+    protected void setBoss(final boolean isBoss) {
+        this.isBoss = isBoss;
+    }
+    /**
+     * @param sizeScale
+     */
+    protected void setSizeScale(final int sizeScale) {
+        this.sizeScale = sizeScale;
     }
 }

@@ -1,5 +1,4 @@
 package it.unibo.oops.model;
-
 /**
  * 
  */
@@ -38,5 +37,18 @@ public class Slime extends Enemy {
     @Override
     public String getEnemyName() {
         return this.getClass().getSimpleName();
+    }
+    /**
+     * Updates current enemy.
+     */
+    @Override
+    public void update() {
+        super.update();
+        if (isBoss()) {
+            this.setHealth(this.getHealth() - 1);
+            if (getHealth() <= 0) {
+                //this.setAlive(false);
+            }
+        }
     }
 }

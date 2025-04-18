@@ -35,7 +35,7 @@ public class GameThreadImpl implements Runnable, GameThread {
     private static final int ENEMY_Y = 500;
 
     private final Timer timer = new TimerImpl(1);
-    private final Timer spawnTestTimer = new TimerImpl(60);
+    private final Timer spawnTestTimer = new TimerImpl(300);
     private final Player player = new Player(PLAYER_X, PLAYER_Y, PLAYER_MAX_HEALTH, PLAYER_HEALTH,
         PLAYER_ATTACK, PLAYER_SPEED, PLAYER_SIZE);
     private final EnemyManager enemyManager = new EnemyManagerImpl(player);
