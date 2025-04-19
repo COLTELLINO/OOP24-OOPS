@@ -1,6 +1,6 @@
 package it.unibo.oops.controller;
 /**
- * 
+ * Interface that functions as the controller of the application.
  */
 public interface GameThread {
     /**

@@ -34,8 +34,8 @@ public class EnemyManagerImpl implements EnemyManager {
     @Override
     public void update() {
         waveTimer.update(this::spawnWaveIfPossible);
-        updateActiveEnemies(activeEnemies);
-        updateActiveEnemies(positionedEnemies);
+        activeEnemies.removeAll(updateActiveEnemies(List.copyOf(activeEnemies)));
+        positionedEnemies.removeAll(updateActiveEnemies(List.copyOf(positionedEnemies)));
     }
 
     /**
@@ -81,17 +81,20 @@ public class EnemyManagerImpl implements EnemyManager {
     /**
      * Updates all enemies in a list. 
      * @param enemies 
+     * @return the list of enemies to remove.
      */
-    private void updateActiveEnemies(final List<Enemy> enemies) {
+    private List<Enemy> updateActiveEnemies(final List<Enemy> enemies) {
         final Iterator<Enemy> iterator = enemies.iterator();
+        final List<Enemy> toRemove = new ArrayList<>(); 
         while (iterator.hasNext()) {
             final Enemy enemy = iterator.next();
             if (enemy == null || !enemy.isAlive()) {
-                iterator.remove();
+                toRemove.add(enemy);
             } else {
                 enemy.update();
             }
         }
+        return toRemove;
     }
     /**
      * Adds an enemy to the spawn list.
@@ -104,12 +107,14 @@ public class EnemyManagerImpl implements EnemyManager {
         }
     }
     /**
-     * Spawns an enemy.
+     * Forces an enemy to spawn.
+     * Warning: to ensure that the enemy is able to spawn and does not suffer from starvation,
+     * the maximum amount of enemies is increased for this method. 
      * @param enemy
      */
     @Override
     public void spawnEnemy(final Enemy enemy) {
-        if (enemy != null && positionedEnemies.size() + positionedEnemies.size() < MAX_ENEMIES) {
+        if (enemy != null && positionedEnemies.size() < MAX_ENEMIES * 2) {
             enemy.setSpawned(true);
             positionedEnemies.add(enemy);
         }

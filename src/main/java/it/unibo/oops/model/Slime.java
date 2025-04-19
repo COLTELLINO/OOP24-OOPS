@@ -47,7 +47,8 @@ public class Slime extends Enemy {
         if (isBoss()) {
             this.setHealth(this.getHealth() - 1);
             if (getHealth() <= 0) {
-                //this.setAlive(false);
+                this.setAlive(false);
+                this.observerAction();
             }
         }
     }

@@ -1,8 +1,12 @@
 package it.unibo.oops.model;
 
+import it.unibo.oops.controller.GameThreadImpl.EnemyObserver;
+
+import java.util.Optional;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 /**
- * 
+ *
  */
 @SuppressFBWarnings(value = {"EI2"}, 
 justification = "To move enemies towards the player, its position is needed, " 
@@ -12,6 +16,7 @@ public abstract class Enemy extends Entity {
     private boolean isBoss;
     private int sizeScale = 1;
     private final Player player;
+    private Optional<EnemyObserver> observer = Optional.empty();
     /**
      * @param x
      * @param y
@@ -55,13 +60,19 @@ public abstract class Enemy extends Entity {
      * @return if the enemy has been positioned.
      */
     protected boolean isSpawned() {
-        return isSpawned;
+        return this.isSpawned;
+    }
+    /**
+     * @return if the enemy is a Boss. 
+     */
+    protected boolean isBoss() {
+        return this.isBoss;
     }
     /**
      * @return the scaling of the enemy size.
      */
     public int getSizeScale() {
-        return sizeScale;
+        return this.sizeScale;
     }
     /**
      * @return the target player.
@@ -70,10 +81,10 @@ public abstract class Enemy extends Entity {
         return this.player;
     }
     /**
-     * @return if the enemy is a Boss. 
+     * If an observer is present, trigger its action.
      */
-    protected boolean isBoss() {
-        return isBoss;
+    protected void observerAction() {
+        observer.ifPresent(EnemyObserver::enemyObserverAction);
     }
     /**
      * @param isSpawned
@@ -92,5 +103,11 @@ public abstract class Enemy extends Entity {
      */
     protected void setSizeScale(final int sizeScale) {
         this.sizeScale = sizeScale;
+    }
+    /**
+     * @param observer
+     */
+    public void setObserver(final EnemyObserver observer) {
+        this.observer = Optional.of(observer);
     }
 }

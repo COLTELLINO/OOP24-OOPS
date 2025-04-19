@@ -1,4 +1,7 @@
 package it.unibo.oops.model;
+
+import it.unibo.oops.controller.GameThreadImpl.EnemyObserver;
+
 /**
  * 
  */
@@ -111,6 +114,13 @@ public abstract class EnemyDecorator extends Enemy {
         return decoratedEnemy.isBoss();
     }
     /**
+     * If an observer is present, trigger its action.
+     */
+    @Override
+    protected void observerAction() {
+        decoratedEnemy.observerAction();
+    }
+    /**
      * Sets the Entity's x position.
      * @param x The x coordinate
      */
@@ -202,6 +212,13 @@ public abstract class EnemyDecorator extends Enemy {
     @Override
     protected void setSizeScale(final int sizeScale) {
         decoratedEnemy.setSizeScale(sizeScale);
+    }
+    /**
+     * @param observer
+     */
+    @Override
+    public void setObserver(final EnemyObserver observer) {
+        decoratedEnemy.setObserver(observer);
     }
     /**
      * Updates current enemy.

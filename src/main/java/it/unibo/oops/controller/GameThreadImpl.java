@@ -21,7 +21,7 @@ import it.unibo.oops.model.TimerImpl;
 import it.unibo.oops.model.WeaponManager;
 import it.unibo.oops.view.DrawViewImpl;
 /**
-* 
+* Controller of the application.
 */
 public class GameThreadImpl implements Runnable, GameThread {
     private static final int PLAYER_X = 200;
@@ -43,9 +43,18 @@ public class GameThreadImpl implements Runnable, GameThread {
     private final WeaponManager weaponManager = new WeaponManager(player);
     private final ExperienceManager experienceManager = new ExperienceManager(player);
     private final AudioHandler audioHandler = new AudioHandlerImpl();
-
     private DrawViewImpl window;
     private Boolean running = true;
+    /**
+     * Functional interface to observe enemies and act when a condition is met.
+     */
+    @FunctionalInterface
+    public interface EnemyObserver {
+        /**
+         * Executes an action in response to an event triggered by an enemy.
+         */
+        void enemyObserverAction();
+    }
     /**
      *
      */
@@ -84,14 +93,7 @@ public class GameThreadImpl implements Runnable, GameThread {
     @Override
     public void run() {
         while (running) {
-            if (this.window.getCurrentGameState() == GameState.PLAYSTATE) {
-                this.enemyManager.
-                addEnemy(this.enemyFactory.createBaseSlime(ENEMY_X, ENEMY_Y, player));
-                spawnTestTimer.update(() -> {
-                    this.enemyManager.spawnEnemy(new BossEnemy(this.enemyFactory.createBaseSlime(ENEMY_X, ENEMY_Y, player)));
-                });
-            }
-            timer.update(this::update);
+            this.timer.update(this::update);
         }
     }
     /**
@@ -100,6 +102,8 @@ public class GameThreadImpl implements Runnable, GameThread {
     @Override
     public void update() {
         if (this.window.getCurrentGameState() == GameState.PLAYSTATE) {
+            this.spawnEnemies();
+
             weaponManager.update();
             experienceManager.update();
             player.update();
@@ -107,6 +111,22 @@ public class GameThreadImpl implements Runnable, GameThread {
         }
         SwingUtilities.invokeLater(() -> {
             this.window.repaint();
+        });
+    }
+    /**
+     * Handles the spawning of enemies.
+     */
+    private void spawnEnemies() {
+        final BossEnemy slimeBoss = new BossEnemy(this.enemyFactory.createBaseSlime(ENEMY_X, ENEMY_Y, player));
+        slimeBoss.setObserver(() -> {
+            this.enemyManager.spawnEnemy(this.enemyFactory.
+                createBaseSlime(slimeBoss.getX() + slimeBoss.getSize() / 2, slimeBoss.getY(), player));
+            this.enemyManager.spawnEnemy(this.enemyFactory.
+                createBaseSlime(slimeBoss.getX(), slimeBoss.getY(), player));
+        });
+        this.enemyManager.addEnemy(this.enemyFactory.createBaseSlime(ENEMY_X, ENEMY_Y, player));
+        this.spawnTestTimer.update(() -> {
+            this.enemyManager.spawnEnemy(slimeBoss);
         });
     }
 }
