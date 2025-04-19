@@ -15,6 +15,13 @@ public abstract class EnemyDecorator extends Enemy {
         this.decoratedEnemy = enemy;
     }
     /**
+     * If an observer is present, trigger its action.
+     */
+    @Override
+    protected void observerAction() {
+        decoratedEnemy.observerAction();
+    }
+    /**
      * @return the enemy to decorate.
      */
     protected Enemy getDecoratedEnemy() {
@@ -84,7 +91,6 @@ public abstract class EnemyDecorator extends Enemy {
     protected boolean isAlive() {
         return decoratedEnemy.isAlive();
     }
-
     /**
      * @return if the hitboxes are shown
      */
@@ -121,97 +127,111 @@ public abstract class EnemyDecorator extends Enemy {
         return decoratedEnemy.getPlayer();
     }
     /**
-     * @return if the enemy is a Boss. 
+     * @return the direction of the decorated enemy.
+     */
+    @Override
+    public Direction getDirection() {
+        return decoratedEnemy.getDirection();
+    }
+    /**
+     * @return if the decorated enemy is attacking and needs to change its animation.
+     */
+    @Override
+    public boolean isAttacking() {
+        return decoratedEnemy.isAttacking();
+    }
+    /**
+     * @return if the decorated enemy is a Boss. 
      */
     @Override
     protected boolean isBoss() {
         return decoratedEnemy.isBoss();
     }
     /**
-     * If an observer is present, trigger its action.
-     */
-    @Override
-    protected void observerAction() {
-        decoratedEnemy.observerAction();
-    }
-    /**
-     * Sets the Entity's x position.
-     * @param x The x coordinate
+     * Sets the x position of the decorated enemy.
+     * @param x
      */
     @Override
     protected void setX(final int x) {
         decoratedEnemy.setX(x);
     }
     /**
-     * Sets the Entity's y position.
-     * @param y The y coordinate
+     * Sets the y position of the decorated enemy.
+     * @param y
      */
     @Override
     protected void setY(final int y) {
         decoratedEnemy.setY(y);
     }
     /**
-     * Sets the Entity's max health value.
-     * @param maxHealth The max health value
+     * Sets the max health value of the decorated enemy.
+     * @param maxHealth
      */
     @Override
     protected void setMaxHealth(final int maxHealth) {
         decoratedEnemy.setMaxHealth(maxHealth);
     }
     /**
-     * Sets the Entity's health value.
-     * @param health The health value
+     * Sets the health value of the decorated enemy.
+     * @param health
      */
     @Override
     protected void setHealth(final int health) {
         decoratedEnemy.setHealth(health);
     }
     /**
-     * Sets the Entity's attack value.
-     * @param attack The attack value
+     * Sets the attack value of the decorated enemy.
+     * @param attack
      */
     @Override
     protected void setAttack(final int attack) {
         decoratedEnemy.setAttack(attack);
     }
     /**
-     * Sets the Entity's size value.
-     * @param size The size value
+     * Sets the size value of the decorated enemy.
+     * @param size
      */
     @Override
     protected void setSize(final int size) {
         decoratedEnemy.setSize(size);
     }
     /**
-     * Sets the Entity's speed value.
-     * @param speed The speed value
+     * Sets the speed value of the decorated enemy.
+     * @param speed
      */
     @Override
     protected void setSpeed(final int speed) {
         decoratedEnemy.setSpeed(speed);
     }
     /**
-     * Sets the Entity's alive status.
-     * @param isAlive The alive status
+     * Sets the alive status of the decorated enemy.
+     * @param isAlive
      */
     @Override
     protected void setAlive(final boolean isAlive) {
         decoratedEnemy.setAlive(isAlive);
     }
     /**
-     * Shows hitboxes when true.
-     * @param show Whether to show hitboxes
+     * Shows hitboxes when true and debugMode is active.
+     * @param show
      */
     @Override
     public void setShowHitbox(final boolean show) {
         decoratedEnemy.setShowHitbox(show);
     }
     /**
-     * @param isSpawned
+     * @param direction
      */
     @Override
-    protected void setSpawned(final boolean isSpawned) {
-        decoratedEnemy.setSpawned(isSpawned);
+    public void setDirection(final Direction direction) {
+        decoratedEnemy.setDirection(direction);
+    }
+    /**
+     * @param isAttacking
+     */
+    @Override
+    protected void setAttacking(final boolean isAttacking) {
+        decoratedEnemy.setAttacking(isAttacking);
     }
     /**
      * @param isBoss
@@ -235,10 +255,10 @@ public abstract class EnemyDecorator extends Enemy {
         decoratedEnemy.setObserver(observer);
     }
     /**
-     * Updates current enemy.
+     * Updates the decorated enemy.
      */
     @Override
     public void update() {
-        this.decoratedEnemy.update();
+        decoratedEnemy.update();
     }
 }

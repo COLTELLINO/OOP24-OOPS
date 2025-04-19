@@ -10,7 +10,7 @@ import javax.swing.SwingUtilities;
 
 import it.unibo.oops.model.AudioHandler;
 import it.unibo.oops.model.AudioHandlerImpl;
-import it.unibo.oops.model.BossEnemy;
+import it.unibo.oops.model.Enemy;
 import it.unibo.oops.model.EnemyFactory;
 import it.unibo.oops.model.EnemyFactoryImpl;
 import it.unibo.oops.model.EnemyManager;
@@ -104,8 +104,8 @@ public class GameThreadImpl implements Runnable, GameThread {
      */
     @Override
     public void update() {
-        getAllEntities().forEach((e) -> e.setShowHitbox(inputHandler.isDebugMode()));
         if (this.window.getCurrentGameState() == GameState.PLAYSTATE) {
+            getAllEntities().forEach((e) -> e.setShowHitbox(inputHandler.isDebugMode()));
             this.spawnEnemies();
             weaponManager.update();
             experienceManager.update();
@@ -120,7 +120,7 @@ public class GameThreadImpl implements Runnable, GameThread {
      * Handles the spawning of enemies.
      */
     private void spawnEnemies() {
-        final BossEnemy slimeBoss = new BossEnemy(this.enemyFactory.createBaseSlime(ENEMY_X, ENEMY_Y, player));
+        final Enemy slimeBoss = this.enemyFactory.createBoss(this.enemyFactory.createBaseSlime(ENEMY_X, ENEMY_Y, player));
         slimeBoss.setObserver(() -> {
             this.enemyManager.spawnEnemy(this.enemyFactory.
                 createBaseSlime(slimeBoss.getX() + slimeBoss.getSize() / 2, slimeBoss.getY(), player));

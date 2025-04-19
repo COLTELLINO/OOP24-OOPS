@@ -29,4 +29,12 @@ public class EnemyFactoryImpl implements EnemyFactory {
     public Enemy createBaseSlime(final int x, final int y, final Player player) {
         return Slime.createDefault(x, y, player);
     }
+    /**
+     * @param enemy
+     * @return a new instance of a Boss version of an enemy.
+     */
+    @Override
+    public Enemy createBoss(final Enemy enemy) {
+        return new BossEnemy(enemy);
+    }
 }

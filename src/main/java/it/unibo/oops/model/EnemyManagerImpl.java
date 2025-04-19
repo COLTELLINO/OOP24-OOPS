@@ -76,7 +76,7 @@ public class EnemyManagerImpl implements EnemyManager {
                 + SPAWN_DISTANCE * Math.sin(angle) - (double) enemy.getSize() / 2;
         enemy.setX((int) x);
         enemy.setY((int) y);
-        enemy.setSpawned(true);
+        //enemy.setSpawned(true);
     }
     /**
      * Updates all enemies in a list. 
@@ -115,7 +115,6 @@ public class EnemyManagerImpl implements EnemyManager {
     @Override
     public void spawnEnemy(final Enemy enemy) {
         if (enemy != null && positionedEnemies.size() < MAX_ENEMIES * 2) {
-            enemy.setSpawned(true);
             positionedEnemies.add(enemy);
         }
     }

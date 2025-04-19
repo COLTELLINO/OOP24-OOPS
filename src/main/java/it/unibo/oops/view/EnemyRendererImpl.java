@@ -30,7 +30,7 @@ public class EnemyRendererImpl implements EnemyRenderer {
             if (enemy.isDying() && enemy.getBlinkCounter() / BLINK_INTERVAL % 2 == 0) {
                 g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, ALPHA_VALUE));
             }
-            final BufferedImage image = getEnemySprite(enemy.getEnemyName());
+            final BufferedImage image = getEnemySprite(enemy);
                 g2.drawImage(image, enemy.getX(), enemy.getY(), image.getWidth() * enemy.getSizeScale(),
                     image.getHeight() * enemy.getSizeScale(), null);
             if (enemy.isShowHitbox()) {
@@ -55,11 +55,11 @@ public class EnemyRendererImpl implements EnemyRenderer {
         }
     }
     /**
-     * @param name
+     * @param enemy
      * @return the image of the enemy.
      */
-    private BufferedImage getEnemySprite(final String name) {
-        return enemySpriteMap.computeIfAbsent(name, key -> {
+    private BufferedImage getEnemySprite(final Enemy enemy) {
+        return enemySpriteMap.computeIfAbsent(getSpriteName(enemy), key -> {
             try {
                 return ImageIO.read(EnemyRendererImpl.class.getResource("/Monster/" + key + ".png"));
             } catch (IOException e) {
@@ -68,5 +68,19 @@ public class EnemyRendererImpl implements EnemyRenderer {
                     return null;
             }
         });
+    }
+    /**
+     * @param enemy
+     * @return the name of the sprite png.
+     */
+    private String getSpriteName(final Enemy enemy) {
+        final String separator = "_";
+        final String name = enemy.getEnemyName();
+        final String direction = separator + enemy.getDirection().toString();
+        String attacking = "";
+        if (enemy.isAttacking()) {
+            attacking = "attacking" + separator;
+        }
+        return attacking + name + direction;
     }
 }

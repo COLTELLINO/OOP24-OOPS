@@ -22,4 +22,9 @@ public interface EnemyFactory {
      * @return a new instance of a Slime enemy with base stats.
      */
     Enemy createBaseSlime(int x, int y, Player player);
+    /**
+     * @param enemy
+     * @return a new instance of a Boss version of an enemy.
+     */
+    Enemy createBoss(Enemy enemy);
 }

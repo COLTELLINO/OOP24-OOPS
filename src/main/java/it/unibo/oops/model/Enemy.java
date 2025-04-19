@@ -13,7 +13,8 @@ justification = "To move enemies towards the player, its position is needed, "
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
 public abstract class Enemy extends Entity {
     private static final int MAX_BLINKS = 30;
-    private boolean isSpawned;
+    private Direction direction;
+    private boolean isAttacking;
     private boolean isBoss;
     private int sizeScale = 1;
     private boolean isDying;
@@ -34,13 +35,14 @@ public abstract class Enemy extends Entity {
             final int size, final Player player) {
         super(x, y, maxHealth, health, attack, speed, size);
         this.player = player;
+        this.direction = Direction.DOWN;
     }
     /**
      * @return the name of the enemy class matching with its image.
      */
     public abstract String getEnemyName();
     /**
-     * Updates current enemy.
+     * Updates the current enemy.
      */
     @Override
     public void update() {
@@ -58,6 +60,15 @@ public abstract class Enemy extends Entity {
             }
             this.setX(getX() + xDistance);
             this.setY(getY() + yDistance);
+            if (xDistance == 1) {
+                setDirection(Direction.RIGHT);
+            } else if (xDistance == -1) {
+                setDirection(Direction.LEFT);
+            } else if (yDistance == 1) {
+                setDirection(Direction.DOWN);
+            } else if (yDistance == -1)  {
+                setDirection(Direction.UP);
+            }
         }
     }
     /**
@@ -75,10 +86,22 @@ public abstract class Enemy extends Entity {
         }
     }
     /**
-     * @return if the enemy has been positioned.
+     * If an observer is present, trigger its action.
      */
-    protected boolean isSpawned() {
-        return this.isSpawned;
+    protected void observerAction() {
+        observer.ifPresent(EnemyObserver::enemyObserverAction);
+    }
+    /**
+     * @return the direction of the enemy.
+     */
+    public Direction getDirection() {
+        return this.direction;
+    }
+    /**
+     * @return if the enemy is attacking and needs to change its animation.
+     */
+    public boolean isAttacking() {
+        return this.isAttacking;
     }
     /**
      * @return if the enemy is a Boss. 
@@ -111,16 +134,16 @@ public abstract class Enemy extends Entity {
         return this.player;
     }
     /**
-     * If an observer is present, trigger its action.
+     * @param direction
      */
-    protected void observerAction() {
-        observer.ifPresent(EnemyObserver::enemyObserverAction);
+    public void setDirection(final Direction direction) {
+        this.direction = direction;
     }
     /**
-     * @param isSpawned
+     * @param isAttacking
      */
-    protected void setSpawned(final boolean isSpawned) {
-        this.isSpawned = isSpawned;
+    protected void setAttacking(final boolean isAttacking) {
+        this.isAttacking = isAttacking;
     }
     /**
      * @param isBoss
