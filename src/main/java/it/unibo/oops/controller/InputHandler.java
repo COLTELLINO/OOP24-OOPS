@@ -17,6 +17,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 justification = "To change the player's position it has to be an externally mutable class.")
 public final class InputHandler extends KeyAdapter {
     private final Player player;
+    private boolean debugMode;
     private final Set<Integer> pressedKeys = new HashSet<>();
 
     /**
@@ -33,7 +34,11 @@ public final class InputHandler extends KeyAdapter {
      */
     @Override
     public void keyPressed(final KeyEvent e) {
-        pressedKeys.add(e.getKeyCode());
+        final int keyCode = e.getKeyCode();
+        if (keyCode == KeyEvent.VK_H) {
+            debugMode = !debugMode;
+        }
+        pressedKeys.add(keyCode);
         updateDirection();
     }
 
@@ -75,5 +80,11 @@ public final class InputHandler extends KeyAdapter {
         } else {
             player.setDirection(Direction.NONE);
         }
+    }
+    /**
+     * @return if debugMode should be activated.
+     */
+    public boolean isDebugMode() {
+        return debugMode;
     }
 }

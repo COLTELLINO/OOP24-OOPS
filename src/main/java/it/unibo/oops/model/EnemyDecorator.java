@@ -100,6 +100,20 @@ public abstract class EnemyDecorator extends Enemy {
         return decoratedEnemy.getSizeScale();
     }
     /**
+     * @return if the enemy started their death animation.
+     */
+    @Override
+    public boolean isDying() {
+        return decoratedEnemy.isDying();
+    }
+    /**
+     * @return how many frame have passed since the enemy died.
+     */
+    @Override
+    public int getBlinkCounter() {
+        return decoratedEnemy.getBlinkCounter();
+    }
+    /**
      * @return the target player.
      */
     @Override
@@ -189,7 +203,7 @@ public abstract class EnemyDecorator extends Enemy {
      * @param show Whether to show hitboxes
      */
     @Override
-    protected void setShowHitbox(final boolean show) {
+    public void setShowHitbox(final boolean show) {
         decoratedEnemy.setShowHitbox(show);
     }
     /**

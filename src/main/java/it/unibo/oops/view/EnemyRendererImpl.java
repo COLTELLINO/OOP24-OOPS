@@ -1,5 +1,6 @@
 package it.unibo.oops.view;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -15,6 +16,8 @@ import it.unibo.oops.model.Enemy;
  * Class used to draw enemies.
  */
 public class EnemyRendererImpl implements EnemyRenderer {
+    private static final int BLINK_INTERVAL = 6;
+    private static final float ALPHA_VALUE = 0.6f;
     private final Map<String, BufferedImage> enemySpriteMap = new HashMap<>();
     /**
      * Draws current enemy.
@@ -24,13 +27,17 @@ public class EnemyRendererImpl implements EnemyRenderer {
     @Override
     public void drawEnemy(final Enemy enemy, final Graphics2D g2) {
         try {
+            if (enemy.isDying() && enemy.getBlinkCounter() / BLINK_INTERVAL % 2 == 0) {
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, ALPHA_VALUE));
+            }
             final BufferedImage image = getEnemySprite(enemy.getEnemyName());
-            g2.drawImage(image, enemy.getX(), enemy.getY(), image.getWidth() * enemy.getSizeScale(),
-                image.getHeight() * enemy.getSizeScale(), null);
+                g2.drawImage(image, enemy.getX(), enemy.getY(), image.getWidth() * enemy.getSizeScale(),
+                    image.getHeight() * enemy.getSizeScale(), null);
             if (enemy.isShowHitbox()) {
                 g2.setColor(Color.RED);
                 g2.drawRect(enemy.getX(), enemy.getY(), enemy.getSize(), enemy.getSize());
             }
+            g2.setComposite(AlphaComposite.SrcOver);
         } catch (IllegalArgumentException e) {
             Logger.getLogger(this.getClass().getName())
                     .log(Level.SEVERE, e.getClass().getSimpleName() + " occurred: ", e);

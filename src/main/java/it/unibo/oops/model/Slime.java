@@ -3,8 +3,8 @@ package it.unibo.oops.model;
  * 
  */
 public class Slime extends Enemy {
-    private static final int BASE_MAXHEALTH = 100;
-    private static final int BASE_HEALTH = 100;
+    private static final int BASE_MAXHEALTH = 200;
+    private static final int BASE_HEALTH = 200;
     private static final int BASE_ATTACK = 5;
     private static final int BASE_SPEED = 1;
     private static final int BASE_SIZE = 32;
@@ -44,12 +44,16 @@ public class Slime extends Enemy {
     @Override
     public void update() {
         super.update();
-        if (isBoss()) {
-            this.setHealth(this.getHealth() - 1);
-            if (getHealth() <= 0) {
-                this.setAlive(false);
-                this.observerAction();
-            }
+        this.setHealth(this.getHealth() - 1);
+    }
+    /**
+     * Handles what happens when the enemy dies.
+     */
+    @Override
+    protected void onDeath() {
+        super.onDeath();
+        if (isBoss() && !isAlive()) {
+            this.observerAction();
         }
     }
 }

@@ -12,7 +12,7 @@ import java.awt.Rectangle;
     private int attack;
     private int size;        // Velocità
     private int speed;        // Velocità
-    private boolean isAlive;     // Stato
+    private boolean isAlive = true;     // Stato
     private Rectangle hitBox;
     private boolean showHitbox;
     /**
@@ -33,8 +33,6 @@ import java.awt.Rectangle;
         this.attack = attack;
         this.speed = speed;
         this.size = size;
-        this.isAlive = true;
-        this.showHitbox = true;
         this.hitBox = new Rectangle(x, y, size, size);
     }
     /**
@@ -166,7 +164,7 @@ import java.awt.Rectangle;
      * Shows hitboxes when true.
      * @param show
      */
-    protected void setShowHitbox(final boolean show) {
+    public void setShowHitbox(final boolean show) {
         this.showHitbox = show;
      }
     /**

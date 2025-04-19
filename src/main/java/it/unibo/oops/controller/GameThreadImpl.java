@@ -1,6 +1,8 @@
 package it.unibo.oops.controller;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,6 +15,7 @@ import it.unibo.oops.model.EnemyFactory;
 import it.unibo.oops.model.EnemyFactoryImpl;
 import it.unibo.oops.model.EnemyManager;
 import it.unibo.oops.model.EnemyManagerImpl;
+import it.unibo.oops.model.Entity;
 import it.unibo.oops.model.ExperienceManager;
 import it.unibo.oops.model.Percentage;
 import it.unibo.oops.model.Player;
@@ -38,6 +41,7 @@ public class GameThreadImpl implements Runnable, GameThread {
     private final Timer spawnTestTimer = new TimerImpl(300);
     private final Player player = new Player(PLAYER_X, PLAYER_Y, PLAYER_MAX_HEALTH, PLAYER_HEALTH,
         PLAYER_ATTACK, PLAYER_SPEED, PLAYER_SIZE);
+    private final InputHandler inputHandler = new InputHandler(player);
     private final EnemyManager enemyManager = new EnemyManagerImpl(player);
     private final EnemyFactory enemyFactory = new EnemyFactoryImpl();
     private final WeaponManager weaponManager = new WeaponManager(player);
@@ -59,7 +63,6 @@ public class GameThreadImpl implements Runnable, GameThread {
      *
      */
     public GameThreadImpl() {
-        final InputHandler inputHandler = new InputHandler(player);
         try {
             SwingUtilities.invokeAndWait(() -> {
                 window = new DrawViewImpl(GameState.TITLESTATE, player, enemyManager, weaponManager, experienceManager);
@@ -101,9 +104,9 @@ public class GameThreadImpl implements Runnable, GameThread {
      */
     @Override
     public void update() {
+        getAllEntities().forEach((e) -> e.setShowHitbox(inputHandler.isDebugMode()));
         if (this.window.getCurrentGameState() == GameState.PLAYSTATE) {
             this.spawnEnemies();
-
             weaponManager.update();
             experienceManager.update();
             player.update();
@@ -128,5 +131,14 @@ public class GameThreadImpl implements Runnable, GameThread {
         this.spawnTestTimer.update(() -> {
             this.enemyManager.spawnEnemy(slimeBoss);
         });
+    }
+    /**
+     * @return all the entities.
+     */
+    private List<Entity> getAllEntities() {
+        final List<Entity> entities = new ArrayList<>();
+        entities.addAll(enemyManager.getSpawnedEnemies());
+        entities.add(player);
+        return entities;
     }
 }

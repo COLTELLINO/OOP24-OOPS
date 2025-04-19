@@ -12,9 +12,12 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 justification = "To move enemies towards the player, its position is needed, " 
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
 public abstract class Enemy extends Entity {
+    private static final int MAX_BLINKS = 30;
     private boolean isSpawned;
     private boolean isBoss;
     private int sizeScale = 1;
+    private boolean isDying;
+    private int blinkCounter;
     private final Player player;
     private Optional<EnemyObserver> observer = Optional.empty();
     /**
@@ -41,6 +44,7 @@ public abstract class Enemy extends Entity {
      */
     @Override
     public void update() {
+        this.onDeath();
         final int playerCenterX = player.getX() + player.getSize() / 2;
         final int playerCenterY = player.getY() + player.getSize() / 2;
         for (int i = 0; i < getSpeed(); i++) {
@@ -54,6 +58,20 @@ public abstract class Enemy extends Entity {
             }
             this.setX(getX() + xDistance);
             this.setY(getY() + yDistance);
+        }
+    }
+    /**
+     * Handles what happens when the enemy dies.
+     */
+    protected void onDeath() {
+        if (getHealth() <= 0) {
+            this.setAttack(0);
+            this.isDying = true;
+            if (this.blinkCounter <= MAX_BLINKS) {
+                this.blinkCounter++;
+            } else {
+                setAlive(false);
+            }
         }
     }
     /**
@@ -73,6 +91,18 @@ public abstract class Enemy extends Entity {
      */
     public int getSizeScale() {
         return this.sizeScale;
+    }
+    /**
+     * @return if the enemy started their death animation.
+     */
+    public boolean isDying() {
+        return this.isDying;
+    }
+    /**
+     * @return how many frame have passed since the enemy died.
+     */
+    public int getBlinkCounter() {
+        return this.blinkCounter;
     }
     /**
      * @return the target player.
