@@ -8,6 +8,13 @@
             "type": "java",
             "name": "MainApp",
             "request": "launch",
+            "mainClass": "it.unibo.oop.MainApp",
+            "projectName": "OOP24-OOPS"
+        },
+        {
+            "type": "java",
+            "name": "MainApp",
+            "request": "launch",
             "mainClass": "it.unibo.oops.MainApp"
         },
         {
