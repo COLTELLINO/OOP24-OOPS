@@ -1,18 +1,18 @@
 package it.unibo.oop.model;
-import java.awt.Color;
+
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.geom.AffineTransform;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-/**
- * 
- */
 @SuppressFBWarnings(value = {"EI2"}, 
 justification = "To position the weapon, the player size and position are needed, "
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
 public class Sword extends Weapon {
-    private static final int WIDTH = 15;
-    private static final int HEIGHT = 45;
     private static final double DURATION = 30;
     private static final double COOLDOWN = 60;
     private double duration;
@@ -20,13 +20,22 @@ public class Sword extends Weapon {
     private boolean active;
     private final Player player;
     private boolean lastSwingRight = true;
+    private Image swordImage;
+
     /**
      * @param player
      */
     public Sword(final Player player) {
         this.active = false;
         this.player = player;
+        try {
+            this.swordImage = ImageIO.read(getClass().getResource("/Weapon/Sword.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IllegalStateException("Sword image could not be loaded.");
+        }
     }
+
     /**
      * Updates the sword.
      */
@@ -46,7 +55,8 @@ public class Sword extends Weapon {
                 cooldown--;
             }
         }
-    }    
+    }
+
     /**
      * Draws the sword.
      * @param g
@@ -54,9 +64,10 @@ public class Sword extends Weapon {
     @Override
     public void draw(final Graphics g) {
         if (active) {
-            g.setColor(Color.BLUE);
-            int drawX = player.getX(), drawY = player.getY();
-            int swordWidth = WIDTH, swordHeight = HEIGHT; 
+            Graphics2D g2d = (Graphics2D) g;
+            int drawX = player.getX(), drawY;
+            double scale = 2;
+            double rotation = 0;
 
             Direction currentDirection = player.getDirection();
 
@@ -72,25 +83,28 @@ public class Sword extends Weapon {
                 currentDirection = Direction.LEFT;
             }
 
+            drawY = player.getY() + player.getSize() / 2 - (int) (swordImage.getHeight(null) * scale) / 2;
+
             switch (currentDirection) {
                 case Direction.RIGHT:
                     drawX = player.getX() + player.getSize();
-                    drawY = player.getY() + player.getSize() / 2 - WIDTH / 2;
-                    swordWidth = HEIGHT; 
-                    swordHeight = WIDTH;
+                    rotation = Math.toRadians(90);
                     lastSwingRight = true;
                     break;
                 case Direction.LEFT:
-                    drawX = player.getX() - HEIGHT;
-                    drawY = player.getY() + player.getSize() / 2 - WIDTH / 2;
-                    swordWidth = HEIGHT;
-                    swordHeight = WIDTH;
+                    drawX = player.getX() - (int) (swordImage.getWidth(null) * scale);
+                    rotation = Math.toRadians(-90); 
                     lastSwingRight = false;
                     break;
                 default:
                     break;
             }
-            g.fillRect(drawX, drawY, swordWidth, swordHeight);
+
+            AffineTransform transform = new AffineTransform();
+            transform.translate(drawX, drawY);
+            transform.rotate(rotation, (swordImage.getWidth(null) * scale) / 2.0, (swordImage.getHeight(null) * scale) / 2.0);
+            transform.scale(scale, scale);
+            g2d.drawImage(swordImage, transform, null);
         }
     }
 }
