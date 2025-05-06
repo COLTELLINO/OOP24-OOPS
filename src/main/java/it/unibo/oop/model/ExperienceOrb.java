@@ -1,7 +1,5 @@
 package it.unibo.oop.model;
 
-import java.awt.Color;
-import java.awt.Graphics;
 /**
 *
 */
@@ -37,13 +35,4 @@ public class ExperienceOrb {
     public int getY() {
         return this.y;
     }
-    /**
-     * Draws the ExpOrb.
-     * @param g
-     */
-    public void draw(final Graphics g) {
-        g.setColor(Color.PINK);
-        g.fillRect(x, y, 10, 10);
-    }
-
 }

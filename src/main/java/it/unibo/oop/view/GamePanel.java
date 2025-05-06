@@ -22,10 +22,10 @@ public class GamePanel extends MyPanel {
     private final transient Player player;
     private final transient EnemyManager enemyManager;
     private final transient WeaponManager weaponManager;
-    @SuppressWarnings("unused") // TEMPORARY
     private final transient ExperienceManager experienceManager;
     private final transient EnemyRenderer enemyRenderer = new EnemyRendererImpl();
     private final transient WeaponRenderer weaponRenderer = new WeaponRendererImpl();
+    private final transient ExperienceRenderer experienceRenderer = new ExperienceRendererImpl();
     /**
      * @param screenWidth
      * @param screenHeight
@@ -54,5 +54,6 @@ public class GamePanel extends MyPanel {
         this.player.draw(g2d);
         this.enemyRenderer.drawEnemyList(this.enemyManager.getSpawnedEnemies(), g2d);
         this.weaponRenderer.drawWeaponList(g2d, this.weaponManager.getWeapons());
+        this.experienceRenderer.drawExperienceOrbs(g2d, this.experienceManager.getOrbs());
     }
 }

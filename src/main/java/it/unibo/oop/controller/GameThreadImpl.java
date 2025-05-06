@@ -12,6 +12,7 @@ import it.unibo.oop.model.EnemyManager;
 import it.unibo.oop.model.EnemyManagerImpl;
 import it.unibo.oop.model.Entity;
 import it.unibo.oop.model.ExperienceManager;
+import it.unibo.oop.model.ExperienceManagerImpl;
 import it.unibo.oop.model.InputHandler;
 import it.unibo.oop.model.Percentage;
 import it.unibo.oop.model.Player;
@@ -44,7 +45,7 @@ public class GameThreadImpl implements Runnable, GameThread {
     private final EnemyManager enemyManager = new EnemyManagerImpl(player);
     private final EnemyFactory enemyFactory = new EnemyFactoryImpl();
     private final WeaponManager weaponManager = new WeaponManagerImpl(player);
-    private final ExperienceManager experienceManager = new ExperienceManager(player);
+    private final ExperienceManager experienceManager = new ExperienceManagerImpl(player);
     private final AudioHandler audioHandler = new AudioHandlerImpl();
     private final DrawViewFactory drawViewFactory = new DrawViewFactoryImpl();
     private final DrawView window;

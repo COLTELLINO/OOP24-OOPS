@@ -1,59 +1,29 @@
 package it.unibo.oop.model;
 
-import java.awt.Graphics;
-import java.util.ArrayList;
 import java.util.List;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 /**
- * 
+ * Interface for managing experience orbs and player experience.
  */
-@SuppressFBWarnings(value = {"EI2"}, 
-justification = "To give the player xp it needs to be externally mutable.")
-public class ExperienceManager {
-    private final List<ExperienceOrb> orbs;
-    // private final double fps; TEMPORARLY COMMENTED to avoid spotbugs until it is actually used. 
-    private final Player player;
+public interface ExperienceManager {
     /**
-     * Possibly supposed to be in player
+     * Updates the state of experience orbs.
      */
-    //private int playerXp;
+    void update();
+
     /**
-     * @param player
+     * Returns an unmodifiable view of the experience orbs.
+     * 
+     * @return the list of experience orbs
      */
-    public ExperienceManager(/*final double fps,*/final Player player) {
-        orbs = new ArrayList<>();
-        /*this.fps = fps;*/
-        this.player = player;
-    }
+    List<ExperienceOrb> getOrbs();
+
     /**
-     * Updates every experienceOrb.
+     * Spawns a new experience orb at the specified location.
+     * 
+     * @param x the x-coordinate
+     * @param y the y-coordinate
+     * @param amount the amount of experience
      */
-    public void update() {
-        for (final ExperienceOrb orb : orbs) {
-            if (Math.abs(player.getX() - orb.getX()) <= 10 
-                && Math.abs(player.getY() - orb.getY()) <= 10) {
-                orbs.remove(orb);
-                this.player.addXp(orb.getXP());
-            }
-        }
-    }
-    /**
-     * Draws every experienceOrn.
-     * @param g
-     */
-    public void draw(final Graphics g) {
-        for (final ExperienceOrb experienceOrb : orbs) {
-            experienceOrb.draw(g);
-        }
-    }
-    /**
-     * Spawns an experienceOrb.
-     * @param x
-     * @param y
-     * @param amount
-     */
-    public void spawnXP(final int x, final int y, final int amount) {
-        orbs.add(new ExperienceOrb(x, y, amount));
-    }
+    void spawnXP(int x, int y, int amount);
 }
