@@ -9,6 +9,7 @@ import java.awt.Color;
 public class Player extends Entity {
     private Direction direction;
     private int xp;
+    private int level;
     /**
      * @param x
      * @param y
@@ -36,6 +37,12 @@ public class Player extends Entity {
         return this.xp;
     }
     /**
+     * @return the current level of the player.
+     */
+    public int getLevel() {
+        return this.level;
+    }
+    /**
      * Sets the facing direction of the player.
      * @param direction
      */
@@ -48,6 +55,16 @@ public class Player extends Entity {
      */
     public void addXp(final int xp) {
         this.xp += xp;
+        if (this.xp >= 100) {
+            levelUp();
+        }
+    }
+    /**
+     * Increases player level.
+     */
+    public void levelUp() {
+        this.level++;
+        this.xp = 0;
     }
     /**
      * Updates the direction of the player.
