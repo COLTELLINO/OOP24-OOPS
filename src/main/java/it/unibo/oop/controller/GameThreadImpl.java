@@ -18,6 +18,7 @@ import it.unibo.oop.model.Player;
 import it.unibo.oop.model.Timer;
 import it.unibo.oop.model.TimerImpl;
 import it.unibo.oop.model.WeaponManager;
+import it.unibo.oop.model.WeaponManagerImpl;
 import it.unibo.oop.view.DrawView;
 import it.unibo.oop.view.DrawViewFactory;
 import it.unibo.oop.view.DrawViewFactoryImpl;
@@ -42,7 +43,7 @@ public class GameThreadImpl implements Runnable, GameThread {
     private final InputHandler inputHandler = new InputHandler(player);
     private final EnemyManager enemyManager = new EnemyManagerImpl(player);
     private final EnemyFactory enemyFactory = new EnemyFactoryImpl();
-    private final WeaponManager weaponManager = new WeaponManager(player);
+    private final WeaponManager weaponManager = new WeaponManagerImpl(player);
     private final ExperienceManager experienceManager = new ExperienceManager(player);
     private final AudioHandler audioHandler = new AudioHandlerImpl();
     private final DrawViewFactory drawViewFactory = new DrawViewFactoryImpl();

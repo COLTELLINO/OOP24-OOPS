@@ -1,9 +1,6 @@
 package it.unibo.oop.model;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -15,22 +12,20 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 /**
  * Represents a Sword weapon in the game.
  */
-@SuppressFBWarnings(value = {"EI2"}, 
+@SuppressFBWarnings(value = {"EI2", "EI"}, 
 justification = "To position the weapon, the player size and position are needed, "
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
 public class Sword extends Weapon {
     private static final double DURATION = 30;
     private static final double COOLDOWN = 60;
-    private static final double SCALE = 2.0;
-    private static final double ROTATION_RIGHT = Math.toRadians(90);
-    private static final double ROTATION_LEFT = Math.toRadians(-90);
     private static final Logger LOGGER = Logger.getLogger(Sword.class.getName());
 
     private double duration;
+    private Direction direction;
     private double cooldown;
     private boolean active;
     private final Player player;
-    private boolean lastSwingRight = true;
+    private boolean lastDirectionRight = true;
     private final Image swordImage;
 
     /**
@@ -71,52 +66,53 @@ public class Sword extends Weapon {
                 cooldown--;
             }
         }
+        this.direction = player.getDirection();
+        if (this.direction == Direction.NONE || this.direction == Direction.UP || this.direction == Direction.DOWN) {
+            this.direction = lastDirectionRight ? Direction.RIGHT : Direction.LEFT;
+        } else if (this.direction == Direction.UPRIGHT || this.direction == Direction.DOWNRIGHT) {
+            this.direction = Direction.RIGHT;
+        } else if (this.direction == Direction.UPLEFT || this.direction == Direction.DOWNLEFT) {
+            this.direction = Direction.LEFT;
+        } else if (this.direction == Direction.RIGHT) {
+            this.lastDirectionRight = true;
+        } else if (this.direction == Direction.LEFT) {
+            this.lastDirectionRight = false;
+        }
     }
 
     /**
-     * Draws the sword.
+     * Returns whether the sword is active.
      * 
-     * @param g the graphics context
+     * @return true if the sword is active, false otherwise
      */
-    @Override
-    public void draw(final Graphics g) {
-        if (active) {
-            if (!(g instanceof Graphics2D)) {
-                LOGGER.log(Level.WARNING, "Graphics object is not an instance of Graphics2D.");
-                return;
-            }
-            final Graphics2D g2d = (Graphics2D) g;
-            final int drawX;
-            final int drawY = player.getY() + player.getSize() / 2 - (int) (swordImage.getHeight(null) * SCALE) / 2;
-            double rotation = 0;
+    public boolean isActive() {
+        return active;
+    }
 
-            Direction currentDirection = player.getDirection();
+    /**
+     * Returns the player associated with the sword.
+     * 
+     * @return the player
+     */
+    public Player getPlayer() {
+        return player;
+    }
 
-            if (currentDirection == Direction.NONE || currentDirection == Direction.UP || currentDirection == Direction.DOWN) {
-                currentDirection = lastSwingRight ? Direction.RIGHT : Direction.LEFT;
-            } else if (currentDirection == Direction.UPRIGHT || currentDirection == Direction.DOWNRIGHT) {
-                currentDirection = Direction.RIGHT;
-            } else if (currentDirection == Direction.UPLEFT || currentDirection == Direction.DOWNLEFT) {
-                currentDirection = Direction.LEFT;
-            }
+    /**
+     * Returns the direction of the sword.
+     * 
+     * @return the direction
+     */
+    public Direction getDirection() {
+        return direction;
+    }
 
-            if (currentDirection == Direction.RIGHT) {
-                drawX = player.getX() + player.getSize();
-                rotation = ROTATION_RIGHT;
-                lastSwingRight = true;
-            } else if (currentDirection == Direction.LEFT) {
-                drawX = player.getX() - (int) (swordImage.getWidth(null) * SCALE);
-                rotation = ROTATION_LEFT;
-                lastSwingRight = false;
-            } else {
-                drawX = player.getX();
-            }
-
-            final AffineTransform transform = new AffineTransform();
-            transform.translate(drawX, drawY);
-            transform.rotate(rotation, swordImage.getWidth(null) * SCALE / 2.0, swordImage.getHeight(null) * SCALE / 2.0);
-            transform.scale(SCALE, SCALE);
-            g2d.drawImage(swordImage, transform, null);
-        }
+    /**
+     * Returns the sword image.
+     * 
+     * @return the sword image
+     */
+    public Image getSwordImage() {
+        return swordImage;
     }
 }

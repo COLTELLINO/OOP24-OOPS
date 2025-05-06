@@ -104,6 +104,7 @@ public final class DrawViewImpl implements DrawView {
      * 
      * @param listener the key listener to add
      */
+    @Override
     public void addKeyListener(final KeyListener listener) {
         frame.addKeyListener(listener);
     }
@@ -113,6 +114,7 @@ public final class DrawViewImpl implements DrawView {
      * 
      * @param focusable true if the frame should be focusable
      */
+    @Override
     public void setFocusable(final boolean focusable) {
         frame.setFocusable(focusable);
         frame.requestFocusInWindow();
