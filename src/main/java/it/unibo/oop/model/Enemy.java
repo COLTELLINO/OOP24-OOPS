@@ -14,7 +14,6 @@ public abstract class Enemy extends Entity {
     private static final int MAX_BLINKS = 30;
     private Direction direction;
     private boolean isAttacking;
-    private boolean isBoss;
     private int sizeScale = 1;
     private boolean isDying;
     private int blinkCounter;
@@ -45,7 +44,9 @@ public abstract class Enemy extends Entity {
      */
     @Override
     public void update() {
-        this.onDeath();
+        if (getHealth() <= 0) {
+            this.onDeath();
+        }
         final int playerCenterX = player.getX() + player.getSize() / 2;
         final int playerCenterY = player.getY() + player.getSize() / 2;
         for (int i = 0; i < getSpeed(); i++) {
@@ -74,20 +75,19 @@ public abstract class Enemy extends Entity {
      * Handles what happens when the enemy dies.
      */
     protected void onDeath() {
-        if (getHealth() <= 0) {
             this.setAttack(0);
             this.isDying = true;
             if (this.blinkCounter <= MAX_BLINKS) {
                 this.blinkCounter++;
             } else {
                 setAlive(false);
+                this.observerOnDeathAction();
             }
-        }
     }
     /**
      * If an observer is present, trigger its action.
      */
-    protected void observerAction() {
+    protected void observerOnDeathAction() {
         observer.ifPresent(EnemyObserver::enemyObserverAction);
     }
     /**
@@ -101,12 +101,6 @@ public abstract class Enemy extends Entity {
      */
     public boolean isAttacking() {
         return this.isAttacking;
-    }
-    /**
-     * @return if the enemy is a Boss. 
-     */
-    protected boolean isBoss() {
-        return this.isBoss;
     }
     /**
      * @return the scaling of the enemy size.
@@ -145,12 +139,6 @@ public abstract class Enemy extends Entity {
         this.isAttacking = isAttacking;
     }
     /**
-     * @param isBoss
-     */
-    protected void setBoss(final boolean isBoss) {
-        this.isBoss = isBoss;
-    }
-    /**
      * @param sizeScale
      */
     protected void setSizeScale(final int sizeScale) {
@@ -159,7 +147,7 @@ public abstract class Enemy extends Entity {
     /**
      * @param observer
      */
-    public void setObserver(final EnemyObserver observer) {
+    public void setDeathObserver(final EnemyObserver observer) {
         this.observer = Optional.of(observer);
     }
 }

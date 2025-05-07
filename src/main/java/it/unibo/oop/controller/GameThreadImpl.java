@@ -114,13 +114,20 @@ public class GameThreadImpl implements Runnable, GameThread {
      */
     private void spawnEnemies() {
         final Enemy slimeBoss = this.enemyFactory.createBoss(this.enemyFactory.createBaseSlime(ENEMY_X, ENEMY_Y, player));
-        slimeBoss.setObserver(() -> {
+        final Enemy baseSlime = this.enemyFactory.createBaseSlime(ENEMY_X, ENEMY_Y, player);
+        slimeBoss.setDeathObserver(() -> {
             this.enemyManager.spawnEnemy(this.enemyFactory.
                 createBaseSlime(slimeBoss.getX() + slimeBoss.getSize() / 2, slimeBoss.getY(), player));
             this.enemyManager.spawnEnemy(this.enemyFactory.
                 createBaseSlime(slimeBoss.getX(), slimeBoss.getY(), player));
+            this.experienceManager.spawnXP(baseSlime.getX() + baseSlime.getSize() / 2,
+                baseSlime.getY() + baseSlime.getSize() / 2, 100);
         });
-        this.enemyManager.addEnemy(this.enemyFactory.createBaseSlime(ENEMY_X, ENEMY_Y, player));
+        baseSlime.setDeathObserver(() -> {
+            this.experienceManager.spawnXP(baseSlime.getX() + baseSlime.getSize() / 2,
+                baseSlime.getY() + baseSlime.getSize() / 2, 10);
+        });
+        this.enemyManager.addEnemy(baseSlime);
         this.spawnTestTimer.update(() -> {
             this.enemyManager.spawnEnemy(slimeBoss);
         });

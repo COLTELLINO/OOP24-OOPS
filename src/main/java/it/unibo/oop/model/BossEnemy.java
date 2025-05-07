@@ -13,6 +13,5 @@ public class BossEnemy extends EnemyDecorator {
         super.setSizeScale(enemy.getSizeScale() * SIZE_SCALE);
         super.setSpeed(enemy.getSpeed() * SPEED_SCALE);
         super.setSize(enemy.getSize() * SIZE_SCALE);
-        super.setBoss(true);
     }
 }

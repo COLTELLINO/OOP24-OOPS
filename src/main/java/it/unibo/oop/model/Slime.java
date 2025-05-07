@@ -46,14 +46,4 @@ public class Slime extends Enemy {
         super.update();
         this.setHealth(this.getHealth() - 1);
     }
-    /**
-     * Handles what happens when the enemy dies.
-     */
-    @Override
-    protected void onDeath() {
-        super.onDeath();
-        if (isBoss() && !isAlive()) {
-            this.observerAction();
-        }
-    }
 }

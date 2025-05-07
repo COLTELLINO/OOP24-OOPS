@@ -43,7 +43,7 @@ dependencies {
 }
 application {
     // Define the main class for the application.
-    mainClass.set("it.unibo.oops.controller.MainApp")
+    mainClass.set("it.unibo.oop.MainApp")
 }
 
 tasks.test {

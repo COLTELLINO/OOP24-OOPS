@@ -18,8 +18,8 @@ public abstract class EnemyDecorator extends Enemy {
      * If an observer is present, trigger its action.
      */
     @Override
-    protected void observerAction() {
-        decoratedEnemy.observerAction();
+    protected void observerOnDeathAction() {
+        decoratedEnemy.observerOnDeathAction();
     }
     /**
      * @return the enemy to decorate.
@@ -141,13 +141,6 @@ public abstract class EnemyDecorator extends Enemy {
         return decoratedEnemy.isAttacking();
     }
     /**
-     * @return if the decorated enemy is a Boss. 
-     */
-    @Override
-    protected boolean isBoss() {
-        return decoratedEnemy.isBoss();
-    }
-    /**
      * Sets the x position of the decorated enemy.
      * @param x
      */
@@ -234,13 +227,6 @@ public abstract class EnemyDecorator extends Enemy {
         decoratedEnemy.setAttacking(isAttacking);
     }
     /**
-     * @param isBoss
-     */
-    @Override
-    protected void setBoss(final boolean isBoss) {
-        decoratedEnemy.setBoss(isBoss);
-    }
-    /**
      * @param sizeScale
      */
     @Override
@@ -251,8 +237,8 @@ public abstract class EnemyDecorator extends Enemy {
      * @param observer
      */
     @Override
-    public void setObserver(final EnemyObserver observer) {
-        decoratedEnemy.setObserver(observer);
+    public void setDeathObserver(final EnemyObserver observer) {
+        decoratedEnemy.setDeathObserver(observer);
     }
     /**
      * Updates the decorated enemy.
