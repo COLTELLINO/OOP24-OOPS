@@ -41,6 +41,7 @@ public class MagicStaff extends Weapon {
      * @param player the player associated with the staff
      */
     public MagicStaff(final Player player) {
+        super(player);
         this.player = player;
         this.cooldown = 0;
         this.projectiles = new ArrayList<>();

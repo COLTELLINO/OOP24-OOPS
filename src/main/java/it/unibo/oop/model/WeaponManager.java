@@ -15,15 +15,15 @@ public interface WeaponManager {
     /**
     * Adds the chosen weapon to the player's weapon map or increases its level if already owned.
     * 
-    * @param chosenWeapon the weapon chosen by the player
+    * @param chosenUpgrade the weapon chosen by the player
     */
-   void addChosenWeapon(Weapon chosenWeapon);
+   void addChosenUpgrade(Upgrade chosenUpgrade);
        /**
-     * Returns 3 random weapons from the weapon pool for the player to choose from.
+     * Returns 3 random upgrades from the upgrade pool for the player to choose from.
      * 
-     * @return a list of 3 random weapons
+     * @return a list of 3 random upgrades
      */
-    List<Weapon> getRandomWeaponsToChoose();
+    List<Upgrade> getRandomUpgradesToChoose();
 
     /**
      * Returns the list of weapons.

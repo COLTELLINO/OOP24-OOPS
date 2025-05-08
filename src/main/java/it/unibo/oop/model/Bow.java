@@ -30,6 +30,7 @@ public class Bow extends Weapon {
      * @param player the player associated with the bow
      */
     public Bow(final Player player) {
+        super(player);
         this.player = player;
         this.cooldown = 0;
         this.projectiles = new ArrayList<>();

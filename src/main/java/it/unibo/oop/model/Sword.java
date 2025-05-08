@@ -41,8 +41,9 @@ public class Sword extends Weapon {
      * @param player the player associated with the sword
      */
     public Sword(final Player player) {
-        this.active = false;
+        super(player);
         this.player = player;
+        this.active = false;
         try {
             this.swordImage = ImageIO.read(Objects.requireNonNull(
                 getClass().getClassLoader().getResource("Weapon/Sword.png"),
