@@ -34,6 +34,7 @@ public class MagicStaff extends Weapon {
     private final List<Rectangle> explosionHitboxes;
     private Direction direction = Direction.UP;
     private Direction lastDirection = Direction.UP;
+    private boolean showHitbox;
 
     /**
      * Constructs a MagicStaff object.
@@ -175,5 +176,19 @@ public class MagicStaff extends Weapon {
     @Override
     public int getDamage() {
         return DAMAGE;
+    }
+    /**
+     * @param showHitbox the visibility of the hitbox.
+     */
+    @Override
+    public void setShowHitbox(final boolean showHitbox) {
+        this.showHitbox = showHitbox;
+    }
+    /**
+     * @return the visibility of the hitbox.
+     */
+    @Override
+    public boolean isShowHitbox() {
+        return showHitbox;
     }
 }

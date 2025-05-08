@@ -34,6 +34,7 @@ public class Sword extends Weapon {
     private final Player player;
     private boolean lastDirectionRight = true;
     private final Image swordImage;
+    private boolean showHitbox;
 
     /**
      * Constructs a Sword object.
@@ -160,5 +161,19 @@ public class Sword extends Weapon {
     @Override
     public int getDamage() {
         return DAMAGE;
+    }
+    /**
+     * @param showHitbox the visibility of the hitbox.
+     */
+    @Override
+    public void setShowHitbox(final boolean showHitbox) {
+        this.showHitbox = showHitbox;
+    }
+    /**
+     * @return the visibility of the hitbox.
+     */
+    @Override
+    public boolean isShowHitbox() {
+        return showHitbox;
     }
 }

@@ -22,4 +22,12 @@ public abstract class Weapon extends Upgrade {
      * @return the weapon's hitbox.
      */
     public abstract List<Rectangle> getHitBox();
+    /**
+     * @param showHitbox if the hitboxes are shown.
+     */
+    public abstract void setShowHitbox(boolean showHitbox);
+    /**
+     * @return the visibility of the hitbox.
+     */
+    public abstract boolean isShowHitbox();
 }

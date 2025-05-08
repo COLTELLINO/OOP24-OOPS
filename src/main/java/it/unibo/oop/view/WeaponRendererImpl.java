@@ -208,7 +208,7 @@ public final class WeaponRendererImpl implements WeaponRenderer {
      * @param weapons the list of weapons to draw
      */
     @Override
-    public void drawWeaponList(final Graphics g, final Map<Weapon, Integer> weapons) {
+    public void drawWeaponList(final Graphics2D g, final Map<Weapon, Integer> weapons) {
         for (final Map.Entry<Weapon, Integer> entry : weapons.entrySet()) {
             final Weapon weapon = entry.getKey();
             //final int level = entry.getValue(); Il livello non viene usato per ora
@@ -220,31 +220,15 @@ public final class WeaponRendererImpl implements WeaponRenderer {
             } else if (weapon instanceof MagicStaff) {
                 drawMagicStaff(g, (MagicStaff) weapon);
             }
-        }
-    }
 
-    /**
-     * Draws the hitboxes of all weapons on the screen.
-     * 
-     * @param g the graphics context
-     * @param weapons the list of weapons to draw hitboxes for
-     */
-    @Override
-    public void drawWeaponHitboxes(final Graphics g, final Map<Weapon, Integer> weapons) {
-        if (!(g instanceof Graphics2D)) {
-            LOGGER.log(Level.WARNING, "Graphics object is not an instance of Graphics2D.");
-            return;
-        }
-
-        final Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(java.awt.Color.RED);
-
-        for (final Map.Entry<Weapon, Integer> entry : weapons.entrySet()) {
-            final Weapon weapon = entry.getKey();
-            final List<Rectangle> hitboxes = weapon.getHitBox();
-            for (final Rectangle rectangle : hitboxes) {
-                if (rectangle != null) {
-                    g2d.draw(rectangle);
+            if (weapon.isShowHitbox()) {
+                final Graphics2D g2d = g;
+                g2d.setColor(java.awt.Color.RED);
+                final List<Rectangle> hitboxes = weapon.getHitBox();
+                for (final Rectangle rectangle : hitboxes) {
+                    if (rectangle != null) {
+                        g2d.draw(rectangle);
+                    }
                 }
             }
         }
