@@ -41,6 +41,7 @@ public class WeaponManagerImpl implements WeaponManager {
      */
     private void initializeWeaponPool() {
         weapons.put(new Sword(player), 1);
+        weaponPool.add(new Sword(player));
         weaponPool.add(new Bow(player));
         weaponPool.add(new Shield(player));
         weaponPool.add(new MagicStaff(player));

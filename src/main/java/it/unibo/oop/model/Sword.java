@@ -16,8 +16,10 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 justification = "To position the weapon, the player size and position are needed, "
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
 public class Sword extends Weapon {
+    //private static final int DAMAGE = 50;
     private static final double DURATION = 30;
     private static final double COOLDOWN = 60;
+    private static final int SIZE = 50;
     private static final Logger LOGGER = Logger.getLogger(Sword.class.getName());
 
     private double duration;
@@ -44,6 +46,26 @@ public class Sword extends Weapon {
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Sword image could not be loaded.", e);
             throw new IllegalStateException("Sword image could not be loaded.", e);
+        }
+    }
+
+    /**
+     * Gets the hitbox of the sword.
+     * 
+     * @return the hitbox of the sword
+     */
+    public Hitbox getHitbox() {
+        switch (direction) {
+            case UP:
+                return new Hitbox(player.getX(), player.getY() - SIZE, SIZE, SIZE);
+            case DOWN:
+                return new Hitbox(player.getX(), player.getY() + SIZE, SIZE, SIZE);
+            case LEFT:
+                return new Hitbox(player.getX() - SIZE, player.getY(), SIZE, SIZE);
+            case RIGHT:
+                return new Hitbox(player.getX() + player.getSize(), player.getY(), SIZE, SIZE);
+            default:
+                return null;
         }
     }
 

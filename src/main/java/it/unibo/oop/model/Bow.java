@@ -12,8 +12,10 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 justification = "To position the weapon, the player size and position are needed, "
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
 public class Bow extends Weapon {
+    //private static final int DAMAGE = 50;
     private static final double COOLDOWN = 40;
     private static final int SPEED = 10;
+    private static final int PROJECTILE_SIZE = 30;
 
     private double cooldown;
     private final Player player;
@@ -52,6 +54,19 @@ public class Bow extends Weapon {
         }
         projectiles.forEach(Projectile::update);
         projectiles.removeIf(Projectile::isOutOfBounds);
+    }
+
+    /**
+     * Gets the hitboxes of all active projectiles.
+     * 
+     * @return a list of hitboxes for the active projectiles
+     */
+    public List<Hitbox> getProjectileHitboxes() {
+        final List<Hitbox> hitboxes = new ArrayList<>();
+        for (final Projectile projectile : projectiles) {
+            hitboxes.add(new Hitbox(projectile.getX(), projectile.getY(), PROJECTILE_SIZE, PROJECTILE_SIZE));
+        }
+        return hitboxes;
     }
 
     /**
