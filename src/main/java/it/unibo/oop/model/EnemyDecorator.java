@@ -96,6 +96,7 @@ public abstract class EnemyDecorator extends Enemy {
     /**
      * @return the Entity's hitbox.
      */
+    @Override
     public Rectangle getHitbox() {
         return decoratedEnemy.getHitbox();
     }
