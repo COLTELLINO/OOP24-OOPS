@@ -19,7 +19,7 @@ import it.unibo.oop.model.ExperienceOrb;
  */
 public class ExperienceRendererImpl implements ExperienceRenderer {
     private static final Logger LOGGER = Logger.getLogger(ExperienceRendererImpl.class.getName());
-    private static final double SCALE = 1.5;
+    private static final double SCALE = 0.5;
     private final Image orbImage;
 
     /**
