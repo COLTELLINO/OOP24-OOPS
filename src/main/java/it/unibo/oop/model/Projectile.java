@@ -10,7 +10,7 @@ public class Projectile {
     private final int speed;
     private int x;
     private int y;
-    private int size;
+    private final int size;
     private final Direction direction;
 
     /**
@@ -20,6 +20,7 @@ public class Projectile {
      * @param y the initial y-coordinate
      * @param direction the direction of the projectile
      * @param speed the speed of the projectile
+     * @param size the size of the projectile
      */
     public Projectile(final int x, final int y, final Direction direction, final int speed, final int size) {
         this.x = x;
@@ -73,7 +74,7 @@ public class Projectile {
     public Direction getDirection() {
         return direction;
     }
-    
+
     /**
      * Gets the hitbox of the projectile.
      * 

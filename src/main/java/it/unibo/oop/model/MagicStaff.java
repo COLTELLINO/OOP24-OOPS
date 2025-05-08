@@ -85,14 +85,13 @@ public class MagicStaff extends Weapon {
     /**
      * Gestisce la collisione di un proiettile.
      * 
-     * @param projectile il proiettile da verificare
-     * @return true se il proiettile deve essere rimosso, false altrimenti
+     * @param projectile il proiettile da verificare.
      */
     public void handleCollision(final Projectile projectile) {
         explosionHitboxes.add(new Rectangle(
         projectile.getX() - (EXPLOSION_SIZE - PROJECTILE_SIZE) / 2,
         projectile.getY() - (EXPLOSION_SIZE - PROJECTILE_SIZE) / 2,
-        EXPLOSION_SIZE,EXPLOSION_SIZE));
+        EXPLOSION_SIZE, EXPLOSION_SIZE));
     }
 
     /**
@@ -184,7 +183,7 @@ public class MagicStaff extends Weapon {
      * removes the projectile from the list.
      * @param projectile the projectile to remove
      */
-    public void removeProjectile(Projectile projectile) {
+    public void removeProjectile(final Projectile projectile) {
         projectiles.remove(projectile);
     }
     /**
@@ -197,7 +196,7 @@ public class MagicStaff extends Weapon {
      * clears the explosion hitboxes.
      * @param explosionHitbox the explosion hitbox to remove
      */
-    public void removeExplosion(Rectangle explosionHitbox) {
+    public void removeExplosion(final Rectangle explosionHitbox) {
         explosionHitboxes.remove(explosionHitbox);
     }
 }

@@ -147,16 +147,16 @@ public class GameThreadImpl implements Runnable, GameThread {
                     collisionManager.handleWeaponCollision(enemies, weapon);
                 }
             } else if (weapon instanceof MagicStaff) {
-                final List<Projectile> projectiles = ((MagicStaff)weapon).getProjectiles();
+                final List<Projectile> projectiles = ((MagicStaff) weapon).getProjectiles();
                 for (final Projectile projectile : projectiles) {
                     for (final Enemy enemy : enemyManager.getSpawnedEnemies()) {
                         if (collisionManager.isColliding(projectile.getHitBox(), enemy.getHitbox())) {
-                            ((MagicStaff)weapon).handleCollision(projectile);
-                            ((MagicStaff)weapon).removeProjectile(projectile);
+                            ((MagicStaff) weapon).handleCollision(projectile);
+                            ((MagicStaff) weapon).removeProjectile(projectile);
                         }
                     }
                 }
-                for (final Rectangle rectangle : ((MagicStaff)weapon).getExplosionHitboxes()) {
+                for (final Rectangle rectangle : ((MagicStaff) weapon).getExplosionHitboxes()) {
                     final List<Enemy> enemies = new ArrayList<>();
                     for (final Enemy enemy : enemyManager.getSpawnedEnemies()) {
                         if (collisionManager.isColliding(rectangle, enemy.getHitbox())) {
@@ -164,7 +164,7 @@ public class GameThreadImpl implements Runnable, GameThread {
                         }
                     }
                     collisionManager.handleWeaponCollision(enemies, weapon);
-                    ((MagicStaff)weapon).removeExplosion(rectangle);
+                    ((MagicStaff) weapon).removeExplosion(rectangle);
                 }
             }
         }
