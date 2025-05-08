@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
 
@@ -23,8 +24,8 @@ public class MagicStaff extends Weapon {
     private static final int DAMAGE = 100;
     private static final double COOLDOWN = 80;
     private static final int SPEED = 3;
-    private static final int PROJECTILE_SIZE = 50;
-    private static final int EXPLOSION_SIZE = 100;
+    private static final int PROJECTILE_SIZE = 30;
+    private static final int EXPLOSION_SIZE = 200;
     private static final Logger LOGGER = Logger.getLogger(MagicStaff.class.getName());
 
     private double cooldown;
@@ -78,7 +79,6 @@ public class MagicStaff extends Weapon {
         }
 
         projectiles.forEach(Projectile::update);
-        projectiles.removeIf(this::handleCollision);
         projectiles.removeIf(Projectile::isOutOfBounds);
     }
 
@@ -88,19 +88,11 @@ public class MagicStaff extends Weapon {
      * @param projectile il proiettile da verificare
      * @return true se il proiettile deve essere rimosso, false altrimenti
      */
-    private boolean handleCollision(final Projectile projectile) {
-        final boolean hasCollided = false; // Temporaneo, manca la logica di collisione
-
-        if (hasCollided) {
-            explosionHitboxes.add(new Rectangle(
-                projectile.getX() - (EXPLOSION_SIZE - PROJECTILE_SIZE) / 2,
-                projectile.getY() - (EXPLOSION_SIZE - PROJECTILE_SIZE) / 2,
-                EXPLOSION_SIZE,
-                EXPLOSION_SIZE
-            ));
-            return true;
-        }
-        return false;
+    public void handleCollision(final Projectile projectile) {
+        explosionHitboxes.add(new Rectangle(
+        projectile.getX() - (EXPLOSION_SIZE - PROJECTILE_SIZE) / 2,
+        projectile.getY() - (EXPLOSION_SIZE - PROJECTILE_SIZE) / 2,
+        EXPLOSION_SIZE,EXPLOSION_SIZE));
     }
 
     /**
@@ -110,11 +102,8 @@ public class MagicStaff extends Weapon {
      */
     @Override
     public List<Rectangle> getHitBox() {
-        final List<Rectangle> hitboxes = new ArrayList<>();
-        for (final Projectile projectile : projectiles) {
-            hitboxes.add(new Rectangle(projectile.getX(), projectile.getY(), PROJECTILE_SIZE, PROJECTILE_SIZE));
-        }
-        return hitboxes;
+        return projectiles.stream().map(Projectile::getHitBox)
+        .collect(Collectors.toList());
     }
 
     /**
@@ -135,7 +124,7 @@ public class MagicStaff extends Weapon {
      * Shoots a projectile in the direction the player is facing.
      */
     private void shoot() {
-        projectiles.add(new Projectile(player.getX(), player.getY(), direction, SPEED));
+        projectiles.add(new Projectile(player.getX(), player.getY(), direction, SPEED, PROJECTILE_SIZE));
     }
 
     /**
@@ -190,5 +179,25 @@ public class MagicStaff extends Weapon {
     @Override
     public boolean isShowHitbox() {
         return showHitbox;
+    }
+    /**
+     * removes the projectile from the list.
+     * @param projectile the projectile to remove
+     */
+    public void removeProjectile(Projectile projectile) {
+        projectiles.remove(projectile);
+    }
+    /**
+     * @return the list of projectiles.
+     */
+    public List<Projectile> getProjectilesList() {
+        return projectiles;
+    }
+    /**
+     * clears the explosion hitboxes.
+     * @param explosionHitbox the explosion hitbox to remove
+     */
+    public void removeExplosion(Rectangle explosionHitbox) {
+        explosionHitboxes.remove(explosionHitbox);
     }
 }

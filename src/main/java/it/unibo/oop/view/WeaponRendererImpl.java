@@ -164,6 +164,19 @@ public final class WeaponRendererImpl implements WeaponRenderer {
         final Graphics2D g2d = (Graphics2D) g;
         final Image staffImage = staff.getStaffImage();
         final List<Projectile> projectiles = staff.getProjectiles();
+        final List<Rectangle> explosionHitBoxes = staff.getExplosionHitboxes();
+        final Image explosionImage;
+
+        try {
+            explosionImage = ImageIO.read(Objects.requireNonNull(
+                getClass().getClassLoader().getResource("Weapon/explosion.png"),
+                "Resource 'Weapon/explosion.png' not found."
+            ));
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Explosion image could not be loaded.", e);
+            return;
+        }
+
 
         for (final Projectile projectile : projectiles) {
             int drawX = projectile.getX();
@@ -185,19 +198,25 @@ public final class WeaponRendererImpl implements WeaponRenderer {
             transform.translate(drawX, drawY);
 
             switch (projectile.getDirection()) {
-                case Direction.RIGHT -> transform.rotate(ROTATION_RIGHT, 
-                staffImage.getWidth(null) / 2.0, staffImage.getHeight(null) / 2.0);
-                case Direction.LEFT -> transform.rotate(ROTATION_LEFT, 
-                staffImage.getWidth(null) / 2.0, staffImage.getHeight(null) / 2.0);
-                case Direction.UP -> transform.rotate(0, 
-                staffImage.getWidth(null) / 2.0, staffImage.getHeight(null) / 2.0);
-                case Direction.DOWN -> transform.rotate(ROTATION_RIGHT * 2, 
-                staffImage.getWidth(null) / 2.0, staffImage.getHeight(null) / 2.0);
+                case RIGHT -> transform.rotate(ROTATION_RIGHT, 
+                    staffImage.getWidth(null) / 2.0, staffImage.getHeight(null) / 2.0);
+                case LEFT -> transform.rotate(ROTATION_LEFT, 
+                    staffImage.getWidth(null) / 2.0, staffImage.getHeight(null) / 2.0);
+                case UP -> transform.rotate(0, 
+                    staffImage.getWidth(null) / 2.0, staffImage.getHeight(null) / 2.0);
+                case DOWN -> transform.rotate(ROTATION_RIGHT * 2, 
+                    staffImage.getWidth(null) / 2.0, staffImage.getHeight(null) / 2.0);
                 default -> { }
             }
 
             transform.scale(SCALE, SCALE);
             g2d.drawImage(staffImage, transform, null);
+        }
+
+        for (final Rectangle hitbox : explosionHitBoxes) {
+            if (hitbox != null) {
+                g2d.drawImage(explosionImage, hitbox.x, hitbox.y, hitbox.width, hitbox.height, null);
+            }
         }
     }
 

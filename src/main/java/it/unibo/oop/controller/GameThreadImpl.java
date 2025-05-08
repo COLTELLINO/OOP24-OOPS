@@ -18,8 +18,10 @@ import it.unibo.oop.model.Entity;
 import it.unibo.oop.model.ExperienceManager;
 import it.unibo.oop.model.ExperienceManagerImpl;
 import it.unibo.oop.model.InputHandler;
+import it.unibo.oop.model.MagicStaff;
 import it.unibo.oop.model.Percentage;
 import it.unibo.oop.model.Player;
+import it.unibo.oop.model.Projectile;
 import it.unibo.oop.model.Sword;
 import it.unibo.oop.model.Timer;
 import it.unibo.oop.model.TimerImpl;
@@ -143,6 +145,26 @@ public class GameThreadImpl implements Runnable, GameThread {
                         }
                     }
                     collisionManager.handleWeaponCollision(enemies, weapon);
+                }
+            } else if (weapon instanceof MagicStaff) {
+                final List<Projectile> projectiles = ((MagicStaff)weapon).getProjectiles();
+                for (final Projectile projectile : projectiles) {
+                    for (final Enemy enemy : enemyManager.getSpawnedEnemies()) {
+                        if (collisionManager.isColliding(projectile.getHitBox(), enemy.getHitbox())) {
+                            ((MagicStaff)weapon).handleCollision(projectile);
+                            ((MagicStaff)weapon).removeProjectile(projectile);
+                        }
+                    }
+                }
+                for (final Rectangle rectangle : ((MagicStaff)weapon).getExplosionHitboxes()) {
+                    final List<Enemy> enemies = new ArrayList<>();
+                    for (final Enemy enemy : enemyManager.getSpawnedEnemies()) {
+                        if (collisionManager.isColliding(rectangle, enemy.getHitbox())) {
+                            enemies.add(enemy);
+                        }
+                    }
+                    collisionManager.handleWeaponCollision(enemies, weapon);
+                    ((MagicStaff)weapon).removeExplosion(rectangle);
                 }
             }
         }

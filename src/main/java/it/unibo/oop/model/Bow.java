@@ -3,6 +3,7 @@ package it.unibo.oop.model;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -66,30 +67,15 @@ public class Bow extends Weapon {
      */
     @Override
     public List<Rectangle> getHitBox() {
-        final List<Rectangle> hitboxes = new ArrayList<>();
-        for (final Projectile projectile : projectiles) {
-            if (projectile.getDirection() == Direction.RIGHT) {
-                hitboxes.add(new Rectangle(projectile.getX() + PROJECTILE_SIZE * 2, projectile.getY() 
-                + PROJECTILE_SIZE / 3, PROJECTILE_SIZE, PROJECTILE_SIZE));
-            } else if (projectile.getDirection() == Direction.LEFT) {
-                hitboxes.add(new Rectangle(projectile.getX() - PROJECTILE_SIZE - PROJECTILE_SIZE / 2, projectile.getY() 
-                + PROJECTILE_SIZE / 3, PROJECTILE_SIZE, PROJECTILE_SIZE));
-            } else if (projectile.getDirection() == Direction.UP) {
-                hitboxes.add(new Rectangle(projectile.getX() + PROJECTILE_SIZE / 3, projectile.getY() 
-                - PROJECTILE_SIZE - PROJECTILE_SIZE / 2, PROJECTILE_SIZE, PROJECTILE_SIZE));
-            } else if (projectile.getDirection() == Direction.DOWN) {
-                hitboxes.add(new Rectangle(projectile.getX() + PROJECTILE_SIZE / 3, projectile.getY() 
-                + PROJECTILE_SIZE * 2, PROJECTILE_SIZE, PROJECTILE_SIZE));
-            }
-        }
-        return hitboxes;
+        return projectiles.stream().map(Projectile::getHitBox)
+        .collect(Collectors.toList());
     }
 
     /**
      * Shoots a projectile in the direction the player is facing.
      */
     private void shoot() {
-        projectiles.add(new Projectile(player.getX(), player.getY(), direction, SPEED));
+        projectiles.add(new Projectile(player.getX(), player.getY(), direction, SPEED, PROJECTILE_SIZE));
     }
 
     /**
