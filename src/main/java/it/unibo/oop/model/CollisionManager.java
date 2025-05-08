@@ -17,9 +17,9 @@ public interface CollisionManager {
 
     /**
      * Handle collision between two objects.
-     * @param h1 the first object
-     * @param h2 the second object
+     * @param enemies the enemy list
+     * @param weapon the weapon
      */
-    void handleWeaponCollision(final List<Enemy> enemies, final Weapon weapon);
+    void handleWeaponCollision(List<Enemy> enemies, Weapon weapon);
 
 }

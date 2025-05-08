@@ -27,4 +27,4 @@ public abstract class Weapon {
      * @return the weapon's hitbox.
      */
     public abstract List<Rectangle> getHitBox();
-}   
+}

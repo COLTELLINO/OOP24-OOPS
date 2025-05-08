@@ -2,9 +2,13 @@ package it.unibo.oop.model;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
     /**
      * 
      */
+@SuppressFBWarnings(value = {"EI"}, 
+justification = "The hitbox of the entity is needed to check for collisions")
     public abstract class Entity {
     private int x, y;         // Posizione
     private int maxHealth;    // Salute Massima

@@ -21,7 +21,7 @@ justification = "To position the weapon, the player size and position are needed
 public class Sword extends Weapon {
 
 
-    private final int damage = 200;
+    private static final int DAMAGE = 200;
     private static final double DURATION = 30;
     private static final double COOLDOWN = 60;
     private static final int SIZE = 70;
@@ -59,8 +59,9 @@ public class Sword extends Weapon {
      * 
      * @return the hitbox of the sword
      */
+    @Override
     public List<Rectangle> getHitBox() {
-        List<Rectangle> hitbox = new ArrayList<>();
+        final List<Rectangle> hitbox = new ArrayList<>();
         if (!active) {
             return List.of();
         }
@@ -123,6 +124,7 @@ public class Sword extends Weapon {
      * 
      * @return the player
      */
+    @Override
     public Player getPlayer() {
         return player;
     }
@@ -143,7 +145,7 @@ public class Sword extends Weapon {
      */
     public Image getSwordImage() {
         return swordImage;
-    }    
+    }
     /**
      * @return the sword's level.
      */
@@ -156,6 +158,6 @@ public class Sword extends Weapon {
      */
     @Override
     public int getDamage() {
-        return this.damage;
+        return DAMAGE;
     }
 }

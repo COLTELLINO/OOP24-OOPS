@@ -3,7 +3,6 @@ package it.unibo.oop.controller;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import it.unibo.oop.model.AudioHandler;
 import it.unibo.oop.model.AudioHandlerImpl;
@@ -114,19 +113,19 @@ public class GameThreadImpl implements Runnable, GameThread {
             enemyManager.update();
         }
         this.window.repaint();
-        
+
         checkCollisions();
     }
     /**
      * Checks for collisions between the player and enemies.
      */
     private void checkCollisions() {
-        for (Weapon weapon : weaponManager.getWeapons().keySet()) {
-            List<Enemy> enemies = new ArrayList<>();
-            for (Enemy enemy : enemyManager.getSpawnedEnemies()) {
-                for (Rectangle rectangle : weapon.getHitBox()) {
+        for (final Weapon weapon : weaponManager.getWeapons().keySet()) {
+            final List<Enemy> enemies = new ArrayList<>();
+            for (final Enemy enemy : enemyManager.getSpawnedEnemies()) {
+                for (final Rectangle rectangle : weapon.getHitBox()) {
                     if (collisionManager.isColliding(rectangle, enemy.getHitbox())) {
-                    enemies.add(enemy);
+                        enemies.add(enemy);
                     }
                 }
             collisionManager.handleWeaponCollision(enemies, weapon);

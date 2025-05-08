@@ -58,7 +58,7 @@ public final class WeaponRendererImpl implements WeaponRenderer {
         }
 
         if (!(g instanceof Graphics2D)) {
-            LOGGER.log(Level.WARNING, "Graphics object is not an instance of Graphics2D.");
+            LOGGER.log(Level.WARNING, "Graphics object is not instance of Graphics2D.");
             return;
         }
 
@@ -229,6 +229,7 @@ public final class WeaponRendererImpl implements WeaponRenderer {
      * @param g the graphics context
      * @param weapons the list of weapons to draw hitboxes for
      */
+    @Override
     public void drawWeaponHitboxes(final Graphics g, final Map<Weapon, Integer> weapons) {
         if (!(g instanceof Graphics2D)) {
             LOGGER.log(Level.WARNING, "Graphics object is not an instance of Graphics2D.");
@@ -241,8 +242,7 @@ public final class WeaponRendererImpl implements WeaponRenderer {
         for (final Map.Entry<Weapon, Integer> entry : weapons.entrySet()) {
             final Weapon weapon = entry.getKey();
             final List<Rectangle> hitboxes = weapon.getHitBox();
-
-            for (Rectangle rectangle : hitboxes) {
+            for (final Rectangle rectangle : hitboxes) {
                 if (rectangle != null) {
                     g2d.draw(rectangle);
                 }

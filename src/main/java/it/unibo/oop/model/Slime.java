@@ -38,11 +38,4 @@ public class Slime extends Enemy {
     public String getEnemyName() {
         return this.getClass().getSimpleName();
     }
-    /**
-     * Updates current enemy.
-     */
-    @Override
-    public void update() {
-        super.update();
-    }
 }
