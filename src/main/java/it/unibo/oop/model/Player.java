@@ -131,11 +131,15 @@ public class Player extends Entity {
         g.setColor(Color.GREEN);
         g.fillRect(getX(), getY(), getSize(), getSize());
     }
-
+    /**
+     * @return the current amount of XP.
+     */
     public int getCurrentXP() {
         return this.xp;
     }
-    
+    /**
+     * @return the XP necessary for the next level.
+     */
     public int getXPToNextLevel() {
         return 100 + (level * 20); // oppure solo 100 se vuoi che sia sempre uguale
     }
