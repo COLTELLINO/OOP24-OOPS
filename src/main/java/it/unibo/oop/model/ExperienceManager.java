@@ -6,6 +6,12 @@ import java.util.List;
  * Interface for managing experience orbs and player experience.
  */
 public interface ExperienceManager {
+    /** 
+     * To access player XP directly from GamePanel
+     */
+    int getCurrentXP();
+    int getXPToNextLevel();
+
     /**
      * Updates the state of experience orbs.
      */

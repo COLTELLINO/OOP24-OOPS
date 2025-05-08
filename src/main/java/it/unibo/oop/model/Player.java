@@ -55,7 +55,8 @@ public class Player extends Entity {
      */
     public void addXp(final int xp) {
         this.xp += xp;
-        if (this.xp >= 100) {
+        while (this.xp >= getXPToNextLevel()){
+            this.xp -= getXPToNextLevel();
             levelUp();
         }
     }
@@ -129,5 +130,13 @@ public class Player extends Entity {
     public void draw(final Graphics2D g) {
         g.setColor(Color.GREEN);
         g.fillRect(getX(), getY(), getSize(), getSize());
+    }
+
+    public int getCurrentXP() {
+        return this.xp;
+    }
+    
+    public int getXPToNextLevel() {
+        return 100 + (level * 20); // oppure solo 100 se vuoi che sia sempre uguale
     }
 }

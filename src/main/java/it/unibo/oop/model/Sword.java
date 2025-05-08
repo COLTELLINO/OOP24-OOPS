@@ -39,8 +39,10 @@ public class Sword extends Weapon {
         this.active = false;
         this.player = player;
         try {
+            System.out.println("Loading Sword.png: " + ClassLoader.getSystemResource("Weapon/Sword.png"));
+
             this.swordImage = ImageIO.read(Objects.requireNonNull(
-                getClass().getClassLoader().getResource("Weapon/Sword.png"),
+                getClass().getClassLoader().getResource("/Weapon/Sword.png"),
                 "Resource 'Weapon/Sword.png' not found."
             ));
         } catch (IOException e) {
