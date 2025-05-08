@@ -14,8 +14,8 @@ justification = "To position the weapon, the player size and position are needed
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
 public class Bow extends Weapon {
     private static final int DAMAGE = 50;
-    private static final double COOLDOWN = 40;
-    private static final int SPEED = 10;
+    private static final double COOLDOWN = 100;
+    private static final int SPEED = 1;
     private static final int PROJECTILE_SIZE = 30;
 
     private double cooldown;
@@ -68,7 +68,19 @@ public class Bow extends Weapon {
     public List<Rectangle> getHitBox() {
         final List<Rectangle> hitboxes = new ArrayList<>();
         for (final Projectile projectile : projectiles) {
-            hitboxes.add(new Rectangle(projectile.getX(), projectile.getY(), PROJECTILE_SIZE, PROJECTILE_SIZE));
+            if (projectile.getDirection() == Direction.RIGHT) {
+                hitboxes.add(new Rectangle(projectile.getX() + PROJECTILE_SIZE * 2, projectile.getY() 
+                + PROJECTILE_SIZE / 3, PROJECTILE_SIZE, PROJECTILE_SIZE));
+            } else if (projectile.getDirection() == Direction.LEFT) {
+                hitboxes.add(new Rectangle(projectile.getX() - PROJECTILE_SIZE - PROJECTILE_SIZE / 2, projectile.getY() 
+                + PROJECTILE_SIZE / 3, PROJECTILE_SIZE, PROJECTILE_SIZE));
+            } else if (projectile.getDirection() == Direction.UP) {
+                hitboxes.add(new Rectangle(projectile.getX() + PROJECTILE_SIZE / 3, projectile.getY() 
+                - PROJECTILE_SIZE - PROJECTILE_SIZE / 2, PROJECTILE_SIZE, PROJECTILE_SIZE));
+            } else if (projectile.getDirection() == Direction.DOWN) {
+                hitboxes.add(new Rectangle(projectile.getX() + PROJECTILE_SIZE / 3, projectile.getY() 
+                + PROJECTILE_SIZE * 2, PROJECTILE_SIZE, PROJECTILE_SIZE));
+            }
         }
         return hitboxes;
     }

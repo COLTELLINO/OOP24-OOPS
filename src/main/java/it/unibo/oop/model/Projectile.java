@@ -4,7 +4,7 @@ package it.unibo.oop.model;
  * Represents a projectile shot by a weapon.
  */
 public class Projectile {
-    private static final int BOUNDS = 800;
+    private static final int BOUNDS = 6000;
     private final int speed;
     private int x;
     private int y;

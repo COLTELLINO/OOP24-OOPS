@@ -6,6 +6,7 @@ import java.util.List;
 
 import it.unibo.oop.model.AudioHandler;
 import it.unibo.oop.model.AudioHandlerImpl;
+import it.unibo.oop.model.Bow;
 import it.unibo.oop.model.CollisionManager;
 import it.unibo.oop.model.CollisionManagerImpl;
 import it.unibo.oop.model.Enemy;
@@ -19,6 +20,7 @@ import it.unibo.oop.model.ExperienceManagerImpl;
 import it.unibo.oop.model.InputHandler;
 import it.unibo.oop.model.Percentage;
 import it.unibo.oop.model.Player;
+import it.unibo.oop.model.Sword;
 import it.unibo.oop.model.Timer;
 import it.unibo.oop.model.TimerImpl;
 import it.unibo.oop.model.Weapon;
@@ -122,14 +124,26 @@ public class GameThreadImpl implements Runnable, GameThread {
     private void checkCollisions() {
         System.out.println(enemyManager.getSpawnedEnemies().size());
         for (final Weapon weapon : weaponManager.getWeapons().keySet()) {
-            final List<Enemy> enemies = new ArrayList<>();
-            for (final Enemy enemy : enemyManager.getSpawnedEnemies()) {
-                for (final Rectangle rectangle : weapon.getHitBox()) {
-                    if (collisionManager.isColliding(rectangle, enemy.getHitbox())) {
-                        enemies.add(enemy);
+            if (weapon instanceof Sword) {
+                final List<Enemy> enemies = new ArrayList<>();
+                for (final Enemy enemy : enemyManager.getSpawnedEnemies()) {
+                    for (final Rectangle rectangle : weapon.getHitBox()) {
+                        if (collisionManager.isColliding(rectangle, enemy.getHitbox())) {
+                            enemies.add(enemy);
+                        }
                     }
+                collisionManager.handleWeaponCollision(enemies, weapon);
                 }
-            collisionManager.handleWeaponCollision(enemies, weapon);
+            } else if (weapon instanceof Bow) {
+                for (final Rectangle rectangle : weapon.getHitBox()) {
+                    final List<Enemy> enemies = new ArrayList<>();
+                    for (final Enemy enemy : enemyManager.getSpawnedEnemies()) {
+                        if (collisionManager.isColliding(rectangle, enemy.getHitbox())) {
+                            enemies.add(enemy);
+                        }
+                    }
+                    collisionManager.handleWeaponCollision(enemies, weapon);
+                }
             }
         }
     }
