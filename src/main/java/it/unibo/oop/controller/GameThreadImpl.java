@@ -1,10 +1,13 @@
 package it.unibo.oop.controller;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
 import it.unibo.oop.model.AudioHandler;
 import it.unibo.oop.model.AudioHandlerImpl;
+import it.unibo.oop.model.CollisionManager;
+import it.unibo.oop.model.CollisionManagerImpl;
 import it.unibo.oop.model.Enemy;
 import it.unibo.oop.model.EnemyFactory;
 import it.unibo.oop.model.EnemyFactoryImpl;
@@ -18,6 +21,7 @@ import it.unibo.oop.model.Percentage;
 import it.unibo.oop.model.Player;
 import it.unibo.oop.model.Timer;
 import it.unibo.oop.model.TimerImpl;
+import it.unibo.oop.model.Weapon;
 import it.unibo.oop.model.WeaponManager;
 import it.unibo.oop.model.WeaponManagerImpl;
 import it.unibo.oop.view.DrawView;
@@ -46,6 +50,7 @@ public class GameThreadImpl implements Runnable, GameThread {
     private final EnemyFactory enemyFactory = new EnemyFactoryImpl();
     private final WeaponManager weaponManager = new WeaponManagerImpl(player);
     private final ExperienceManager experienceManager = new ExperienceManagerImpl(player);
+    private final CollisionManager collisionManager = new CollisionManagerImpl();
     private final AudioHandler audioHandler = new AudioHandlerImpl();
     private final DrawViewFactory drawViewFactory = new DrawViewFactoryImpl();
     private final DrawView window;
@@ -114,7 +119,6 @@ public class GameThreadImpl implements Runnable, GameThread {
      * Checks for collisions between the player and enemies.
      */
     private void checkCollisions() {
-        System.out.println(enemyManager.getSpawnedEnemies().size());
         for (final Weapon weapon : weaponManager.getWeapons().keySet()) {
             final List<Enemy> enemies = new ArrayList<>();
             for (final Enemy enemy : enemyManager.getSpawnedEnemies()) {

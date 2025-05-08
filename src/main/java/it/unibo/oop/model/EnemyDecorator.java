@@ -62,9 +62,7 @@ public abstract class EnemyDecorator extends Enemy {
      */
     @Override
     public int getHealth() {
-        System.out.println(getEnemyName());
         return super.getHealth();
-        //return decoratedEnemy.getHealth();
     }
     /**
      * @return the Entity's attack value
