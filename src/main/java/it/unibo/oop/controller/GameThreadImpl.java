@@ -102,12 +102,30 @@ public class GameThreadImpl implements Runnable, GameThread {
         if (this.window.getCurrentGameState() == GameState.PLAYSTATE) {
             getAllEntities().forEach((e) -> e.setShowHitbox(inputHandler.isDebugMode()));
             this.spawnEnemies();
+            checkCollisions();
             weaponManager.update();
             experienceManager.update();
             player.update();
             enemyManager.update();
         }
         this.window.repaint();
+    }
+    /**
+     * Checks for collisions between the player and enemies.
+     */
+    private void checkCollisions() {
+        System.out.println(enemyManager.getSpawnedEnemies().size());
+        for (final Weapon weapon : weaponManager.getWeapons().keySet()) {
+            final List<Enemy> enemies = new ArrayList<>();
+            for (final Enemy enemy : enemyManager.getSpawnedEnemies()) {
+                for (final Rectangle rectangle : weapon.getHitBox()) {
+                    if (collisionManager.isColliding(rectangle, enemy.getHitbox())) {
+                        enemies.add(enemy);
+                    }
+                }
+            collisionManager.handleWeaponCollision(enemies, weapon);
+            }
+        }
     }
     /**
      * Handles the spawning of enemies.

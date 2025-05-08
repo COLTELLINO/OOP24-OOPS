@@ -1,5 +1,22 @@
 package it.unibo.oop.model;
 
-public abstract class Accessory {
+/**
+ * Abstract class representing an accessory.
+ */
+public abstract class Accessory extends Upgrade {
+
+    /**
+     * Constructs an Accessory.
+     * 
+     * @param player the player associated with this accessory
+     */
+    public Accessory(final Player player) {
+        super(player);
+    }
+
+    /**
+     * Updates the accessory.
+     */
+    @Override
     public abstract void update();
 }

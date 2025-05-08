@@ -1,5 +1,7 @@
 package it.unibo.oop.model;
 
+import java.awt.Rectangle;
+
 import it.unibo.oop.controller.GameThreadImpl.EnemyObserver;
 
 /**
@@ -94,11 +96,17 @@ public abstract class EnemyDecorator extends Enemy {
         return decoratedEnemy.isAlive();
     }
     /**
+     * @return the Entity's hitbox.
+     */
+    public Rectangle getHitbox() {
+        return decoratedEnemy.getHitbox();
+    }
+    /**
      * @return if the hitboxes are shown
      */
     @Override
-    public boolean isShowHitbox() {
-        return decoratedEnemy.isShowHitbox();
+    public boolean isHitboxShowed() {
+        return decoratedEnemy.isHitboxShowed();
     }
     /**
      * @return the scaling of the enemy size.

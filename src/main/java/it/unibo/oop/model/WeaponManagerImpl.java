@@ -16,8 +16,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 justification = "Every weapon needs a player, so this class has to pass it on. " 
         + "and while it's not necessary for player to be externally mutable for this class, it has to be for others.")
 public class WeaponManagerImpl implements WeaponManager {
-    private final Map<Weapon, Integer> weapons;
-    private final List<Weapon> weaponPool;
+    private final Map<Upgrade, Integer> upgrades;
+    private final List<Upgrade> upgradePool;
     private final Player player;
     private final Random random;
     private static final int MAX_LEVEL = 5;
@@ -28,8 +28,8 @@ public class WeaponManagerImpl implements WeaponManager {
      * @param player the player associated with the weapons
      */
     public WeaponManagerImpl(final Player player) {
-        this.weapons = new HashMap<>();
-        this.weaponPool = new ArrayList<>();
+        this.upgrades = new HashMap<>();
+        this.upgradePool = new ArrayList<>();
         this.player = player;
         this.random = new Random();
 
@@ -40,10 +40,11 @@ public class WeaponManagerImpl implements WeaponManager {
      * Initializes the weapon pool with all available weapons.
      */
     private void initializeWeaponPool() {
-        weapons.put(new Sword(player), 1);
-        weaponPool.add(new Sword(player));
-        weaponPool.add(new Bow(player));
-        weaponPool.add(new MagicStaff(player));
+        upgrades.put(new Sword(player), 1);
+        upgradePool.add(new Sword(player));
+        upgradePool.add(new Bow(player));
+        upgradePool.add(new MagicStaff(player));
+        upgradePool.add(new Shield(player));
         // Add other weapon types here
     }
 
@@ -52,13 +53,13 @@ public class WeaponManagerImpl implements WeaponManager {
      */
     @Override
     public void update() {
-        for (final Weapon weapon : weapons.keySet()) {
-            weapon.update();
+        for (final Upgrade upgrade : upgrades.keySet()) {
+            upgrade.update();
         }
 
-        weapons.forEach((weapon, level) -> {
+        upgrades.forEach((upgrade, level) -> {
             if (level >= MAX_LEVEL) {
-                weaponPool.remove(weapon);
+                upgrades.remove(upgrade);
             }
         });
     }
@@ -70,40 +71,46 @@ public class WeaponManagerImpl implements WeaponManager {
      */
     @Override
     public Map<Weapon, Integer> getWeapons() {
+        final Map<Weapon, Integer> weapons = new HashMap<>();
+        upgrades.forEach((upgrade, level) -> {
+            if (upgrade instanceof Weapon) {
+                weapons.put((Weapon) upgrade, level);
+            }
+        });
         return Collections.unmodifiableMap(weapons);
     }
 
     /**
-     * Returns 3 random weapons from the weapon pool for the player to choose from.
+     * Returns 3 random upgrades from the upgrade pool for the player to choose from.
      * 
-     * @return a list of 3 random weapons
+     * @return a list of 3 random upgrades
      */
     @Override
-    public List<Weapon> getRandomWeaponsToChoose() {
-        if (weaponPool.size() < 3) {
+    public List<Upgrade> getRandomUpgradesToChoose() {
+        if (upgradePool.size() < 3) {
             throw new IllegalStateException("Not enough weapons in the pool to choose from.");
         }
 
-        final List<Weapon> shuffledPool = new ArrayList<>(weaponPool);
+        final List<Upgrade> shuffledPool = new ArrayList<>(upgradePool);
         Collections.shuffle(shuffledPool, random);
         return shuffledPool.subList(0, 3);
     }
 
     /**
-     * Adds the chosen weapon to the player's weapon map or increases its level if already owned.
+     * Adds the chosen upgrade to the player's upgrade map or increases its level if already owned.
      * 
-     * @param chosenWeapon the weapon chosen by the player
+     * @param chosenUpgrade the upgrade chosen by the player
      */
     @Override
-    public void addChosenWeapon(final Weapon chosenWeapon) {
-        if (!weaponPool.contains(chosenWeapon)) {
+    public void addChosenUpgrade(final Upgrade chosenUpgrade) {
+        if (!upgradePool.contains(chosenUpgrade)) {
             throw new IllegalArgumentException("The chosen weapon is not in the weapon pool.");
         }
-        if (weapons.containsKey(chosenWeapon)) {
-            final int currentLevel = weapons.get(chosenWeapon);
-            weapons.put(chosenWeapon, currentLevel + 1);
+        if (upgrades.containsKey(chosenUpgrade)) {
+            final int currentLevel = upgrades.get(chosenUpgrade);
+            upgrades.put(chosenUpgrade, currentLevel + 1);
         } else {
-            weapons.put(chosenWeapon, 1);
+            upgrades.put(chosenUpgrade, 1);
         }
     }
 }

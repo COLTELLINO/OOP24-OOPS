@@ -13,7 +13,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 justification = "To position the weapon, the player size and position are needed, "
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
 public class Bow extends Weapon {
-    private final int damage = 50;
+    private static final int DAMAGE = 50;
     private static final double COOLDOWN = 40;
     private static final int SPEED = 10;
     private static final int PROJECTILE_SIZE = 30;
@@ -30,6 +30,7 @@ public class Bow extends Weapon {
      * @param player the player associated with the bow
      */
     public Bow(final Player player) {
+        super(player);
         this.player = player;
         this.cooldown = 0;
         this.projectiles = new ArrayList<>();
@@ -86,19 +87,25 @@ public class Bow extends Weapon {
     public List<Projectile> getProjectiles() {
         return new ArrayList<>(projectiles);
     }
-
+    /**
+     * @return the player associated with the bow.
+     */
     @Override
     public Player getPlayer() {
         return this.player;
     }
-
+    /**
+     * @return the level of the bow.
+     */
     @Override
     public int getLevel() {
         return 1;
     }
-
+    /**
+     * @return the damage of the bow.
+     */
     @Override
     public int getDamage() {
-        return this.damage;
+        return DAMAGE;
     }
 }

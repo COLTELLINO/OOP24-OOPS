@@ -18,6 +18,7 @@ public class Shield extends Accessory {
      * @param player the player associated with this shield
      */
     public Shield(final Player player) {
+        super(player);
         this.player = player;
     }
 

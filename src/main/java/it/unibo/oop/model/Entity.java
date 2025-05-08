@@ -2,9 +2,13 @@ package it.unibo.oop.model;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
     /**
      * 
      */
+@SuppressFBWarnings(value = {"EI"}, 
+justification = "The hitbox of the entity is needed to check for collisions")
     public abstract class Entity {
     private int x, y;         // Posizione
     private int maxHealth;    // Salute Massima
@@ -95,9 +99,15 @@ import java.awt.Rectangle;
         return isAlive;
     }
     /**
+     * @return the Entity's hitbox.
+     */
+    public Rectangle getHitbox() {
+        return hitBox;
+    }
+    /**
      * @return if the hitboxes are showed. 
      */
-    public boolean isShowHitbox() {
+    public boolean isHitboxShowed() {
         return showHitbox;
     }
     // Setter per la salute e altre variabili, se necessario
@@ -176,11 +186,5 @@ import java.awt.Rectangle;
      */
     private void setHitbox(final int x, final int y, final int width, final int height) {
         this.hitBox = new Rectangle(x, y, width, height);
-    }
-    /**
-     * @return the Entity's hitbox.
-     */
-    public Rectangle getHitbox() {
-        return hitBox;
     }
 }

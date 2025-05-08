@@ -6,19 +6,14 @@ import java.util.List;
 /**
 * Abstract class representing a weapon in the game.
 */
-public abstract class Weapon {
+public abstract class Weapon extends Upgrade {
     /**
-     * Updates the Item.
+     * Constructor for the Weapon class.
+     * @param player the player who owns the weapon.
      */
-    public abstract void update();
-    /**
-     * @return the weapon's player.
-     */
-    public abstract Player getPlayer();
-    /**
-     * @return the weapon's level.
-     */
-    public abstract int getLevel();
+    public Weapon(final Player player) {
+        super(player);
+    }
     /**
      * @return the weapon's damage.
      */
@@ -27,4 +22,4 @@ public abstract class Weapon {
      * @return the weapon's hitbox.
      */
     public abstract List<Rectangle> getHitBox();
-}   
+}

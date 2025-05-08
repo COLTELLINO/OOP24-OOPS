@@ -20,13 +20,13 @@ public class CollisionManagerImpl implements CollisionManager {
 
     /**
      * Handle collision between two objects.
-     * @param h1 the first object
-     * @param h2 the second object
+     * @param enemies the enemy list
+     * @param weapon the weapon
      */
     @Override
     public void handleWeaponCollision(final List<Enemy> enemies, final Weapon weapon) {
         if (weapon instanceof Sword) {
-            for (Enemy enemy : enemies) {
+            for (final Enemy enemy : enemies) {
                 enemy.setHealth(enemy.getHealth() - weapon.getDamage());
             }
         }
