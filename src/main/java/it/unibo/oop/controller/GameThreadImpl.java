@@ -124,7 +124,7 @@ public class GameThreadImpl implements Runnable, GameThread {
      * Checks for collisions between the player and enemies.
      */
     private void checkCollisions() {
-        System.out.println(enemyManager.getSpawnedEnemies().size());
+        //System.out.println(enemyManager.getSpawnedEnemies().size());
         for (final Weapon weapon : weaponManager.getWeapons().keySet()) {
             if (weapon instanceof Sword) {
                 final List<Enemy> enemies = new ArrayList<>();
@@ -150,7 +150,7 @@ public class GameThreadImpl implements Runnable, GameThread {
                 final List<Projectile> projectiles = ((MagicStaff) weapon).getProjectiles();
                 for (final Projectile projectile : projectiles) {
                     for (final Enemy enemy : enemyManager.getSpawnedEnemies()) {
-                        if (collisionManager.isColliding(projectile.getHitBox(), enemy.getHitbox())) {
+                        if (collisionManager.isColliding(projectile.getProjectileHitBox(), enemy.getHitbox())) {
                             ((MagicStaff) weapon).handleCollision(projectile);
                             ((MagicStaff) weapon).removeProjectile(projectile);
                         }

@@ -80,7 +80,7 @@ public class Projectile {
      * 
      * @return the hitbox as a Rectangle
      */
-    public Rectangle getHitBox() {
+    public Rectangle getProjectileHitBox() {
         switch (direction) {
             case UP -> {
                 return new Rectangle(x + size / 3, y - size - size / 2, size, size);

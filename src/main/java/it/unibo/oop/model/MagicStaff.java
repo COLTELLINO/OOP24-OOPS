@@ -101,7 +101,7 @@ public class MagicStaff extends Weapon {
      */
     @Override
     public List<Rectangle> getHitBox() {
-        return projectiles.stream().map(Projectile::getHitBox)
+        return projectiles.stream().map(Projectile::getProjectileHitBox)
         .collect(Collectors.toList());
     }
 
