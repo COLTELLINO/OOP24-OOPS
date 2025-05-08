@@ -9,6 +9,11 @@ public class Skull extends Enemy {
     private static final int BASE_ATTACK = 5;
     private static final int BASE_SPEED = 1;
     private static final int BASE_SIZE = 32;
+    private static final int MIN_PLAYER_DISTANCE = 100;
+    //private static final int PROJECTILE_SPEED = 2;
+    //private final Projectile projectile = new Projectile(getX(), getY(), getOppositeDirection(), PROJECTILE_SPEED);
+    private final CountDownTimer countDownTimer = new CountDownTimer(60);
+
     /**
      * @param x
      * @param y
@@ -44,7 +49,26 @@ public class Skull extends Enemy {
      */
     @Override
     public void update() {
-        super.update();
-        setAttacking(true);
+        super.onDeath();
+        if (!isAttacking()) {
+            if (getPlayerDistance() > MIN_PLAYER_DISTANCE) {
+                super.move();
+            } else {
+                setAttacking(true);
+            }
+        } else {
+            attacking();
+        }
+    }
+    /**
+     * Executes the enemy attack.
+     */
+    private void attacking() {
+        if (!countDownTimer.isRunning()) {
+            countDownTimer.reset();
+        } else {
+            countDownTimer.tick();
+        }
+        setAttacking(false);
     }
 }

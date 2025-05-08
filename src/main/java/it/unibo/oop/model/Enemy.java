@@ -43,10 +43,14 @@ public abstract class Enemy extends Entity {
      * Updates the current enemy.
      */
     @Override
-    public void update() {
-        if (getHealth() <= 0) {
-            this.onDeath();
-        }
+    protected void update() {
+        this.onDeath();
+        move();
+    }
+    /**
+     * 
+     */
+    protected void move() {
         final int playerCenterX = player.getX() + player.getSize() / 2;
         final int playerCenterY = player.getY() + player.getSize() / 2;
         for (int i = 0; i < getSpeed(); i++) {
@@ -72,9 +76,18 @@ public abstract class Enemy extends Entity {
         }
     }
     /**
+     * @return the euclidean distance between the enemy and the player. 
+     */
+    protected int getPlayerDistance() {
+        final int xDistance = player.getX() + (player.getSize() / 2) - this.getX() + this.getSize() / 2;
+        final int yDistance = player.getY() + (player.getSize() / 2) - this.getY() + this.getSize() / 2;
+        return (int) Math.sqrt(xDistance * xDistance + yDistance * yDistance);
+    }
+    /**
      * Handles what happens when the enemy dies.
      */
     protected void onDeath() {
+        if (getHealth() <= 0) {
             this.setAttack(0);
             setIsDying(true);
             if (this.blinkCounter <= MAX_BLINKS) {
@@ -83,6 +96,7 @@ public abstract class Enemy extends Entity {
                 setAlive(false);
                 this.observerOnDeathAction();
             }
+        }
     }
     /**
      * If an observer is present, trigger its action.
@@ -95,6 +109,20 @@ public abstract class Enemy extends Entity {
      */
     public Direction getDirection() {
         return this.direction;
+    }
+    /**
+     * @return the direction of the enemy.
+     */
+    public Direction getOppositeDirection() {
+        if (this.direction == Direction.UP) {
+            return Direction.DOWN;
+        } else if (this.direction == Direction.RIGHT) {
+            return Direction.LEFT;
+        } else if (this.direction == Direction.DOWN) {
+            return Direction.UP;
+        } else {
+            return Direction.RIGHT;
+        }
     }
     /**
      * @return if the enemy is attacking and needs to change its animation.
