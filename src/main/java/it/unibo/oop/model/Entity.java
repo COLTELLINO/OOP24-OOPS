@@ -99,9 +99,15 @@ justification = "The hitbox of the entity is needed to check for collisions")
         return isAlive;
     }
     /**
+     * @return the Entity's hitbox.
+     */
+    public Rectangle getHitbox() {
+        return hitBox;
+    }
+    /**
      * @return if the hitboxes are showed. 
      */
-    public boolean isShowHitbox() {
+    public boolean isHitboxShowed() {
         return showHitbox;
     }
     // Setter per la salute e altre variabili, se necessario
@@ -180,11 +186,5 @@ justification = "The hitbox of the entity is needed to check for collisions")
      */
     private void setHitbox(final int x, final int y, final int width, final int height) {
         this.hitBox = new Rectangle(x, y, width, height);
-    }
-    /**
-     * @return the Entity's hitbox.
-     */
-    public Rectangle getHitbox() {
-        return hitBox;
     }
 }
