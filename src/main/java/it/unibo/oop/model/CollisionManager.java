@@ -1,5 +1,7 @@
 package it.unibo.oop.model;
 
+import java.awt.Rectangle;
+
 /**
  * Interface for managing collisions between game objects.
  */
@@ -10,13 +12,13 @@ public interface CollisionManager {
      * @param h2 the second object
      * @return true if the objects are colliding, false otherwise
      */
-    boolean isColliding(Hitbox h1, Hitbox h2);
+    boolean isColliding(Rectangle h1, Rectangle h2);
 
     /**
      * Handle collision between two objects.
      * @param h1 the first object
      * @param h2 the second object
      */
-    void handleCollision(Hitbox h1, Hitbox h2);
+    void handleCollision(Rectangle h1, Rectangle h2);
 
 }

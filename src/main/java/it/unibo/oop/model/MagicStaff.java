@@ -1,6 +1,7 @@
 package it.unibo.oop.model;
 
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ public class MagicStaff extends Weapon {
     private final Player player;
     private final Image staffImage;
     private final List<Projectile> projectiles;
-    private final List<Hitbox> explosionHitboxes;
+    private final List<Rectangle> explosionHitboxes;
     private Direction direction = Direction.UP;
     private Direction lastDirection = Direction.UP;
 
@@ -89,7 +90,7 @@ public class MagicStaff extends Weapon {
         final boolean hasCollided = false; // Temporaneo, manca la logica di collisione
 
         if (hasCollided) {
-            explosionHitboxes.add(new Hitbox(
+            explosionHitboxes.add(new Rectangle(
                 projectile.getX() - (EXPLOSION_SIZE - PROJECTILE_SIZE) / 2,
                 projectile.getY() - (EXPLOSION_SIZE - PROJECTILE_SIZE) / 2,
                 EXPLOSION_SIZE,
@@ -118,10 +119,11 @@ public class MagicStaff extends Weapon {
      * 
      * @return a list of explosion hitboxes
      */
-    public List<Hitbox> getExplosionHitboxes() {
-        final List<Hitbox> hitboxList = new ArrayList<>();
-        for (final Hitbox hitbox : explosionHitboxes) {
-            hitboxList.add(new Hitbox(hitbox.getX(), hitbox.getY(), hitbox.getWidth(), hitbox.getHeight()));
+    public List<Rectangle> getExplosionHitboxes() {
+        final List<Rectangle> hitboxList = new ArrayList<>();
+        for (final Rectangle hitbox : explosionHitboxes) {
+            hitboxList.add(new Rectangle((int)hitbox.getX(), (int)hitbox.getY(),
+                (int)hitbox.getWidth(), (int)hitbox.getHeight()));
         }
         return hitboxList;
     }

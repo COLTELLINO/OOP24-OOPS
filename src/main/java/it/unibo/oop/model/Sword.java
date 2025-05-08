@@ -1,6 +1,7 @@
 package it.unibo.oop.model;
 
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -54,16 +55,16 @@ public class Sword extends Weapon {
      * 
      * @return the hitbox of the sword
      */
-    public Hitbox getHitbox() {
+    public Rectangle getHitbox() {
         switch (direction) {
             case UP:
-                return new Hitbox(player.getX(), player.getY() - SIZE, SIZE, SIZE);
+                return new Rectangle(player.getX(), player.getY() - SIZE, SIZE, SIZE);
             case DOWN:
-                return new Hitbox(player.getX(), player.getY() + SIZE, SIZE, SIZE);
+                return new Rectangle(player.getX(), player.getY() + SIZE, SIZE, SIZE);
             case LEFT:
-                return new Hitbox(player.getX() - SIZE, player.getY(), SIZE, SIZE);
+                return new Rectangle(player.getX() - SIZE, player.getY(), SIZE, SIZE);
             case RIGHT:
-                return new Hitbox(player.getX() + player.getSize(), player.getY(), SIZE, SIZE);
+                return new Rectangle(player.getX() + player.getSize(), player.getY(), SIZE, SIZE);
             default:
                 return null;
         }
