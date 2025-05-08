@@ -1,4 +1,5 @@
 package it.unibo.oop.model;
+
 /**
  * Extension of EnemyDecorator that decorates an enemy into a boss.
  */

@@ -114,7 +114,7 @@ public class GameThreadImpl implements Runnable, GameThread {
      */
     private void spawnEnemies() {
         final Enemy slimeBoss = this.enemyFactory.createBoss(this.enemyFactory.createBaseSlime(ENEMY_X, ENEMY_Y, player));
-        final Enemy baseSlime = this.enemyFactory.createBaseSlime(ENEMY_X, ENEMY_Y, player);
+        final Enemy baseSkull = this.enemyFactory.createBaseSkull(ENEMY_X, ENEMY_Y, player);
         slimeBoss.setDeathObserver(() -> {
             this.enemyManager.spawnEnemy(this.enemyFactory.
                 createBaseSlime(slimeBoss.getX() + slimeBoss.getSize() / 2, slimeBoss.getY(), player));
@@ -123,11 +123,11 @@ public class GameThreadImpl implements Runnable, GameThread {
             this.experienceManager.spawnXP(slimeBoss.getX() + slimeBoss.getSize() / 2,
                 slimeBoss.getY() + slimeBoss.getSize() / 2, 100);
         });
-        baseSlime.setDeathObserver(() -> {
-            this.experienceManager.spawnXP(baseSlime.getX() + baseSlime.getSize() / 2,
-                baseSlime.getY() + baseSlime.getSize() / 2, 10);
+        baseSkull.setDeathObserver(() -> {
+            this.experienceManager.spawnXP(baseSkull.getX() + baseSkull.getSize() / 2,
+                baseSkull.getY() + baseSkull.getSize() / 2, 10);
         });
-        this.enemyManager.addEnemy(baseSlime);
+        this.enemyManager.addEnemy(baseSkull);
         this.spawnTestTimer.update(() -> {
             this.enemyManager.spawnEnemy(slimeBoss);
         });

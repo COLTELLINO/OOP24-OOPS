@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import it.unibo.oop.model.Enemy;
 import it.unibo.oop.model.Player;
 import it.unibo.oop.model.Slime;
-
 class TestEnemyManager {
     private TestableEnemyManager enemyManager;
     private Player fakePlayer;

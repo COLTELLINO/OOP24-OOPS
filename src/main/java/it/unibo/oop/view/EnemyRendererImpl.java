@@ -32,8 +32,8 @@ public class EnemyRendererImpl implements EnemyRenderer {
                 g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, ALPHA_VALUE));
             }
             final BufferedImage image = getEnemySprite(enemy);
-                g2.drawImage(image, enemy.getX(), enemy.getY(), image.getWidth() * enemy.getSizeScale(),
-                    image.getHeight() * enemy.getSizeScale(), null);
+            g2.drawImage(image, enemy.getX(), enemy.getY(), image.getWidth() * enemy.getSizeScale(),
+                image.getHeight() * enemy.getSizeScale(), null);
             if (enemy.isShowHitbox()) {
                 g2.setColor(Color.RED);
                 g2.drawRect(enemy.getX(), enemy.getY(), enemy.getSize(), enemy.getSize());
@@ -82,6 +82,6 @@ public class EnemyRendererImpl implements EnemyRenderer {
         if (enemy.isAttacking()) {
             attacking = "attacking" + separator;
         }
-        return attacking + name + direction;
+        return name + "/" + attacking + name + direction;
     }
 }
