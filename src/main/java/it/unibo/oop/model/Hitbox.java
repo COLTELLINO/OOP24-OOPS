@@ -1,5 +1,7 @@
 package it.unibo.oop.model;
 
+import java.awt.Rectangle;
+
 /**
  * Represents a rectangular hitbox used for collision detection.
  */
@@ -20,7 +22,16 @@ public class Hitbox {
         this.width = width;
         this.height = height;
     }
-
+    /**
+     * Constructs a new Hitbox with the specified position and dimensions.
+     * @param rectangle
+     */
+    public Hitbox(final Rectangle rectangle) {
+        this.x = (int)rectangle.getX();
+        this.y = (int)rectangle.getY();
+        this.width = (int)rectangle.getWidth();
+        this.height = (int)rectangle.getHeight();
+    }
     /**
      * Gets the x-coordinate of the top-left corner of the hitbox.
      *
