@@ -1,0 +1,109 @@
+classDiagram
+    class Main {
+        +main(String[] args)
+    }
+
+    class GameLoop {
+        +start()
+        +update()
+    }
+
+    class InputHandler {
+        +handleInput()
+    }
+
+    class DrawView {
+        <<interface>>
+        +void draw()
+    }
+
+    class DrawViewImpl {
+        +void draw()
+    }
+
+    class MyPanel {
+        <<abstract>>
+    }
+
+    class TitlePanel {
+        +void draw()
+    }
+
+    class GamePanel {
+        +void draw()
+    }
+
+    class Entity {
+        <<abstract>>
+        +void move()
+        +void attack()
+    }
+
+    class Player {
+        +void move()
+        +void attack()
+    }
+
+    class Enemy {
+        +void move()
+        +void attack()
+    }
+
+    class Item {
+        <<abstract>>
+        +void use()
+    }
+
+    class Weapon {
+        +void use()
+        +void equip()
+    }
+
+    class Accessory {
+        +void use()
+    }
+
+    class Map {
+        +void load()
+        +void render()
+        +void update()
+    }
+
+    class Sound {
+        +void playSound()
+        +void stopSound()
+    }
+
+    class ScreenSizeManager {
+        +void setSize(int width, int height)
+        +void getSize()
+    }
+
+    class CollisionChecker {
+        +void checkCollisions()
+        +void resolveCollision()
+    }
+
+    %% Relazioni MVC
+    Main --> GameLoop
+
+    GameLoop --> Entity
+    GameLoop --> Item
+    GameLoop --> DrawView
+    GameLoop --> Map
+    GameLoop --> Sound
+    GameLoop --> InputHandler
+    GameLoop --> CollisionChecker
+
+    DrawView <|-- DrawViewImpl
+    DrawViewImpl --> MyPanel
+    MyPanel <|-- TitlePanel
+    MyPanel <|-- GamePanel
+
+    DrawViewImpl --> ScreenSizeManager
+
+    Entity <|-- Player
+    Entity <|-- Enemy
+
+    Item <|-- Weapon
+    Item <|-- Accessory

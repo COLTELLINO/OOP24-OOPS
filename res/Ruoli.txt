@@ -1,0 +1,83 @@
+Email dei componenti:
+
+- filippo.patrignani2@studio.unibo.it
+
+- giovanni.perreon@studio.unibo.it
+
+- vera.murgia@studio.unibo.it
+
+- sofia.ricupero@studio.unibo.it
+
+OOPS: OOP Survivors
+
+Il gruppo si pone come obiettivo quello di realizzare un videogioco inspirato al 
+gioco "Vampire Survivors" dove il giocatore deve affrontare ondate continue di 
+nemici con l'obiettivo di sopravvivere il più a lungo possibile, accumulando vari potenziamenti.
+
+Funzionalità minimali:
+
+- Schermate: 
+ - Schermo del titolo: Appare quando si avvia il gioco, comprende i pulsanti: 
+  - "New Game", "Load Game", "Settings", "Quit"
+
+ - Schermo impostazioni / pausa: 
+  - Appare quando si seleziona il pulsante settings o quando si mette in pausa il gioco:
+   - Permette di gestire la grandezza dello schermo (FullScreen o Size specifiche), 
+     il volume di musica e sound effects e di tornare alla schermata precedente.
+
+ - Schermo del Gioco: 
+   - Appare quando inizi o continui una partita, contiene un timer, 
+     il player, elementi di UI per indicare la barra di esperienza e la sua vita, 
+     i nemici e la mappa.
+
+ - Schermo Level Up: 
+   - Appare quando la barra dell'esperienza è piena, 
+     consente di scegliere un Upgrade,
+
+- Player:
+ - Statistiche: (Vita, Attacco, Difesa, Velocità, Pick Up Range(Distanza da cui si può raccogliere l'esperienza))
+ - Movimento
+ - Direzione: (Quella del movimento)
+
+- Nemici:
+ - Spawning: In un cerchio attorno al player
+ - Statistiche: (Vita, Attacco)
+ - AI: Cammina verso il player, alcuni a volte sparano
+
+- Items:
+ - Armi: Attacchi automatici del player
+ - Accessori: Effetti di solito passivi
+ - Esperienza: Raccolta alla morte dei nemici
+
+- Gestione Input: (Movimento, Pausa, Selezione pulsanti)
+
+- Salvataggio locale dei progressi
+
+- Gestione audio
+
+Funzionalità opzionali
+- Extra:
+ - Altre statistiche (Es. Grandezza Attacchi delle armi)
+ - Direzione player opzionale (Es. il player guarda verso il cursore)
+ - Negozio potenziamenti
+ - Aggiunta di items quando avviene un 'level up'
+ - Scelta del personaggio
+
+Challenge principali: 
+ - Gestione Interfacce grafiche
+ - Gestione ottenimento oggetti quando fa un level up
+ - Gestione AI nemici, includendo movimento e proiettili
+ - Implementazione vari oggetti
+ - Salvataggio locale dei progressi
+
+Suddivisione del lavoro:
+
+Murgia: Sviluppo delle Schermate e gestione delle meccaniche di salvataggio dei dati e alcuni input
+
+Ricupero: Implementazione del Player e gestione principale degli input
+
+Perreon: Implementazione dei Nemici e gestione audio
+
+Patrignani: Creazione e gestione degli Items 
+
+PS: Abbiamo notato la presenza di una proposta che si basa sullo stesso gioco (Vampire Survivors) che avevamo pensato, vorremmo sapere se sarebbe un problema procedere.
