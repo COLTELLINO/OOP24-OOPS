@@ -24,7 +24,7 @@ public class GamePanel extends MyPanel {
     private final transient WeaponManager weaponManager;
     private final transient ExperienceManager experienceManager;
     private final transient EnemyRenderer enemyRenderer = new EnemyRendererImpl();
-    private final transient WeaponRenderer weaponRenderer = new WeaponRendererImpl();
+    private final transient WeaponRenderer weaponRenderer;
     private final transient ExperienceRenderer experienceRenderer = new ExperienceRendererImpl();
     /**
      * @param screenWidth
@@ -40,6 +40,7 @@ public class GamePanel extends MyPanel {
         this.enemyManager = enemyManager;
         this.weaponManager = weaponManager;
         this.experienceManager = experienceManager;
+        this.weaponRenderer = new WeaponRendererImpl(player);
         super.setPreferredSize(new Dimension(screenWidth, screenHeight));
         super.setBackground(Color.BLACK);
     }
