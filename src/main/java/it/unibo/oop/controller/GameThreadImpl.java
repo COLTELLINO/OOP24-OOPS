@@ -1,14 +1,10 @@
 package it.unibo.oop.controller;
 
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import it.unibo.oop.model.AudioHandler;
 import it.unibo.oop.model.AudioHandlerImpl;
-import it.unibo.oop.model.CollisionManager;
-import it.unibo.oop.model.CollisionManagerImpl;
 import it.unibo.oop.model.Enemy;
 import it.unibo.oop.model.EnemyFactory;
 import it.unibo.oop.model.EnemyFactoryImpl;
@@ -22,7 +18,6 @@ import it.unibo.oop.model.Percentage;
 import it.unibo.oop.model.Player;
 import it.unibo.oop.model.Timer;
 import it.unibo.oop.model.TimerImpl;
-import it.unibo.oop.model.Weapon;
 import it.unibo.oop.model.WeaponManager;
 import it.unibo.oop.model.WeaponManagerImpl;
 import it.unibo.oop.view.DrawView;
@@ -53,7 +48,6 @@ public class GameThreadImpl implements Runnable, GameThread {
     private final ExperienceManager experienceManager = new ExperienceManagerImpl(player);
     private final AudioHandler audioHandler = new AudioHandlerImpl();
     private final DrawViewFactory drawViewFactory = new DrawViewFactoryImpl();
-    private final CollisionManager collisionManager = new CollisionManagerImpl();
     private final DrawView window;
     private Boolean running = true;
     /**
@@ -114,31 +108,13 @@ public class GameThreadImpl implements Runnable, GameThread {
             enemyManager.update();
         }
         this.window.repaint();
-        
-        checkCollisions();
-    }
-    /**
-     * Checks for collisions between the player and enemies.
-     */
-    private void checkCollisions() {
-        for (Weapon weapon : weaponManager.getWeapons().keySet()) {
-            List<Enemy> enemies = new ArrayList<>();
-            for (Enemy enemy : enemyManager.getSpawnedEnemies()) {
-                for (Rectangle rectangle : weapon.getHitBox()) {
-                    if (collisionManager.isColliding(rectangle, enemy.getHitbox())) {
-                    enemies.add(enemy);
-                    }
-                }
-            collisionManager.handleWeaponCollision(enemies, weapon);
-            }
-        }
     }
     /**
      * Handles the spawning of enemies.
      */
     private void spawnEnemies() {
         final Enemy slimeBoss = this.enemyFactory.createBoss(this.enemyFactory.createBaseSlime(ENEMY_X, ENEMY_Y, player));
-        final Enemy baseSlime = this.enemyFactory.createBaseSlime(ENEMY_X, ENEMY_Y, player);
+        final Enemy baseSkull = this.enemyFactory.createBaseSlime(ENEMY_X, ENEMY_Y, player);
         slimeBoss.setDeathObserver(() -> {
             this.enemyManager.spawnEnemy(this.enemyFactory.
                 createBaseSlime(slimeBoss.getX() + slimeBoss.getSize() / 2, slimeBoss.getY(), player));
@@ -147,11 +123,11 @@ public class GameThreadImpl implements Runnable, GameThread {
             this.experienceManager.spawnXP(slimeBoss.getX() + slimeBoss.getSize() / 2,
                 slimeBoss.getY() + slimeBoss.getSize() / 2, 100);
         });
-        baseSlime.setDeathObserver(() -> {
-            this.experienceManager.spawnXP(baseSlime.getX() + baseSlime.getSize() / 2,
-                baseSlime.getY() + baseSlime.getSize() / 2, 10);
+        baseSkull.setDeathObserver(() -> {
+            this.experienceManager.spawnXP(baseSkull.getX() + baseSkull.getSize() / 2,
+                baseSkull.getY() + baseSkull.getSize() / 2, 10);
         });
-        this.enemyManager.addEnemy(baseSlime);
+        this.enemyManager.addEnemy(baseSkull);
         this.spawnTestTimer.update(() -> {
             this.enemyManager.spawnEnemy(slimeBoss);
         });

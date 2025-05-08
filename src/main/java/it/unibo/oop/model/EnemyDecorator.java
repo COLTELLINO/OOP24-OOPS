@@ -60,7 +60,9 @@ public abstract class EnemyDecorator extends Enemy {
      */
     @Override
     public int getHealth() {
-        return decoratedEnemy.getHealth();
+        System.out.println(getEnemyName());
+        return super.getHealth();
+        //return decoratedEnemy.getHealth();
     }
     /**
      * @return the Entity's attack value
@@ -232,6 +234,12 @@ public abstract class EnemyDecorator extends Enemy {
     @Override
     protected void setSizeScale(final int sizeScale) {
         decoratedEnemy.setSizeScale(sizeScale);
+    }
+    /**
+     * @param isDying
+     */
+    protected void setIsDying(final boolean isDying) {
+        decoratedEnemy.setIsDying(isDying);
     }
     /**
      * @param observer
