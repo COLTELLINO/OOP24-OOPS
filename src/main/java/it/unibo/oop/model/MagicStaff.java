@@ -20,7 +20,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 justification = "To position the weapon, the player size and position are needed, "
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
 public class MagicStaff extends Weapon {
-    //private static final int DAMAGE = 100;
+    private final int damage = 100;
     private static final double COOLDOWN = 80;
     private static final int SPEED = 3;
     private static final int PROJECTILE_SIZE = 50;
@@ -106,7 +106,8 @@ public class MagicStaff extends Weapon {
      * 
      * @return a list of hitboxes for the active projectiles
      */
-    public List<Rectangle> getProjectileHitboxes() {
+    @Override
+    public List<Rectangle> getHitBox() {
         final List<Rectangle> hitboxes = new ArrayList<>();
         for (final Projectile projectile : projectiles) {
             hitboxes.add(new Rectangle(projectile.getX(), projectile.getY(), PROJECTILE_SIZE, PROJECTILE_SIZE));
@@ -151,5 +152,21 @@ public class MagicStaff extends Weapon {
      */
     public List<Projectile> getProjectiles() {
         return new ArrayList<>(projectiles);
+    }
+
+
+    @Override
+    public Player getPlayer() {
+        return null;
+    }
+
+    @Override
+    public int getLevel() {
+        return 1;
+    }
+
+    @Override
+    public int getDamage() {
+        return this.damage;
     }
 }

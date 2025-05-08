@@ -59,7 +59,7 @@ public abstract class EnemyDecorator extends Enemy {
      * @return the Entity's health value
      */
     @Override
-    protected int getHealth() {
+    public int getHealth() {
         return decoratedEnemy.getHealth();
     }
     /**
@@ -169,7 +169,7 @@ public abstract class EnemyDecorator extends Enemy {
      * @param health
      */
     @Override
-    protected void setHealth(final int health) {
+    public void setHealth(final int health) {
         decoratedEnemy.setHealth(health);
     }
     /**

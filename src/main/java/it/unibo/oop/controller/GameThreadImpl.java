@@ -1,10 +1,14 @@
 package it.unibo.oop.controller;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import it.unibo.oop.model.AudioHandler;
 import it.unibo.oop.model.AudioHandlerImpl;
+import it.unibo.oop.model.CollisionManager;
+import it.unibo.oop.model.CollisionManagerImpl;
 import it.unibo.oop.model.Enemy;
 import it.unibo.oop.model.EnemyFactory;
 import it.unibo.oop.model.EnemyFactoryImpl;
@@ -18,6 +22,7 @@ import it.unibo.oop.model.Percentage;
 import it.unibo.oop.model.Player;
 import it.unibo.oop.model.Timer;
 import it.unibo.oop.model.TimerImpl;
+import it.unibo.oop.model.Weapon;
 import it.unibo.oop.model.WeaponManager;
 import it.unibo.oop.model.WeaponManagerImpl;
 import it.unibo.oop.view.DrawView;
@@ -48,6 +53,7 @@ public class GameThreadImpl implements Runnable, GameThread {
     private final ExperienceManager experienceManager = new ExperienceManagerImpl(player);
     private final AudioHandler audioHandler = new AudioHandlerImpl();
     private final DrawViewFactory drawViewFactory = new DrawViewFactoryImpl();
+    private final CollisionManager collisionManager = new CollisionManagerImpl();
     private final DrawView window;
     private Boolean running = true;
     /**
@@ -108,6 +114,24 @@ public class GameThreadImpl implements Runnable, GameThread {
             enemyManager.update();
         }
         this.window.repaint();
+        
+        checkCollisions();
+    }
+    /**
+     * Checks for collisions between the player and enemies.
+     */
+    private void checkCollisions() {
+        for (Weapon weapon : weaponManager.getWeapons().keySet()) {
+            List<Enemy> enemies = new ArrayList<>();
+            for (Enemy enemy : enemyManager.getSpawnedEnemies()) {
+                for (Rectangle rectangle : weapon.getHitBox()) {
+                    if (collisionManager.isColliding(rectangle, enemy.getHitbox())) {
+                    enemies.add(enemy);
+                    }
+                }
+            collisionManager.handleWeaponCollision(enemies, weapon);
+            }
+        }
     }
     /**
      * Handles the spawning of enemies.

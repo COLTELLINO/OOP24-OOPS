@@ -1,6 +1,7 @@
 package it.unibo.oop.model;
 
 import java.awt.Rectangle;
+import java.util.List;
 
 /**
  * Interface for managing collisions between game objects.
@@ -19,6 +20,6 @@ public interface CollisionManager {
      * @param h1 the first object
      * @param h2 the second object
      */
-    void handleCollision(Rectangle h1, Rectangle h2);
+    void handleWeaponCollision(final List<Enemy> enemies, final Weapon weapon);
 
 }

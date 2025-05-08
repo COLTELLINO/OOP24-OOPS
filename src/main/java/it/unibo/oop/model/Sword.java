@@ -3,6 +3,8 @@ package it.unibo.oop.model;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,10 +19,12 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 justification = "To position the weapon, the player size and position are needed, "
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
 public class Sword extends Weapon {
-    //private static final int DAMAGE = 50;
+
+
+    private final int damage = 200;
     private static final double DURATION = 30;
     private static final double COOLDOWN = 60;
-    private static final int SIZE = 50;
+    private static final int SIZE = 70;
     private static final Logger LOGGER = Logger.getLogger(Sword.class.getName());
 
     private double duration;
@@ -55,18 +59,20 @@ public class Sword extends Weapon {
      * 
      * @return the hitbox of the sword
      */
-    public Rectangle getHitbox() {
+    public List<Rectangle> getHitBox() {
+        List<Rectangle> hitbox = new ArrayList<>();
+        if (!active) {
+            return List.of();
+        }
         switch (direction) {
-            case UP:
-                return new Rectangle(player.getX(), player.getY() - SIZE, SIZE, SIZE);
-            case DOWN:
-                return new Rectangle(player.getX(), player.getY() + SIZE, SIZE, SIZE);
             case LEFT:
-                return new Rectangle(player.getX() - SIZE, player.getY(), SIZE, SIZE);
+                hitbox.add(new Rectangle(player.getX() - SIZE, player.getY(), SIZE, player.getSize()));
+                return hitbox;
             case RIGHT:
-                return new Rectangle(player.getX() + player.getSize(), player.getY(), SIZE, SIZE);
+                hitbox.add(new Rectangle(player.getX() + player.getSize(), player.getY(), SIZE, player.getSize()));
+                return hitbox;
             default:
-                return null;
+                return List.of();
         }
     }
 
@@ -137,5 +143,19 @@ public class Sword extends Weapon {
      */
     public Image getSwordImage() {
         return swordImage;
+    }    
+    /**
+     * @return the sword's level.
+     */
+    @Override
+    public int getLevel() {
+        return 1;
+    }
+    /**
+     * @return the sword's damage.
+     */
+    @Override
+    public int getDamage() {
+        return this.damage;
     }
 }

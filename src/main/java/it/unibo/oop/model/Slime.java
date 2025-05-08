@@ -44,6 +44,5 @@ public class Slime extends Enemy {
     @Override
     public void update() {
         super.update();
-        this.setHealth(this.getHealth() - 1);
     }
 }

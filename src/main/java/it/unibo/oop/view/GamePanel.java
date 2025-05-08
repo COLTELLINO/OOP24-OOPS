@@ -55,6 +55,7 @@ public class GamePanel extends MyPanel {
         this.player.draw(g2d);
         this.enemyRenderer.drawEnemyList(this.enemyManager.getSpawnedEnemies(), g2d);
         this.weaponRenderer.drawWeaponList(g2d, this.weaponManager.getWeapons());
+        //this.weaponRenderer.drawWeaponHitboxes(g2d, this.weaponManager.getWeapons());
         this.experienceRenderer.drawExperienceOrbs(g2d, this.experienceManager.getOrbs());
         // Disegna la barra dell'XP
         drawXPBar(g2d);

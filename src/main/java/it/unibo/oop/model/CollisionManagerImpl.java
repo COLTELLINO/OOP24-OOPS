@@ -1,12 +1,12 @@
 package it.unibo.oop.model;
 
+import java.util.List;
 import java.awt.Rectangle;
 
 /**
  * Class managing collisions between game objects.
  */
 public class CollisionManagerImpl implements CollisionManager {
-
     /**
      * Check if two objects are colliding.
      * @param h1 the first object
@@ -15,7 +15,7 @@ public class CollisionManagerImpl implements CollisionManager {
      */
     @Override
     public boolean isColliding(final Rectangle h1, final Rectangle h2) {
-        return false;
+        return h1.intersects(h2);
     }
 
     /**
@@ -24,8 +24,11 @@ public class CollisionManagerImpl implements CollisionManager {
      * @param h2 the second object
      */
     @Override
-    public void handleCollision(final Rectangle h1, final Rectangle h2) {
-
+    public void handleWeaponCollision(final List<Enemy> enemies, final Weapon weapon) {
+        if (weapon instanceof Sword) {
+            for (Enemy enemy : enemies) {
+                enemy.setHealth(enemy.getHealth() - weapon.getDamage());
+            }
+        }
     }
-
 }
