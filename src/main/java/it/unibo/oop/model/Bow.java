@@ -1,5 +1,6 @@
 package it.unibo.oop.model;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,10 +62,10 @@ public class Bow extends Weapon {
      * 
      * @return a list of hitboxes for the active projectiles
      */
-    public List<Hitbox> getProjectileHitboxes() {
-        final List<Hitbox> hitboxes = new ArrayList<>();
+    public List<Rectangle> getProjectileHitboxes() {
+        final List<Rectangle> hitboxes = new ArrayList<>();
         for (final Projectile projectile : projectiles) {
-            hitboxes.add(new Hitbox(projectile.getX(), projectile.getY(), PROJECTILE_SIZE, PROJECTILE_SIZE));
+            hitboxes.add(new Rectangle(projectile.getX(), projectile.getY(), PROJECTILE_SIZE, PROJECTILE_SIZE));
         }
         return hitboxes;
     }

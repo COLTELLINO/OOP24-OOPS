@@ -7,9 +7,14 @@ import java.util.List;
  */
 public interface ExperienceManager {
     /** 
-     * To access player XP directly from GamePanel
+     * To access player XP directly from GamePanel.
+     * @return the current experience points of the player.
      */
     int getCurrentXP();
+    /** 
+     * To access player level directly from GamePanel.
+     * @return the amount of experience points needed to reach the next level.
+     */
     int getXPToNextLevel();
 
     /**

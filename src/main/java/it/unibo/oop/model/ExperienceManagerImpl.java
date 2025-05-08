@@ -55,12 +55,16 @@ public class ExperienceManagerImpl implements ExperienceManager {
     public void spawnXP(final int x, final int y, final int amount) {
         orbs.add(new ExperienceOrb(x, y, amount));
     }
-
+    /**
+     * @return the current XP of the player.
+     */
     @Override
     public int getCurrentXP() {
         return player.getCurrentXP();
     }
-
+    /**
+     * @return the current level of the player.
+     */
     @Override
     public int getXPToNextLevel() {
         return player.getXPToNextLevel();

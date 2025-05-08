@@ -106,10 +106,10 @@ public class MagicStaff extends Weapon {
      * 
      * @return a list of hitboxes for the active projectiles
      */
-    public List<Hitbox> getProjectileHitboxes() {
-        final List<Hitbox> hitboxes = new ArrayList<>();
+    public List<Rectangle> getProjectileHitboxes() {
+        final List<Rectangle> hitboxes = new ArrayList<>();
         for (final Projectile projectile : projectiles) {
-            hitboxes.add(new Hitbox(projectile.getX(), projectile.getY(), PROJECTILE_SIZE, PROJECTILE_SIZE));
+            hitboxes.add(new Rectangle(projectile.getX(), projectile.getY(), PROJECTILE_SIZE, PROJECTILE_SIZE));
         }
         return hitboxes;
     }
@@ -120,12 +120,12 @@ public class MagicStaff extends Weapon {
      * @return a list of explosion hitboxes
      */
     public List<Rectangle> getExplosionHitboxes() {
-        final List<Rectangle> hitboxList = new ArrayList<>();
+        final List<Rectangle> hitboxes = new ArrayList<>();
         for (final Rectangle hitbox : explosionHitboxes) {
-            hitboxList.add(new Rectangle((int)hitbox.getX(), (int)hitbox.getY(),
-                (int)hitbox.getWidth(), (int)hitbox.getHeight()));
+            hitboxes.add(new Rectangle((int) hitbox.getX(), (int) hitbox.getY(),
+                (int) hitbox.getWidth(), (int) hitbox.getHeight()));
         }
-        return hitboxList;
+        return hitboxes;
     }
 
     /**

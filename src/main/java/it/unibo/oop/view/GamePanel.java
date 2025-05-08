@@ -55,17 +55,18 @@ public class GamePanel extends MyPanel {
         this.player.draw(g2d);
         this.enemyRenderer.drawEnemyList(this.enemyManager.getSpawnedEnemies(), g2d);
         this.weaponRenderer.drawWeaponList(g2d, this.weaponManager.getWeapons());
-        this.experienceRenderer.drawExperienceOrbs(g2d, this.experienceManager.getOrbs());        
+        this.experienceRenderer.drawExperienceOrbs(g2d, this.experienceManager.getOrbs());
         // Disegna la barra dell'XP
         drawXPBar(g2d);
     }
 
     private void drawXPBar(final Graphics2D g2d) {
         final int currentXP = this.experienceManager.getCurrentXP();
-        final int xpToNextLevel = this.experienceManager.getXPToNextLevel();    
+        final int xpToNextLevel = this.experienceManager.getXPToNextLevel();
         final int barWidth = 300;
         final int barHeight = 20;
         final int x = 20;
+        final int offset = 5;
         final int y = getHeight() - 40;
 
         final double xpRatio = (double) currentXP / xpToNextLevel;
@@ -85,13 +86,12 @@ public class GamePanel extends MyPanel {
 
         // Testo XP
         g2d.setColor(Color.WHITE);
-        g2d.drawString("XP: " + currentXP + " / " + xpToNextLevel, x + 5, y - 5);
+        g2d.drawString("XP: " + currentXP + " / " + xpToNextLevel, x + offset, y - offset);
 
         g2d.setColor(Color.WHITE);
-        g2d.drawString("XP: " + currentXP + " / " + xpToNextLevel, x + 5, y - 5);
+        g2d.drawString("XP: " + currentXP + " / " + xpToNextLevel, x + offset, y - offset);
 
         // Mostra anche il livello del giocatore
-        g2d.drawString("LVL: " + this.player.getLevel(), x + barWidth + 10, y + barHeight - 5);
+        g2d.drawString("LVL: " + this.player.getLevel(), x + barWidth + offset * 2, y + barHeight - offset);
     }
-    
 }

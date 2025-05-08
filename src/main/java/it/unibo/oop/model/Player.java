@@ -10,6 +10,7 @@ public class Player extends Entity {
     private Direction direction;
     private int xp;
     private int level;
+    private static final int LEVELUP_SCALER = 20;
     /**
      * @param x
      * @param y
@@ -55,7 +56,7 @@ public class Player extends Entity {
      */
     public void addXp(final int xp) {
         this.xp += xp;
-        while (this.xp >= getXPToNextLevel()){
+        while (this.xp >= getXPToNextLevel()) {
             this.xp -= getXPToNextLevel();
             levelUp();
         }
@@ -141,6 +142,6 @@ public class Player extends Entity {
      * @return the XP necessary for the next level.
      */
     public int getXPToNextLevel() {
-        return 100 + (level * 20); // oppure solo 100 se vuoi che sia sempre uguale
+        return 100 + (level * LEVELUP_SCALER);
     }
 }
