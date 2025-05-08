@@ -3,6 +3,7 @@ package it.unibo.oop.view;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.util.List;
@@ -218,6 +219,33 @@ public final class WeaponRendererImpl implements WeaponRenderer {
                 drawBow(g, (Bow) weapon);
             } else if (weapon instanceof MagicStaff) {
                 drawMagicStaff(g, (MagicStaff) weapon);
+            }
+        }
+    }
+
+    /**
+     * Draws the hitboxes of all weapons on the screen.
+     * 
+     * @param g the graphics context
+     * @param weapons the list of weapons to draw hitboxes for
+     */
+    public void drawWeaponHitboxes(final Graphics g, final Map<Weapon, Integer> weapons) {
+        if (!(g instanceof Graphics2D)) {
+            LOGGER.log(Level.WARNING, "Graphics object is not an instance of Graphics2D.");
+            return;
+        }
+
+        final Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(java.awt.Color.RED);
+
+        for (final Map.Entry<Weapon, Integer> entry : weapons.entrySet()) {
+            final Weapon weapon = entry.getKey();
+            final List<Rectangle> hitboxes = weapon.getHitBox();
+
+            for (Rectangle rectangle : hitboxes) {
+                if (rectangle != null) {
+                    g2d.draw(rectangle);
+                }
             }
         }
     }

@@ -8,7 +8,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 @SuppressFBWarnings(value = {"EI2", "EI"}, 
 justification = "To position the weapon, the player size and position are needed, "
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
-public class Shield extends Weapon {
+public class Shield extends Accessory {
 
     private boolean isEquipped;
     private final Player player;

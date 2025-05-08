@@ -67,7 +67,7 @@ import java.awt.Rectangle;
     /**
      * @return the Entity's health value. 
      */
-    protected int getHealth() {
+    public int getHealth() {
         return health;
     }
     /**
@@ -128,7 +128,7 @@ import java.awt.Rectangle;
      * Sets the Entity's health value. 
      * @param health
      */
-    protected void setHealth(final int health) {
+    public void setHealth(final int health) {
         this.health = health;
     }
     /**
@@ -176,5 +176,11 @@ import java.awt.Rectangle;
      */
     private void setHitbox(final int x, final int y, final int width, final int height) {
         this.hitBox = new Rectangle(x, y, width, height);
+    }
+    /**
+     * @return the Entity's hitbox.
+     */
+    public Rectangle getHitbox() {
+        return hitBox;
     }
 }

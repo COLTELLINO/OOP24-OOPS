@@ -43,4 +43,8 @@ public interface WeaponRenderer {
      * @param staff the magic staff to draw
      */
     void drawMagicStaff(Graphics g, MagicStaff staff);
+    /**
+     * Draws weapon hitboxes.
+     */
+    void drawWeaponHitboxes(Graphics g, Map<Weapon, Integer> weapons);
 }

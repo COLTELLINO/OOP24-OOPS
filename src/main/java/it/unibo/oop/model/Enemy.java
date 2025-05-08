@@ -76,7 +76,7 @@ public abstract class Enemy extends Entity {
      */
     protected void onDeath() {
             this.setAttack(0);
-            this.isDying = true;
+            setIsDying(true);
             if (this.blinkCounter <= MAX_BLINKS) {
                 this.blinkCounter++;
             } else {
@@ -143,6 +143,12 @@ public abstract class Enemy extends Entity {
      */
     protected void setSizeScale(final int sizeScale) {
         this.sizeScale = sizeScale;
+    }
+    /**
+     * @param isDying
+     */
+    protected void setIsDying(final boolean isDying) {
+        this.isDying = isDying;
     }
     /**
      * @param observer
