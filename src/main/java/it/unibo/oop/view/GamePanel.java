@@ -24,7 +24,7 @@ public class GamePanel extends MyPanel {
     private final transient WeaponManager weaponManager;
     private final transient ExperienceManager experienceManager;
     private final transient EnemyRenderer enemyRenderer = new EnemyRendererImpl();
-    private final transient WeaponRenderer weaponRenderer;
+    private final transient WeaponRenderer weaponRenderer = new WeaponRendererImpl();
     private final transient ExperienceRenderer experienceRenderer = new ExperienceRendererImpl();
     /**
      * @param screenWidth
@@ -40,7 +40,6 @@ public class GamePanel extends MyPanel {
         this.enemyManager = enemyManager;
         this.weaponManager = weaponManager;
         this.experienceManager = experienceManager;
-        this.weaponRenderer = new WeaponRendererImpl(player);
         super.setPreferredSize(new Dimension(screenWidth, screenHeight));
         super.setBackground(Color.BLACK);
     }
@@ -56,5 +55,45 @@ public class GamePanel extends MyPanel {
         this.enemyRenderer.drawEnemyList(this.enemyManager.getSpawnedEnemies(), g2d);
         this.weaponRenderer.drawWeaponList(g2d, this.weaponManager.getWeapons());
         this.experienceRenderer.drawExperienceOrbs(g2d, this.experienceManager.getOrbs());
+        
+        // Disegna la barra dell'XP
+        drawXPBar(g2d);
     }
+
+    private void drawXPBar(final Graphics2D g2d) {
+        final int currentXP = this.experienceManager.getCurrentXP();
+        final int xpToNextLevel = this.experienceManager.getXPToNextLevel();
+    
+        final int barWidth = 300;
+        final int barHeight = 20;
+        final int x = 20;
+        final int y = getHeight() - 40;
+    
+        final double xpRatio = (double) currentXP / xpToNextLevel;
+        final int filledWidth = (int) (barWidth * xpRatio);
+    
+        // Sfondo della barra (grigio)
+        g2d.setColor(Color.DARK_GRAY);
+        g2d.fillRect(x, y, barWidth, barHeight);
+    
+        // Parte riempita (verde)
+        g2d.setColor(Color.GREEN);
+        g2d.fillRect(x, y, filledWidth, barHeight);
+    
+        // Bordo bianco
+        g2d.setColor(Color.WHITE);
+        g2d.drawRect(x, y, barWidth, barHeight);
+    
+        // Testo XP
+        g2d.setColor(Color.WHITE);
+        g2d.drawString("XP: " + currentXP + " / " + xpToNextLevel, x + 5, y - 5);
+
+        g2d.setColor(Color.WHITE);
+        g2d.drawString("XP: " + currentXP + " / " + xpToNextLevel, x + 5, y - 5);
+
+        // Mostra anche il livello del giocatore
+        g2d.drawString("LVL: " + this.player.getLevel(), x + barWidth + 10, y + barHeight - 5);
+
+    }
+    
 }
