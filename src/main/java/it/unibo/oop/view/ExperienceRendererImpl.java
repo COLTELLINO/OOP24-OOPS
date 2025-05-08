@@ -20,20 +20,33 @@ import it.unibo.oop.model.ExperienceOrb;
 public class ExperienceRendererImpl implements ExperienceRenderer {
     private static final Logger LOGGER = Logger.getLogger(ExperienceRendererImpl.class.getName());
     private static final double SCALE = 0.5;
-    private final Image orbImage;
+    private static final int MEDIUM_ORB = 100;
+    private static final int BIG_ORB = 500;
+
+    private final Image orbImageSmall;
+    private final Image orbImageMedium;
+    private final Image orbImageBig;
 
     /**
-     * Constructs an ExperienceRendererImpl and loads the orb image.
+     * Constructs an ExperienceRendererImpl and loads the orb images.
      */
     public ExperienceRendererImpl() {
         try {
-            this.orbImage = ImageIO.read(Objects.requireNonNull(
+            this.orbImageSmall = ImageIO.read(Objects.requireNonNull(
                 getClass().getClassLoader().getResource("Experience/orb1.png"),
                 "Resource 'Experience/orb1.png' not found."
             ));
+            this.orbImageMedium = ImageIO.read(Objects.requireNonNull(
+                getClass().getClassLoader().getResource("Experience/orb2.png"),
+                "Resource 'Experience/orb2.png' not found."
+            ));
+            this.orbImageBig = ImageIO.read(Objects.requireNonNull(
+                getClass().getClassLoader().getResource("Experience/orb3.png"),
+                "Resource 'Experience/orb3.png' not found."
+            ));
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Orb image could not be loaded.", e);
-            throw new IllegalStateException("Orb image could not be loaded.", e);
+            LOGGER.log(Level.SEVERE, "Orb images could not be loaded.", e);
+            throw new IllegalStateException("Orb images could not be loaded.", e);
         }
     }
 
@@ -56,11 +69,20 @@ public class ExperienceRendererImpl implements ExperienceRenderer {
             final int drawX = orb.getX();
             final int drawY = orb.getY();
 
+            final Image orbImageToDraw;
+            if (orb.getXP() >= BIG_ORB) {
+                orbImageToDraw = orbImageBig;
+            } else if (orb.getXP() >= MEDIUM_ORB) {
+                orbImageToDraw = orbImageMedium;
+            } else {
+                orbImageToDraw = orbImageSmall;
+            }
+
             final AffineTransform transform = new AffineTransform();
             transform.translate(drawX, drawY);
             transform.scale(SCALE, SCALE);
 
-            g2d.drawImage(orbImage, transform, null);
+            g2d.drawImage(orbImageToDraw, transform, null);
         }
     }
 }
