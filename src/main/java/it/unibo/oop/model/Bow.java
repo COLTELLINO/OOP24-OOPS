@@ -3,6 +3,7 @@ package it.unibo.oop.model;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -14,8 +15,8 @@ justification = "To position the weapon, the player size and position are needed
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
 public class Bow extends Weapon {
     private static final int DAMAGE = 50;
-    private static final double COOLDOWN = 40;
-    private static final int SPEED = 10;
+    private static final double COOLDOWN = 100;
+    private static final int SPEED = 1;
     private static final int PROJECTILE_SIZE = 30;
 
     private double cooldown;
@@ -23,6 +24,7 @@ public class Bow extends Weapon {
     private final List<Projectile> projectiles;
     private Direction direction = Direction.UP;
     private Direction lastDirection = Direction.UP;
+    private boolean showHitbox;
 
     /**
      * Constructs a Bow object.
@@ -65,18 +67,15 @@ public class Bow extends Weapon {
      */
     @Override
     public List<Rectangle> getHitBox() {
-        final List<Rectangle> hitboxes = new ArrayList<>();
-        for (final Projectile projectile : projectiles) {
-            hitboxes.add(new Rectangle(projectile.getX(), projectile.getY(), PROJECTILE_SIZE, PROJECTILE_SIZE));
-        }
-        return hitboxes;
+        return projectiles.stream().map(Projectile::getHitBox)
+        .collect(Collectors.toList());
     }
 
     /**
      * Shoots a projectile in the direction the player is facing.
      */
     private void shoot() {
-        projectiles.add(new Projectile(player.getX(), player.getY(), direction, SPEED));
+        projectiles.add(new Projectile(player.getX(), player.getY(), direction, SPEED, PROJECTILE_SIZE));
     }
 
     /**
@@ -107,5 +106,19 @@ public class Bow extends Weapon {
     @Override
     public int getDamage() {
         return DAMAGE;
+    }
+    /**
+     * @param showHitbox the visibility of the hitbox.
+     */
+    @Override
+    public void setShowHitbox(final boolean showHitbox) {
+        this.showHitbox = showHitbox;
+    }
+    /**
+     * @return the visibility of the hitbox.
+     */
+    @Override
+    public boolean isShowHitbox() {
+        return showHitbox;
     }
 }

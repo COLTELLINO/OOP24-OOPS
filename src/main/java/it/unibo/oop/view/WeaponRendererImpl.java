@@ -164,6 +164,19 @@ public final class WeaponRendererImpl implements WeaponRenderer {
         final Graphics2D g2d = (Graphics2D) g;
         final Image staffImage = staff.getStaffImage();
         final List<Projectile> projectiles = staff.getProjectiles();
+        final List<Rectangle> explosionHitBoxes = staff.getExplosionHitboxes();
+        final Image explosionImage;
+
+        try {
+            explosionImage = ImageIO.read(Objects.requireNonNull(
+                getClass().getClassLoader().getResource("Weapon/explosion.png"),
+                "Resource 'Weapon/explosion.png' not found."
+            ));
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Explosion image could not be loaded.", e);
+            return;
+        }
+
 
         for (final Projectile projectile : projectiles) {
             int drawX = projectile.getX();
@@ -185,19 +198,25 @@ public final class WeaponRendererImpl implements WeaponRenderer {
             transform.translate(drawX, drawY);
 
             switch (projectile.getDirection()) {
-                case Direction.RIGHT -> transform.rotate(ROTATION_RIGHT, 
-                staffImage.getWidth(null) / 2.0, staffImage.getHeight(null) / 2.0);
-                case Direction.LEFT -> transform.rotate(ROTATION_LEFT, 
-                staffImage.getWidth(null) / 2.0, staffImage.getHeight(null) / 2.0);
-                case Direction.UP -> transform.rotate(0, 
-                staffImage.getWidth(null) / 2.0, staffImage.getHeight(null) / 2.0);
-                case Direction.DOWN -> transform.rotate(ROTATION_RIGHT * 2, 
-                staffImage.getWidth(null) / 2.0, staffImage.getHeight(null) / 2.0);
+                case RIGHT -> transform.rotate(ROTATION_RIGHT, 
+                    staffImage.getWidth(null) / 2.0, staffImage.getHeight(null) / 2.0);
+                case LEFT -> transform.rotate(ROTATION_LEFT, 
+                    staffImage.getWidth(null) / 2.0, staffImage.getHeight(null) / 2.0);
+                case UP -> transform.rotate(0, 
+                    staffImage.getWidth(null) / 2.0, staffImage.getHeight(null) / 2.0);
+                case DOWN -> transform.rotate(ROTATION_RIGHT * 2, 
+                    staffImage.getWidth(null) / 2.0, staffImage.getHeight(null) / 2.0);
                 default -> { }
             }
 
             transform.scale(SCALE, SCALE);
             g2d.drawImage(staffImage, transform, null);
+        }
+
+        for (final Rectangle hitbox : explosionHitBoxes) {
+            if (hitbox != null) {
+                g2d.drawImage(explosionImage, hitbox.x, hitbox.y, hitbox.width, hitbox.height, null);
+            }
         }
     }
 
@@ -208,7 +227,7 @@ public final class WeaponRendererImpl implements WeaponRenderer {
      * @param weapons the list of weapons to draw
      */
     @Override
-    public void drawWeaponList(final Graphics g, final Map<Weapon, Integer> weapons) {
+    public void drawWeaponList(final Graphics2D g, final Map<Weapon, Integer> weapons) {
         for (final Map.Entry<Weapon, Integer> entry : weapons.entrySet()) {
             final Weapon weapon = entry.getKey();
             //final int level = entry.getValue(); Il livello non viene usato per ora
@@ -220,31 +239,15 @@ public final class WeaponRendererImpl implements WeaponRenderer {
             } else if (weapon instanceof MagicStaff) {
                 drawMagicStaff(g, (MagicStaff) weapon);
             }
-        }
-    }
 
-    /**
-     * Draws the hitboxes of all weapons on the screen.
-     * 
-     * @param g the graphics context
-     * @param weapons the list of weapons to draw hitboxes for
-     */
-    @Override
-    public void drawWeaponHitboxes(final Graphics g, final Map<Weapon, Integer> weapons) {
-        if (!(g instanceof Graphics2D)) {
-            LOGGER.log(Level.WARNING, "Graphics object is not an instance of Graphics2D.");
-            return;
-        }
-
-        final Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(java.awt.Color.RED);
-
-        for (final Map.Entry<Weapon, Integer> entry : weapons.entrySet()) {
-            final Weapon weapon = entry.getKey();
-            final List<Rectangle> hitboxes = weapon.getHitBox();
-            for (final Rectangle rectangle : hitboxes) {
-                if (rectangle != null) {
-                    g2d.draw(rectangle);
+            if (weapon.isShowHitbox()) {
+                final Graphics2D g2d = g;
+                g2d.setColor(java.awt.Color.RED);
+                final List<Rectangle> hitboxes = weapon.getHitBox();
+                for (final Rectangle rectangle : hitboxes) {
+                    if (rectangle != null) {
+                        g2d.draw(rectangle);
+                    }
                 }
             }
         }

@@ -16,7 +16,7 @@ public interface CollisionManager {
     boolean isColliding(Rectangle h1, Rectangle h2);
 
     /**
-     * Handle collision between two objects.
+     * Handle collision weapon/enemies.
      * @param enemies the enemy list
      * @param weapon the weapon
      */
