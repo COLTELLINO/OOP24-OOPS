@@ -5,7 +5,7 @@ import java.util.List;
 
 import it.unibo.oop.model.Enemy;
 /**
- * Interface for classes used to draw enemies.
+ * Interface for rendering enemies.
  */
 public interface EnemyRenderer {
     /**

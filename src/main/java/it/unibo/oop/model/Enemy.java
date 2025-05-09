@@ -18,6 +18,8 @@ public abstract class Enemy extends Entity {
     private boolean isDying;
     private int blinkCounter;
     private final Player player;
+    private Optional<Projectile> projectile = Optional.empty();
+    private Optional<EnemyObserver> onDeathObserver = Optional.empty();
     private Optional<EnemyObserver> observer = Optional.empty();
     /**
      * @param x
@@ -79,8 +81,8 @@ public abstract class Enemy extends Entity {
      * @return the euclidean distance between the enemy and the player. 
      */
     protected int getPlayerDistance() {
-        final int xDistance = player.getX() + (player.getSize() / 2) - this.getX() + this.getSize() / 2;
-        final int yDistance = player.getY() + (player.getSize() / 2) - this.getY() + this.getSize() / 2;
+        final int xDistance = player.getX() + player.getSize() / 2 - (this.getX() + this.getSize() / 2);
+        final int yDistance = player.getY() + player.getSize() / 2 - (this.getY() + this.getSize() / 2);
         return (int) Math.sqrt(xDistance * xDistance + yDistance * yDistance);
     }
     /**
@@ -99,9 +101,15 @@ public abstract class Enemy extends Entity {
         }
     }
     /**
-     * If an observer is present, trigger its action.
+     * If an onDeathObserver is present, trigger its action.
      */
     protected void observerOnDeathAction() {
+        onDeathObserver.ifPresent(EnemyObserver::enemyObserverAction);
+    }
+    /**
+     * If an observer is present, trigger its action.
+     */
+    protected void observerAction() {
         observer.ifPresent(EnemyObserver::enemyObserverAction);
     }
     /**
@@ -155,6 +163,12 @@ public abstract class Enemy extends Entity {
         return this.player;
     }
     /**
+     * @return the projectile of the enemy if it has one.
+     */
+    public Projectile getProjectile() {
+        return this.projectile.get();
+    }
+    /**
      * @param direction
      */
     public void setDirection(final Direction direction) {
@@ -179,9 +193,21 @@ public abstract class Enemy extends Entity {
         this.isDying = isDying;
     }
     /**
+     * @param projectile
+     */
+    public void setProjectile(final Projectile projectile) {
+        this.projectile = Optional.of(projectile);
+    }
+    /**
      * @param observer
      */
-    public void setDeathObserver(final EnemyObserver observer) {
+    public void setObserver(final EnemyObserver observer) {
         this.observer = Optional.of(observer);
+    }
+    /**
+     * @param onDeathObserver
+     */
+    public void setOnDeathObserver(final EnemyObserver onDeathObserver) {
+        this.onDeathObserver = Optional.of(onDeathObserver);
     }
 }

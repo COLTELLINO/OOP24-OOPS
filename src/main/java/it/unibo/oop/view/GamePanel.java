@@ -9,6 +9,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.model.EnemyManager;
 import it.unibo.oop.model.ExperienceManager;
 import it.unibo.oop.model.Player;
+import it.unibo.oop.model.ProjectileManager;
 import it.unibo.oop.model.WeaponManager;
 /**
  * 
@@ -21,11 +22,13 @@ public class GamePanel extends MyPanel {
 
     private final transient Player player;
     private final transient EnemyManager enemyManager;
+    private final transient ProjectileManager projectileManager;
     private final transient WeaponManager weaponManager;
     private final transient ExperienceManager experienceManager;
     private final transient EnemyRenderer enemyRenderer = new EnemyRendererImpl();
     private final transient WeaponRenderer weaponRenderer;
     private final transient ExperienceRenderer experienceRenderer = new ExperienceRendererImpl();
+    private final transient ProjectileRenderer projectileRenderer = new ProjectileRendererImpl();
     /**
      * @param screenWidth
      * @param screenHeight
@@ -33,11 +36,14 @@ public class GamePanel extends MyPanel {
      * @param enemyManager
      * @param weaponManager
      * @param experienceManager
+     * @param projectileManager
      */
-    public GamePanel(final int screenWidth, final int screenHeight, final Player player, final EnemyManager enemyManager,
-            final WeaponManager weaponManager, final ExperienceManager experienceManager) {
+    public GamePanel(final int screenWidth, final int screenHeight, final Player player, 
+            final EnemyManager enemyManager, final WeaponManager weaponManager,
+            final ExperienceManager experienceManager, final ProjectileManager projectileManager) {
         this.player = player;
         this.enemyManager = enemyManager;
+        this.projectileManager = projectileManager;
         this.weaponManager = weaponManager;
         this.experienceManager = experienceManager;
         weaponRenderer = new WeaponRendererImpl(player);
@@ -54,6 +60,8 @@ public class GamePanel extends MyPanel {
         final Graphics2D g2d = (Graphics2D) g;
         this.player.draw(g2d);
         this.enemyRenderer.drawEnemyList(this.enemyManager.getSpawnedEnemies(), g2d);
+        this.projectileRenderer.drawProjectileList(this.projectileManager.getEnemyProjectiles(), g2d);
+        this.projectileRenderer.drawProjectileList(this.projectileManager.getPlayerProjectiles(), g2d);
         this.weaponRenderer.drawWeaponList(g2d, this.weaponManager.getWeapons());
         this.experienceRenderer.drawExperienceOrbs(g2d, this.experienceManager.getOrbs());
         // Disegna la barra dell'XP

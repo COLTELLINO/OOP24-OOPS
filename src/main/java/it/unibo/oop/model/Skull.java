@@ -1,5 +1,4 @@
 package it.unibo.oop.model;
-
 /**
  * 
  */
@@ -10,10 +9,10 @@ public class Skull extends Enemy {
     private static final int BASE_SPEED = 1;
     private static final int BASE_SIZE = 32;
     private static final int MIN_PLAYER_DISTANCE = 100;
-    //private static final int PROJECTILE_SPEED = 2;
-    //private final Projectile projectile = new Projectile(getX(), getY(), getOppositeDirection(), PROJECTILE_SPEED);
-    private final CountDownTimer countDownTimer = new CountDownTimer(60);
-
+    private static final int PROJECTILE_Y_OFFSET = 6; 
+    private static final int PROJECTILE_SPEED = 2;
+    private static final int PROJECTILE_SIZE = 2;
+    private final CountDownTimer countDownTimer = new CountDownTimer(30);
     /**
      * @param x
      * @param y
@@ -66,6 +65,9 @@ public class Skull extends Enemy {
     private void attacking() {
         if (!countDownTimer.isRunning()) {
             countDownTimer.reset();
+            this.setProjectile(new Projectile(getX() + getSize() / 2, getY() + PROJECTILE_Y_OFFSET,
+                getDirection(), PROJECTILE_SPEED, PROJECTILE_SIZE));
+            observerAction();
         } else {
             countDownTimer.tick();
         }

@@ -22,6 +22,8 @@ import it.unibo.oop.model.MagicStaff;
 import it.unibo.oop.model.Percentage;
 import it.unibo.oop.model.Player;
 import it.unibo.oop.model.Projectile;
+import it.unibo.oop.model.ProjectileManager;
+import it.unibo.oop.model.ProjectileManagerImpl;
 import it.unibo.oop.model.Sword;
 import it.unibo.oop.model.Timer;
 import it.unibo.oop.model.TimerImpl;
@@ -54,6 +56,7 @@ public class GameThreadImpl implements Runnable, GameThread {
     private final EnemyFactory enemyFactory = new EnemyFactoryImpl();
     private final WeaponManager weaponManager = new WeaponManagerImpl(player);
     private final ExperienceManager experienceManager = new ExperienceManagerImpl(player);
+    private final ProjectileManager projectileManager = new ProjectileManagerImpl();
     private final CollisionManager collisionManager = new CollisionManagerImpl();
     private final AudioHandler audioHandler = new AudioHandlerImpl();
     private final DrawViewFactory drawViewFactory = new DrawViewFactoryImpl();
@@ -74,7 +77,7 @@ public class GameThreadImpl implements Runnable, GameThread {
      */
     public GameThreadImpl() {
         this.window = drawViewFactory.createDrawView(GameState.TITLESTATE, player, enemyManager, 
-            weaponManager, experienceManager);
+            weaponManager, experienceManager, projectileManager);
         this.window.addKeyListener(inputHandler);
         this.window.setFocusable(true);
         this.audioHandler.playSoundEffect(1, Percentage.TEN_PERCENT);
@@ -117,6 +120,7 @@ public class GameThreadImpl implements Runnable, GameThread {
             experienceManager.update();
             player.update();
             enemyManager.update();
+            projectileManager.update();
         }
         this.window.repaint();
     }
@@ -124,7 +128,6 @@ public class GameThreadImpl implements Runnable, GameThread {
      * Checks for collisions between the player and enemies.
      */
     private void checkCollisions() {
-        //System.out.println(enemyManager.getSpawnedEnemies().size());
         for (final Weapon weapon : weaponManager.getWeapons().keySet()) {
             if (weapon instanceof Sword) {
                 final List<Enemy> enemies = new ArrayList<>();
@@ -175,7 +178,7 @@ public class GameThreadImpl implements Runnable, GameThread {
     private void spawnEnemies() {
         final Enemy slimeBoss = this.enemyFactory.createBoss(this.enemyFactory.createBaseSlime(ENEMY_X, ENEMY_Y, player));
         final Enemy baseSkull = this.enemyFactory.createBaseSkull(ENEMY_X, ENEMY_Y, player);
-        slimeBoss.setDeathObserver(() -> {
+        slimeBoss.setOnDeathObserver(() -> {
             this.enemyManager.spawnEnemy(this.enemyFactory.
                 createBaseSlime(slimeBoss.getX() + slimeBoss.getSize() / 2, slimeBoss.getY(), player));
             this.enemyManager.spawnEnemy(this.enemyFactory.
@@ -183,9 +186,12 @@ public class GameThreadImpl implements Runnable, GameThread {
             this.experienceManager.spawnXP(slimeBoss.getX() + slimeBoss.getSize() / 2,
                 slimeBoss.getY() + slimeBoss.getSize() / 2, 100);
         });
-        baseSkull.setDeathObserver(() -> {
+        baseSkull.setOnDeathObserver(() -> {
             this.experienceManager.spawnXP(baseSkull.getX() + baseSkull.getSize() / 2,
                 baseSkull.getY() + baseSkull.getSize() / 2, 10);
+        });
+        baseSkull.setObserver(() -> {
+           projectileManager.addEnemyProjectile(baseSkull.getProjectile()); 
         });
         this.enemyManager.addEnemy(baseSkull);
         this.spawnTestTimer.update(() -> {
