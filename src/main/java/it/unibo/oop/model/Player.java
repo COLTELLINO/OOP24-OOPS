@@ -8,6 +8,7 @@ public class Player extends Entity {
     private int xp;
     private int level;
     private static final int LEVELUP_SCALER = 20;
+    private final HealthManager healthManager;
     /**
      * @param x
      * @param y
@@ -21,6 +22,7 @@ public class Player extends Entity {
                   final int speed, final int size) {
         super(x, y, maxHealth, health, attack, speed, size);
         this.direction = Direction.NONE;
+        this.healthManager = new HealthManagerImpl(this);
     }
     /**
      * @return the facing direction of the player.
@@ -70,6 +72,12 @@ public class Player extends Entity {
      */
     @Override
     public void update() {
+
+        healthManager.update();
+        if (!healthManager.isAlive()) {
+            return;
+        }
+
         int dx = 0;
         int dy = 0;
         final int speed = getSpeed();

@@ -17,6 +17,8 @@ import it.unibo.oop.model.EnemyManagerImpl;
 import it.unibo.oop.model.Entity;
 import it.unibo.oop.model.ExperienceManager;
 import it.unibo.oop.model.ExperienceManagerImpl;
+import it.unibo.oop.model.HealthManager;
+import it.unibo.oop.model.HealthManagerImpl;
 import it.unibo.oop.model.InputHandler;
 import it.unibo.oop.model.MagicStaff;
 import it.unibo.oop.model.Percentage;
@@ -56,6 +58,7 @@ public class GameThreadImpl implements Runnable, GameThread {
     private final EnemyFactory enemyFactory = new EnemyFactoryImpl();
     private final WeaponManager weaponManager = new WeaponManagerImpl(player);
     private final ExperienceManager experienceManager = new ExperienceManagerImpl(player);
+    private final HealthManager healthManager = new HealthManagerImpl(player);
     private final ProjectileManager projectileManager = new ProjectileManagerImpl();
     private final CollisionManager collisionManager = new CollisionManagerImpl();
     private final AudioHandler audioHandler = new AudioHandlerImpl();
@@ -77,7 +80,7 @@ public class GameThreadImpl implements Runnable, GameThread {
      */
     public GameThreadImpl() {
         this.window = drawViewFactory.createDrawView(GameState.TITLESTATE, player, enemyManager, 
-            weaponManager, experienceManager, projectileManager);
+            weaponManager, experienceManager, healthManager, projectileManager);
         this.window.addKeyListener(inputHandler);
         this.window.setFocusable(true);
         this.audioHandler.playSoundEffect(1, Percentage.TEN_PERCENT);
@@ -120,6 +123,7 @@ public class GameThreadImpl implements Runnable, GameThread {
             experienceManager.update();
             player.update();
             enemyManager.update();
+            healthManager.update();
             projectileManager.update();
         }
         this.window.repaint();

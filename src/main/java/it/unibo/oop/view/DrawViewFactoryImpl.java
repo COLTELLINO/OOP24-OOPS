@@ -10,6 +10,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.controller.GameState;
 import it.unibo.oop.model.EnemyManager;
 import it.unibo.oop.model.ExperienceManager;
+import it.unibo.oop.model.HealthManager;
 import it.unibo.oop.model.Player;
 import it.unibo.oop.model.ProjectileManager;
 import it.unibo.oop.model.WeaponManager;
@@ -28,15 +29,17 @@ public class DrawViewFactoryImpl implements DrawViewFactory {
      * @param enemyManager
      * @param weaponManager
      * @param experienceManager
+     * @param healthManager
      * @return a DrawView window.
      */
     @Override
     public DrawView createDrawView(final GameState gameState, final Player player, final EnemyManager enemyManager, 
-        final WeaponManager weaponManager, final ExperienceManager experienceManager, final ProjectileManager projectileManager) {
+        final WeaponManager weaponManager, final ExperienceManager experienceManager,
+                final HealthManager healthManager, final ProjectileManager projectileManager) {
             try {
                 SwingUtilities.invokeAndWait(() -> {
                     this.window = new DrawViewImpl(GameState.TITLESTATE, player, 
-                            enemyManager, weaponManager, experienceManager, projectileManager);
+                            enemyManager, weaponManager, experienceManager, healthManager, projectileManager);
                     });
             } catch (InvocationTargetException | InterruptedException e) {
                 Logger.getLogger(this.getClass().getName())

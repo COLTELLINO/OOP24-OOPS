@@ -8,6 +8,7 @@ import javax.swing.SwingUtilities;
 import it.unibo.oop.controller.GameState;
 import it.unibo.oop.model.EnemyManager;
 import it.unibo.oop.model.ExperienceManager;
+import it.unibo.oop.model.HealthManager;
 import it.unibo.oop.model.Player;
 import it.unibo.oop.model.ProjectileManager;
 import it.unibo.oop.model.WeaponManager;
@@ -38,14 +39,16 @@ public final class DrawViewImpl implements DrawView {
      * @param enemyManager
      * @param weaponManager
      * @param experienceManager
+     * @param healthManager
      * @param projectileManager
      */
     public DrawViewImpl(final GameState gameState, final Player player, final EnemyManager enemyManager,
-        final WeaponManager weaponManager, final ExperienceManager experienceManager, final ProjectileManager projectileManager) {
+        final WeaponManager weaponManager, final ExperienceManager experienceManager,
+        final HealthManager healthManager, final ProjectileManager projectileManager) {
         this.titlePanel = new TitlePanel(this.sw / PROPORTION, this.sh / PROPORTION, this);
         this.optionPanel = new OptionPanel(this.sw / PROPORTION, this.sh / PROPORTION, this);
         this.gamePanel = new GamePanel(this.sw / PROPORTION, this.sh / PROPORTION, 
-        player, enemyManager, weaponManager, experienceManager, projectileManager);
+        player, enemyManager, weaponManager, experienceManager, healthManager, projectileManager);
         testPanel = new TestPanel(this.sw / PROPORTION, this.sh / PROPORTION);
         this.changeGameState(gameState);
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

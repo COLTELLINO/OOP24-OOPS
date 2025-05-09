@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.model.EnemyManager;
 import it.unibo.oop.model.ExperienceManager;
+import it.unibo.oop.model.HealthManager;
 import it.unibo.oop.model.Player;
 import it.unibo.oop.model.ProjectileManager;
 import it.unibo.oop.model.WeaponManager;
@@ -25,11 +26,13 @@ public class GamePanel extends MyPanel {
     private final transient ProjectileManager projectileManager;
     private final transient WeaponManager weaponManager;
     private final transient ExperienceManager experienceManager;
+    private final transient HealthManager healthManager;
     private final transient EnemyRenderer enemyRenderer = new EnemyRendererImpl();
     private final transient WeaponRenderer weaponRenderer;
     private final transient ExperienceRenderer experienceRenderer = new ExperienceRendererImpl();
     private final transient ProjectileRenderer projectileRenderer = new ProjectileRendererImpl();
     private final transient PlayerRenderer playerRenderer = new PlayerRendererImpl();
+    private final transient HealthRenderer healthRenderer = new HealthRendererImpl();
     /**
      * @param screenWidth
      * @param screenHeight
@@ -37,16 +40,19 @@ public class GamePanel extends MyPanel {
      * @param enemyManager
      * @param weaponManager
      * @param experienceManager
+     * @param healthManager
      * @param projectileManager
      */
     public GamePanel(final int screenWidth, final int screenHeight, final Player player, 
             final EnemyManager enemyManager, final WeaponManager weaponManager,
-            final ExperienceManager experienceManager, final ProjectileManager projectileManager) {
+            final ExperienceManager experienceManager,
+            final HealthManager healthManager, final ProjectileManager projectileManager) {
         this.player = player;
         this.enemyManager = enemyManager;
         this.projectileManager = projectileManager;
         this.weaponManager = weaponManager;
         this.experienceManager = experienceManager;
+        this.healthManager = healthManager;
         weaponRenderer = new WeaponRendererImpl(player);
         super.setPreferredSize(new Dimension(screenWidth, screenHeight));
         super.setBackground(Color.BLACK);
@@ -67,6 +73,7 @@ public class GamePanel extends MyPanel {
         this.experienceRenderer.drawExperienceOrbs(g2d, this.experienceManager.getOrbs());
         // Disegna la barra dell'XP
         drawXPBar(g2d);
+        drawHealthBar(g2d);
     }
 
     private void drawXPBar(final Graphics2D g2d) {
@@ -102,5 +109,13 @@ public class GamePanel extends MyPanel {
 
         // Mostra anche il livello del giocatore
         g2d.drawString("LVL: " + this.player.getLevel(), x + barWidth + offset * 2, y + barHeight - offset);
+    }
+
+    private void drawHealthBar(final Graphics2D g2d) {
+        this.healthRenderer.drawHealthBar(
+            g2d, 
+            this.healthManager.getHealth(), 
+            this.healthManager.getMaxHealth()
+        );
     }
 }
