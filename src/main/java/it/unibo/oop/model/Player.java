@@ -1,9 +1,5 @@
 package it.unibo.oop.model;
 
-import java.awt.Graphics2D;
-
-import java.awt.Color;
-
 /**
  *
  */
@@ -123,15 +119,6 @@ public class Player extends Entity {
         }
         setX(getX() + dx);
         setY(getY() + dy);
-    }
-    /**
-     * Draws the player.
-     * @param g
-     */
-    @Override
-    public void draw(final Graphics2D g) {
-        g.setColor(Color.GREEN);
-        g.fillRect(getX(), getY(), getSize(), getSize());
     }
     /**
      * @return the current amount of XP.
