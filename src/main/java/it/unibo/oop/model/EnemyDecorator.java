@@ -253,8 +253,8 @@ public abstract class EnemyDecorator extends Enemy {
      * @param observer
      */
     @Override
-    public void setDeathObserver(final EnemyObserver observer) {
-        decoratedEnemy.setDeathObserver(observer);
+    public void setOnDeathObserver(final EnemyObserver observer) {
+        decoratedEnemy.setOnDeathObserver(observer);
     }
     /**
      * Updates the decorated enemy.

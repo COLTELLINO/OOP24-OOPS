@@ -11,6 +11,7 @@ import it.unibo.oop.controller.GameState;
 import it.unibo.oop.model.EnemyManager;
 import it.unibo.oop.model.ExperienceManager;
 import it.unibo.oop.model.Player;
+import it.unibo.oop.model.ProjectileManager;
 import it.unibo.oop.model.WeaponManager;
 
 /**
@@ -31,11 +32,11 @@ public class DrawViewFactoryImpl implements DrawViewFactory {
      */
     @Override
     public DrawView createDrawView(final GameState gameState, final Player player, final EnemyManager enemyManager, 
-        final WeaponManager weaponManager, final ExperienceManager experienceManager) {
+        final WeaponManager weaponManager, final ExperienceManager experienceManager, final ProjectileManager projectileManager) {
             try {
                 SwingUtilities.invokeAndWait(() -> {
                     this.window = new DrawViewImpl(GameState.TITLESTATE, player, 
-                            enemyManager, weaponManager, experienceManager);
+                            enemyManager, weaponManager, experienceManager, projectileManager);
                     });
             } catch (InvocationTargetException | InterruptedException e) {
                 Logger.getLogger(this.getClass().getName())
