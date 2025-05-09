@@ -29,6 +29,7 @@ public class GamePanel extends MyPanel {
     private final transient WeaponRenderer weaponRenderer;
     private final transient ExperienceRenderer experienceRenderer = new ExperienceRendererImpl();
     private final transient ProjectileRenderer projectileRenderer = new ProjectileRendererImpl();
+    private final transient PlayerRenderer playerRenderer = new PlayerRendererImpl();
     /**
      * @param screenWidth
      * @param screenHeight
@@ -58,7 +59,7 @@ public class GamePanel extends MyPanel {
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
         final Graphics2D g2d = (Graphics2D) g;
-        this.player.draw(g2d);
+        this.playerRenderer.drawPlayer(this.player, g2d);
         this.enemyRenderer.drawEnemyList(this.enemyManager.getSpawnedEnemies(), g2d);
         this.projectileRenderer.drawProjectileList(this.projectileManager.getEnemyProjectiles(), g2d);
         this.projectileRenderer.drawProjectileList(this.projectileManager.getPlayerProjectiles(), g2d);
