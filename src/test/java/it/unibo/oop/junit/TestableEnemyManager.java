@@ -1,7 +1,7 @@
 package it.unibo.oop.junit;
 
-import it.unibo.oop.model.EnemyManagerImpl;
-import it.unibo.oop.model.Player;
+import it.unibo.oop.model.entities.Player;
+import it.unibo.oop.model.managers.EnemyManagerImpl;
 /**
  * Class to Test if EnemyManagerImpl is working as intended.
  */

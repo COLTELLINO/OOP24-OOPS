@@ -1,6 +1,6 @@
 package it.unibo.oop;
 
-import it.unibo.oop.controller.GameThreadImpl;
+import it.unibo.oop.controller.gamethread.GameThreadImpl;
 
 final class MainApp {
     private MainApp() {

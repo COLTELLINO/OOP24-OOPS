@@ -1,6 +1,7 @@
 package it.unibo.oop.model;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import it.unibo.oop.model.entities.Player;
 
 /**
  * Abstract class representing an upgrade (Weapon or Accessory).

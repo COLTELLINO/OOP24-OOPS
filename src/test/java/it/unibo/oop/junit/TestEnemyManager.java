@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import it.unibo.oop.model.Enemy;
-import it.unibo.oop.model.Player;
-import it.unibo.oop.model.Slime;
+import it.unibo.oop.model.entities.Enemy;
+import it.unibo.oop.model.entities.Player;
+import it.unibo.oop.model.entities.Slime;
 class TestEnemyManager {
     private TestableEnemyManager enemyManager;
     private Player fakePlayer;
