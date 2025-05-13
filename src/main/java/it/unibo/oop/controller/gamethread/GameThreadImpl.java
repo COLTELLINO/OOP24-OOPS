@@ -146,10 +146,10 @@ public class GameThreadImpl implements Runnable, GameThread {
                                 enemies.add(enemy);
                             }
                         }
-                        if (!enemies.isEmpty()) {
-                            collisionManager.handleWeaponCollision(enemies, sword);
-                            sword.setDamageApplied(true);
-                        }
+                    }
+                    if (!enemies.isEmpty()) {
+                        collisionManager.handleWeaponCollision(enemies, sword);
+                        sword.setDamageApplied(true);
                     }
                 }
             } else if (weapon instanceof Bow) {

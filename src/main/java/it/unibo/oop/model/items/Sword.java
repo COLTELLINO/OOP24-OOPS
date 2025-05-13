@@ -23,7 +23,7 @@ justification = "To position the weapon, the player size and position are needed
 public class Sword extends Weapon {
 
 
-    private static final int DAMAGE = 100;
+    private static final int DAMAGE = 200;
     private static final double DURATION = 30;
     private static final double COOLDOWN = 60;
     private static final int SIZE = 70;

@@ -3,7 +3,6 @@ package it.unibo.oop.model.managers;
 import java.util.Set;
 
 import it.unibo.oop.model.entities.Enemy;
-import it.unibo.oop.model.items.Sword;
 import it.unibo.oop.model.items.Weapon;
 
 import java.awt.Rectangle;
@@ -30,11 +29,8 @@ public class CollisionManagerImpl implements CollisionManager {
      */
     @Override
     public void handleWeaponCollision(final Set<Enemy> enemies, final Weapon weapon) {
-        if (weapon instanceof Sword) {
-            final Sword sword = (Sword) weapon;
-            for (final Enemy enemy : enemies) {
-                enemy.setHealth(enemy.getHealth() - sword.getDamage());
-            }
+        for (final Enemy enemy : enemies) {
+            enemy.setHealth(enemy.getHealth() - weapon.getDamage());
         }
     }
 }
