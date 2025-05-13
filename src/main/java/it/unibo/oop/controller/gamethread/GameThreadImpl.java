@@ -119,7 +119,7 @@ public class GameThreadImpl implements Runnable, GameThread {
     public void update() {
         if (this.window.getCurrentGameState() == GameState.PLAYSTATE) {
             getAllEntities().forEach((e) -> e.setShowHitbox(inputHandler.isDebugMode()));
-            weaponManager.getWeapons().keySet().forEach((w) -> w.setShowHitbox(inputHandler.isDebugMode()));
+            weaponManager.getWeapons().forEach((w) -> w.setShowHitbox(inputHandler.isDebugMode()));
             this.spawnEnemies();
             collisionManager.update();
             checkCollisions();
@@ -136,7 +136,7 @@ public class GameThreadImpl implements Runnable, GameThread {
      * Checks for collisions between the player and enemies.
      */
     private void checkCollisions() {
-        for (final Weapon weapon : weaponManager.getWeapons().keySet()) {
+        for (final Weapon weapon : weaponManager.getWeapons()) {
             if (weapon instanceof Sword) {
                 final Set<Enemy> enemies = new HashSet<>();
                 for (final Enemy enemy : enemyManager.getSpawnedEnemies()) {

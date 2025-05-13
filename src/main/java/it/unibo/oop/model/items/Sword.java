@@ -21,7 +21,7 @@ public class Sword extends Weapon {
     private static final int SIZE = 70;
 
     private double duration;
-    private Direction direction;
+    private Direction direction = Direction.RIGHT;
     private double cooldown;
     private boolean active;
     private final Player player;
@@ -140,6 +140,7 @@ public class Sword extends Weapon {
      * 
      * @param level the new level of the sword
      */
+    @Override
     public void setLevel(final int level) {
         this.level = level;
     }

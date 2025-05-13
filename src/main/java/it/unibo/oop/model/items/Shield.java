@@ -41,6 +41,7 @@ public class Shield extends Accessory {
      * 
      * @return the level of the shield
      */
+    @Override
     public int getLevel() {
         return level;
     }
@@ -50,6 +51,7 @@ public class Shield extends Accessory {
      * 
      * @param level the new level of the shield
      */
+    @Override
     public void setLevel(final int level) {
         this.level = level;
     }

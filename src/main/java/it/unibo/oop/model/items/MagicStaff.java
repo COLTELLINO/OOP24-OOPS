@@ -185,6 +185,7 @@ public class MagicStaff extends Weapon {
      * 
      * @param level the new level of the magic staff
      */
+    @Override
     public void setLevel(final int level) {
         this.level = level;
     }

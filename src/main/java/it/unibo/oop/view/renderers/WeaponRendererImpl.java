@@ -9,7 +9,6 @@ import java.awt.AlphaComposite;
 import java.awt.Composite;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -250,11 +249,8 @@ public final class WeaponRendererImpl implements WeaponRenderer {
      * @param weapons the list of weapons to draw
      */
     @Override
-    public void drawWeaponList(final Graphics2D g, final Map<Weapon, Integer> weapons) {
-        for (final Map.Entry<Weapon, Integer> entry : weapons.entrySet()) {
-            final Weapon weapon = entry.getKey();
-            //final int level = entry.getValue(); Il livello non viene usato per ora
-
+    public void drawWeaponList(final Graphics2D g, final List<Weapon> weapons) {
+        for (final Weapon weapon : weapons) {
             if (weapon instanceof Sword) {
                 drawSword(g, (Sword) weapon);
             } else if (weapon instanceof Bow) {

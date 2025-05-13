@@ -113,6 +113,7 @@ public class Bow extends Weapon {
      * 
      * @param level the new level of the bow
      */
+    @Override
     public void setLevel(final int level) {
         this.level = level;
     }
