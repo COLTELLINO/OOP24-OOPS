@@ -4,7 +4,10 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,13 +32,14 @@ public class MagicStaff extends Weapon {
     private static final int SPEED = 3;
     private static final int PROJECTILE_SIZE = 30;
     private static final int EXPLOSION_SIZE = 200;
+    private static final int EXPLOSION_LIFETIME = 30;
     private static final Logger LOGGER = Logger.getLogger(MagicStaff.class.getName());
 
     private double cooldown;
     private final Player player;
     private final Image staffImage;
     private final List<Projectile> projectiles;
-    private final List<Rectangle> explosionHitboxes;
+    private final Map<Rectangle, Integer> explosionHitboxes;
     private Direction direction = Direction.UP;
     private Direction lastDirection = Direction.UP;
     private boolean showHitbox;
@@ -50,7 +54,7 @@ public class MagicStaff extends Weapon {
         this.player = player;
         this.cooldown = 0;
         this.projectiles = new ArrayList<>();
-        this.explosionHitboxes = new ArrayList<>();
+        this.explosionHitboxes = new LinkedHashMap<>();
         try {
             this.staffImage = ImageIO.read(Objects.requireNonNull(
                 getClass().getClassLoader().getResource("Weapon/MagicStaff.png"),
@@ -83,6 +87,17 @@ public class MagicStaff extends Weapon {
 
         projectiles.forEach(Projectile::update);
         projectiles.removeIf(Projectile::isOutOfBounds);
+
+        final Iterator<Map.Entry<Rectangle, Integer>> iterator = explosionHitboxes.entrySet().iterator();
+        while (iterator.hasNext()) {
+            final Map.Entry<Rectangle, Integer> entry = iterator.next();
+            final int remainingTime = entry.getValue() - 1;
+            if (remainingTime <= 0) {
+                iterator.remove();
+            } else {
+                entry.setValue(remainingTime);
+            }
+        }
     }
 
     /**
@@ -91,10 +106,41 @@ public class MagicStaff extends Weapon {
      * @param projectile il proiettile da verificare.
      */
     public void handleCollision(final Projectile projectile) {
-        explosionHitboxes.add(new Rectangle(
-        projectile.getX() - (EXPLOSION_SIZE - PROJECTILE_SIZE) / 2,
-        projectile.getY() - (EXPLOSION_SIZE - PROJECTILE_SIZE) / 2,
-        EXPLOSION_SIZE, EXPLOSION_SIZE));
+        final int explosionX;
+        final int explosionY;
+
+        switch (projectile.getDirection()) {
+            case UP -> {
+                explosionX = projectile.getX() - (EXPLOSION_SIZE - PROJECTILE_SIZE) / 2;
+                explosionY = projectile.getY() - EXPLOSION_SIZE + PROJECTILE_SIZE;
+            }
+            case DOWN -> {
+                explosionX = projectile.getX() - (EXPLOSION_SIZE - PROJECTILE_SIZE) / 2;
+                explosionY = projectile.getY();
+            }
+            case LEFT -> {
+                explosionX = projectile.getX() - EXPLOSION_SIZE / 2 - PROJECTILE_SIZE;
+                explosionY = projectile.getY() - (EXPLOSION_SIZE - PROJECTILE_SIZE) / 2;
+            }
+            case RIGHT -> {
+                explosionX = projectile.getX();
+                explosionY = projectile.getY() - (EXPLOSION_SIZE - PROJECTILE_SIZE) / 2;
+            }
+            default -> {
+                explosionX = projectile.getX() - (EXPLOSION_SIZE - PROJECTILE_SIZE) / 2;
+                explosionY = projectile.getY() - (EXPLOSION_SIZE - PROJECTILE_SIZE) / 2;
+            }
+        }
+
+        final Rectangle explosion = new Rectangle(
+            explosionX,
+            explosionY,
+            EXPLOSION_SIZE,
+            EXPLOSION_SIZE
+        );
+
+        explosionHitboxes.put(explosion, EXPLOSION_LIFETIME);
+        projectiles.remove(projectile);
     }
 
     /**
@@ -114,12 +160,7 @@ public class MagicStaff extends Weapon {
      * @return a list of explosion hitboxes
      */
     public List<Rectangle> getExplosionHitboxes() {
-        final List<Rectangle> hitboxes = new ArrayList<>();
-        for (final Rectangle hitbox : explosionHitboxes) {
-            hitboxes.add(new Rectangle((int) hitbox.getX(), (int) hitbox.getY(),
-                (int) hitbox.getWidth(), (int) hitbox.getHeight()));
-        }
-        return hitboxes;
+        return new ArrayList<>(explosionHitboxes.keySet());
     }
 
     /**
@@ -183,23 +224,9 @@ public class MagicStaff extends Weapon {
         return showHitbox;
     }
     /**
-     * removes the projectile from the list.
-     * @param projectile the projectile to remove
-     */
-    public void removeProjectile(final Projectile projectile) {
-        projectiles.remove(projectile);
-    }
-    /**
      * @return the list of projectiles.
      */
     public List<Projectile> getProjectilesList() {
         return projectiles;
-    }
-    /**
-     * clears the explosion hitboxes.
-     * @param explosionHitbox the explosion hitbox to remove
-     */
-    public void removeExplosion(final Rectangle explosionHitbox) {
-        explosionHitboxes.remove(explosionHitbox);
     }
 }

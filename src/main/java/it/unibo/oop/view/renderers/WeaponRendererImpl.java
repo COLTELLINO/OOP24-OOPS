@@ -5,6 +5,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
+import java.awt.AlphaComposite;
+import java.awt.Composite;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -177,7 +179,6 @@ public final class WeaponRendererImpl implements WeaponRenderer {
             return;
         }
 
-
         for (final Projectile projectile : projectiles) {
             int drawX = projectile.getX();
             int drawY = projectile.getY();
@@ -212,12 +213,17 @@ public final class WeaponRendererImpl implements WeaponRenderer {
             transform.scale(SCALE, SCALE);
             g2d.drawImage(staffImage, transform, null);
         }
+        final float alpha = 0.3f;
+        final Composite originalComposite = g2d.getComposite();
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
 
         for (final Rectangle hitbox : explosionHitBoxes) {
             if (hitbox != null) {
                 g2d.drawImage(explosionImage, hitbox.x, hitbox.y, hitbox.width, hitbox.height, null);
             }
         }
+
+        g2d.setComposite(originalComposite);
     }
 
     /**
@@ -244,6 +250,9 @@ public final class WeaponRendererImpl implements WeaponRenderer {
                 final Graphics2D g2d = g;
                 g2d.setColor(java.awt.Color.RED);
                 final List<Rectangle> hitboxes = weapon.getHitBox();
+                if (weapon instanceof MagicStaff) {
+                    hitboxes.addAll(((MagicStaff) weapon).getExplosionHitboxes());
+                }
                 for (final Rectangle rectangle : hitboxes) {
                     if (rectangle != null) {
                         g2d.draw(rectangle);

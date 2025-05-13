@@ -163,7 +163,6 @@ public class GameThreadImpl implements Runnable, GameThread {
                     for (final Enemy enemy : enemyManager.getSpawnedEnemies()) {
                         if (collisionManager.isColliding(projectile.getProjectileHitBox(), enemy.getHitbox())) {
                             ((MagicStaff) weapon).handleCollision(projectile);
-                            ((MagicStaff) weapon).removeProjectile(projectile);
                         }
                     }
                 }
@@ -175,7 +174,6 @@ public class GameThreadImpl implements Runnable, GameThread {
                         }
                     }
                     collisionManager.handleWeaponCollision(enemies, weapon);
-                    ((MagicStaff) weapon).removeExplosion(rectangle);
                 }
             }
         }
