@@ -136,6 +136,9 @@ public class GameThreadImpl implements Runnable, GameThread {
      * Checks for collisions between the player and enemies.
      */
     private void checkCollisions() {
+        collisionManager.handleEnemyProjectilenCollision(enemyManager.getSpawnedEnemies(),
+            projectileManager.getPlayerProjectiles());
+        collisionManager.handlePlayerProjectilenCollision(player, projectileManager.getPlayerProjectiles());
         for (final Weapon weapon : weaponManager.getWeapons()) {
             if (weapon instanceof Sword) {
                 final Set<Enemy> enemies = new HashSet<>();

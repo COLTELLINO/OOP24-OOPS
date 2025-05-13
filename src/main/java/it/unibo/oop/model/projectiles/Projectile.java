@@ -9,6 +9,7 @@ import it.unibo.oop.utils.Direction;
  */
 public class Projectile {
     private static final int BOUNDS = 6000;
+    private final int damage;
     private final int speed;
     private int x;
     private int y;
@@ -24,9 +25,10 @@ public class Projectile {
      * @param speed the speed of the projectile
      * @param size the size of the projectile
      */
-    public Projectile(final int x, final int y, final Direction direction, final int speed, final int size) {
+    public Projectile(final int x, final int y, final Direction direction, final int damage, final int speed, final int size) {
         this.x = x;
         this.y = y;
+        this.damage = damage;
         this.speed = speed;
         this.direction = direction;
         this.size = size;
@@ -75,6 +77,13 @@ public class Projectile {
      */
     public Direction getDirection() {
         return direction;
+    }
+
+    /**
+     * @return the damage of the projectile.
+     */
+    public int getDamage() {
+        return damage;
     }
 
     /**

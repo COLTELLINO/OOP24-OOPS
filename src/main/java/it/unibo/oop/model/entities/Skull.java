@@ -9,7 +9,7 @@ import it.unibo.oop.utils.CountDownTimer;
 public class Skull extends Enemy {
     private static final int BASE_MAXHEALTH = 200;
     private static final int BASE_HEALTH = 200;
-    private static final int BASE_ATTACK = 5;
+    private static final int BASE_ATTACK = 500;
     private static final int BASE_SPEED = 1;
     private static final int BASE_SIZE = 32;
     private static final int MIN_PLAYER_DISTANCE = 100;
@@ -70,7 +70,7 @@ public class Skull extends Enemy {
         if (!countDownTimer.isRunning()) {
             countDownTimer.reset();
             this.setProjectile(new Projectile(getX() + getSize() / 2, getY() + PROJECTILE_Y_OFFSET,
-                getDirection(), PROJECTILE_SPEED, PROJECTILE_SIZE));
+                getDirection(), getAttack(), PROJECTILE_SPEED, PROJECTILE_SIZE));
             observerAction();
         } else {
             countDownTimer.tick();
