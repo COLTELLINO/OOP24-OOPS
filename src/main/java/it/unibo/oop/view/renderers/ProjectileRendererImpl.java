@@ -2,11 +2,12 @@ package it.unibo.oop.view.renderers;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,10 +19,10 @@ import it.unibo.oop.utils.Direction;
  * Implementation of ProjectileRenderer for rendering projectiles.
  */
 public class ProjectileRendererImpl implements ProjectileRenderer {
-    private static final Logger LOGGER = Logger.getLogger(ProjectileRendererImpl.class.getName());
     private static final double ROTATION_RIGHT = Math.toRadians(90);
     private static final double ROTATION_LEFT = Math.toRadians(-90);
     private static final double SCALE = 2.0;
+    private final Map<String, BufferedImage> projectileSpriteMap = new HashMap<>();
 
     /**
      * Draws current projectile.
@@ -30,16 +31,7 @@ public class ProjectileRendererImpl implements ProjectileRenderer {
      */
     @Override
     public void drawProjectile(final Projectile projectile, final Graphics2D g2) {
-        final Image projectileImage;
-        try {
-            projectileImage = ImageIO.read(Objects.requireNonNull(
-                getClass().getClassLoader().getResource("Weapon/" + projectile.getProjectileName() + ".png"),
-                "Resource 'Weapon/Bow.png' not found."
-            ));
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Bow projectile image could not be loaded.", e);
-            return;
-        }
+        final BufferedImage projectileImage = getProjectileSprite(projectile);
         final AffineTransform transform = new AffineTransform();
         transform.translate(projectile.getX(), projectile.getY());
 
@@ -73,5 +65,20 @@ public class ProjectileRendererImpl implements ProjectileRenderer {
         for (final Projectile projectile : projectileList) {
             this.drawProjectile(projectile, g2);
         }
+    }
+    /**
+     * @param projectile
+     * @return the image of the enemy.
+     */
+    private BufferedImage getProjectileSprite(final Projectile projectile) {
+        return projectileSpriteMap.computeIfAbsent(projectile.getProjectileName(), name -> {
+            try {
+                return ImageIO.read(EnemyRendererImpl.class.getResource("/Weapon/" + name + ".png"));
+            } catch (IOException e) {
+                Logger.getLogger(this.getClass().getName())
+                    .log(Level.SEVERE, e.getClass().getSimpleName() + " occurred: ", e);
+                    return null;
+            }
+        });
     }
 }
