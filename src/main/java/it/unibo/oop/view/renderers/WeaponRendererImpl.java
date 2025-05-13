@@ -67,12 +67,14 @@ public final class WeaponRendererImpl implements WeaponRenderer {
         final int drawX;
         final int drawY = player.getY() + player.getSize() / 2 - (int) (swordImage.getHeight(null) * SCALE) / 2;
         double rotation = 0;
+        final int offset1 = 40;
+        final int offset2 = 55;
 
         if (sword.getDirection() == Direction.RIGHT) {
-            drawX = player.getX() + player.getSize();
+            drawX = player.getX() + offset1;
             rotation = ROTATION_RIGHT;
         } else if (sword.getDirection() == Direction.LEFT) {
-            drawX = player.getX() - (int) (swordImage.getWidth(null) * SCALE);
+            drawX = player.getX() - offset2;
             rotation = ROTATION_LEFT;
         } else {
             drawX = player.getX();
