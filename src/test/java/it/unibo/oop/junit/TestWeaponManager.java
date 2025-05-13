@@ -55,7 +55,11 @@ class WeaponManagerTest {
         // Aggiungi un upgrade scelto
         weaponManager.addChosenUpgrade(upgradesToChoose.get(0).getClass());
         final List<Weapon> weapons = weaponManager.getWeapons();
-        assertEquals(2, weapons.size(), "Weapon pool should now contain two weapons.");
+        if (!upgradesToChoose.get(0).getClass().equals(Sword.class)) {
+            assertEquals(2, weapons.size(), "Weapon pool should now contain two weapons.");
+        } else {
+            assertEquals(1, weapons.size(), "Weapon pool should now contain two weapons.");
+        }
     }
 
     @Test

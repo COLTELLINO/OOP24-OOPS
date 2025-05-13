@@ -6,6 +6,7 @@ import java.util.List;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.model.entities.Player;
+import it.unibo.oop.model.managers.WeaponManager;
 import it.unibo.oop.model.managers.WeaponManagerImpl.WeaponObserver;
 import it.unibo.oop.model.projectiles.Arrow;
 import it.unibo.oop.model.projectiles.Projectile;
@@ -33,6 +34,8 @@ public class Bow extends Weapon {
     private Direction lastDirection = Direction.UP;
     private boolean showHitbox;
     private int level;
+    private static final int DAMAGESCALER = 1;
+    private static final int SPEEDSCALER = 3;
 
     /**
      * Constructs a Bow object.
@@ -57,7 +60,11 @@ public class Bow extends Weapon {
             observerAction();
             cooldown = COOLDOWN;
         } else {
-            cooldown--;
+            if (level >= 4) {
+                cooldown -= SPEEDSCALER;
+            } else {
+                cooldown--;
+            }
         }
         direction = player.getDirection();
         if (direction == Direction.LEFT || direction == Direction.RIGHT 
@@ -98,15 +105,20 @@ public class Bow extends Weapon {
                 projectiles.add(new Arrow(player.getX(), player.getY(), direction.getOpposite(), DAMAGE, SPEED, PROJECTILE_SIZE));
             }
             case 3 -> {
-                for (Direction dir : Direction.values()) {
+                for (final Direction dir : Direction.verticalHorizontal()) {
                     projectiles.add(new Arrow(player.getX(), player.getY(), dir, DAMAGE, SPEED, PROJECTILE_SIZE));
                 }
             }
             case 4 -> {
-                projectiles.add(new Arrow(player.getX(), player.getY(), direction, DAMAGE, SPEED * 2, PROJECTILE_SIZE));
+                for (final Direction dir : Direction.verticalHorizontal()) {
+                    projectiles.add(new Arrow(player.getX(), player.getY(), dir, DAMAGE, SPEED, PROJECTILE_SIZE));
+                }
             }
-            case 5 -> {
-                projectiles.add(new Arrow(player.getX(), player.getY(), direction, DAMAGE * 2, SPEED, PROJECTILE_SIZE));
+            case WeaponManager.MAX_LEVEL -> {
+                for (final Direction dir : Direction.verticalHorizontal()) {
+                    projectiles.add(new Arrow(player.getX(), player.getY(), dir, 
+                    DAMAGE * (level / DAMAGESCALER), SPEED * (level / SPEEDSCALER), PROJECTILE_SIZE));
+                }
             }
             default -> throw new IllegalStateException("Unexpected level: " + level);
         }
@@ -152,7 +164,7 @@ public class Bow extends Weapon {
      */
     @Override
     public int getDamage() {
-        return DAMAGE;
+        return 0;
     }
     /**
      * @param showHitbox the visibility of the hitbox.

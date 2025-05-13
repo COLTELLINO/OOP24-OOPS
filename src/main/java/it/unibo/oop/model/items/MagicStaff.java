@@ -27,6 +27,9 @@ public class MagicStaff extends Weapon {
     private static final int PROJECTILE_SIZE = 30;
     private static final int EXPLOSION_SIZE = 200;
     private static final int EXPLOSION_LIFETIME = 30;
+    private static final int DAMAGESCALER = 1;
+    private static final int SIZESCALER = 2;
+    private static final int SPEEDSCALER = 2;
 
     private double cooldown;
     private final Player player;
@@ -76,7 +79,11 @@ public class MagicStaff extends Weapon {
             observerAction();
             cooldown = COOLDOWN;
         } else {
-            cooldown--;
+            if (level >= 3) {
+                cooldown -= SPEEDSCALER;
+            } else {
+                cooldown--;
+            }
         }
         direction = player.getDirection();
         if (direction == Direction.RIGHT || direction == Direction.LEFT 
@@ -156,10 +163,29 @@ public class MagicStaff extends Weapon {
                 EXPLOSION_SIZE
             );
 
-            explosionHitboxes.put(explosion, EXPLOSION_LIFETIME);
+            if (level >= 2) {
+                explosionHitboxes.put(scaleRectangle(explosion, SIZESCALER), EXPLOSION_LIFETIME);
+            } else {
+                explosionHitboxes.put(explosion, EXPLOSION_LIFETIME);
+            }
         });
 
         projectiles.add(projectile);
+    }
+
+    /**
+     * Scales a rectangle while keeping its center unchanged.
+     * 
+     * @param rect the original rectangle
+     * @param scaleFactor the factor by which to scale the rectangle
+     * @return a new scaled rectangle with the same center
+     */
+    private Rectangle scaleRectangle(final Rectangle rect, final double scaleFactor) {
+        final int newWidth = (int) (rect.width * scaleFactor);
+        final int newHeight = (int) (rect.height * scaleFactor);
+        final int newX = rect.x - (newWidth - rect.width) / 2;
+        final int newY = rect.y - (newHeight - rect.height) / 2;
+        return new Rectangle(newX, newY, newWidth, newHeight);
     }
 
     /**
@@ -202,7 +228,7 @@ public class MagicStaff extends Weapon {
      */
     @Override
     public int getDamage() {
-        return DAMAGE;
+        return DAMAGE * (level / DAMAGESCALER);
     }
     /**
      * @param showHitbox the visibility of the hitbox.

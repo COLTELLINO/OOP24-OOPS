@@ -9,6 +9,11 @@ import it.unibo.oop.model.items.Weapon;
  * Interface for managing weapons.
  */
 public interface WeaponManager {
+
+    /**
+     * MAX LEVEL of a weapon.
+     */
+    int MAX_LEVEL = 5;
     /**
      * Updates every weapon.
      */

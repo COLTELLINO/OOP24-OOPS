@@ -14,6 +14,8 @@ public class Shield extends Accessory {
     private boolean isEquipped;
     private final Player player;
     private int level;
+    private static final int BASEBONUS = 10;
+    private static final int SCALER = 1;
 
     /**
      * Creates a new Shield instance.
@@ -31,7 +33,7 @@ public class Shield extends Accessory {
     @Override
     public void update() {
         if (!isEquipped) {
-            player.setHealth(player.getHealth() + 100);
+            player.setHealth(player.getHealth() + BASEBONUS * (level / SCALER));
             this.isEquipped = true;
         }
     }

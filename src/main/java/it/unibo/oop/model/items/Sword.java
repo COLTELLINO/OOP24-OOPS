@@ -25,6 +25,8 @@ public class Sword extends Weapon {
     private double cooldown;
     private boolean active;
     private final Player player;
+    private static final int SIZESCALER = 1;
+    private static final int DAMAGESCALER = 1;
     private boolean lastDirectionRight = true;
     private boolean showHitbox;
     private int level;
@@ -54,10 +56,12 @@ public class Sword extends Weapon {
         }
         switch (direction) {
             case LEFT:
-                hitbox.add(new Rectangle(player.getX() - SIZE, player.getY(), SIZE, player.getSize()));
+                hitbox.add(new Rectangle(player.getX() - SIZE * (level / SIZESCALER), 
+                player.getY(), SIZE * (level / SIZESCALER), player.getSize()));
                 return hitbox;
             case RIGHT:
-                hitbox.add(new Rectangle(player.getX() + player.getSize(), player.getY(), SIZE, player.getSize()));
+                hitbox.add(new Rectangle(player.getX() + player.getSize(), player.getY(), 
+                SIZE * (level / SIZESCALER), player.getSize()));
                 return hitbox;
             default:
                 return List.of();
@@ -150,7 +154,7 @@ public class Sword extends Weapon {
      */
     @Override
     public int getDamage() {
-        return DAMAGE;
+        return DAMAGE * (level / DAMAGESCALER);
     }
 
     /**
@@ -175,5 +179,14 @@ public class Sword extends Weapon {
     @Override
     public void handleCollision() {
         //unused for the sword.
+    }
+
+    /**
+    * Gets the size of the sword based on its level and scaler.
+    * 
+    * @return the size of the sword
+    */
+    public int getSize() {
+        return SIZE * (level / SIZESCALER);
     }
 }

@@ -31,7 +31,6 @@ justification = "To position the weapon, the player size and position are needed
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
 public final class WeaponRendererImpl implements WeaponRenderer {
     private static final Logger LOGGER = Logger.getLogger(WeaponRendererImpl.class.getName());
-    private static final double SCALE = 2.0;
     private static final double ROTATION_RIGHT = Math.toRadians(90);
     private static final double ROTATION_LEFT = Math.toRadians(-90);
 
@@ -64,17 +63,17 @@ public final class WeaponRendererImpl implements WeaponRenderer {
         }
         final Graphics2D g2d = (Graphics2D) g;
         final Player player = sword.getPlayer();
+        final double swordScaler = 35.0;
+        final double scale = sword.getSize() / swordScaler;
         final int drawX;
-        final int drawY = player.getY() + player.getSize() / 2 - (int) (swordImage.getHeight(null) * SCALE) / 2;
+        final int drawY = player.getY() + player.getSize() / 2 - (int) (swordImage.getHeight(null) * scale) / 2;
         double rotation = 0;
-        final int offset1 = 40;
-        final int offset2 = 55;
 
         if (sword.getDirection() == Direction.RIGHT) {
-            drawX = player.getX() + offset1;
+            drawX = player.getX() + player.getSize();
             rotation = ROTATION_RIGHT;
         } else if (sword.getDirection() == Direction.LEFT) {
-            drawX = player.getX() - offset2;
+            drawX = player.getX() - (int) (swordImage.getWidth(null) * scale);
             rotation = ROTATION_LEFT;
         } else {
             drawX = player.getX();
@@ -82,8 +81,8 @@ public final class WeaponRendererImpl implements WeaponRenderer {
 
         final AffineTransform transform = new AffineTransform();
         transform.translate(drawX, drawY);
-        transform.rotate(rotation, swordImage.getWidth(null) * SCALE / 2.0, swordImage.getHeight(null) * SCALE / 2.0);
-        transform.scale(SCALE, SCALE);
+        transform.rotate(rotation, swordImage.getWidth(null) * scale / 2.0, swordImage.getHeight(null) * scale / 2.0);
+        transform.scale(scale, scale);
         g2d.drawImage(swordImage, transform, null);
     }
 
