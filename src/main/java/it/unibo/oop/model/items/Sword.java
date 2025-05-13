@@ -6,7 +6,6 @@ import java.util.List;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.model.entities.Player;
-import it.unibo.oop.model.managers.WeaponManagerImpl.WeaponObserver;
 import it.unibo.oop.utils.Direction;
 
 /**
@@ -25,8 +24,6 @@ public class Sword extends Weapon {
     private Direction direction = Direction.RIGHT;
     private double cooldown;
     private boolean active;
-    @SuppressWarnings("unused")
-    private WeaponObserver observer;
     private final Player player;
     private boolean lastDirectionRight = true;
     private boolean showHitbox;
@@ -168,7 +165,7 @@ public class Sword extends Weapon {
      * @return the visibility of the hitbox.
      */
     @Override
-    public boolean isShowHitbox() {
+    public boolean isHitboxShowed() {
         return showHitbox;
     }
 }

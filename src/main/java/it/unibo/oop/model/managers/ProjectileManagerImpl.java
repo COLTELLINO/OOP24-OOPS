@@ -65,4 +65,13 @@ public class ProjectileManagerImpl implements ProjectileManager {
     public List<Projectile> getPlayerProjectiles() {
         return new ArrayList<>(playerProjectileList);
     }
+    /**
+     * @return all projectiles.
+     */
+    @Override
+    public List<Projectile> getAllProjectiles() {
+        List<Projectile> allProjectiles = new ArrayList<>(playerProjectileList);
+        allProjectiles.addAll(enemyProjectileList);
+        return new ArrayList<>(allProjectiles);
+    }
 }

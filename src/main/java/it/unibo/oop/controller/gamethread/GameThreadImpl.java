@@ -119,6 +119,7 @@ public class GameThreadImpl implements Runnable, GameThread {
     public void update() {
         if (this.window.getCurrentGameState() == GameState.PLAYSTATE) {
             getAllEntities().forEach((e) -> e.setShowHitbox(inputHandler.isDebugMode()));
+            projectileManager.getAllProjectiles().forEach((p) -> p.setShowHitbox(inputHandler.isDebugMode()));
             weaponManager.getWeapons().forEach((w) -> w.setShowHitbox(inputHandler.isDebugMode()));
             this.spawnEnemies();
             collisionManager.update();
@@ -200,7 +201,8 @@ public class GameThreadImpl implements Runnable, GameThread {
                 baseSkull.getY() + baseSkull.getSize() / 2, 10);
         });
         baseSkull.setObserver(() -> {
-           projectileManager.addEnemyProjectile(baseSkull.getProjectile()); 
+           projectileManager.addEnemyProjectile(baseSkull.getProjectile());
+           baseSkull.getProjectile().setShowHitbox(true);
         });
         this.enemyManager.addEnemy(baseSkull);
         this.spawnTestTimer.update(() -> {

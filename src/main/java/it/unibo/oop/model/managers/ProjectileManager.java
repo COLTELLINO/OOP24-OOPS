@@ -39,4 +39,8 @@ public interface ProjectileManager {
      * @return all projectiles that come from the player.
      */
     List<Projectile> getPlayerProjectiles();
+    /**
+     * @return all projectiles.
+     */
+    List<Projectile> getAllProjectiles();
 }

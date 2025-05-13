@@ -259,7 +259,7 @@ public final class WeaponRendererImpl implements WeaponRenderer {
                 drawMagicStaff(g, (MagicStaff) weapon);
             }
 
-            if (weapon.isShowHitbox()) {
+            if (weapon.isHitboxShowed()) {
                 final Graphics2D g2d = g;
                 g2d.setColor(java.awt.Color.RED);
                 final List<Rectangle> hitboxes = weapon.getHitBox();

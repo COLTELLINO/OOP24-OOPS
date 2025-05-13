@@ -31,5 +31,5 @@ public abstract class Weapon extends Upgrade {
     /**
      * @return the visibility of the hitbox.
      */
-    public abstract boolean isShowHitbox();
+    public abstract boolean isHitboxShowed();
 }

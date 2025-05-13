@@ -207,7 +207,7 @@ public class MagicStaff extends Weapon {
      * @return the visibility of the hitbox.
      */
     @Override
-    public boolean isShowHitbox() {
+    public boolean isHitboxShowed() {
         return showHitbox;
     }
     /**
