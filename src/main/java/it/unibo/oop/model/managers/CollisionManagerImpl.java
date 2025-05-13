@@ -63,6 +63,7 @@ public class CollisionManagerImpl implements CollisionManager {
      */
     @Override
     public void handleWeaponCollision(final Set<Enemy> enemies, final Weapon weapon) {
+        weapon.handleCollision();
         for (final Enemy enemy : enemies) {
             if (canTakeDamage(enemy)) {
                 enemy.setHealth(enemy.getHealth() - weapon.getDamage());

@@ -14,9 +14,6 @@ import it.unibo.oop.model.factories.EnemyFactoryImpl;
 import it.unibo.oop.model.handlers.AudioHandler;
 import it.unibo.oop.model.handlers.AudioHandlerImpl;
 import it.unibo.oop.model.handlers.InputHandler;
-import it.unibo.oop.model.items.Bow;
-import it.unibo.oop.model.items.MagicStaff;
-import it.unibo.oop.model.items.Sword;
 import it.unibo.oop.model.items.Weapon;
 import it.unibo.oop.model.managers.CollisionManager;
 import it.unibo.oop.model.managers.CollisionManagerImpl;
@@ -30,7 +27,6 @@ import it.unibo.oop.model.managers.ProjectileManager;
 import it.unibo.oop.model.managers.ProjectileManagerImpl;
 import it.unibo.oop.model.managers.WeaponManager;
 import it.unibo.oop.model.managers.WeaponManagerImpl;
-import it.unibo.oop.model.projectiles.Projectile;
 import it.unibo.oop.utils.GameState;
 import it.unibo.oop.utils.Percentage;
 import it.unibo.oop.utils.Timer;
@@ -137,44 +133,14 @@ public class GameThreadImpl implements Runnable, GameThread {
      */
     private void checkCollisions() {
         for (final Weapon weapon : weaponManager.getWeapons()) {
-            if (weapon instanceof Sword) {
+            for (final Rectangle rectangle : weapon.getHitBox()) {
                 final Set<Enemy> enemies = new HashSet<>();
                 for (final Enemy enemy : enemyManager.getSpawnedEnemies()) {
-                    for (final Rectangle rectangle : weapon.getHitBox()) {
-                        if (collisionManager.isColliding(rectangle, enemy.getHitbox())) {
-                            enemies.add(enemy);
-                        }
+                    if (collisionManager.isColliding(rectangle, enemy.getHitbox())) {
+                        enemies.add(enemy);
                     }
                 }
                 collisionManager.handleWeaponCollision(enemies, weapon);
-            } else if (weapon instanceof Bow) {
-                for (final Rectangle rectangle : weapon.getHitBox()) {
-                    final Set<Enemy> enemies = new HashSet<>();
-                    for (final Enemy enemy : enemyManager.getSpawnedEnemies()) {
-                        if (collisionManager.isColliding(rectangle, enemy.getHitbox())) {
-                            enemies.add(enemy);
-                        }
-                    }
-                    collisionManager.handleWeaponCollision(enemies, weapon);
-                }
-            } else if (weapon instanceof MagicStaff) {
-                final List<Projectile> projectiles = ((MagicStaff) weapon).getProjectiles();
-                for (final Projectile projectile : projectiles) {
-                    for (final Enemy enemy : enemyManager.getSpawnedEnemies()) {
-                        if (collisionManager.isColliding(projectile.getProjectileHitBox(), enemy.getHitbox())) {
-                            ((MagicStaff) weapon).handleCollision(projectile);
-                        }
-                    }
-                }
-                for (final Rectangle rectangle : ((MagicStaff) weapon).getExplosionHitboxes()) {
-                    final Set<Enemy> enemies = new HashSet<>();
-                    for (final Enemy enemy : enemyManager.getSpawnedEnemies()) {
-                        if (collisionManager.isColliding(rectangle, enemy.getHitbox())) {
-                            enemies.add(enemy);
-                        }
-                    }
-                    collisionManager.handleWeaponCollision(enemies, weapon);
-                }
             }
         }
     }

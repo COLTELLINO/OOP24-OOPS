@@ -168,4 +168,12 @@ public class Sword extends Weapon {
     public boolean isShowHitbox() {
         return showHitbox;
     }
+
+    /**
+     * Handles the weapon collision.
+     */
+    @Override
+    public void handleCollision() {
+        //unused for the sword.
+    }
 }

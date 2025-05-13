@@ -67,6 +67,13 @@ public class Projectile {
     public int getY() {
         return y;
     }
+    
+    /**
+     * @return the size of the projectile
+     */
+    public int getSize() {
+        return size;
+    }
 
     /**
      * Gets the direction of the projectile.

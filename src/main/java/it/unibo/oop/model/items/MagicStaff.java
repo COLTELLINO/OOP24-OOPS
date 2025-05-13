@@ -24,8 +24,6 @@ public class MagicStaff extends Weapon {
     private static final double COOLDOWN = 80;
     private static final int SPEED = 3;
     private static final int PROJECTILE_SIZE = 30;
-    private static final int EXPLOSION_SIZE = 200;
-    private static final int EXPLOSION_LIFETIME = 30;
 
     private double cooldown;
     private final Player player;
@@ -82,49 +80,6 @@ public class MagicStaff extends Weapon {
                 entry.setValue(remainingTime);
             }
         }
-    }
-
-    /**
-     * Gestisce la collisione di un proiettile.
-     * 
-     * @param projectile il proiettile da verificare.
-     */
-    public void handleCollision(final Projectile projectile) {
-        final int explosionX;
-        final int explosionY;
-
-        switch (projectile.getDirection()) {
-            case UP -> {
-                explosionX = projectile.getX() - (EXPLOSION_SIZE - PROJECTILE_SIZE) / 2;
-                explosionY = projectile.getY() - EXPLOSION_SIZE + PROJECTILE_SIZE;
-            }
-            case DOWN -> {
-                explosionX = projectile.getX() - (EXPLOSION_SIZE - PROJECTILE_SIZE) / 2;
-                explosionY = projectile.getY();
-            }
-            case LEFT -> {
-                explosionX = projectile.getX() - EXPLOSION_SIZE / 2 - PROJECTILE_SIZE;
-                explosionY = projectile.getY() - (EXPLOSION_SIZE - PROJECTILE_SIZE) / 2;
-            }
-            case RIGHT -> {
-                explosionX = projectile.getX();
-                explosionY = projectile.getY() - (EXPLOSION_SIZE - PROJECTILE_SIZE) / 2;
-            }
-            default -> {
-                explosionX = projectile.getX() - (EXPLOSION_SIZE - PROJECTILE_SIZE) / 2;
-                explosionY = projectile.getY() - (EXPLOSION_SIZE - PROJECTILE_SIZE) / 2;
-            }
-        }
-
-        final Rectangle explosion = new Rectangle(
-            explosionX,
-            explosionY,
-            EXPLOSION_SIZE,
-            EXPLOSION_SIZE
-        );
-
-        explosionHitboxes.put(explosion, EXPLOSION_LIFETIME);
-        projectiles.remove(projectile);
     }
 
     /**
@@ -215,5 +170,14 @@ public class MagicStaff extends Weapon {
      */
     public List<Projectile> getProjectilesList() {
         return projectiles;
+    }
+
+    /**
+     * hndles the weapon collision.
+     */
+    @Override
+    public void handleCollision() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'handleCollision'");
     }
 }

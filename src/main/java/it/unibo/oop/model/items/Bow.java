@@ -139,4 +139,12 @@ public class Bow extends Weapon {
     public boolean isShowHitbox() {
         return showHitbox;
     }
+
+    /**
+     * handles the weapon collision.
+     */
+    @Override
+    public void handleCollision() {
+        //unused for the bow.
+    }
 }
