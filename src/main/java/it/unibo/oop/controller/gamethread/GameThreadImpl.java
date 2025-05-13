@@ -121,6 +121,7 @@ public class GameThreadImpl implements Runnable, GameThread {
             getAllEntities().forEach((e) -> e.setShowHitbox(inputHandler.isDebugMode()));
             weaponManager.getWeapons().keySet().forEach((w) -> w.setShowHitbox(inputHandler.isDebugMode()));
             this.spawnEnemies();
+            collisionManager.update();
             checkCollisions();
             weaponManager.update();
             experienceManager.update();
@@ -137,21 +138,15 @@ public class GameThreadImpl implements Runnable, GameThread {
     private void checkCollisions() {
         for (final Weapon weapon : weaponManager.getWeapons().keySet()) {
             if (weapon instanceof Sword) {
-                final Sword sword = (Sword) weapon;
-                if (!sword.isDamageApplied()) {
-                    final Set<Enemy> enemies = new HashSet<>();
-                    for (final Enemy enemy : enemyManager.getSpawnedEnemies()) {
-                        for (final Rectangle rectangle : weapon.getHitBox()) {
-                            if (collisionManager.isColliding(rectangle, enemy.getHitbox())) {
-                                enemies.add(enemy);
-                            }
+                final Set<Enemy> enemies = new HashSet<>();
+                for (final Enemy enemy : enemyManager.getSpawnedEnemies()) {
+                    for (final Rectangle rectangle : weapon.getHitBox()) {
+                        if (collisionManager.isColliding(rectangle, enemy.getHitbox())) {
+                            enemies.add(enemy);
                         }
                     }
-                    if (!enemies.isEmpty()) {
-                        collisionManager.handleWeaponCollision(enemies, sword);
-                        sword.setDamageApplied(true);
-                    }
                 }
+                collisionManager.handleWeaponCollision(enemies, weapon);
             } else if (weapon instanceof Bow) {
                 for (final Rectangle rectangle : weapon.getHitBox()) {
                     final Set<Enemy> enemies = new HashSet<>();

@@ -25,4 +25,23 @@ public interface CollisionManager {
      */
     void handleWeaponCollision(Set<Enemy> enemies, Weapon weapon);
 
+    /**
+     * Checks if an enemy can take damage.
+     * 
+     * @param enemy the enemy to check
+     * @return true if the enemy can take damage, false otherwise
+     */
+    boolean canTakeDamage(Enemy enemy);
+
+    /**
+     * Registers damage for an enemy, starting its i-frame cooldown.
+     * 
+     * @param enemy the enemy that took damage
+     */
+    void registerDamage(Enemy enemy);
+
+    /**
+     * Updates the cooldowns for all entities.
+     */
+    void update();
 }
