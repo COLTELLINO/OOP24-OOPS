@@ -248,4 +248,11 @@ public class MagicStaff extends Weapon {
     public void setObserver(final WeaponObserver observer) {
         this.observer = observer;
     }
+
+    /**
+     * @return the observer
+     */
+    public Object getObserver() {
+        return this.observer;
+    }
 }

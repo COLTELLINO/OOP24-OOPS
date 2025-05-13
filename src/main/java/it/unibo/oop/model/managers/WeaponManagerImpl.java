@@ -27,7 +27,10 @@ public class WeaponManagerImpl implements WeaponManager {
     private final Random random;
     private int playerLastLevel = 1;
     private final ProjectileManager projectileManager;
-    private static final int MAX_LEVEL = 5;
+    /**
+     * The max level of a weapon.
+     */
+    public static final int MAX_LEVEL = 5;
     private boolean first = true;
     /**
      * Functional interface to observe enemies and act when a condition is met.
@@ -100,6 +103,15 @@ public class WeaponManagerImpl implements WeaponManager {
             }
         }
         return weapons;
+    }
+
+    /**
+     * Returns the map of weapons and their levels.
+     * 
+     * @return the map of weapons and their levels
+     */
+    public List<Class<? extends Upgrade>> getUpgradePool() {
+        return this.upgradePool;
     }
 
     /**
