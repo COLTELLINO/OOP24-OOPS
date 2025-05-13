@@ -116,10 +116,10 @@ public class GameThreadImpl implements Runnable, GameThread {
     @Override
     public void update() {
         if (this.window.getCurrentGameState() == GameState.PLAYSTATE) {
-            getAllEntities().forEach((e) -> e.setShowHitbox(inputHandler.isDebugMode()));
+            getAllEntities().forEach((e) -> e.showHitbox(inputHandler.isDebugMode()));
             weaponManager.getWeapons().keySet().forEach((w) -> w.setShowHitbox(inputHandler.isDebugMode()));
             this.spawnEnemies();
-            checkCollisions();
+            this.checkCollisions();
             weaponManager.update();
             experienceManager.update();
             player.update();

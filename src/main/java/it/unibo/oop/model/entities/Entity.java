@@ -107,7 +107,7 @@ justification = "The hitbox of the entity is needed to check for collisions")
     /**
      * @return if the hitboxes are showed. 
      */
-    public boolean isHitboxShowed() {
+    public boolean isHitboxShown() {
         return showHitbox;
     }
     // Setter per la salute e altre variabili, se necessario
@@ -172,10 +172,10 @@ justification = "The hitbox of the entity is needed to check for collisions")
     }
     /**
      * Shows hitboxes when true.
-     * @param show
+     * @param showHitbox
      */
-    public void setShowHitbox(final boolean show) {
-        this.showHitbox = show;
+    public void showHitbox(final boolean showHitbox) {
+        this.showHitbox = showHitbox;
      }
     /**
      * Sets the Entity's hitbox.

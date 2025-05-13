@@ -105,8 +105,8 @@ public abstract class EnemyDecorator extends Enemy {
      * @return if the hitboxes are shown
      */
     @Override
-    public boolean isHitboxShowed() {
-        return decoratedEnemy.isHitboxShowed();
+    public boolean isHitboxShown() {
+        return decoratedEnemy.isHitboxShown();
     }
     /**
      * @return the scaling of the enemy size.
@@ -219,8 +219,8 @@ public abstract class EnemyDecorator extends Enemy {
      * @param show
      */
     @Override
-    public void setShowHitbox(final boolean show) {
-        decoratedEnemy.setShowHitbox(show);
+    public void showHitbox(final boolean show) {
+        decoratedEnemy.showHitbox(show);
     }
     /**
      * @param direction

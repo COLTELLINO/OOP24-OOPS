@@ -34,7 +34,7 @@ public class EnemyRendererImpl implements EnemyRenderer {
             final BufferedImage image = getEnemySprite(enemy);
                 g2.drawImage(image, enemy.getX(), enemy.getY(), image.getWidth() * enemy.getSizeScale(),
                     image.getHeight() * enemy.getSizeScale(), null);
-            if (enemy.isHitboxShowed()) {
+            if (enemy.isHitboxShown()) {
                 g2.setColor(Color.RED);
                 g2.drawRect(enemy.getX(), enemy.getY(), enemy.getSize(), enemy.getSize());
             }
