@@ -23,7 +23,7 @@ justification = "To position the weapon, the player size and position are needed
 public class Sword extends Weapon {
 
 
-    private static final int DAMAGE = 200;
+    private static final int DAMAGE = 100;
     private static final double DURATION = 30;
     private static final double COOLDOWN = 60;
     private static final int SIZE = 70;
@@ -37,6 +37,7 @@ public class Sword extends Weapon {
     private boolean lastDirectionRight = true;
     private final Image swordImage;
     private boolean showHitbox;
+    private boolean damageApplied;
 
     /**
      * Constructs a Sword object.
@@ -92,6 +93,7 @@ public class Sword extends Weapon {
                 active = false;
                 this.cooldown = COOLDOWN;
                 this.duration = DURATION;
+                this.damageApplied = false;
             }
         } else {
             if (cooldown <= 0) {
@@ -177,5 +179,23 @@ public class Sword extends Weapon {
     @Override
     public boolean isShowHitbox() {
         return showHitbox;
+    }
+
+    /**
+     * Returns whether the damage has been applied for the current sword swing.
+     * 
+     * @return true if the damage has been applied, false otherwise
+     */
+    public boolean isDamageApplied() {
+        return damageApplied;
+    }
+
+    /**
+     * Sets the damage applied flag.
+     * 
+     * @param damageApplied true if the damage has been applied, false otherwise
+     */
+    public void setDamageApplied(final boolean damageApplied) {
+        this.damageApplied = damageApplied;
     }
 }

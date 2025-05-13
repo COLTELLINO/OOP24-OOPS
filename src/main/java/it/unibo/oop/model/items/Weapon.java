@@ -3,7 +3,6 @@ package it.unibo.oop.model.items;
 import java.awt.Rectangle;
 import java.util.List;
 
-import it.unibo.oop.model.Upgrade;
 import it.unibo.oop.model.entities.Player;
 
 /**

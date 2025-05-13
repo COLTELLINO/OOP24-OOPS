@@ -8,12 +8,12 @@ import java.util.Map;
 import java.util.Random;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import it.unibo.oop.model.Upgrade;
 import it.unibo.oop.model.entities.Player;
 import it.unibo.oop.model.items.Bow;
 import it.unibo.oop.model.items.MagicStaff;
 import it.unibo.oop.model.items.Shield;
 import it.unibo.oop.model.items.Sword;
+import it.unibo.oop.model.items.Upgrade;
 import it.unibo.oop.model.items.Weapon;
 
 /**

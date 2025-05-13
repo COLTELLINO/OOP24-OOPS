@@ -1,7 +1,7 @@
 package it.unibo.oop.model.managers;
 
 import java.awt.Rectangle;
-import java.util.List;
+import java.util.Set;
 
 import it.unibo.oop.model.entities.Enemy;
 import it.unibo.oop.model.items.Weapon;
@@ -23,6 +23,6 @@ public interface CollisionManager {
      * @param enemies the enemy list
      * @param weapon the weapon
      */
-    void handleWeaponCollision(List<Enemy> enemies, Weapon weapon);
+    void handleWeaponCollision(Set<Enemy> enemies, Weapon weapon);
 
 }

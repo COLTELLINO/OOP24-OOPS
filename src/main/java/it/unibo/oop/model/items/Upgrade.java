@@ -1,4 +1,4 @@
-package it.unibo.oop.model;
+package it.unibo.oop.model.items;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.model.entities.Player;

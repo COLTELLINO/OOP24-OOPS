@@ -3,7 +3,7 @@ package it.unibo.oop.model.managers;
 import java.util.List;
 import java.util.Map;
 
-import it.unibo.oop.model.Upgrade;
+import it.unibo.oop.model.items.Upgrade;
 import it.unibo.oop.model.items.Weapon;
 
 /**

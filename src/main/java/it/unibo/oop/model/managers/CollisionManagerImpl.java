@@ -1,8 +1,9 @@
 package it.unibo.oop.model.managers;
 
-import java.util.List;
+import java.util.Set;
 
 import it.unibo.oop.model.entities.Enemy;
+import it.unibo.oop.model.items.Sword;
 import it.unibo.oop.model.items.Weapon;
 
 import java.awt.Rectangle;
@@ -28,9 +29,12 @@ public class CollisionManagerImpl implements CollisionManager {
      * @param weapon the weapon
      */
     @Override
-    public void handleWeaponCollision(final List<Enemy> enemies, final Weapon weapon) {
-        for (final Enemy enemy : enemies) {
-            enemy.setHealth(enemy.getHealth() - weapon.getDamage());
+    public void handleWeaponCollision(final Set<Enemy> enemies, final Weapon weapon) {
+        if (weapon instanceof Sword) {
+            final Sword sword = (Sword) weapon;
+            for (final Enemy enemy : enemies) {
+                enemy.setHealth(enemy.getHealth() - sword.getDamage());
+            }
         }
     }
 }

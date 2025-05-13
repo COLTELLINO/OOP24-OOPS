@@ -2,7 +2,9 @@ package it.unibo.oop.controller.gamethread;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import it.unibo.oop.model.entities.Enemy;
 import it.unibo.oop.model.entities.Entity;
@@ -135,18 +137,24 @@ public class GameThreadImpl implements Runnable, GameThread {
     private void checkCollisions() {
         for (final Weapon weapon : weaponManager.getWeapons().keySet()) {
             if (weapon instanceof Sword) {
-                final List<Enemy> enemies = new ArrayList<>();
-                for (final Enemy enemy : enemyManager.getSpawnedEnemies()) {
-                    for (final Rectangle rectangle : weapon.getHitBox()) {
-                        if (collisionManager.isColliding(rectangle, enemy.getHitbox())) {
-                            enemies.add(enemy);
+                final Sword sword = (Sword) weapon;
+                if (!sword.isDamageApplied()) {
+                    final Set<Enemy> enemies = new HashSet<>();
+                    for (final Enemy enemy : enemyManager.getSpawnedEnemies()) {
+                        for (final Rectangle rectangle : weapon.getHitBox()) {
+                            if (collisionManager.isColliding(rectangle, enemy.getHitbox())) {
+                                enemies.add(enemy);
+                            }
+                        }
+                        if (!enemies.isEmpty()) {
+                            collisionManager.handleWeaponCollision(enemies, sword);
+                            sword.setDamageApplied(true);
                         }
                     }
-                collisionManager.handleWeaponCollision(enemies, weapon);
                 }
             } else if (weapon instanceof Bow) {
                 for (final Rectangle rectangle : weapon.getHitBox()) {
-                    final List<Enemy> enemies = new ArrayList<>();
+                    final Set<Enemy> enemies = new HashSet<>();
                     for (final Enemy enemy : enemyManager.getSpawnedEnemies()) {
                         if (collisionManager.isColliding(rectangle, enemy.getHitbox())) {
                             enemies.add(enemy);
@@ -165,7 +173,7 @@ public class GameThreadImpl implements Runnable, GameThread {
                     }
                 }
                 for (final Rectangle rectangle : ((MagicStaff) weapon).getExplosionHitboxes()) {
-                    final List<Enemy> enemies = new ArrayList<>();
+                    final Set<Enemy> enemies = new HashSet<>();
                     for (final Enemy enemy : enemyManager.getSpawnedEnemies()) {
                         if (collisionManager.isColliding(rectangle, enemy.getHitbox())) {
                             enemies.add(enemy);
