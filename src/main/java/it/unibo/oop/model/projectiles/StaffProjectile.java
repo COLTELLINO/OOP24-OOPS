@@ -17,8 +17,8 @@ public class StaffProjectile extends Projectile {
      * @param speed the speed of the projectile
      * @param size the size of the projectile
      */
-    public StaffProjectile(int x, int y, Direction direction, int speed, int size) {
-        super(x, y, direction, speed, size);
+    public StaffProjectile(int x, int y, Direction direction, int damage, int speed, int size) {
+        super(x, y, direction, damage, speed, size);
     }
     
     /**

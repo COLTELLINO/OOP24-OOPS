@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.model.entities.Player;
@@ -89,8 +88,7 @@ public class MagicStaff extends Weapon {
      */
     @Override
     public List<Rectangle> getHitBox() {
-        return projectiles.stream().map(Projectile::getProjectileHitBox)
-        .collect(Collectors.toList());
+        return List.of();
     }
 
     /**

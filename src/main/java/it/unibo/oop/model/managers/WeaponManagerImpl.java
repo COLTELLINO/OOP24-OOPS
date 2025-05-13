@@ -1,5 +1,4 @@
 package it.unibo.oop.model.managers;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

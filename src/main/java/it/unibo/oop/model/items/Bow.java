@@ -3,7 +3,6 @@ package it.unibo.oop.model.items;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.model.entities.Player;
@@ -72,8 +71,7 @@ public class Bow extends Weapon {
      */
     @Override
     public List<Rectangle> getHitBox() {
-        return projectiles.stream().map(Projectile::getProjectileHitBox)
-        .collect(Collectors.toList());
+        return List.of();
     }
 
     /**

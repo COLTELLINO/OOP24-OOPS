@@ -4,7 +4,7 @@ import it.unibo.oop.utils.Direction;
 
 public class Arrow extends Projectile {
 
-    public Arrow(int x, int y, Direction direction, int speed, int size) {
-        super(x, y, direction, speed, size);
+    public Arrow(int x, int y, Direction direction, int damage, int speed, int size) {
+        super(x, y, direction, damage, speed, size);
     }
 }
