@@ -84,9 +84,13 @@ public class CollisionManagerImpl implements CollisionManager {
     public void handleEnemyProjectilenCollision(final List<Enemy> enemies, final List<Projectile> projectiles) {
         for (final Enemy enemy : enemies) {
             for (final Projectile projectile : projectiles) {
-                if (canTakeDamage(enemy) && isColliding(enemy.getHitbox(), projectile.getProjectileHitBox())) {
-                    enemy.setHealth(enemy.getHealth() - projectile.getDamage());
-                    registerDamage(enemy);
+                if (isColliding(enemy.getHitbox(), projectile.getProjectileHitBox())) {
+                    projectile.handleCollision();
+                    if (canTakeDamage(enemy) && isColliding(enemy.getHitbox(), projectile.getProjectileHitBox()) 
+                    && projectile.getDamage() > 0) {
+                        enemy.setHealth(enemy.getHealth() - projectile.getDamage());
+                        registerDamage(enemy);
+                    }
                 }
             }
         }
@@ -99,7 +103,7 @@ public class CollisionManagerImpl implements CollisionManager {
      */
     @Override
     public void handlePlayerProjectilenCollision(final Player player, final List<Projectile> projectiles) {
-        for (Projectile projectile : projectiles) {
+        for (final Projectile projectile : projectiles) {
             if (canTakeDamage(player) && isColliding(player.getHitbox(), projectile.getProjectileHitBox())) {
                 player.setHealth(player.getHealth() - projectile.getDamage());
                 registerDamage(player);

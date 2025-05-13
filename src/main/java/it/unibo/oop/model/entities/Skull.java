@@ -1,7 +1,6 @@
 package it.unibo.oop.model.entities;
 
 import it.unibo.oop.model.projectiles.Arrow;
-import it.unibo.oop.model.projectiles.Projectile;
 import it.unibo.oop.utils.CountDownTimer;
 
 /**

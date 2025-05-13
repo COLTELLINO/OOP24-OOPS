@@ -28,6 +28,7 @@ public class WeaponManagerImpl implements WeaponManager {
     private int playerLastLevel = 1;
     private final ProjectileManager projectileManager;
     private static final int MAX_LEVEL = 5;
+    private boolean first = true;
     /**
      * Functional interface to observe enemies and act when a condition is met.
      */
@@ -58,12 +59,11 @@ public class WeaponManagerImpl implements WeaponManager {
      * Initializes the weapon pool with all available weapons.
      */
     private void initializeWeaponPool() {
-        upgrades.add(new MagicStaff(player));
+        upgrades.add(new Sword(player));
         upgradePool.add(Sword.class);
         upgradePool.add(Bow.class);
         upgradePool.add(MagicStaff.class);
         upgradePool.add(Shield.class);
-        setAllObservers(getWeapons());
         // Add other weapon types here
     }
 
@@ -72,6 +72,10 @@ public class WeaponManagerImpl implements WeaponManager {
      */
     @Override
     public void update() {
+        if (first) {
+            setAllObservers(getWeapons());
+            first = false;
+        }
         for (final Upgrade upgrade : upgrades) {
             upgrade.update();
         }
@@ -102,15 +106,15 @@ public class WeaponManagerImpl implements WeaponManager {
      * Sets a specific observer for each weapon that uses it.
      * @param weapons
      */
-    private void setAllObservers(List<Weapon> weapons) {
-        for (Weapon weapon : weapons) {
+    private void setAllObservers(final List<Weapon> weapons) {
+        for (final Weapon weapon : weapons) {
             if (weapon instanceof Bow) {
-                ((Bow)weapon).setObserver(() -> {
-                    ((Bow)weapon).getProjectiles().forEach(p -> this.projectileManager.addPlayerProjectile(p));
+                ((Bow) weapon).setObserver(() -> {
+                    ((Bow) weapon).getProjectiles().forEach(this.projectileManager::addPlayerProjectile);
                 });
             } else if (weapon instanceof MagicStaff) {
-                ((MagicStaff)weapon).setObserver(() -> {
-                    ((MagicStaff)weapon).getProjectiles().forEach(p -> this.projectileManager.addPlayerProjectile(p));
+                ((MagicStaff) weapon).setObserver(() -> {
+                    ((MagicStaff) weapon).getProjectiles().forEach(this.projectileManager::addPlayerProjectile);
                 });
             }
         }

@@ -65,7 +65,7 @@ public class GamePanel extends MyPanel {
         this.weaponManager = weaponManager;
         this.experienceManager = experienceManager;
         this.healthManager = healthManager;
-        weaponRenderer = new WeaponRendererImpl(player);
+        weaponRenderer = new WeaponRendererImpl();
         super.setPreferredSize(new Dimension(screenWidth, screenHeight));
         super.setBackground(Color.BLACK);
     }

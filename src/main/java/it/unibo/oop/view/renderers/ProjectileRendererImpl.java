@@ -18,7 +18,6 @@ import it.unibo.oop.utils.Direction;
  * Implementation of ProjectileRenderer for rendering projectiles.
  */
 public class ProjectileRendererImpl implements ProjectileRenderer {
-    private static final int WIDTH_HEIGHT = 10; 
     private static final Logger LOGGER = Logger.getLogger(ProjectileRendererImpl.class.getName());
     private static final double ROTATION_RIGHT = Math.toRadians(90);
     private static final double ROTATION_LEFT = Math.toRadians(-90);
@@ -31,12 +30,6 @@ public class ProjectileRendererImpl implements ProjectileRenderer {
      */
     @Override
     public void drawProjectile(final Projectile projectile, final Graphics2D g2) {
-        if (projectile.isHitboxShowed()) {
-            g2.setColor(Color.BLUE);
-            g2.draw(projectile.getProjectileHitBox());
-        }
-        g2.setColor(Color.WHITE);
-        g2.fillOval(projectile.getX() - WIDTH_HEIGHT / 2, projectile.getY() - WIDTH_HEIGHT / 2, WIDTH_HEIGHT, WIDTH_HEIGHT);
         final Image projectileImage;
         try {
             projectileImage = ImageIO.read(Objects.requireNonNull(
@@ -64,6 +57,11 @@ public class ProjectileRendererImpl implements ProjectileRenderer {
 
         transform.scale(SCALE, SCALE);
         g2.drawImage(projectileImage, transform, null);
+
+        if (projectile.isHitboxShowed()) {
+            g2.setColor(Color.BLUE);
+            g2.draw(projectile.getProjectileHitBox());
+        }
     }
     /**
      * Draws every projectile in a list.

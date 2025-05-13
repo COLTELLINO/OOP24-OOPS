@@ -26,7 +26,9 @@ public class Bow extends Weapon {
     private double cooldown;
     private final Player player;
     private final List<Projectile> projectiles;
-    private WeaponObserver observer;
+    private WeaponObserver observer = () -> {
+        // Default no-op implementation
+    };
     private Direction direction = Direction.UP;
     private Direction lastDirection = Direction.UP;
     private boolean showHitbox;
@@ -58,7 +60,7 @@ public class Bow extends Weapon {
             cooldown--;
         }
         direction = player.getDirection();
-        if (direction == Direction.RIGHT || direction == Direction.LEFT 
+        if (direction == Direction.LEFT || direction == Direction.RIGHT 
         || direction == Direction.DOWN || direction == Direction.UP) {
             lastDirection = direction;
         } else {
@@ -143,7 +145,7 @@ public class Bow extends Weapon {
      * @return the visibility of the hitbox.
      */
     @Override
-    public boolean isHitboxShowed() {
+    public boolean isShowHitbox() {
         return showHitbox;
     }
 
@@ -154,7 +156,7 @@ public class Bow extends Weapon {
     public void handleCollision() {
         //unused for the bow.
     }
-    
+
     /**
      * @param observer
      */

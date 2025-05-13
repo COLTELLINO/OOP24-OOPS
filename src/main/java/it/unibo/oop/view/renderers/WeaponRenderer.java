@@ -4,7 +4,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.List;
 
-import it.unibo.oop.model.items.Bow;
 import it.unibo.oop.model.items.MagicStaff;
 import it.unibo.oop.model.items.Sword;
 import it.unibo.oop.model.items.Weapon;

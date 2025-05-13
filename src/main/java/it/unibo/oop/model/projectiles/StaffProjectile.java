@@ -1,12 +1,19 @@
 package it.unibo.oop.model.projectiles;
-import java.awt.Rectangle;
 
+import it.unibo.oop.model.items.MagicStaff.ProjectileObserver;
+import it.unibo.oop.model.managers.ProjectileManagerImpl.ProjectileManagerObserver;
 import it.unibo.oop.utils.Direction;
 
+/**
+ * Represents a projectile shot by a magic staff.
+ */
 public class StaffProjectile extends Projectile {
 
-    private static final int EXPLOSION_SIZE = 200;
-    //private static final int EXPLOSION_LIFETIME = 30;
+    private ProjectileObserver observer;
+    private ProjectileManagerObserver managerObserver = projectile -> {
+        // Default no-op implementation
+    };
+    private boolean exploded;
 
     /**
      * Constructs a Projectile.
@@ -14,57 +21,51 @@ public class StaffProjectile extends Projectile {
      * @param x the initial x-coordinate
      * @param y the initial y-coordinate
      * @param direction the direction of the projectile
+     * @param damage the damage of the projectile
      * @param speed the speed of the projectile
      * @param size the size of the projectile
      */
-    public StaffProjectile(int x, int y, Direction direction, int damage, int speed, int size) {
+    public StaffProjectile(final int x, final int y, final Direction direction, 
+                           final int damage, final int speed, final int size) {
         super(x, y, direction, damage, speed, size);
     }
-    
+
     /**
-     * creates the explosion.
+     * Sets the observer for this projectile.
+     * 
+     * @param observer the observer to set
      */
-    public void explode() {
-        final int explosionX;
-        final int explosionY;
+    public void setObserver(final ProjectileObserver observer) {
+        this.observer = observer;
+    }
 
-        switch (this.getDirection()) {
-            case UP -> {
-                explosionX = this.getX() - (EXPLOSION_SIZE - this.getSize()) / 2;
-                explosionY = this.getY() - EXPLOSION_SIZE + this.getSize();
-            }
-            case DOWN -> {
-                explosionX = this.getX() - (EXPLOSION_SIZE - this.getSize()) / 2;
-                explosionY = this.getY();
-            }
-            case LEFT -> {
-                explosionX = this.getX() - EXPLOSION_SIZE / 2 - this.getSize();
-                explosionY = this.getY() - (EXPLOSION_SIZE - this.getSize()) / 2;
-            }
-            case RIGHT -> {
-                explosionX = this.getX();
-                explosionY = this.getY() - (EXPLOSION_SIZE - this.getSize()) / 2;
-            }
-            default -> {
-                explosionX = this.getX() - (EXPLOSION_SIZE - this.getSize()) / 2;
-                explosionY = this.getY() - (EXPLOSION_SIZE - this.getSize()) / 2;
-            }
-        }
-
-        final Rectangle explosion = new Rectangle(
-            explosionX,
-            explosionY,
-            EXPLOSION_SIZE,
-            EXPLOSION_SIZE
-        );
-
-        //explosionHitboxes.put(explosion, EXPLOSION_LIFETIME);
+    /**
+     * Sets the observer for this projectile.
+     * 
+     * @param observer the observer to set
+     */
+    @Override
+    public void setManagerObserver(final ProjectileManagerObserver observer) {
+        this.managerObserver = observer;
     }
 
     /**
     * @return the name of the projectile class
     */
+    @Override
     public String getProjectileName() {
         return this.getClass().getSimpleName();
+    }
+
+    /**
+     * handles the collision of the projectile with the enemy.
+     */
+    @Override
+    public void handleCollision() {
+        if (observer != null && managerObserver != null && !exploded) {
+            observer.onProjectileExploded(this);
+            managerObserver.onProjectileExploded(this);
+            exploded = true;
+        }
     }
 }

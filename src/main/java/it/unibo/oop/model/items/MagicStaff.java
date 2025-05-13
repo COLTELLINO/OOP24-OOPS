@@ -25,17 +25,33 @@ public class MagicStaff extends Weapon {
     private static final double COOLDOWN = 80;
     private static final int SPEED = 3;
     private static final int PROJECTILE_SIZE = 30;
+    private static final int EXPLOSION_SIZE = 200;
+    private static final int EXPLOSION_LIFETIME = 30;
 
     private double cooldown;
     private final Player player;
     private final List<Projectile> projectiles;
     private final Map<Rectangle, Integer> explosionHitboxes;
-    private WeaponObserver observer;
+    private WeaponObserver observer = () -> {
+        // Default no-op implementation
+    };
     private Direction direction = Direction.UP;
     private Direction lastDirection = Direction.UP;
     private boolean showHitbox;
     private int level;
 
+    /**
+    * Functional interface for observing projectile actions.
+    */
+    @FunctionalInterface
+    public interface ProjectileObserver {
+        /**
+        * Called when a projectile explodes.
+        * 
+        * @param projectile the projectile that exploded
+        */
+        void onProjectileExploded(Projectile projectile);
+    }
     /**
      * Constructs a MagicStaff object.
      * 
@@ -57,6 +73,7 @@ public class MagicStaff extends Weapon {
     public void update() {
         if (cooldown <= 0) {
             shoot();
+            observerAction();
             cooldown = COOLDOWN;
         } else {
             cooldown--;
@@ -85,29 +102,64 @@ public class MagicStaff extends Weapon {
     }
 
     /**
-     * Gets the hitboxes of all active projectiles.
+     * Gets the hitboxes of all active explosions.
      * 
-     * @return a list of hitboxes for the active projectiles
+     * @return a list of hitboxes for the active explsoion
      */
     @Override
     public List<Rectangle> getHitBox() {
-        return List.of();
-    }
-
-    /**
-     * Gets all active explosion hitboxes.
-     * 
-     * @return a list of explosion hitboxes
-     */
-    public List<Rectangle> getExplosionHitboxes() {
         return new ArrayList<>(explosionHitboxes.keySet());
     }
+
 
     /**
      * Shoots a projectile in the direction the player is facing.
      */
     private void shoot() {
-        projectiles.add(new StaffProjectile(player.getX(), player.getY(), direction, DAMAGE, SPEED, PROJECTILE_SIZE));
+        final StaffProjectile projectile = new StaffProjectile(player.getX(), player.getY(),
+        direction, 0, SPEED, PROJECTILE_SIZE);
+
+        projectile.setObserver(explodedProjectile -> {
+            final int explosionX;
+            final int explosionY;
+            final int offset1 = 70; 
+            final int offset2 = 50;
+            final int offset3 = 60;
+
+            switch (projectile.getDirection()) {
+                case UP -> {
+                    explosionX = projectile.getX() - offset1;
+                    explosionY = projectile.getY() - offset2 * 2;
+                }
+                case DOWN -> {
+                    explosionX = projectile.getX() - offset2 * 2;
+                    explosionY = projectile.getY() - offset2;
+                }
+                case LEFT -> {
+                    explosionX = projectile.getX() - offset2 * 2;
+                    explosionY = projectile.getY() - offset2 * 2;
+                }
+                case RIGHT -> {
+                    explosionX = projectile.getX() - offset2;
+                    explosionY = projectile.getY() - offset3;
+                }
+                default -> {
+                    explosionX = projectile.getX();
+                    explosionY = projectile.getY();
+                }
+            }
+
+            final Rectangle explosion = new Rectangle(
+                explosionX,
+                explosionY,
+                EXPLOSION_SIZE,
+                EXPLOSION_SIZE
+            );
+
+            explosionHitboxes.put(explosion, EXPLOSION_LIFETIME);
+        });
+
+        projectiles.add(projectile);
     }
 
     /**
@@ -163,7 +215,7 @@ public class MagicStaff extends Weapon {
      * @return the visibility of the hitbox.
      */
     @Override
-    public boolean isHitboxShowed() {
+    public boolean isShowHitbox() {
         return showHitbox;
     }
     /**
@@ -178,13 +230,22 @@ public class MagicStaff extends Weapon {
      */
     @Override
     public void handleCollision() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handleCollision'");
+        //unused
     }
+
     /**
-     * @param observer
+     * If an observer is present, trigger its action.
      */
-    public void setObserver(WeaponObserver observer) {
+    protected void observerAction() {
+        observer.weaponObserverAction();
+    }
+
+    /**
+     * Sets the observer for this projectile.
+     * 
+     * @param observer the observer to set
+     */
+    public void setObserver(final WeaponObserver observer) {
         this.observer = observer;
     }
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.unibo.oop.model.projectiles.Projectile;
+import it.unibo.oop.model.projectiles.StaffProjectile;
 
 /**
  * Class that manages projectiles.
@@ -11,6 +12,20 @@ import it.unibo.oop.model.projectiles.Projectile;
 public class ProjectileManagerImpl implements ProjectileManager {
     private final List<Projectile> enemyProjectileList = new ArrayList<>();
     private final List<Projectile> playerProjectileList = new ArrayList<>();
+
+    /**
+    * Functional interface for observing projectile events in the manager.
+    */
+    @FunctionalInterface
+    public interface ProjectileManagerObserver {
+        /**
+        * Called when a projectile explodes.
+        * 
+        * @param projectile the projectile that exploded
+        */
+        void onProjectileExploded(Projectile projectile);
+    }
+
     /**
      * Updates all projectiles.
      */
@@ -34,6 +49,12 @@ public class ProjectileManagerImpl implements ProjectileManager {
     @Override
     public void addPlayerProjectile(final Projectile projectile) {
         playerProjectileList.add(projectile);
+
+        if (projectile instanceof StaffProjectile) {
+            projectile.setManagerObserver(explodedProjectile -> {
+                playerProjectileList.remove(explodedProjectile);
+            });
+        }
     }
     /**
      * Removes a projectile from the enemy projectile list.
@@ -70,7 +91,7 @@ public class ProjectileManagerImpl implements ProjectileManager {
      */
     @Override
     public List<Projectile> getAllProjectiles() {
-        List<Projectile> allProjectiles = new ArrayList<>(playerProjectileList);
+        final List<Projectile> allProjectiles = new ArrayList<>(playerProjectileList);
         allProjectiles.addAll(enemyProjectileList);
         return new ArrayList<>(allProjectiles);
     }

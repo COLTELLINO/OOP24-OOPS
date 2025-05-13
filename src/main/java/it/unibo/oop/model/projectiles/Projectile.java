@@ -2,6 +2,7 @@ package it.unibo.oop.model.projectiles;
 
 import java.awt.Rectangle;
 
+import it.unibo.oop.model.managers.ProjectileManagerImpl.ProjectileManagerObserver;
 import it.unibo.oop.utils.Direction;
 
 /**
@@ -28,8 +29,36 @@ public abstract class Projectile {
      * @param size the size of the projectile
      */
     public Projectile(final int x, final int y, final Direction direction, final int damage, final int speed, final int size) {
-        this.x = x;
-        this.y = y;
+        final int offset1 = 40;
+        final int offset2 = 8;
+        final int offset3 = 25;
+        final int offset4 = 10;
+
+        int adjustedX = x;
+        int adjustedY = y;
+
+        switch (direction) {
+            case UP -> {
+                adjustedY -= offset1;
+                adjustedX -= offset2;
+            }
+            case DOWN -> {
+                adjustedX += offset3;
+                adjustedY += offset3 * 2;
+            }
+            case LEFT -> {
+                adjustedY += offset3;
+                adjustedX -= offset3;
+            }
+            case RIGHT -> {
+                adjustedY -= offset4;
+                adjustedX += offset3 * 2;
+            }
+            default -> throw new IllegalArgumentException("Invalid direction");
+        }
+
+        this.x = adjustedX;
+        this.y = adjustedY;
         this.damage = damage;
         this.speed = speed;
         this.direction = direction;
@@ -71,7 +100,7 @@ public abstract class Projectile {
     public int getY() {
         return y;
     }
-    
+
     /**
      * @return the size of the projectile
      */
@@ -101,24 +130,25 @@ public abstract class Projectile {
      * @return the hitbox as a Rectangle
      */
     public Rectangle getProjectileHitBox() {
-        return new Rectangle(getX() - size /  2, getY() - size / 2, size, size);
-        // switch (direction) {
-        //     case UP -> {
-        //         return new Rectangle(x + size / 3, y - size - size / 2, size, size);
-        //     }
-        //     case DOWN -> {
-        //         return new Rectangle(x + size / 3, y + size * 2, size, size);
-        //     }
-        //     case LEFT -> {
-        //         return new Rectangle(x - size - size / 2, y + size / 3, size, size);
-        //     }
-        //     case RIGHT -> {
-        //         return new Rectangle(x + size * 2, y + size / 3, size, size);
-        //     }
-        //     default -> {
-        //         return null;
-        //     }
-        // }
+        final int offset1 = 18;
+        final int offset2 = 16;
+        switch (this.getDirection()) {
+            case UP -> {
+                return new Rectangle(this.getX() + offset1, this.getY(), this.getSize(), this.getSize());
+            }
+            case DOWN -> {
+                return new Rectangle(this.getX() - offset2, this.getY(), this.getSize(), this.getSize());
+            }
+            case LEFT -> {
+                return new Rectangle(this.getX(), this.getY() - offset2, this.getSize(), this.getSize());
+            }
+            case RIGHT -> {
+                return new Rectangle(this.getX(), this.getY() + offset1, this.getSize(), this.getSize());
+            }
+            default -> {
+                return null;
+            }
+        }
     }
     /**
      * @return if the hitboxes are showed.
@@ -139,15 +169,29 @@ public abstract class Projectile {
 
     /**
      * sets the x coordinate of the projectile.
+     * @param x the x coordinate
      */
-    public void setX(int x) {
+    public void setX(final int x) {
         this.x = x;
     }
 
     /**
      * sets the y coordinate of the projectile.
+     * @param y the y coordinate
      */
-    public void setY(int y) {
+    public void setY(final int y) {
         this.y = y;
     }
+
+    /**
+     * Handles the collision of the projectile.
+     */
+    public abstract void handleCollision();
+
+    /**
+     * Sets the observer for this projectile.
+     * 
+     * @param observer the observer to set
+     */
+    public abstract void setManagerObserver(ProjectileManagerObserver observer);
 }

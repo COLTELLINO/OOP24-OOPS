@@ -165,7 +165,7 @@ public class Sword extends Weapon {
      * @return the visibility of the hitbox.
      */
     @Override
-    public boolean isHitboxShowed() {
+    public boolean isShowHitbox() {
         return showHitbox;
     }
 
