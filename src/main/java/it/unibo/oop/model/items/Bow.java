@@ -86,10 +86,30 @@ public class Bow extends Weapon {
     }
 
     /**
-     * Shoots a projectile in the direction the player is facing.
+     * Shoots projectiles based on the bow's level.
      */
     private void shoot() {
-        projectiles.add(new Arrow(player.getX(), player.getY(), direction, DAMAGE, SPEED, PROJECTILE_SIZE));
+        switch (level) {
+            case 1 -> {
+                projectiles.add(new Arrow(player.getX(), player.getY(), direction, DAMAGE, SPEED, PROJECTILE_SIZE));
+            }
+            case 2 -> {
+                projectiles.add(new Arrow(player.getX(), player.getY(), direction, DAMAGE, SPEED, PROJECTILE_SIZE));
+                projectiles.add(new Arrow(player.getX(), player.getY(), direction.getOpposite(), DAMAGE, SPEED, PROJECTILE_SIZE));
+            }
+            case 3 -> {
+                for (Direction dir : Direction.values()) {
+                    projectiles.add(new Arrow(player.getX(), player.getY(), dir, DAMAGE, SPEED, PROJECTILE_SIZE));
+                }
+            }
+            case 4 -> {
+                projectiles.add(new Arrow(player.getX(), player.getY(), direction, DAMAGE, SPEED * 2, PROJECTILE_SIZE));
+            }
+            case 5 -> {
+                projectiles.add(new Arrow(player.getX(), player.getY(), direction, DAMAGE * 2, SPEED, PROJECTILE_SIZE));
+            }
+            default -> throw new IllegalStateException("Unexpected level: " + level);
+        }
     }
 
     /**
