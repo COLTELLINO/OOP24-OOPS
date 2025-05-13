@@ -30,14 +30,6 @@ public interface WeaponRenderer {
     void drawWeaponList(Graphics2D g, List<Weapon> weapons);
 
     /**
-     * Draws a bow and its projectiles.
-     * 
-     * @param g the graphics context
-     * @param bow the bow to draw
-     */
-    void drawBow(Graphics g, Bow bow);
-
-    /**
      * Draws a magic staff and its projectiles.
      * 
      * @param g the graphics context

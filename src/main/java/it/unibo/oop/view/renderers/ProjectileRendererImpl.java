@@ -2,14 +2,28 @@ package it.unibo.oop.view.renderers;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.geom.AffineTransform;
+import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.imageio.ImageIO;
 
 import it.unibo.oop.model.projectiles.Projectile;
+import it.unibo.oop.utils.Direction;
 /**
  * Implementation of ProjectileRenderer for rendering projectiles.
  */
 public class ProjectileRendererImpl implements ProjectileRenderer {
     private static final int WIDTH_HEIGHT = 10; 
+    private static final Logger LOGGER = Logger.getLogger(ProjectileRendererImpl.class.getName());
+    private static final double ROTATION_RIGHT = Math.toRadians(90);
+    private static final double ROTATION_LEFT = Math.toRadians(-90);
+    private static final double SCALE = 2.0;
+
     /**
      * Draws current projectile.
      * @param projectile
@@ -17,10 +31,33 @@ public class ProjectileRendererImpl implements ProjectileRenderer {
      */
     @Override
     public void drawProjectile(final Projectile projectile, final Graphics2D g2) {
-        //projectile.getName() o qualcosa del genere
-        // per ottenere il nome dell'immagine che poi verrà caricata
-        g2.setColor(Color.WHITE);
-        g2.fillOval(projectile.getX() - WIDTH_HEIGHT / 2, projectile.getY() - WIDTH_HEIGHT / 2, WIDTH_HEIGHT, WIDTH_HEIGHT);
+        final Image projectileImage;
+        try {
+            projectileImage = ImageIO.read(Objects.requireNonNull(
+                getClass().getClassLoader().getResource("Weapon/" + projectile.getProjectileName() + ".png"),
+                "Resource 'Weapon/Bow.png' not found."
+            ));
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Bow projectile image could not be loaded.", e);
+            return;
+        }
+        final AffineTransform transform = new AffineTransform();
+        transform.translate(projectile.getX(), projectile.getY());
+
+        switch (projectile.getDirection()) {
+            case Direction.RIGHT -> transform.rotate(ROTATION_RIGHT, 
+            projectileImage.getWidth(null) / 2.0, projectileImage.getHeight(null) / 2.0);
+            case Direction.LEFT -> transform.rotate(ROTATION_LEFT, 
+            projectileImage.getWidth(null) / 2.0, projectileImage.getHeight(null) / 2.0);
+            case Direction.UP -> transform.rotate(0, 
+            projectileImage.getWidth(null) / 2.0, projectileImage.getHeight(null) / 2.0);
+            case Direction.DOWN -> transform.rotate(ROTATION_RIGHT * 2, 
+            projectileImage.getWidth(null) / 2.0, projectileImage.getHeight(null) / 2.0);
+            default -> { }
+        }
+
+        transform.scale(SCALE, SCALE);
+        g2.drawImage(projectileImage, transform, null);
     }
     /**
      * Draws every projectile in a list.

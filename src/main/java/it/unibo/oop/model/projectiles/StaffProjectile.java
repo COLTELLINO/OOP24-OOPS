@@ -60,4 +60,11 @@ public class StaffProjectile extends Projectile {
 
         //explosionHitboxes.put(explosion, EXPLOSION_LIFETIME);
     }
+
+    /**
+    * @return the name of the projectile class
+    */
+    public String getProjectileName() {
+        return this.getClass().getSimpleName();
+    }
 }

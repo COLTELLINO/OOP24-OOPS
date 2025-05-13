@@ -1,5 +1,6 @@
 package it.unibo.oop.model.entities;
 
+import it.unibo.oop.model.projectiles.Arrow;
 import it.unibo.oop.model.projectiles.Projectile;
 import it.unibo.oop.utils.CountDownTimer;
 
@@ -69,7 +70,7 @@ public class Skull extends Enemy {
     private void attacking() {
         if (!countDownTimer.isRunning()) {
             countDownTimer.reset();
-            this.setProjectile(new Projectile(getX() + getSize() / 2, getY() + PROJECTILE_Y_OFFSET,
+            this.setProjectile(new Arrow(getX() + getSize() / 2, getY() + PROJECTILE_Y_OFFSET,
                 getDirection(), getAttack(), PROJECTILE_SPEED, PROJECTILE_SIZE));
             observerAction();
         } else {

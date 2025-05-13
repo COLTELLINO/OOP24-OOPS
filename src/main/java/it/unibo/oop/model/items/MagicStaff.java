@@ -9,7 +9,9 @@ import java.util.Map;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.model.entities.Player;
+import it.unibo.oop.model.managers.WeaponManagerImpl.WeaponObserver;
 import it.unibo.oop.model.projectiles.Projectile;
+import it.unibo.oop.model.projectiles.StaffProjectile;
 import it.unibo.oop.utils.Direction;
 
 /**
@@ -28,6 +30,7 @@ public class MagicStaff extends Weapon {
     private final Player player;
     private final List<Projectile> projectiles;
     private final Map<Rectangle, Integer> explosionHitboxes;
+    private WeaponObserver observer;
     private Direction direction = Direction.UP;
     private Direction lastDirection = Direction.UP;
     private boolean showHitbox;
@@ -104,7 +107,7 @@ public class MagicStaff extends Weapon {
      * Shoots a projectile in the direction the player is facing.
      */
     private void shoot() {
-        projectiles.add(new Projectile(player.getX(), player.getY(), direction, DAMAGE, SPEED, PROJECTILE_SIZE));
+        projectiles.add(new StaffProjectile(player.getX(), player.getY(), direction, DAMAGE, SPEED, PROJECTILE_SIZE));
     }
 
     /**
@@ -177,5 +180,11 @@ public class MagicStaff extends Weapon {
     public void handleCollision() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'handleCollision'");
+    }
+    /**
+     * @param observer
+     */
+    public void setObserver(WeaponObserver observer) {
+        this.observer = observer;
     }
 }

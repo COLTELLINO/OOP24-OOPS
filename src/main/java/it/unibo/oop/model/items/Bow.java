@@ -7,6 +7,7 @@ import java.util.List;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.model.entities.Player;
 import it.unibo.oop.model.managers.WeaponManagerImpl.WeaponObserver;
+import it.unibo.oop.model.projectiles.Arrow;
 import it.unibo.oop.model.projectiles.Projectile;
 import it.unibo.oop.utils.Direction;
 
@@ -86,7 +87,7 @@ public class Bow extends Weapon {
      * Shoots a projectile in the direction the player is facing.
      */
     private void shoot() {
-        projectiles.add(new Projectile(player.getX(), player.getY(), direction, DAMAGE, SPEED, PROJECTILE_SIZE));
+        projectiles.add(new Arrow(player.getX(), player.getY(), direction, DAMAGE, SPEED, PROJECTILE_SIZE));
     }
 
     /**
@@ -145,7 +146,6 @@ public class Bow extends Weapon {
     public boolean isShowHitbox() {
         return showHitbox;
     }
-<<<<<<< HEAD
 
     /**
      * handles the weapon collision.
@@ -153,12 +153,12 @@ public class Bow extends Weapon {
     @Override
     public void handleCollision() {
         //unused for the bow.
-=======
+    }
+    
     /**
      * @param observer
      */
     public void setObserver(WeaponObserver observer) {
         this.observer = observer;
->>>>>>> e94cc2833f1d99beff81bf2dee1a6e2dcb5ebc72
     }
 }

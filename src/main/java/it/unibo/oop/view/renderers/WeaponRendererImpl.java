@@ -97,68 +97,6 @@ public final class WeaponRendererImpl implements WeaponRenderer {
     }
 
     /**
-     * Draws a bow on the screen.
-     * 
-     * @param g the graphics context
-     * @param bow the bow to draw
-     */
-    @Override
-    public void drawBow(final Graphics g, final Bow bow) {
-        if (!(g instanceof Graphics2D)) {
-            LOGGER.log(Level.WARNING, "Graphics object is not an instance of Graphics2D.");
-            return;
-        }
-
-        final Graphics2D g2d = (Graphics2D) g;
-        final Image bowImage;
-        try {
-            bowImage = ImageIO.read(Objects.requireNonNull(
-                getClass().getClassLoader().getResource("Weapon/Bow.png"),
-                "Resource 'Weapon/Bow.png' not found."
-            ));
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Bow projectile image could not be loaded.", e);
-            return;
-        }
-
-        final List<Projectile> projectiles = bow.getProjectiles();
-        for (final Projectile projectile : projectiles) {
-            int drawX = projectile.getX();
-            int drawY = projectile.getY();
-            if (projectile.getDirection() == Direction.RIGHT) {
-                drawX += player.getSize() + player.getSize() / 3;
-                drawY -= bowImage.getWidth(null) * SCALE / 8;
-            } else if (projectile.getDirection() == Direction.LEFT) {
-                drawX -= player.getSize();
-                drawY += player.getSize() / 2;
-            } else if (projectile.getDirection() == Direction.UP) {
-                drawX -= bowImage.getWidth(null) * SCALE / 8;
-                drawY -= player.getSize();
-            } else if (projectile.getDirection() == Direction.DOWN) {
-                drawX += player.getSize() / 2;
-                drawY += player.getSize() + player.getSize() / 3;
-            }
-            final AffineTransform transform = new AffineTransform();
-            transform.translate(drawX, drawY);
-
-            switch (projectile.getDirection()) {
-                case Direction.RIGHT -> transform.rotate(ROTATION_RIGHT, 
-                bowImage.getWidth(null) / 2.0, bowImage.getHeight(null) / 2.0);
-                case Direction.LEFT -> transform.rotate(ROTATION_LEFT, 
-                bowImage.getWidth(null) / 2.0, bowImage.getHeight(null) / 2.0);
-                case Direction.UP -> transform.rotate(0, 
-                bowImage.getWidth(null) / 2.0, bowImage.getHeight(null) / 2.0);
-                case Direction.DOWN -> transform.rotate(ROTATION_RIGHT * 2, 
-                bowImage.getWidth(null) / 2.0, bowImage.getHeight(null) / 2.0);
-                default -> { }
-            }
-
-            transform.scale(SCALE, SCALE);
-            g2d.drawImage(bowImage, transform, null);
-        }
-    }
-
-    /**
      * Draws a magic staff on the screen.
      * 
      * @param g the graphics context
@@ -253,24 +191,6 @@ public final class WeaponRendererImpl implements WeaponRenderer {
         for (final Weapon weapon : weapons) {
             if (weapon instanceof Sword) {
                 drawSword(g, (Sword) weapon);
-            } else if (weapon instanceof Bow) {
-                drawBow(g, (Bow) weapon);
-            } else if (weapon instanceof MagicStaff) {
-                drawMagicStaff(g, (MagicStaff) weapon);
-            }
-
-            if (weapon.isShowHitbox()) {
-                final Graphics2D g2d = g;
-                g2d.setColor(java.awt.Color.RED);
-                final List<Rectangle> hitboxes = weapon.getHitBox();
-                if (weapon instanceof MagicStaff) {
-                    hitboxes.addAll(((MagicStaff) weapon).getExplosionHitboxes());
-                }
-                for (final Rectangle rectangle : hitboxes) {
-                    if (rectangle != null) {
-                        g2d.draw(rectangle);
-                    }
-                }
             }
         }
     }

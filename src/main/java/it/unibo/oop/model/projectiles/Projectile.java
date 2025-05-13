@@ -7,7 +7,7 @@ import it.unibo.oop.utils.Direction;
 /**
  * Represents a projectile shot by a weapon.
  */
-public class Projectile {
+public abstract class Projectile {
     private static final int BOUNDS = 6000;
     private final int damage;
     private final int speed;
@@ -116,5 +116,23 @@ public class Projectile {
                 return null;
             }
         }
+    }
+    /**
+     * @return the name of the projectile class
+     */
+    public abstract String getProjectileName();
+
+    /**
+     * sets the x coordinate of the projectile.
+     */
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    /**
+     * sets the y coordinate of the projectile.
+     */
+    public void setY(int y) {
+        this.y = y;
     }
 }

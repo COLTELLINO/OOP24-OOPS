@@ -57,11 +57,12 @@ public class WeaponManagerImpl implements WeaponManager {
      * Initializes the weapon pool with all available weapons.
      */
     private void initializeWeaponPool() {
-        upgrades.add(new Sword(player));
+        upgrades.add(new MagicStaff(player));
         upgradePool.add(Sword.class);
         upgradePool.add(Bow.class);
         upgradePool.add(MagicStaff.class);
         upgradePool.add(Shield.class);
+        setAllObservers(getWeapons());
         // Add other weapon types here
     }
 
@@ -101,6 +102,10 @@ public class WeaponManagerImpl implements WeaponManager {
             if (weapon instanceof Bow) {
                 ((Bow)weapon).setObserver(() -> {
                     ((Bow)weapon).getProjectiles().forEach(p -> this.projectileManager.addPlayerProjectile(p));
+                });
+            } else if (weapon instanceof MagicStaff) {
+                ((MagicStaff)weapon).setObserver(() -> {
+                    ((MagicStaff)weapon).getProjectiles().forEach(p -> this.projectileManager.addPlayerProjectile(p));
                 });
             }
         }
