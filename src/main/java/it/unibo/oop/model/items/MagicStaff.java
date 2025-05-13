@@ -106,7 +106,7 @@ public class MagicStaff extends Weapon {
      * Shoots a projectile in the direction the player is facing.
      */
     private void shoot() {
-        projectiles.add(new Projectile(player.getX(), player.getY(), direction, SPEED, PROJECTILE_SIZE));
+        projectiles.add(new Projectile(player.getX(), player.getY(), direction, DAMAGE, SPEED, PROJECTILE_SIZE));
     }
 
     /**

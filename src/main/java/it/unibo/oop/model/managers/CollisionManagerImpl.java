@@ -2,10 +2,14 @@ package it.unibo.oop.model.managers;
 
 import java.util.Set;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import it.unibo.oop.model.entities.Enemy;
+import it.unibo.oop.model.entities.Entity;
+import it.unibo.oop.model.entities.Player;
 import it.unibo.oop.model.items.Weapon;
+import it.unibo.oop.model.projectiles.Projectile;
 
 import java.awt.Rectangle;
 
@@ -14,7 +18,7 @@ import java.awt.Rectangle;
  */
 public class CollisionManagerImpl implements CollisionManager {
     private static final int DEFAULT_IFRAME_DURATION = 30;
-    private final Map<Enemy, Integer> enemyCooldowns = new HashMap<>();
+    private final Map<Entity, Integer> entityCooldowns = new HashMap<>();
 
     /**
      * Check if two objects are colliding.
@@ -32,28 +36,28 @@ public class CollisionManagerImpl implements CollisionManager {
      */
     @Override
     public void update() {
-        enemyCooldowns.replaceAll((enemy, cooldown) -> Math.max(0, cooldown - 1));
+        entityCooldowns.replaceAll((enemy, cooldown) -> Math.max(0, cooldown - 1));
     }
 
     /**
-     * Checks if an enemy can take damage.
+     * Checks if an entity can take damage.
      * 
-     * @param enemy the enemy to check
-     * @return true if the enemy can take damage, false otherwise
+     * @param entity the entity to check
+     * @return true if the entity can take damage, false otherwise
      */
     @Override
-    public boolean canTakeDamage(final Enemy enemy) {
-        return enemyCooldowns.getOrDefault(enemy, 0) == 0;
+    public boolean canTakeDamage(final Entity entity) {
+        return entityCooldowns.getOrDefault(entity, 0) == 0;
     }
 
     /**
-     * Registers damage for an enemy, starting its i-frame cooldown.
+     * Registers damage for an entity, starting its i-frame cooldown.
      * 
-     * @param enemy the enemy that took damage
+     * @param entity the entity that took damage
      */
     @Override
-    public void registerDamage(final Enemy enemy) {
-        enemyCooldowns.put(enemy, DEFAULT_IFRAME_DURATION);
+    public void registerDamage(final Entity entity) {
+        entityCooldowns.put(entity, DEFAULT_IFRAME_DURATION);
     }
 
     /**
@@ -71,4 +75,35 @@ public class CollisionManagerImpl implements CollisionManager {
             }
         }
     }
-}
+    /**
+     * Handle collision between enemies and projectiles.
+     * @param enemies the enemy list
+     * @param projectiles the projectile list
+     */
+    @Override
+    public void handleEnemyProjectilenCollision(final List<Enemy> enemies, final List<Projectile> projectiles) {
+        for (final Enemy enemy : enemies) {
+            for (Projectile projectile : projectiles) {
+                if (canTakeDamage(enemy) && isColliding(enemy.getHitbox(), projectile.getProjectileHitBox())) {
+                    enemy.setHealth(enemy.getHealth() - projectile.getDamage());
+                    registerDamage(enemy);
+                }   
+            }
+        }
+    }
+
+    /**
+     * Handle collision between the player and enemy projectiles.
+     * @param player
+     * @param projectiles the projectile list
+     */
+    @Override
+    public void handlePlayerProjectilenCollision(final Player player, final List<Projectile> projectiles) {
+            for (Projectile projectile : projectiles) {
+                if (canTakeDamage(player) && isColliding(player.getHitbox(), projectile.getProjectileHitBox())) {
+                    player.setHealth(player.getHealth() - projectile.getDamage());
+                    registerDamage(player);
+                }
+            }   
+        }
+    }
