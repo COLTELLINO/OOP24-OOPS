@@ -26,7 +26,7 @@ public class WeaponManagerImpl implements WeaponManager {
     private final Player player;
     private final Random random;
     private int playerLastLevel = 1;
-    final ProjectileManager projectileManager;
+    private final ProjectileManager projectileManager;
     private static final int MAX_LEVEL = 5;
     /**
      * Functional interface to observe enemies and act when a condition is met.
@@ -43,6 +43,7 @@ public class WeaponManagerImpl implements WeaponManager {
      * Constructs a WeaponManagerImpl.
      * 
      * @param player the player associated with the weapons
+     * @param projectileManager
      */
     public WeaponManagerImpl(final Player player, final ProjectileManager projectileManager) {
         this.upgrades = new ArrayList<>();
@@ -97,6 +98,10 @@ public class WeaponManagerImpl implements WeaponManager {
         return weapons;
     }
 
+    /**
+     * Sets a specific observer for each weapon that uses it.
+     * @param weapons
+     */
     private void setAllObservers(List<Weapon> weapons) {
         for (Weapon weapon : weapons) {
             if (weapon instanceof Bow) {

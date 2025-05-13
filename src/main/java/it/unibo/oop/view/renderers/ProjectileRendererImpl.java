@@ -31,6 +31,12 @@ public class ProjectileRendererImpl implements ProjectileRenderer {
      */
     @Override
     public void drawProjectile(final Projectile projectile, final Graphics2D g2) {
+        if (projectile.isHitboxShowed()) {
+            g2.setColor(Color.BLUE);
+            g2.draw(projectile.getProjectileHitBox());
+        }
+        g2.setColor(Color.WHITE);
+        g2.fillOval(projectile.getX() - WIDTH_HEIGHT / 2, projectile.getY() - WIDTH_HEIGHT / 2, WIDTH_HEIGHT, WIDTH_HEIGHT);
         final Image projectileImage;
         try {
             projectileImage = ImageIO.read(Objects.requireNonNull(

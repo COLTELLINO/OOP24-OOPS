@@ -79,8 +79,7 @@ public class GamePanel extends MyPanel {
         final Graphics2D g2d = (Graphics2D) g;
         this.playerRenderer.drawPlayer(this.player, g2d);
         this.enemyRenderer.drawEnemyList(this.enemyManager.getSpawnedEnemies(), g2d);
-        this.projectileRenderer.drawProjectileList(this.projectileManager.getEnemyProjectiles(), g2d);
-        this.projectileRenderer.drawProjectileList(this.projectileManager.getPlayerProjectiles(), g2d);
+        this.projectileRenderer.drawProjectileList(this.projectileManager.getAllProjectiles(), g2d);
         this.weaponRenderer.drawWeaponList(g2d, this.weaponManager.getWeapons());
         this.experienceRenderer.drawExperienceOrbs(g2d, this.experienceManager.getOrbs());
         // Disegna la barra dell'XP

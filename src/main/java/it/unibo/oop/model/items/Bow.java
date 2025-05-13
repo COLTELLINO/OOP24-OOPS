@@ -143,7 +143,7 @@ public class Bow extends Weapon {
      * @return the visibility of the hitbox.
      */
     @Override
-    public boolean isShowHitbox() {
+    public boolean isHitboxShowed() {
         return showHitbox;
     }
 
@@ -158,7 +158,7 @@ public class Bow extends Weapon {
     /**
      * @param observer
      */
-    public void setObserver(WeaponObserver observer) {
+    public void setObserver(final WeaponObserver observer) {
         this.observer = observer;
     }
 }

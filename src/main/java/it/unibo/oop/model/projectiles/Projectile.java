@@ -15,6 +15,7 @@ public abstract class Projectile {
     private int y;
     private final int size;
     private final Direction direction;
+    private boolean showHitbox;
 
     /**
      * Constructs a Projectile.
@@ -22,6 +23,7 @@ public abstract class Projectile {
      * @param x the initial x-coordinate
      * @param y the initial y-coordinate
      * @param direction the direction of the projectile
+     * @param damage the damage of the projectile
      * @param speed the speed of the projectile
      * @param size the size of the projectile
      */
@@ -99,23 +101,36 @@ public abstract class Projectile {
      * @return the hitbox as a Rectangle
      */
     public Rectangle getProjectileHitBox() {
-        switch (direction) {
-            case UP -> {
-                return new Rectangle(x + size / 3, y - size - size / 2, size, size);
-            }
-            case DOWN -> {
-                return new Rectangle(x + size / 3, y + size * 2, size, size);
-            }
-            case LEFT -> {
-                return new Rectangle(x - size - size / 2, y + size / 3, size, size);
-            }
-            case RIGHT -> {
-                return new Rectangle(x + size * 2, y + size / 3, size, size);
-            }
-            default -> {
-                return null;
-            }
-        }
+        return new Rectangle(getX() - size /  2, getY() - size / 2, size, size);
+        // switch (direction) {
+        //     case UP -> {
+        //         return new Rectangle(x + size / 3, y - size - size / 2, size, size);
+        //     }
+        //     case DOWN -> {
+        //         return new Rectangle(x + size / 3, y + size * 2, size, size);
+        //     }
+        //     case LEFT -> {
+        //         return new Rectangle(x - size - size / 2, y + size / 3, size, size);
+        //     }
+        //     case RIGHT -> {
+        //         return new Rectangle(x + size * 2, y + size / 3, size, size);
+        //     }
+        //     default -> {
+        //         return null;
+        //     }
+        // }
+    }
+    /**
+     * @return if the hitboxes are showed.
+     */
+    public boolean isHitboxShowed() {
+        return showHitbox;
+    }
+    /**
+     * @param showHitbox
+     */
+    public void setShowHitbox(final boolean showHitbox) {
+        this.showHitbox = showHitbox;
     }
     /**
      * @return the name of the projectile class

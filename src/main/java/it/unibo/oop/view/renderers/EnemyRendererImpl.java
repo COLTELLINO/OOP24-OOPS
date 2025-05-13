@@ -36,7 +36,7 @@ public class EnemyRendererImpl implements EnemyRenderer {
                     image.getHeight() * enemy.getSizeScale(), null);
             if (enemy.isHitboxShowed()) {
                 g2.setColor(Color.RED);
-                g2.drawRect(enemy.getX(), enemy.getY(), enemy.getSize(), enemy.getSize());
+                g2.draw(enemy.getHitbox());
             }
             g2.setComposite(AlphaComposite.SrcOver);
         } catch (IllegalArgumentException e) {

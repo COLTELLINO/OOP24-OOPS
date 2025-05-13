@@ -191,6 +191,24 @@ public final class WeaponRendererImpl implements WeaponRenderer {
         for (final Weapon weapon : weapons) {
             if (weapon instanceof Sword) {
                 drawSword(g, (Sword) weapon);
+            } else if (weapon instanceof Bow) {
+                drawBow(g, (Bow) weapon);
+            } else if (weapon instanceof MagicStaff) {
+                drawMagicStaff(g, (MagicStaff) weapon);
+            }
+
+            if (weapon.isHitboxShowed()) {
+                final Graphics2D g2d = g;
+                g2d.setColor(java.awt.Color.RED);
+                final List<Rectangle> hitboxes = weapon.getHitBox();
+                if (weapon instanceof MagicStaff) {
+                    hitboxes.addAll(((MagicStaff) weapon).getExplosionHitboxes());
+                }
+                for (final Rectangle rectangle : hitboxes) {
+                    if (rectangle != null) {
+                        g2d.draw(rectangle);
+                    }
+                }
             }
         }
     }

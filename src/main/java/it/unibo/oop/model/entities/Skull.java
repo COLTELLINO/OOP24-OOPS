@@ -16,7 +16,7 @@ public class Skull extends Enemy {
     private static final int MIN_PLAYER_DISTANCE = 100;
     private static final int PROJECTILE_Y_OFFSET = 6; 
     private static final int PROJECTILE_SPEED = 2;
-    private static final int PROJECTILE_SIZE = 2;
+    private static final int PROJECTILE_SIZE = 16;
     private final CountDownTimer countDownTimer = new CountDownTimer(30);
     /**
      * @param x
@@ -72,6 +72,7 @@ public class Skull extends Enemy {
             countDownTimer.reset();
             this.setProjectile(new Arrow(getX() + getSize() / 2, getY() + PROJECTILE_Y_OFFSET,
                 getDirection(), getAttack(), PROJECTILE_SPEED, PROJECTILE_SIZE));
+            getProjectile().setShowHitbox(true);
             observerAction();
         } else {
             countDownTimer.tick();
