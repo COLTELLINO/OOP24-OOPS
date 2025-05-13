@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.model.entities.Player;
+import it.unibo.oop.model.managers.WeaponManagerImpl.WeaponObserver;
 import it.unibo.oop.model.projectiles.Projectile;
 import it.unibo.oop.utils.Direction;
 
@@ -17,7 +18,7 @@ import it.unibo.oop.utils.Direction;
 justification = "To position the weapon, the player size and position are needed, "
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
 public class Bow extends Weapon {
-    private static final int DAMAGE = 100;
+    private static final int DAMAGE = 1000;
     private static final double COOLDOWN = 100;
     private static final int SPEED = 5;
     private static final int PROJECTILE_SIZE = 30;
@@ -25,6 +26,7 @@ public class Bow extends Weapon {
     private double cooldown;
     private final Player player;
     private final List<Projectile> projectiles;
+    private WeaponObserver observer;
     private Direction direction = Direction.UP;
     private Direction lastDirection = Direction.UP;
     private boolean showHitbox;
@@ -50,6 +52,7 @@ public class Bow extends Weapon {
     public void update() {
         if (cooldown <= 0) {
             shoot();
+            observerAction();
             cooldown = COOLDOWN;
         } else {
             cooldown--;
@@ -64,7 +67,12 @@ public class Bow extends Weapon {
         projectiles.forEach(Projectile::update);
         projectiles.removeIf(Projectile::isOutOfBounds);
     }
-
+    /**
+     * If an observer is present, trigger its action.
+     */
+    protected void observerAction() {
+        observer.weaponObserverAction();
+    }
     /**
      * Gets the hitboxes of all active projectiles.
      * 
@@ -138,5 +146,11 @@ public class Bow extends Weapon {
     @Override
     public boolean isShowHitbox() {
         return showHitbox;
+    }
+    /**
+     * @param observer
+     */
+    public void setObserver(WeaponObserver observer) {
+        this.observer = observer;
     }
 }

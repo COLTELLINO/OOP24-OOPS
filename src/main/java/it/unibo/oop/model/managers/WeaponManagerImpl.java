@@ -27,27 +27,39 @@ public class WeaponManagerImpl implements WeaponManager {
     private final Player player;
     private final Random random;
     private int playerLastLevel = 1;
+    final ProjectileManager projectileManager;
     private static final int MAX_LEVEL = 5;
+    /**
+     * Functional interface to observe enemies and act when a condition is met.
+     */
+    @FunctionalInterface
+    public interface WeaponObserver {
+        /**
+         * Executes an action in response to an event triggered by an enemy.
+         */
+        void weaponObserverAction();
+    }
 
     /**
      * Constructs a WeaponManagerImpl.
      * 
      * @param player the player associated with the weapons
      */
-    public WeaponManagerImpl(final Player player) {
+    public WeaponManagerImpl(final Player player, final ProjectileManager projectileManager) {
         this.upgrades = new ArrayList<>();
         this.upgradePool = new ArrayList<>();
         this.player = player;
         this.random = new Random();
-
+        this.projectileManager = projectileManager;
         initializeWeaponPool();
     }
 
-    /**
+    /** 
      * Initializes the weapon pool with all available weapons.
      */
     private void initializeWeaponPool() {
         upgrades.add(new Sword(player));
+        upgrades.add(new Bow(player));
         upgradePool.add(Sword.class);
         upgradePool.add(Bow.class);
         upgradePool.add(MagicStaff.class);
@@ -82,7 +94,18 @@ public class WeaponManagerImpl implements WeaponManager {
                 weapons.add((Weapon) upgrade);
             }
         }
+        setAllObservers(weapons); //NOTA: probabilmente da mettere in un metodo più sensato (dopo un level up per esempio).
         return weapons;
+    }
+
+    private void setAllObservers(List<Weapon> weapons) {
+        for (Weapon weapon : weapons) {
+            if (weapon instanceof Bow) {
+                ((Bow)weapon).setObserver(() -> {
+                    ((Bow)weapon).getProjectiles().forEach(p -> this.projectileManager.addPlayerProjectile(p));
+                });
+            }
+        }
     }
 
     /**
