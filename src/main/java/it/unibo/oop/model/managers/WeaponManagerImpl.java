@@ -27,6 +27,7 @@ public class WeaponManagerImpl implements WeaponManager {
     private final List<Upgrade> upgradePool;
     private final Player player;
     private final Random random;
+    private int playerLastLevel;
     private static final int MAX_LEVEL = 5;
 
     /**
@@ -63,12 +64,10 @@ public class WeaponManagerImpl implements WeaponManager {
         for (final Upgrade upgrade : upgrades.keySet()) {
             upgrade.update();
         }
-
-        upgrades.forEach((upgrade, level) -> {
-            if (level >= MAX_LEVEL) {
-                upgrades.remove(upgrade);
-            }
-        });
+        if (player.getLevel() > playerLastLevel && upgradePool.size() > 0) {
+            addChosenUpgrade(upgradePool.get(random.nextInt(upgradePool.size())));
+            playerLastLevel++;
+        }
     }
 
     /**
@@ -110,14 +109,14 @@ public class WeaponManagerImpl implements WeaponManager {
      */
     @Override
     public void addChosenUpgrade(final Upgrade chosenUpgrade) {
-        if (!upgradePool.contains(chosenUpgrade)) {
-            throw new IllegalArgumentException("The chosen weapon is not in the weapon pool.");
-        }
         if (upgrades.containsKey(chosenUpgrade)) {
             final int currentLevel = upgrades.get(chosenUpgrade);
             upgrades.put(chosenUpgrade, currentLevel + 1);
         } else {
             upgrades.put(chosenUpgrade, 1);
+        }
+        if (upgrades.get(chosenUpgrade) >= MAX_LEVEL) {
+            upgradePool.remove(chosenUpgrade);
         }
     }
 }

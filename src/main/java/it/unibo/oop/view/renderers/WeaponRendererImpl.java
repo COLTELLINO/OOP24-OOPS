@@ -64,9 +64,18 @@ public final class WeaponRendererImpl implements WeaponRenderer {
             return;
         }
 
+        final Image swordImage;
+        try {
+            swordImage = ImageIO.read(Objects.requireNonNull(
+            getClass().getClassLoader().getResource("Weapon/Sword.png"),
+            "Resource 'Weapon/Sword.png' not found."
+            ));
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Sword image could not be loaded.", e);
+            throw new IllegalStateException("Sword image could not be loaded.", e);
+        }
         final Graphics2D g2d = (Graphics2D) g;
         final Player player = sword.getPlayer();
-        final Image swordImage = sword.getSwordImage();
         final int drawX;
         final int drawY = player.getY() + player.getSize() / 2 - (int) (swordImage.getHeight(null) * SCALE) / 2;
         double rotation = 0;
@@ -162,9 +171,17 @@ public final class WeaponRendererImpl implements WeaponRenderer {
             LOGGER.log(Level.WARNING, "Graphics object is not an instance of Graphics2D.");
             return;
         }
-
+        final Image staffImage;
+        try {
+            staffImage = ImageIO.read(Objects.requireNonNull(
+            getClass().getClassLoader().getResource("Weapon/MagicStaff.png"),
+            "Resource 'Weapon/MagicStaff.png' not found."
+            ));
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Magic Staff image could not be loaded.", e);
+            throw new IllegalStateException("Magic Staff image could not be loaded.", e);
+        }
         final Graphics2D g2d = (Graphics2D) g;
-        final Image staffImage = staff.getStaffImage();
         final List<Projectile> projectiles = staff.getProjectiles();
         final List<Rectangle> explosionHitBoxes = staff.getExplosionHitboxes();
         final Image explosionImage;

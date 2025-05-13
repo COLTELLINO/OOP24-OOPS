@@ -1,19 +1,12 @@
 package it.unibo.oop.model.items;
 
-import java.awt.Image;
 import java.awt.Rectangle;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
-
-import javax.imageio.ImageIO;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.model.entities.Player;
@@ -33,16 +26,15 @@ public class MagicStaff extends Weapon {
     private static final int PROJECTILE_SIZE = 30;
     private static final int EXPLOSION_SIZE = 200;
     private static final int EXPLOSION_LIFETIME = 30;
-    private static final Logger LOGGER = Logger.getLogger(MagicStaff.class.getName());
 
     private double cooldown;
     private final Player player;
-    private final Image staffImage;
     private final List<Projectile> projectiles;
     private final Map<Rectangle, Integer> explosionHitboxes;
     private Direction direction = Direction.UP;
     private Direction lastDirection = Direction.UP;
     private boolean showHitbox;
+    private int level;
 
     /**
      * Constructs a MagicStaff object.
@@ -55,15 +47,7 @@ public class MagicStaff extends Weapon {
         this.cooldown = 0;
         this.projectiles = new ArrayList<>();
         this.explosionHitboxes = new LinkedHashMap<>();
-        try {
-            this.staffImage = ImageIO.read(Objects.requireNonNull(
-                getClass().getClassLoader().getResource("Weapon/MagicStaff.png"),
-                "Resource 'Weapon/MagicStaff.png' not found."
-            ));
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Magic Staff image could not be loaded.", e);
-            throw new IllegalStateException("Magic Staff image could not be loaded.", e);
-        }
+        this.level = 1;
     }
 
     /**
@@ -171,15 +155,6 @@ public class MagicStaff extends Weapon {
     }
 
     /**
-     * Returns the staff image.
-     * 
-     * @return the staff image
-     */
-    public Image getStaffImage() {
-        return staffImage;
-    }
-
-    /**
      * Returns the list of active projectiles.
      * 
      * @return the list of projectiles
@@ -196,11 +171,22 @@ public class MagicStaff extends Weapon {
         return null;
     }
     /**
-     * @return the level of the staff.
+     * Gets the level of the magic staff.
+     * 
+     * @return the level of the magic staff
      */
     @Override
     public int getLevel() {
-        return 1;
+        return level;
+    }
+
+    /**
+     * Sets the level of the magic staff.
+     * 
+     * @param level the new level of the magic staff
+     */
+    public void setLevel(final int level) {
+        this.level = level;
     }
     /** 
      * @return the damage of the staff.

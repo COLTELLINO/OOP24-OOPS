@@ -1,14 +1,8 @@
 package it.unibo.oop.model.items;
 
-import java.awt.Image;
 import java.awt.Rectangle;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.model.entities.Player;
@@ -25,7 +19,6 @@ public class Sword extends Weapon {
     private static final double DURATION = 30;
     private static final double COOLDOWN = 60;
     private static final int SIZE = 70;
-    private static final Logger LOGGER = Logger.getLogger(Sword.class.getName());
 
     private double duration;
     private Direction direction;
@@ -33,8 +26,8 @@ public class Sword extends Weapon {
     private boolean active;
     private final Player player;
     private boolean lastDirectionRight = true;
-    private final Image swordImage;
     private boolean showHitbox;
+    private int level;
 
     /**
      * Constructs a Sword object.
@@ -45,15 +38,7 @@ public class Sword extends Weapon {
         super(player);
         this.player = player;
         this.active = false;
-        try {
-            this.swordImage = ImageIO.read(Objects.requireNonNull(
-                getClass().getClassLoader().getResource("Weapon/Sword.png"),
-                "Resource 'Weapon/Sword.png' not found."
-            ));
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Sword image could not be loaded.", e);
-            throw new IllegalStateException("Sword image could not be loaded.", e);
-        }
+        this.level = 1;
     }
 
     /**
@@ -141,20 +126,24 @@ public class Sword extends Weapon {
     }
 
     /**
-     * Returns the sword image.
+     * Gets the level of the sword.
      * 
-     * @return the sword image
-     */
-    public Image getSwordImage() {
-        return swordImage;
-    }
-    /**
-     * @return the sword's level.
+     * @return the level of the sword
      */
     @Override
     public int getLevel() {
-        return 1;
+        return level;
     }
+
+    /**
+     * Sets the level of the sword.
+     * 
+     * @param level the new level of the sword
+     */
+    public void setLevel(final int level) {
+        this.level = level;
+    }
+
     /**
      * @return the sword's damage.
      */
@@ -162,6 +151,7 @@ public class Sword extends Weapon {
     public int getDamage() {
         return DAMAGE;
     }
+
     /**
      * @param showHitbox the visibility of the hitbox.
      */
@@ -169,6 +159,7 @@ public class Sword extends Weapon {
     public void setShowHitbox(final boolean showHitbox) {
         this.showHitbox = showHitbox;
     }
+
     /**
      * @return the visibility of the hitbox.
      */

@@ -38,6 +38,15 @@ public abstract class Upgrade {
     }
 
     /**
+     * Sets the level of the upgrade.
+     * 
+     * @param level the new level of the upgrade
+     */
+    public void setLevel(final int level) {
+        this.level = level;
+    }
+
+    /**
      * Increases the level of the upgrade.
      */
     public void levelUp() {

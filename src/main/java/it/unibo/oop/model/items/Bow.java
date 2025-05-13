@@ -28,6 +28,7 @@ public class Bow extends Weapon {
     private Direction direction = Direction.UP;
     private Direction lastDirection = Direction.UP;
     private boolean showHitbox;
+    private int level;
 
     /**
      * Constructs a Bow object.
@@ -39,6 +40,7 @@ public class Bow extends Weapon {
         this.player = player;
         this.cooldown = 0;
         this.projectiles = new ArrayList<>();
+        this.level = 1;
     }
 
     /**
@@ -97,12 +99,24 @@ public class Bow extends Weapon {
         return this.player;
     }
     /**
-     * @return the level of the bow.
+     * Gets the level of the bow.
+     * 
+     * @return the level of the bow
      */
     @Override
     public int getLevel() {
-        return 1;
+        return level;
     }
+
+    /**
+     * Sets the level of the bow.
+     * 
+     * @param level the new level of the bow
+     */
+    public void setLevel(final int level) {
+        this.level = level;
+    }
+
     /**
      * @return the damage of the bow.
      */
