@@ -26,23 +26,34 @@ public class WeaponManagerImpl implements WeaponManager {
     private final Player player;
     private final Random random;
     private int playerLastLevel = 1;
+    final ProjectileManager projectileManager;
     private static final int MAX_LEVEL = 5;
+    /**
+     * Functional interface to observe enemies and act when a condition is met.
+     */
+    @FunctionalInterface
+    public interface WeaponObserver {
+        /**
+         * Executes an action in response to an event triggered by an enemy.
+         */
+        void weaponObserverAction();
+    }
 
     /**
      * Constructs a WeaponManagerImpl.
      * 
      * @param player the player associated with the weapons
      */
-    public WeaponManagerImpl(final Player player) {
+    public WeaponManagerImpl(final Player player, final ProjectileManager projectileManager) {
         this.upgrades = new ArrayList<>();
         this.upgradePool = new ArrayList<>();
         this.player = player;
         this.random = new Random();
-
+        this.projectileManager = projectileManager;
         initializeWeaponPool();
     }
 
-    /**
+    /** 
      * Initializes the weapon pool with all available weapons.
      */
     private void initializeWeaponPool() {
@@ -64,6 +75,7 @@ public class WeaponManagerImpl implements WeaponManager {
         }
         if (player.getLevel() > playerLastLevel && !upgradePool.isEmpty()) {
             addChosenUpgrade(upgradePool.get(random.nextInt(upgradePool.size())));
+            setAllObservers(getWeapons());
             playerLastLevel++;
         }
     }
@@ -82,6 +94,16 @@ public class WeaponManagerImpl implements WeaponManager {
             }
         }
         return weapons;
+    }
+
+    private void setAllObservers(List<Weapon> weapons) {
+        for (Weapon weapon : weapons) {
+            if (weapon instanceof Bow) {
+                ((Bow)weapon).setObserver(() -> {
+                    ((Bow)weapon).getProjectiles().forEach(p -> this.projectileManager.addPlayerProjectile(p));
+                });
+            }
+        }
     }
 
     /**
