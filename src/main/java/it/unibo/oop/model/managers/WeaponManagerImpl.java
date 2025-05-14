@@ -110,6 +110,16 @@ public class WeaponManagerImpl implements WeaponManager {
      * 
      * @return the map of weapons and their levels
      */
+    @Override
+    public List<Upgrade> getUpgrades() {
+        return upgrades;
+    }
+
+    /**
+     * Returns the map of weapons and their levels.
+     * 
+     * @return the map of weapons and their levels
+     */
     public List<Class<? extends Upgrade>> getUpgradePool() {
         return this.upgradePool;
     }

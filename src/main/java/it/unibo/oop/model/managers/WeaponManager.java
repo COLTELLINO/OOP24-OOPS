@@ -38,4 +38,12 @@ public interface WeaponManager {
      * @return the list of weapons
      */
     List<Weapon> getWeapons();
+
+    /**
+     * Returns the map of weapons and their levels.
+     * 
+     * @return the map of weapons and their levels
+     */
+    List<Upgrade> getUpgrades();
+
 }

@@ -48,11 +48,11 @@ class WeaponManagerTest {
         assertEquals(3, upgradesToChoose.size(), "There should be 3 upgrades to choose from.");
 
         weaponManager.addChosenUpgrade(upgradesToChoose.get(0));
-        final List<Weapon> weapons = weaponManager.getWeapons();
+        final List<Upgrade> upgrades = weaponManager.getUpgrades();
         if (upgradesToChoose.get(0).equals(Sword.class)) {
-            assertEquals(1, weapons.size(), "Player weapons should now contain two weapons.");
+            assertEquals(1, upgrades.size(), "Player weapons should now contain two weapons.");
         } else {
-            assertEquals(2, weapons.size(), "Player weapons should now contain two weapons.");
+            assertEquals(2, upgrades.size(), "Player weapons should now contain two weapons.");
         }
     }
 
