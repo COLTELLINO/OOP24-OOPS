@@ -23,14 +23,14 @@ import it.unibo.oop.model.managers.WeaponManagerImpl;
 class WeaponManagerTest {
 
     private WeaponManagerImpl weaponManager;
-    private Player player;
     private static final int SPEED = 5;
     private static final int SIZE = 50;
 
     @BeforeEach
+    @SuppressWarnings("checkstyle:MagicNumber")
     void setUp() {
-        player = new Player(0, 0, 100, 100, 10, SPEED, SIZE); // Simula un giocatore
-        final ProjectileManager projectileManager = new ProjectileManagerImpl(); // Variabile locale
+        final Player player = new Player(0, 0, 100, 100, 10, SPEED, SIZE);
+        final ProjectileManager projectileManager = new ProjectileManagerImpl();
         weaponManager = new WeaponManagerImpl(player, projectileManager);
     }
 
@@ -43,29 +43,23 @@ class WeaponManagerTest {
 
     @Test
     void testUpdateAndAddChosenUpgrade() {
-        // Simula un livello del giocatore che aumenta
-        player.levelUp();
-        player.levelUp();
-        weaponManager.update();
 
-        // Verifica che ci siano 3 opzioni di upgrade
         final List<Upgrade> upgradesToChoose = weaponManager.getRandomUpgradesToChoose();
         assertEquals(3, upgradesToChoose.size(), "There should be 3 upgrades to choose from.");
 
-        // Aggiungi un upgrade scelto
         weaponManager.addChosenUpgrade(upgradesToChoose.get(0).getClass());
         final List<Weapon> weapons = weaponManager.getWeapons();
-        if (!upgradesToChoose.get(0).getClass().equals(Sword.class)) {
-            assertEquals(2, weapons.size(), "Weapon pool should now contain two weapons.");
+        if (upgradesToChoose.get(0).getClass().equals(Sword.class)) {
+            assertEquals(1, weapons.size(), "Plauer weapons should now contain two weapons.");
         } else {
-            assertEquals(1, weapons.size(), "Weapon pool should now contain two weapons.");
+            assertEquals(2, weapons.size(), "Player weapons should now contain two weapons.");
         }
     }
 
     @Test
     void testMaxLevelUpgrade() {
-        // Aggiungi un'arma e portala al livello massimo
-        weaponManager.addChosenUpgrade(Bow.class); // Passa la classe corretta
+
+        weaponManager.addChosenUpgrade(Bow.class);
         final Weapon bow = weaponManager.getWeapons().stream()
             .filter(weapon -> weapon instanceof Bow)
             .findFirst()
@@ -73,7 +67,7 @@ class WeaponManagerTest {
 
         assertNotNull(bow, "Bow should be added to the weapon pool.");
         for (int i = 0; i < WeaponManagerImpl.MAX_LEVEL - 1; i++) {
-            weaponManager.addChosenUpgrade(Bow.class); // Continua a passare la classe corretta
+            weaponManager.addChosenUpgrade(Bow.class);
         }
 
         assertEquals(WeaponManagerImpl.MAX_LEVEL, bow.getLevel(), "Bow should reach max level.");
@@ -83,7 +77,7 @@ class WeaponManagerTest {
 
     @Test
     void testSetAllObservers() {
-        weaponManager.update(); // Inizializza gli observer
+        weaponManager.update();
         final List<Weapon> weapons = weaponManager.getWeapons();
 
         for (final Weapon weapon : weapons) {
