@@ -168,7 +168,6 @@ public class GameThreadImpl implements Runnable, GameThread {
         });
         baseSkull.setObserver(() -> {
            projectileManager.addEnemyProjectile(baseSkull.getProjectile());
-           baseSkull.getProjectile().setShowHitbox(true);
         });
         this.enemyManager.addEnemy(baseSkull);
         this.spawnTestTimer.update(() -> {

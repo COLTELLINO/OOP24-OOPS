@@ -9,7 +9,7 @@
             "name": "Launch MainApp",
             "request": "launch",
             "mainClass": "it.unibo.oop.MainApp",
-            "projectName": "OOP24-OOPS"
+            "projectName": "sample-gradle-project-OOP24-OOPS"
         }
     ]
 }

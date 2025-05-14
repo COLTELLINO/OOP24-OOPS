@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import it.unibo.oop.model.entities.Enemy;
-import it.unibo.oop.model.entities.Entity;
 import it.unibo.oop.model.entities.Player;
 import it.unibo.oop.model.items.Weapon;
 import it.unibo.oop.model.projectiles.Projectile;
@@ -42,22 +41,6 @@ public interface CollisionManager {
      * @param projectiles the projectile lise
      */
     void handlePlayerProjectilenCollision(Player player, List<Projectile> projectiles);
-
-    /**
-     * Checks if an entity can take damage.
-     * 
-     * @param entity the entity to check
-     * @return true if the entity can take damage, false otherwise
-     */
-    boolean canTakeDamage(Entity entity);
-
-    /**
-     * Registers damage for an entity, starting its i-frame cooldown.
-     * 
-     * @param entity the entity that took damage
-     */
-    void registerDamage(Entity entity);
-
     /**
      * Updates the cooldowns for all entities.
      */

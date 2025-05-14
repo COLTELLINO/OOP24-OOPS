@@ -123,19 +123,6 @@ class TestCollisionManager {
     }
 
     @Test
-    void testCanTakeDamage() {
-
-        assertTrue(collisionManager.canTakeDamage(enemy), "Enemy should be able to take damage.");
-    }
-
-    @Test
-    void testRegisterDamage() {
-
-        collisionManager.registerDamage(enemy);
-        assertTrue(!collisionManager.canTakeDamage(enemy), "Enemy should not be able to take damage immediately.");
-    }
-
-    @Test
     void testHandleWeaponCollision() {
 
         final Set<Enemy> enemies = new HashSet<>();
