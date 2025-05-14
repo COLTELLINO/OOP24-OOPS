@@ -44,13 +44,13 @@ class WeaponManagerTest {
     @Test
     void testUpdateAndAddChosenUpgrade() {
 
-        final List<Upgrade> upgradesToChoose = weaponManager.getRandomUpgradesToChoose();
+        final List<Class<? extends Upgrade>> upgradesToChoose = weaponManager.getRandomUpgradesToChoose();
         assertEquals(3, upgradesToChoose.size(), "There should be 3 upgrades to choose from.");
 
-        weaponManager.addChosenUpgrade(upgradesToChoose.get(0).getClass());
+        weaponManager.addChosenUpgrade(upgradesToChoose.get(0));
         final List<Weapon> weapons = weaponManager.getWeapons();
-        if (upgradesToChoose.get(0).getClass().equals(Sword.class)) {
-            assertEquals(1, weapons.size(), "Plauer weapons should now contain two weapons.");
+        if (upgradesToChoose.get(0).equals(Sword.class)) {
+            assertEquals(1, weapons.size(), "Player weapons should now contain two weapons.");
         } else {
             assertEquals(2, weapons.size(), "Player weapons should now contain two weapons.");
         }

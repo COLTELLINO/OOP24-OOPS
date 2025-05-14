@@ -133,27 +133,18 @@ public class WeaponManagerImpl implements WeaponManager {
     }
 
     /**
-     * Returns 3 random upgrades from the upgrade pool for the player to choose from.
+     * Returns 3 random upgrade classes from the upgrade pool for the player to choose from.
      * 
-     * @return a list of 3 random upgrades
+     * @return a list of 3 random upgrade classes
      */
     @Override
-    public List<Upgrade> getRandomUpgradesToChoose() {
+    public List<Class<? extends Upgrade>> getRandomUpgradesToChoose() {
         if (upgradePool.size() < 3) {
             throw new IllegalStateException("Not enough weapons in the pool to choose from.");
         }
         final List<Class<? extends Upgrade>> shuffledPool = new ArrayList<>(upgradePool);
         Collections.shuffle(shuffledPool, random);
-        final List<Upgrade> upgradesToChoose = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            try {
-                upgradesToChoose.add(shuffledPool.get(i)
-                    .getDeclaredConstructor(Player.class).newInstance(player));
-            } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-                throw new IllegalStateException("Failed to instantiate upgrade: " + shuffledPool.get(i).getName(), e);
-            }
-        }
-        return upgradesToChoose;
+        return shuffledPool.subList(0, 3);
     }
 
     /**

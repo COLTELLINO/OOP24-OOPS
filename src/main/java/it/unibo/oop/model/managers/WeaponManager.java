@@ -30,7 +30,7 @@ public interface WeaponManager {
      * 
      * @return a list of 3 random upgrades
      */
-    List<Upgrade> getRandomUpgradesToChoose();
+    List<Class<? extends Upgrade>> getRandomUpgradesToChoose();
 
     /**
      * Returns the list of weapons.
