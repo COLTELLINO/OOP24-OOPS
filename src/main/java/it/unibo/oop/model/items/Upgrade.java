@@ -1,4 +1,4 @@
-package it.unibo.oop.model;
+package it.unibo.oop.model.items;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.model.entities.Player;
@@ -35,6 +35,15 @@ public abstract class Upgrade {
      */
     public int getLevel() {
         return level;
+    }
+
+    /**
+     * Sets the level of the upgrade.
+     * 
+     * @param level the new level of the upgrade
+     */
+    public void setLevel(final int level) {
+        this.level = level;
     }
 
     /**

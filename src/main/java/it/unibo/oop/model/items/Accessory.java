@@ -1,6 +1,5 @@
 package it.unibo.oop.model.items;
 
-import it.unibo.oop.model.Upgrade;
 import it.unibo.oop.model.entities.Player;
 
 /**

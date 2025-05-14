@@ -1,14 +1,8 @@
 package it.unibo.oop.model.items;
 
-import java.awt.Image;
 import java.awt.Rectangle;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.model.entities.Player;
@@ -21,22 +15,21 @@ import it.unibo.oop.utils.Direction;
 justification = "To position the weapon, the player size and position are needed, "
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
 public class Sword extends Weapon {
-
-
     private static final int DAMAGE = 200;
     private static final double DURATION = 30;
     private static final double COOLDOWN = 60;
     private static final int SIZE = 70;
-    private static final Logger LOGGER = Logger.getLogger(Sword.class.getName());
 
     private double duration;
-    private Direction direction;
+    private Direction direction = Direction.RIGHT;
     private double cooldown;
     private boolean active;
     private final Player player;
+    private static final int SIZESCALER = 1;
+    private static final int DAMAGESCALER = 1;
     private boolean lastDirectionRight = true;
-    private final Image swordImage;
     private boolean showHitbox;
+    private int level;
 
     /**
      * Constructs a Sword object.
@@ -47,15 +40,7 @@ public class Sword extends Weapon {
         super(player);
         this.player = player;
         this.active = false;
-        try {
-            this.swordImage = ImageIO.read(Objects.requireNonNull(
-                getClass().getClassLoader().getResource("Weapon/Sword.png"),
-                "Resource 'Weapon/Sword.png' not found."
-            ));
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Sword image could not be loaded.", e);
-            throw new IllegalStateException("Sword image could not be loaded.", e);
-        }
+        this.level = 1;
     }
 
     /**
@@ -71,10 +56,12 @@ public class Sword extends Weapon {
         }
         switch (direction) {
             case LEFT:
-                hitbox.add(new Rectangle(player.getX() - SIZE, player.getY(), SIZE, player.getSize()));
+                hitbox.add(new Rectangle(player.getX() - SIZE * (level / SIZESCALER), 
+                player.getY(), SIZE * (level / SIZESCALER), player.getSize()));
                 return hitbox;
             case RIGHT:
-                hitbox.add(new Rectangle(player.getX() + player.getSize(), player.getY(), SIZE, player.getSize()));
+                hitbox.add(new Rectangle(player.getX() + player.getSize(), player.getY(), 
+                SIZE * (level / SIZESCALER), player.getSize()));
                 return hitbox;
             default:
                 return List.of();
@@ -143,27 +130,33 @@ public class Sword extends Weapon {
     }
 
     /**
-     * Returns the sword image.
+     * Gets the level of the sword.
      * 
-     * @return the sword image
-     */
-    public Image getSwordImage() {
-        return swordImage;
-    }
-    /**
-     * @return the sword's level.
+     * @return the level of the sword
      */
     @Override
     public int getLevel() {
-        return 1;
+        return level;
     }
+
+    /**
+     * Sets the level of the sword.
+     * 
+     * @param level the new level of the sword
+     */
+    @Override
+    public void setLevel(final int level) {
+        this.level = level;
+    }
+
     /**
      * @return the sword's damage.
      */
     @Override
     public int getDamage() {
-        return DAMAGE;
+        return DAMAGE * (level / DAMAGESCALER);
     }
+
     /**
      * @param showHitbox the visibility of the hitbox.
      */
@@ -171,11 +164,29 @@ public class Sword extends Weapon {
     public void setShowHitbox(final boolean showHitbox) {
         this.showHitbox = showHitbox;
     }
+
     /**
      * @return the visibility of the hitbox.
      */
     @Override
     public boolean isShowHitbox() {
         return showHitbox;
+    }
+
+    /**
+     * Handles the weapon collision.
+     */
+    @Override
+    public void handleCollision() {
+        //unused for the sword.
+    }
+
+    /**
+    * Gets the size of the sword based on its level and scaler.
+    * 
+    * @return the size of the sword
+    */
+    public int getSize() {
+        return SIZE * (level / SIZESCALER);
     }
 }

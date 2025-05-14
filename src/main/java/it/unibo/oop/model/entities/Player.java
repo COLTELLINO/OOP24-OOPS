@@ -10,7 +10,7 @@ import it.unibo.oop.utils.Direction;
 public class Player extends Entity {
     private Direction direction;
     private int xp;
-    private int level;
+    private int level = 1;
     private static final int LEVELUP_SCALER = 20;
     private final HealthManager healthManager;
     /**

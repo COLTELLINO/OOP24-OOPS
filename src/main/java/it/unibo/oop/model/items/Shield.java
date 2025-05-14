@@ -13,6 +13,9 @@ public class Shield extends Accessory {
 
     private boolean isEquipped;
     private final Player player;
+    private int level;
+    private static final int BASEBONUS = 10;
+    private static final int SCALER = 1;
 
     /**
      * Creates a new Shield instance.
@@ -21,6 +24,7 @@ public class Shield extends Accessory {
     public Shield(final Player player) {
         super(player);
         this.player = player;
+        this.level = 1;
     }
 
     /**
@@ -29,8 +33,28 @@ public class Shield extends Accessory {
     @Override
     public void update() {
         if (!isEquipped) {
-            player.setHealth(player.getHealth() + 100);
+            player.setHealth(player.getHealth() + BASEBONUS * (level / SCALER));
             this.isEquipped = true;
         }
+    }
+
+    /**
+     * Gets the level of the shield.
+     * 
+     * @return the level of the shield
+     */
+    @Override
+    public int getLevel() {
+        return level;
+    }
+
+    /**
+     * Sets the level of the shield.
+     * 
+     * @param level the new level of the shield
+     */
+    @Override
+    public void setLevel(final int level) {
+        this.level = level;
     }
 }

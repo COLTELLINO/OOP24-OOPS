@@ -3,7 +3,6 @@ package it.unibo.oop.model.items;
 import java.awt.Rectangle;
 import java.util.List;
 
-import it.unibo.oop.model.Upgrade;
 import it.unibo.oop.model.entities.Player;
 
 /**
@@ -33,4 +32,8 @@ public abstract class Weapon extends Upgrade {
      * @return the visibility of the hitbox.
      */
     public abstract boolean isShowHitbox();
+    /**
+     * handles the weapon collision.
+     */
+    public abstract void handleCollision();
 }

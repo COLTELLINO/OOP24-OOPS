@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -64,8 +65,9 @@ public class ExperienceRendererImpl implements ExperienceRenderer {
         }
 
         final Graphics2D g2d = (Graphics2D) g;
-
-        for (final ExperienceOrb orb : orbs) {
+        final List<ExperienceOrb> orbsCopy = new ArrayList<>(orbs);
+        orbsCopy.addAll(orbs);
+        for (final ExperienceOrb orb : orbsCopy) {
             final int drawX = orb.getX();
             final int drawY = orb.getY();
 

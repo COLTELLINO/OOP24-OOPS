@@ -2,9 +2,8 @@ package it.unibo.oop.view.renderers;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.Map;
+import java.util.List;
 
-import it.unibo.oop.model.items.Bow;
 import it.unibo.oop.model.items.MagicStaff;
 import it.unibo.oop.model.items.Sword;
 import it.unibo.oop.model.items.Weapon;
@@ -27,15 +26,7 @@ public interface WeaponRenderer {
      * @param g the graphics context
      * @param weapons the list of weapons to draw
      */
-    void drawWeaponList(Graphics2D g, Map<Weapon, Integer> weapons);
-
-    /**
-     * Draws a bow and its projectiles.
-     * 
-     * @param g the graphics context
-     * @param bow the bow to draw
-     */
-    void drawBow(Graphics g, Bow bow);
+    void drawWeaponList(Graphics2D g, List<Weapon> weapons);
 
     /**
      * Draws a magic staff and its projectiles.

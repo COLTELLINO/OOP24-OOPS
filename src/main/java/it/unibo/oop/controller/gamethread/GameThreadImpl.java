@@ -2,7 +2,9 @@ package it.unibo.oop.controller.gamethread;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import it.unibo.oop.model.entities.Enemy;
 import it.unibo.oop.model.entities.Entity;
@@ -12,9 +14,6 @@ import it.unibo.oop.model.factories.EnemyFactoryImpl;
 import it.unibo.oop.model.handlers.AudioHandler;
 import it.unibo.oop.model.handlers.AudioHandlerImpl;
 import it.unibo.oop.model.handlers.InputHandler;
-import it.unibo.oop.model.items.Bow;
-import it.unibo.oop.model.items.MagicStaff;
-import it.unibo.oop.model.items.Sword;
 import it.unibo.oop.model.items.Weapon;
 import it.unibo.oop.model.managers.CollisionManager;
 import it.unibo.oop.model.managers.CollisionManagerImpl;
@@ -28,7 +27,6 @@ import it.unibo.oop.model.managers.ProjectileManager;
 import it.unibo.oop.model.managers.ProjectileManagerImpl;
 import it.unibo.oop.model.managers.WeaponManager;
 import it.unibo.oop.model.managers.WeaponManagerImpl;
-import it.unibo.oop.model.projectiles.Projectile;
 import it.unibo.oop.utils.GameState;
 import it.unibo.oop.utils.Percentage;
 import it.unibo.oop.utils.Timer;
@@ -57,10 +55,10 @@ public class GameThreadImpl implements Runnable, GameThread {
     private final InputHandler inputHandler = new InputHandler(player);
     private final EnemyManager enemyManager = new EnemyManagerImpl(player);
     private final EnemyFactory enemyFactory = new EnemyFactoryImpl();
-    private final WeaponManager weaponManager = new WeaponManagerImpl(player);
+    private final ProjectileManager projectileManager = new ProjectileManagerImpl();
+    private final WeaponManager weaponManager = new WeaponManagerImpl(player, projectileManager);
     private final ExperienceManager experienceManager = new ExperienceManagerImpl(player);
     private final HealthManager healthManager = new HealthManagerImpl(player);
-    private final ProjectileManager projectileManager = new ProjectileManagerImpl();
     private final CollisionManager collisionManager = new CollisionManagerImpl();
     private final AudioHandler audioHandler = new AudioHandlerImpl();
     private final ViewManagerFactory drawViewFactory = new ViewManagerFactoryImpl();
@@ -117,8 +115,10 @@ public class GameThreadImpl implements Runnable, GameThread {
     public void update() {
         if (this.window.getCurrentGameState() == GameState.PLAYSTATE) {
             getAllEntities().forEach((e) -> e.showHitbox(inputHandler.isDebugMode()));
-            weaponManager.getWeapons().keySet().forEach((w) -> w.setShowHitbox(inputHandler.isDebugMode()));
+            projectileManager.getAllProjectiles().forEach((p) -> p.setShowHitbox(inputHandler.isDebugMode()));
+            weaponManager.getWeapons().forEach((w) -> w.setShowHitbox(inputHandler.isDebugMode()));
             this.spawnEnemies();
+            collisionManager.update();
             this.checkCollisions();
             weaponManager.update();
             experienceManager.update();
@@ -133,47 +133,18 @@ public class GameThreadImpl implements Runnable, GameThread {
      * Checks for collisions between the player and enemies.
      */
     private void checkCollisions() {
-        for (final Weapon weapon : weaponManager.getWeapons().keySet()) {
-            if (weapon instanceof Sword) {
-                final List<Enemy> enemies = new ArrayList<>();
+        collisionManager.handleEnemyProjectilenCollision(enemyManager.getSpawnedEnemies(),
+            projectileManager.getPlayerProjectiles());
+        collisionManager.handlePlayerProjectilenCollision(player, projectileManager.getEnemyProjectiles());
+        for (final Weapon weapon : weaponManager.getWeapons()) {
+            for (final Rectangle rectangle : weapon.getHitBox()) {
+                final Set<Enemy> enemies = new HashSet<>();
                 for (final Enemy enemy : enemyManager.getSpawnedEnemies()) {
-                    for (final Rectangle rectangle : weapon.getHitBox()) {
-                        if (collisionManager.isColliding(rectangle, enemy.getHitbox())) {
-                            enemies.add(enemy);
-                        }
+                    if (collisionManager.isColliding(rectangle, enemy.getHitbox())) {
+                        enemies.add(enemy);
                     }
+                }
                 collisionManager.handleWeaponCollision(enemies, weapon);
-                }
-            } else if (weapon instanceof Bow) {
-                for (final Rectangle rectangle : weapon.getHitBox()) {
-                    final List<Enemy> enemies = new ArrayList<>();
-                    for (final Enemy enemy : enemyManager.getSpawnedEnemies()) {
-                        if (collisionManager.isColliding(rectangle, enemy.getHitbox())) {
-                            enemies.add(enemy);
-                        }
-                    }
-                    collisionManager.handleWeaponCollision(enemies, weapon);
-                }
-            } else if (weapon instanceof MagicStaff) {
-                final List<Projectile> projectiles = ((MagicStaff) weapon).getProjectiles();
-                for (final Projectile projectile : projectiles) {
-                    for (final Enemy enemy : enemyManager.getSpawnedEnemies()) {
-                        if (collisionManager.isColliding(projectile.getProjectileHitBox(), enemy.getHitbox())) {
-                            ((MagicStaff) weapon).handleCollision(projectile);
-                            ((MagicStaff) weapon).removeProjectile(projectile);
-                        }
-                    }
-                }
-                for (final Rectangle rectangle : ((MagicStaff) weapon).getExplosionHitboxes()) {
-                    final List<Enemy> enemies = new ArrayList<>();
-                    for (final Enemy enemy : enemyManager.getSpawnedEnemies()) {
-                        if (collisionManager.isColliding(rectangle, enemy.getHitbox())) {
-                            enemies.add(enemy);
-                        }
-                    }
-                    collisionManager.handleWeaponCollision(enemies, weapon);
-                    ((MagicStaff) weapon).removeExplosion(rectangle);
-                }
             }
         }
     }
@@ -196,7 +167,8 @@ public class GameThreadImpl implements Runnable, GameThread {
                 baseSkull.getY() + baseSkull.getSize() / 2, 10);
         });
         baseSkull.setObserver(() -> {
-           projectileManager.addEnemyProjectile(baseSkull.getProjectile()); 
+           projectileManager.addEnemyProjectile(baseSkull.getProjectile());
+           baseSkull.getProjectile().setShowHitbox(true);
         });
         this.enemyManager.addEnemy(baseSkull);
         this.spawnTestTimer.update(() -> {

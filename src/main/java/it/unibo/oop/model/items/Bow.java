@@ -3,10 +3,12 @@ package it.unibo.oop.model.items;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.model.entities.Player;
+import it.unibo.oop.model.managers.WeaponManager;
+import it.unibo.oop.model.managers.WeaponManagerImpl.WeaponObserver;
+import it.unibo.oop.model.projectiles.Arrow;
 import it.unibo.oop.model.projectiles.Projectile;
 import it.unibo.oop.utils.Direction;
 
@@ -17,17 +19,23 @@ import it.unibo.oop.utils.Direction;
 justification = "To position the weapon, the player size and position are needed, "
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
 public class Bow extends Weapon {
-    private static final int DAMAGE = 50;
+    private static final int DAMAGE = 1000;
     private static final double COOLDOWN = 100;
-    private static final int SPEED = 1;
+    private static final int SPEED = 5;
     private static final int PROJECTILE_SIZE = 30;
 
     private double cooldown;
     private final Player player;
     private final List<Projectile> projectiles;
+    private WeaponObserver observer = () -> {
+        // Default no-op implementation
+    };
     private Direction direction = Direction.UP;
     private Direction lastDirection = Direction.UP;
     private boolean showHitbox;
+    private int level;
+    private static final int DAMAGESCALER = 1;
+    private static final int SPEEDSCALER = 3;
 
     /**
      * Constructs a Bow object.
@@ -39,6 +47,7 @@ public class Bow extends Weapon {
         this.player = player;
         this.cooldown = 0;
         this.projectiles = new ArrayList<>();
+        this.level = 1;
     }
 
     /**
@@ -48,12 +57,17 @@ public class Bow extends Weapon {
     public void update() {
         if (cooldown <= 0) {
             shoot();
+            observerAction();
             cooldown = COOLDOWN;
         } else {
-            cooldown--;
+            if (level >= 4) {
+                cooldown -= SPEEDSCALER;
+            } else {
+                cooldown--;
+            }
         }
         direction = player.getDirection();
-        if (direction == Direction.RIGHT || direction == Direction.LEFT 
+        if (direction == Direction.LEFT || direction == Direction.RIGHT 
         || direction == Direction.DOWN || direction == Direction.UP) {
             lastDirection = direction;
         } else {
@@ -62,7 +76,12 @@ public class Bow extends Weapon {
         projectiles.forEach(Projectile::update);
         projectiles.removeIf(Projectile::isOutOfBounds);
     }
-
+    /**
+     * If an observer is present, trigger its action.
+     */
+    protected void observerAction() {
+        observer.weaponObserverAction();
+    }
     /**
      * Gets the hitboxes of all active projectiles.
      * 
@@ -70,15 +89,39 @@ public class Bow extends Weapon {
      */
     @Override
     public List<Rectangle> getHitBox() {
-        return projectiles.stream().map(Projectile::getProjectileHitBox)
-        .collect(Collectors.toList());
+        return List.of();
     }
 
     /**
-     * Shoots a projectile in the direction the player is facing.
+     * Shoots projectiles based on the bow's level.
      */
     private void shoot() {
-        projectiles.add(new Projectile(player.getX(), player.getY(), direction, SPEED, PROJECTILE_SIZE));
+        switch (level) {
+            case 1 -> {
+                projectiles.add(new Arrow(player.getX(), player.getY(), direction, DAMAGE, SPEED, PROJECTILE_SIZE));
+            }
+            case 2 -> {
+                projectiles.add(new Arrow(player.getX(), player.getY(), direction, DAMAGE, SPEED, PROJECTILE_SIZE));
+                projectiles.add(new Arrow(player.getX(), player.getY(), direction.getOpposite(), DAMAGE, SPEED, PROJECTILE_SIZE));
+            }
+            case 3 -> {
+                for (final Direction dir : Direction.verticalHorizontal()) {
+                    projectiles.add(new Arrow(player.getX(), player.getY(), dir, DAMAGE, SPEED, PROJECTILE_SIZE));
+                }
+            }
+            case 4 -> {
+                for (final Direction dir : Direction.verticalHorizontal()) {
+                    projectiles.add(new Arrow(player.getX(), player.getY(), dir, DAMAGE, SPEED, PROJECTILE_SIZE));
+                }
+            }
+            case WeaponManager.MAX_LEVEL -> {
+                for (final Direction dir : Direction.verticalHorizontal()) {
+                    projectiles.add(new Arrow(player.getX(), player.getY(), dir, 
+                    DAMAGE * (level / DAMAGESCALER), SPEED * (level / SPEEDSCALER), PROJECTILE_SIZE));
+                }
+            }
+            default -> throw new IllegalStateException("Unexpected level: " + level);
+        }
     }
 
     /**
@@ -97,18 +140,31 @@ public class Bow extends Weapon {
         return this.player;
     }
     /**
-     * @return the level of the bow.
+     * Gets the level of the bow.
+     * 
+     * @return the level of the bow
      */
     @Override
     public int getLevel() {
-        return 1;
+        return level;
     }
+
+    /**
+     * Sets the level of the bow.
+     * 
+     * @param level the new level of the bow
+     */
+    @Override
+    public void setLevel(final int level) {
+        this.level = level;
+    }
+
     /**
      * @return the damage of the bow.
      */
     @Override
     public int getDamage() {
-        return DAMAGE;
+        return 0;
     }
     /**
      * @param showHitbox the visibility of the hitbox.
@@ -123,5 +179,27 @@ public class Bow extends Weapon {
     @Override
     public boolean isShowHitbox() {
         return showHitbox;
+    }
+
+    /**
+     * handles the weapon collision.
+     */
+    @Override
+    public void handleCollision() {
+        //unused for the bow.
+    }
+
+    /**
+     * @param observer
+     */
+    public void setObserver(final WeaponObserver observer) {
+        this.observer = observer;
+    }
+
+    /**
+     * @return the observer.
+     */
+    public Object getObserver() {
+        return this.observer;
     }
 }

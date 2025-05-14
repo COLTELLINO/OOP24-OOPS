@@ -2,14 +2,28 @@ package it.unibo.oop.view.renderers;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.imageio.ImageIO;
 
 import it.unibo.oop.model.projectiles.Projectile;
+import it.unibo.oop.utils.Direction;
 /**
  * Implementation of ProjectileRenderer for rendering projectiles.
  */
 public class ProjectileRendererImpl implements ProjectileRenderer {
-    private static final int WIDTH_HEIGHT = 10; 
+    private static final double ROTATION_RIGHT = Math.toRadians(90);
+    private static final double ROTATION_LEFT = Math.toRadians(-90);
+    private static final double SCALE = 2.0;
+    private final Map<String, BufferedImage> projectileSpriteMap = new HashMap<>();
+
     /**
      * Draws current projectile.
      * @param projectile
@@ -17,10 +31,29 @@ public class ProjectileRendererImpl implements ProjectileRenderer {
      */
     @Override
     public void drawProjectile(final Projectile projectile, final Graphics2D g2) {
-        //projectile.getName() o qualcosa del genere
-        // per ottenere il nome dell'immagine che poi verrà caricata
-        g2.setColor(Color.WHITE);
-        g2.fillOval(projectile.getX() - WIDTH_HEIGHT / 2, projectile.getY() - WIDTH_HEIGHT / 2, WIDTH_HEIGHT, WIDTH_HEIGHT);
+        final BufferedImage projectileImage = getProjectileSprite(projectile);
+        final AffineTransform transform = new AffineTransform();
+        transform.translate(projectile.getX(), projectile.getY());
+
+        switch (projectile.getDirection()) {
+            case Direction.RIGHT -> transform.rotate(ROTATION_RIGHT, 
+            projectileImage.getWidth(null) / 2.0, projectileImage.getHeight(null) / 2.0);
+            case Direction.LEFT -> transform.rotate(ROTATION_LEFT, 
+            projectileImage.getWidth(null) / 2.0, projectileImage.getHeight(null) / 2.0);
+            case Direction.UP -> transform.rotate(0, 
+            projectileImage.getWidth(null) / 2.0, projectileImage.getHeight(null) / 2.0);
+            case Direction.DOWN -> transform.rotate(ROTATION_RIGHT * 2, 
+            projectileImage.getWidth(null) / 2.0, projectileImage.getHeight(null) / 2.0);
+            default -> { }
+        }
+
+        transform.scale(SCALE, SCALE);
+        g2.drawImage(projectileImage, transform, null);
+
+        if (projectile.isHitboxShowed()) {
+            g2.setColor(Color.BLUE);
+            g2.draw(projectile.getProjectileHitBox());
+        }
     }
     /**
      * Draws every projectile in a list.
@@ -32,5 +65,20 @@ public class ProjectileRendererImpl implements ProjectileRenderer {
         for (final Projectile projectile : projectileList) {
             this.drawProjectile(projectile, g2);
         }
+    }
+    /**
+     * @param projectile
+     * @return the image of the enemy.
+     */
+    private BufferedImage getProjectileSprite(final Projectile projectile) {
+        return projectileSpriteMap.computeIfAbsent(projectile.getProjectileName(), name -> {
+            try {
+                return ImageIO.read(EnemyRendererImpl.class.getResource("/Weapon/" + name + ".png"));
+            } catch (IOException e) {
+                Logger.getLogger(this.getClass().getName())
+                    .log(Level.SEVERE, e.getClass().getSimpleName() + " occurred: ", e);
+                    return null;
+            }
+        });
     }
 }
