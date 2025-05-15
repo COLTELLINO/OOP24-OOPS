@@ -22,8 +22,8 @@ class TestExperienceManager {
     private static final int PLAYER_SPEED = 5;
     private static final int PLAYER_SIZE = 50;
 
-    private static final int ORB_X = 10;
-    private static final int ORB_Y = 10;
+    private static final int ORB_X = 100;
+    private static final int ORB_Y = 100;
     private static final int ORB_XP = 50;
 
     private ExperienceManagerImpl experienceManager;

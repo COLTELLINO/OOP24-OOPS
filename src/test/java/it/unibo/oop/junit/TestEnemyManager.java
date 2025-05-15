@@ -9,6 +9,9 @@ import org.junit.jupiter.api.Test;
 import it.unibo.oop.model.entities.Enemy;
 import it.unibo.oop.model.entities.Player;
 import it.unibo.oop.model.entities.Slime;
+/**
+ * Tests the enemy manager class.
+ */
 class TestEnemyManager {
     private TestableEnemyManager enemyManager;
     private Player fakePlayer;
@@ -36,17 +39,17 @@ class TestEnemyManager {
     @Test
     void testSpawnEnemy() {
         final Enemy enemy = new Slime(0, 0, 0, 0, 0, 0, 0, fakePlayer);
+        assertEquals(0, enemyManager.getSpawnedEnemies().size());
         enemyManager.spawnEnemy(enemy);
         assertEquals(1, enemyManager.getSpawnedEnemies().size());
     }
     @Test
     void testWaveSpawningLimits() {
         final int enemiesAdded = 100;
-        final int maxEnemies = enemyManager.getMaxEnemies();
         for (int i = 0; i < enemiesAdded; i++) {
             enemyManager.addEnemy(new Slime(0, 0, 0, 1, 0, 0, 0, fakePlayer));
             enemyManager.spawnWaveIfPossible();
         }
-        assertEquals(maxEnemies, enemyManager.getSpawnedEnemies().size(), "Should not exceed max enemies");
+        assertEquals(enemyManager.getMaxEnemies(), enemyManager.getSpawnedEnemies().size(), "Should not exceed max enemies");
     }
 }
