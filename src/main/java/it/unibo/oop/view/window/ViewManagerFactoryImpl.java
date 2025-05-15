@@ -14,6 +14,7 @@ import it.unibo.oop.model.managers.HealthManager;
 import it.unibo.oop.model.managers.ProjectileManager;
 import it.unibo.oop.model.managers.WeaponManager;
 import it.unibo.oop.utils.GameState;
+import it.unibo.oop.utils.Camera;
 
 /**
  * Class to create windows.
@@ -35,11 +36,11 @@ public class ViewManagerFactoryImpl implements ViewManagerFactory {
     @Override
     public ViewManager createViewManager(final GameState gameState, final Player player, final EnemyManager enemyManager, 
         final WeaponManager weaponManager, final ExperienceManager experienceManager,
-                final HealthManager healthManager, final ProjectileManager projectileManager) {
+                final HealthManager healthManager, final ProjectileManager projectileManager, final Camera camera) {
             try {
                 SwingUtilities.invokeAndWait(() -> {
                     this.window = new ViewManagerImpl(GameState.TITLESTATE, player, 
-                            enemyManager, weaponManager, experienceManager, healthManager, projectileManager);
+                            enemyManager, weaponManager, experienceManager, healthManager, projectileManager, camera);
                     });
             } catch (InvocationTargetException | InterruptedException e) {
                 Logger.getLogger(this.getClass().getName())

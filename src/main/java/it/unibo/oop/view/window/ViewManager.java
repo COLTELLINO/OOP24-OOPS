@@ -37,4 +37,12 @@ public interface ViewManager {
      * @param focusable true if the frame should be focusable
      */
     void setFocusable(boolean focusable);
+    /**
+     *  @return the width of the game screen.
+     */
+    int getGameScreenWidth();
+    /**
+     *  @return the height of the game screen.
+     */
+    int getGameScreenHeight();
 }

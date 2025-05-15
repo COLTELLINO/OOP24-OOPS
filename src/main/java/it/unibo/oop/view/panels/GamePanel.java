@@ -24,6 +24,7 @@ import it.unibo.oop.view.renderers.ProjectileRenderer;
 import it.unibo.oop.view.renderers.ProjectileRendererImpl;
 import it.unibo.oop.view.renderers.WeaponRenderer;
 import it.unibo.oop.view.renderers.WeaponRendererImpl;
+import it.unibo.oop.utils.Camera;
 /**
  * 
  */
@@ -45,6 +46,7 @@ public class GamePanel extends MyPanel {
     private final transient ProjectileRenderer projectileRenderer = new ProjectileRendererImpl();
     private final transient PlayerRenderer playerRenderer = new PlayerRendererImpl();
     private final transient HealthRenderer healthRenderer = new HealthRendererImpl();
+    private final transient Camera camera;
     /**
      * @param screenWidth
      * @param screenHeight
@@ -54,17 +56,20 @@ public class GamePanel extends MyPanel {
      * @param experienceManager
      * @param healthManager
      * @param projectileManager
+     * @param camera
      */
     public GamePanel(final int screenWidth, final int screenHeight, final Player player, 
             final EnemyManager enemyManager, final WeaponManager weaponManager,
             final ExperienceManager experienceManager,
-            final HealthManager healthManager, final ProjectileManager projectileManager) {
+            final HealthManager healthManager, final ProjectileManager projectileManager,
+            final Camera camera) {
         this.player = player;
         this.enemyManager = enemyManager;
         this.projectileManager = projectileManager;
         this.weaponManager = weaponManager;
         this.experienceManager = experienceManager;
         this.healthManager = healthManager;
+        this.camera = camera;
         weaponRenderer = new WeaponRendererImpl();
         super.setPreferredSize(new Dimension(screenWidth, screenHeight));
         super.setBackground(Color.BLACK);
@@ -77,12 +82,21 @@ public class GamePanel extends MyPanel {
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
         final Graphics2D g2d = (Graphics2D) g;
+
+        // 1. Inizio camera: traslazione negativa
+        g2d.translate(-camera.getX(), -camera.getY());
+
+        // 2. Disegna tutto ciò che segue la camera
         this.playerRenderer.drawPlayer(this.player, g2d);
         this.enemyRenderer.drawEnemyList(this.enemyManager.getSpawnedEnemies(), g2d);
         this.projectileRenderer.drawProjectileList(this.projectileManager.getAllProjectiles(), g2d);
         this.weaponRenderer.drawWeaponList(g2d, this.weaponManager.getWeapons());
         this.experienceRenderer.drawExperienceOrbs(g2d, this.experienceManager.getOrbs());
-        // Disegna la barra dell'XP
+
+        // 3. Fine camera: ripristina traslazione
+        g2d.translate(camera.getX(), camera.getY());
+
+        // 4. Disegna HUD/barre che restano fisse
         drawXPBar(g2d);
         drawHealthBar(g2d);
     }
