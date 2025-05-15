@@ -17,6 +17,7 @@ import it.unibo.oop.view.panels.MyPanel;
 import it.unibo.oop.view.panels.OptionPanel;
 import it.unibo.oop.view.panels.TestPanel;
 import it.unibo.oop.view.panels.TitlePanel;
+import it.unibo.oop.utils.Camera;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -46,14 +47,16 @@ public final class ViewManagerImpl implements ViewManager {
      * @param experienceManager
      * @param healthManager
      * @param projectileManager
+     * @param camera
      */
     public ViewManagerImpl(final GameState gameState, final Player player, final EnemyManager enemyManager,
         final WeaponManager weaponManager, final ExperienceManager experienceManager,
-        final HealthManager healthManager, final ProjectileManager projectileManager) {
+        final HealthManager healthManager, final ProjectileManager projectileManager,
+        final Camera camera) {
         this.titlePanel = new TitlePanel(this.sw / PROPORTION, this.sh / PROPORTION, this);
         this.optionPanel = new OptionPanel(this.sw / PROPORTION, this.sh / PROPORTION, this);
         this.gamePanel = new GamePanel(this.sw / PROPORTION, this.sh / PROPORTION, 
-        player, enemyManager, weaponManager, experienceManager, healthManager, projectileManager);
+        player, enemyManager, weaponManager, experienceManager, healthManager, projectileManager, camera);
         testPanel = new TestPanel(this.sw / PROPORTION, this.sh / PROPORTION);
         this.changeGameState(gameState);
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -128,5 +131,15 @@ public final class ViewManagerImpl implements ViewManager {
     public void setFocusable(final boolean focusable) {
         frame.setFocusable(focusable);
         frame.requestFocusInWindow();
+    }
+
+    @Override
+    public int getGameScreenWidth() {
+        return this.sw / PROPORTION;
+    }
+
+    @Override
+    public int getGameScreenHeight() {
+        return this.sh / PROPORTION;
     }
 }

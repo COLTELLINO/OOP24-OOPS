@@ -6,6 +6,7 @@ import it.unibo.oop.model.managers.ExperienceManager;
 import it.unibo.oop.model.managers.HealthManager;
 import it.unibo.oop.model.managers.ProjectileManager;
 import it.unibo.oop.model.managers.WeaponManager;
+import it.unibo.oop.utils.Camera;
 import it.unibo.oop.utils.GameState;
 /**
  * Interface with the intent of creating windows.
@@ -20,9 +21,10 @@ public interface ViewManagerFactory {
      * @param experienceManager
      * @param healthManager
      * @param projectileManager
+     * @param camera
      * @return a DrawViewImpl.
      */
     ViewManager createViewManager(GameState gameState, Player player, EnemyManager enemyManager,
             WeaponManager weaponManager, ExperienceManager experienceManager,
-            HealthManager healthManager, ProjectileManager projectileManager);
+            HealthManager healthManager, ProjectileManager projectileManager, Camera camera);
 }

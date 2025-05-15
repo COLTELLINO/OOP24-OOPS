@@ -27,6 +27,7 @@ import it.unibo.oop.model.managers.ProjectileManager;
 import it.unibo.oop.model.managers.ProjectileManagerImpl;
 import it.unibo.oop.model.managers.WeaponManager;
 import it.unibo.oop.model.managers.WeaponManagerImpl;
+import it.unibo.oop.utils.Camera;
 import it.unibo.oop.utils.GameState;
 import it.unibo.oop.utils.Percentage;
 import it.unibo.oop.utils.Timer;
@@ -50,6 +51,7 @@ public class GameThreadImpl implements Runnable, GameThread {
 
     private final Timer timer = new TimerImpl(1);
     private final Timer spawnTestTimer = new TimerImpl(300);
+    private final Camera camera = new Camera(0, 0);
     private final Player player = new Player(PLAYER_X, PLAYER_Y, PLAYER_MAX_HEALTH, PLAYER_HEALTH,
         PLAYER_ATTACK, PLAYER_SPEED, PLAYER_SIZE);
     private final InputHandler inputHandler = new InputHandler(player);
@@ -79,7 +81,7 @@ public class GameThreadImpl implements Runnable, GameThread {
      */
     public GameThreadImpl() {
         this.window = drawViewFactory.createViewManager(GameState.TITLESTATE, player, enemyManager, 
-            weaponManager, experienceManager, healthManager, projectileManager);
+            weaponManager, experienceManager, healthManager, projectileManager, camera);
         this.window.addKeyListener(inputHandler);
         this.window.setFocusable(true);
         this.audioHandler.playSoundEffect(1, Percentage.TEN_PERCENT);
@@ -126,6 +128,7 @@ public class GameThreadImpl implements Runnable, GameThread {
             enemyManager.update();
             healthManager.update();
             projectileManager.update();
+            camera.update(player, window.getGameScreenWidth(), window.getGameScreenHeight());
         }
         this.window.repaint();
     }
