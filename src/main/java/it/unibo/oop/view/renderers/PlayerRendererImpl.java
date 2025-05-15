@@ -14,7 +14,7 @@ import it.unibo.oop.model.entities.Player;
 import it.unibo.oop.utils.Direction;
 
 /**
- * Draws the player.
+ * Draws the player with animated sprites for each cardinal direction.
  */
 public class PlayerRendererImpl implements PlayerRenderer {
 
@@ -22,44 +22,75 @@ public class PlayerRendererImpl implements PlayerRenderer {
     private static final String SPRITE_PATH = "/Player/";
     private static final String SPRITE_PREFIX = "Player_";
 
-    private final Map<Direction, BufferedImage> directionSprites = new EnumMap<>(Direction.class);
+    private static final int FRAME_COUNT = 2; // 2 frame per direzione
+    private static final long FRAME_DURATION_MS = 200; // durata di ogni frame
+
+    private final Map<Direction, BufferedImage[]> directionSprites = new EnumMap<>(Direction.class);
 
     /**
-     * Constructor loads all direction sprites.
+     * Constructor loads all directional animation frames.
      */
     public PlayerRendererImpl() {
         loadSprites();
     }
 
     /**
-     * Loads all directional sprites.
+     * Loads two frames per direction (UP, DOWN, LEFT, RIGHT).
      */
     private void loadSprites() {
         for (final Direction dir : Direction.values()) {
-            try {
-                final String path = SPRITE_PATH + SPRITE_PREFIX + dir.name() + ".png";
-                final BufferedImage img = ImageIO.read(PlayerRendererImpl.class.getResource(path));
-                directionSprites.put(dir, img);
-            } catch (IOException | IllegalArgumentException e) {
-                LOGGER.log(Level.WARNING, "Sprite missing or invalid for direction " + dir.name(), e);
+            if (isCardinalDirection(dir)) {
+                final BufferedImage[] frames = new BufferedImage[FRAME_COUNT];
+                for (int i = 0; i < FRAME_COUNT; i++) {
+                    final String path = SPRITE_PATH + SPRITE_PREFIX + dir.name() + "_" + (i + 1) + ".png";
+                    try {
+                        frames[i] = ImageIO.read(PlayerRendererImpl.class.getResource(path));
+                    } catch (IOException | IllegalArgumentException e) {
+                        LOGGER.log(Level.WARNING, "Missing sprite: " + path, e);
+                    }
+                }
+                directionSprites.put(dir, frames);
             }
         }
     }
 
     /**
-     * Draws the player with the correct directional sprite.
-     * @param player the player
+     * Draws the player using animated sprite based on direction.
+     * @param player the player to draw
      * @param g2 the graphics context
      */
     @Override
     public void drawPlayer(final Player player, final Graphics2D g2) {
-        final Direction dir = player.getDirection();
-        final BufferedImage sprite = directionSprites.getOrDefault(dir, directionSprites.get(Direction.DOWN));
+        Direction dir = player.getDirection();
+        final BufferedImage[] frames;
+        final int frameIndex;
 
-        if (sprite != null) {
-            g2.drawImage(sprite, player.getX(), player.getY(), player.getSize(), player.getSize(), null);
+        if (dir == Direction.NONE) {
+            frames = directionSprites.get(Direction.DOWN);
+            frameIndex = 0;
         } else {
-            LOGGER.warning("No sprite found for player direction: " + dir);
+            if (!isCardinalDirection(dir)) {
+                dir = Direction.RIGHT;
+            }
+            frames = directionSprites.get(dir);
+            frameIndex = (int) (System.currentTimeMillis() / FRAME_DURATION_MS % FRAME_COUNT);
         }
+
+        if (frames == null || frames[0] == null) {
+            LOGGER.warning("Missing sprite frames for direction: " + dir);
+            return;
+        }
+
+        final BufferedImage sprite = frames[frameIndex] != null ? frames[frameIndex] : frames[0];
+        g2.drawImage(sprite, player.getX(), player.getY(), player.getSize(), player.getSize(), null);
+    }
+
+    /**
+     * Only allow UP, DOWN, LEFT, RIGHT.
+     * @param dir the direction to check
+     * @return true if the direction is cardinal (UP, DOWN, LEFT, RIGHT), false otherwise
+     */
+    private boolean isCardinalDirection(final Direction dir) {
+        return dir == Direction.UP || dir == Direction.DOWN || dir == Direction.LEFT || dir == Direction.RIGHT;
     }
 }
