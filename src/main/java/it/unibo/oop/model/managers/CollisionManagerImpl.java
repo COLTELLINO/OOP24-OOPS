@@ -41,7 +41,7 @@ public class CollisionManagerImpl implements CollisionManager {
     public void update() {
         removeDeadEntities();
         entityCooldowns.replaceAll((enemy, cooldown) -> Math.max(0, cooldown - 1));
-        for (final Map<Projectile, Integer> cooldownMap : projectileCooldowns.values()) { // AGGIUNGI 'final' QUI
+        for (final Map<Projectile, Integer> cooldownMap : projectileCooldowns.values()) {
             cooldownMap.replaceAll((proj, cooldown) -> Math.max(0, cooldown - 1));
         }
     }
