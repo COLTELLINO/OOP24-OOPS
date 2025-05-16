@@ -69,7 +69,7 @@ public abstract class EnemyDecorator extends Enemy {
      * @return the Entity's attack value
      */
     @Override
-    protected int getAttack() {
+    public int getAttack() {
         return decoratedEnemy.getAttack();
     }
     /**

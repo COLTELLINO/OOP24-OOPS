@@ -50,7 +50,6 @@ public class GameThreadImpl implements Runnable, GameThread {
     private static final int ENEMY_Y = 500;
 
     private final Timer timer = new TimerImpl(1);
-    private final Timer spawnTestTimer = new TimerImpl(300);
     private final Camera camera = new Camera(0, 0);
     private final Player player = new Player(PLAYER_X, PLAYER_Y, PLAYER_MAX_HEALTH, PLAYER_HEALTH,
         PLAYER_ATTACK, PLAYER_SPEED, PLAYER_SIZE);
@@ -139,6 +138,7 @@ public class GameThreadImpl implements Runnable, GameThread {
         collisionManager.handleEnemyProjectilenCollision(enemyManager.getSpawnedEnemies(),
             projectileManager.getPlayerProjectiles());
         collisionManager.handlePlayerProjectilenCollision(player, projectileManager.getEnemyProjectiles());
+        collisionManager.handlePlayerEnemyCollisions(player, enemyManager.getSpawnedEnemies());
         for (final Weapon weapon : weaponManager.getWeapons()) {
             for (final Rectangle rectangle : weapon.getHitBox()) {
                 final Set<Enemy> enemies = new HashSet<>();
@@ -155,16 +155,8 @@ public class GameThreadImpl implements Runnable, GameThread {
      * Handles the spawning of enemies.
      */
     private void spawnEnemies() {
-        final Enemy slimeBoss = this.enemyFactory.createBoss(this.enemyFactory.createBaseSlime(ENEMY_X, ENEMY_Y, player));
         final Enemy baseSkull = this.enemyFactory.createBaseSkull(ENEMY_X, ENEMY_Y, player);
-        slimeBoss.setOnDeathObserver(() -> {
-            this.enemyManager.spawnEnemy(this.enemyFactory.
-                createBaseSlime(slimeBoss.getX() + slimeBoss.getSize() / 2, slimeBoss.getY(), player));
-            this.enemyManager.spawnEnemy(this.enemyFactory.
-                createBaseSlime(slimeBoss.getX(), slimeBoss.getY(), player));
-            this.experienceManager.spawnXP(slimeBoss.getX() + slimeBoss.getSize() / 2,
-                slimeBoss.getY() + slimeBoss.getSize() / 2, 100);
-        });
+        final Enemy baseZombie = this.enemyFactory.createBaseZombie(ENEMY_X, ENEMY_Y, player);
         baseSkull.setOnDeathObserver(() -> {
             this.experienceManager.spawnXP(baseSkull.getX() + baseSkull.getSize() / 2,
                 baseSkull.getY() + baseSkull.getSize() / 2, 10);
@@ -173,9 +165,7 @@ public class GameThreadImpl implements Runnable, GameThread {
            projectileManager.addEnemyProjectile(baseSkull.getProjectile());
         });
         this.enemyManager.addEnemy(baseSkull);
-        this.spawnTestTimer.update(() -> {
-            this.enemyManager.spawnEnemy(slimeBoss);
-        });
+        this.enemyManager.addEnemy(baseZombie);
     }
     /**
      * @return all the entities.

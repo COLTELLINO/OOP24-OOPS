@@ -121,7 +121,19 @@ public class CollisionManagerImpl implements CollisionManager {
             }
         }
     }
-
+    /**
+     * Handle collision between enemies and the player.
+     * @param player
+     * @param enemies the enemy list
+     */
+    @Override
+    public void handlePlayerEnemyCollisions(final Player player, final List<Enemy> enemies) {
+        for (final Enemy enemy : enemies) {
+            if (isColliding(player.getHitbox(), enemy.getHitbox()) && !enemy.isDying()) {
+                player.setHealth(player.getHealth() - enemy.getAttack());
+            }
+        }
+    }
     /**
      * Handle collision between the player and enemy projectiles.
      * @param player

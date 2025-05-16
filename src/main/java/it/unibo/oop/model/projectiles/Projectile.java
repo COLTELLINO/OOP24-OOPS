@@ -7,6 +7,8 @@ import it.unibo.oop.utils.Direction;
 
 /**
  * Represents a projectile shot by a weapon.
+ * NOTE (hopefully temporary): every projectile image should be 32 x 32 and their hitbox consists in the tophalf of the image,
+ * also it might not look like it's shot from the correct spot if the entity is not close to the 32 x 32 size. 
  */
 public abstract class Projectile {
     private static final int BOUNDS = 6000;

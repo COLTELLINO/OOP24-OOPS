@@ -6,19 +6,19 @@ import it.unibo.oop.utils.Direction;
 /**
  * Represents an arrow projectile in the game.
  */
-public class Arrow extends Projectile {
+public class Bone extends Projectile {
 
     /**
-     * Constructs an Arrow object.
+     * Constructs an Bone object.
      * 
-     * @param x         the x-coordinate of the arrow
-     * @param y         the y-coordinate of the arrow
-     * @param direction  the direction of the arrow
-     * @param damage    the damage dealt by the arrow
-     * @param speed     the speed of the arrow
-     * @param size
+     * @param x         the x-coordinate of the bone
+     * @param y         the y-coordinate of the bone
+     * @param direction  the direction of the bone
+     * @param damage    the damage dealt by the bone
+     * @param speed     the speed of the bone
+     * @param size      the size of the bone
      */
-    public Arrow(final int x, final int y, final Direction direction, final int damage, final int speed, final int size) {
+    public Bone(final int x, final int y, final Direction direction, final int damage, final int speed, final int size) {
         super(x, y, direction, damage, speed, size);
     }
 

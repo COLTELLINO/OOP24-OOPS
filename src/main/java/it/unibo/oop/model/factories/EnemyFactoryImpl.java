@@ -6,6 +6,7 @@ import it.unibo.oop.model.entities.Ghost;
 import it.unibo.oop.model.entities.Player;
 import it.unibo.oop.model.entities.Skull;
 import it.unibo.oop.model.entities.Slime;
+import it.unibo.oop.model.entities.Zombie;
 
 /**
  * Class to create enemies.
@@ -26,6 +27,22 @@ public class EnemyFactoryImpl implements EnemyFactory {
     public Enemy createSlime(final int x, final int y, final int maxHealth, final int health, final int attack, 
             final int speed, final int size, final Player player) {
         return new Slime(x, y, maxHealth, health, attack, speed, size, player);
+    }
+    /**
+     * @param x
+     * @param y
+     * @param maxHealth
+     * @param health
+     * @param speed
+     * @param attack
+     * @param size
+     * @param player
+     * @return a new instance of a Zombie enemy.
+     */
+    @Override
+    public Enemy createZombie(final int x, final int y, final int maxHealth, final int health, final int attack, 
+            final int speed, final int size, final Player player) {
+        return new Zombie(x, y, maxHealth, health, attack, speed, size, player);
     }
     /**
      * @param x
@@ -68,6 +85,16 @@ public class EnemyFactoryImpl implements EnemyFactory {
     @Override
     public Enemy createBaseSlime(final int x, final int y, final Player player) {
         return Slime.createDefault(x, y, player);
+    }
+    /**
+     * @param x
+     * @param y
+     * @param player
+     * @return a new instance of a Zombie enemy with base stats.
+     */
+    @Override
+    public Enemy createBaseZombie(final int x, final int y, final Player player) {
+        return Zombie.createDefault(x, y, player);
     }
     /**
      * @param x
