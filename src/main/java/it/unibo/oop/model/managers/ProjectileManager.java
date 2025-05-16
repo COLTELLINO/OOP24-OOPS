@@ -1,7 +1,6 @@
 package it.unibo.oop.model.managers;
 
 import java.util.List;
-
 import it.unibo.oop.model.projectiles.Projectile;
 /**
  * Interface for managing projectiles.

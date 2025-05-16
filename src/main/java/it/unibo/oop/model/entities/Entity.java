@@ -77,7 +77,7 @@ justification = "The hitbox of the entity is needed to check for collisions")
     /**
      * @return the Entity's attack value. 
      */
-    protected int getAttack() {
+    public int getAttack() {
         return attack;
     }
     /**

@@ -44,7 +44,7 @@ public abstract class Enemy extends Entity {
      */
     public abstract String getEnemyName();
     /**
-     * Updates the current enemy.
+     * Updates the enemy.
      */
     @Override
     public void update() {
@@ -52,29 +52,50 @@ public abstract class Enemy extends Entity {
         move();
     }
     /**
-     * 
+     * Moves the enemy towards the player.
      */
     protected void move() {
+        for (int i = 0; i < getSpeed(); i++) {
+            final int[] playerDistance = facePlayerAndGetDirection();
+            this.setX(getX() + playerDistance[0]);
+            this.setY(getY() + playerDistance[1]);
+        }
+    }
+    /**
+     * Calculates the direction from the enemy to the player, and turns the enemy
+     * to face the player based on which axis has the greater distance.
+     * @return an int array with 
+     * index 0: xDirection (-1 if player is to the left, 1 if right, 0 if aligned)
+     * index 1: yDirection (-1 if player is above, 1 if below, 0 if aligned)
+     */
+    protected int[] facePlayerAndGetDirection() {
         final int playerCenterX = player.getX() + player.getSize() / 2;
         final int playerCenterY = player.getY() + player.getSize() / 2;
-        for (int i = 0; i < getSpeed(); i++) {
-            final int enemyCenterX = this.getX() + this.getSize() / 2;
-            final int enemyCenterY = this.getY() + this.getSize() / 2;
-            final int xDistance = Integer.compare(playerCenterX, enemyCenterX);
-            final int yDistance = Integer.compare(playerCenterY, enemyCenterY); 
-            if (enemyCenterX == playerCenterX && enemyCenterY == playerCenterY) {
-                player.setHealth(player.getHealth() - this.getAttack());
-                return;
-            }
-            this.setX(getX() + xDistance);
-            this.setY(getY() + yDistance);
+        final int enemyCenterX = this.getX() + this.getSize() / 2;
+        final int enemyCenterY = this.getY() + this.getSize() / 2;
+        final int xDistance = Integer.compare(playerCenterX, enemyCenterX);
+        final int yDistance = Integer.compare(playerCenterY, enemyCenterY);
+        final boolean horizontalDirection = Math.abs(playerCenterX - enemyCenterX) > Math.abs(playerCenterY - enemyCenterY);
+        this.turnToPlayer(xDistance, yDistance, horizontalDirection);
+        return new int[] {xDistance, yDistance};
+    }
+    /**
+     * Turns towards the player.
+     * @param xDistance
+     * @param yDistance
+     * @param horizontalDirection
+     */
+    private void turnToPlayer(final int xDistance, final int yDistance, final boolean horizontalDirection) {
+        if (horizontalDirection) {
             if (xDistance == 1) {
                 setDirection(Direction.RIGHT);
-            } else if (xDistance == -1) {
+            } else {
                 setDirection(Direction.LEFT);
-            } else if (yDistance == 1) {
+            }
+        } else {
+            if (yDistance == 1) {
                 setDirection(Direction.DOWN);
-            } else if (yDistance == -1)  {
+            } else {
                 setDirection(Direction.UP);
             }
         }
@@ -92,7 +113,6 @@ public abstract class Enemy extends Entity {
      */
     protected void onDeath() {
         if (getHealth() <= 0) {
-            this.setAttack(0);
             setIsDying(true);
             if (this.blinkCounter <= MAX_BLINKS) {
                 this.blinkCounter++;

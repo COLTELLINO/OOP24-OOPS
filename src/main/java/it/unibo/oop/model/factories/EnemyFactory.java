@@ -24,6 +24,18 @@ public interface EnemyFactory {
      * @param y
      * @param maxHealth
      * @param health
+     * @param attack
+     * @param speed
+     * @param size
+     * @param player
+     * @return a new instance of a Zombie enemy.
+     */
+    Enemy createZombie(int x, int y, int maxHealth, int health, int attack, int speed, int size, Player player);
+    /**
+     * @param x
+     * @param y
+     * @param maxHealth
+     * @param health
      * @param speed
      * @param attack
      * @param size
@@ -50,6 +62,13 @@ public interface EnemyFactory {
      * @return a new instance of a Slime enemy with base stats.
      */
     Enemy createBaseSlime(int x, int y, Player player);
+    /**
+     * @param x
+     * @param y
+     * @param player
+     * @return a new instance of a Zombie enemy with base stats.
+     */
+    Enemy createBaseZombie(int x, int y, Player player);
     /**
      * @param x
      * @param y

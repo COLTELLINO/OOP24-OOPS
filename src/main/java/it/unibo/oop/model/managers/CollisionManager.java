@@ -31,18 +31,24 @@ public interface CollisionManager {
     /**
      * Handle collision between enemies and the player's projectiles.
      * @param enemies the enemy list
-     * @param projectiles the projectile lise
+     * @param projectiles the projectile list
      */
     void handleEnemyProjectilenCollision(List<Enemy> enemies, List<Projectile> projectiles);
-
+    /**
+     * Handle collision between enemies and the player.
+     * @param player
+     * @param enemies the enemy list
+     */
+    void handlePlayerEnemyCollisions(Player player, List<Enemy> enemies);
     /**
      * Handle collision between the player and enemy projectiles.
      * @param player
-     * @param projectiles the projectile lise
+     * @param projectiles the projectile list
      */
     void handlePlayerProjectilenCollision(Player player, List<Projectile> projectiles);
     /**
      * Updates the cooldowns for all entities.
      */
     void update();
+
 }
