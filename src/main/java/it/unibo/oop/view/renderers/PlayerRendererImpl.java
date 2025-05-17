@@ -26,6 +26,7 @@ public class PlayerRendererImpl implements PlayerRenderer {
     private static final long FRAME_DURATION_MS = 200; // durata di ogni frame
 
     private final Map<Direction, BufferedImage[]> directionSprites = new EnumMap<>(Direction.class);
+    private Direction lastMovingDirection = Direction.DOWN;
 
     /**
      * Constructor loads all directional animation frames.
@@ -65,13 +66,22 @@ public class PlayerRendererImpl implements PlayerRenderer {
         final BufferedImage[] frames;
         final int frameIndex;
 
+        // Management of the sprites for diagonal directions
+        if (dir == Direction.UPRIGHT || dir == Direction.DOWNRIGHT) {
+            dir = Direction.RIGHT;
+        } else if (dir == Direction.UPLEFT || dir == Direction.DOWNLEFT) {
+            dir = Direction.LEFT;
+        }
+
+        // Direction update
+        if (dir != Direction.NONE && isCardinalDirection(dir)) {
+            lastMovingDirection = dir;
+        }
+
         if (dir == Direction.NONE) {
-            frames = directionSprites.get(Direction.DOWN);
+            frames = directionSprites.get(lastMovingDirection);
             frameIndex = 0;
         } else {
-            if (!isCardinalDirection(dir)) {
-                dir = Direction.RIGHT;
-            }
             frames = directionSprites.get(dir);
             frameIndex = (int) (System.currentTimeMillis() / FRAME_DURATION_MS % FRAME_COUNT);
         }
