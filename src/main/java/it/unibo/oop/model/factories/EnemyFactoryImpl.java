@@ -1,13 +1,13 @@
 package it.unibo.oop.model.factories;
 
 import it.unibo.oop.model.entities.BossEnemy;
+import it.unibo.oop.model.entities.Cultist;
 import it.unibo.oop.model.entities.Enemy;
 import it.unibo.oop.model.entities.Ghost;
 import it.unibo.oop.model.entities.Player;
 import it.unibo.oop.model.entities.Skull;
 import it.unibo.oop.model.entities.Slime;
 import it.unibo.oop.model.entities.Zombie;
-
 /**
  * Class to create enemies.
  */
@@ -79,6 +79,22 @@ public class EnemyFactoryImpl implements EnemyFactory {
     /**
      * @param x
      * @param y
+     * @param maxHealth
+     * @param health
+     * @param speed
+     * @param attack
+     * @param size
+     * @param player
+     * @return a new instance of a Cultist enemy.
+     */
+    @Override
+    public Enemy createCultist(final int x, final int y, final int maxHealth, final int health, final int attack,
+            final int speed, final int size, final Player player) {
+        return new Cultist(x, y, maxHealth, health, attack, speed, size, player);
+    }
+    /**
+     * @param x
+     * @param y
      * @param player
      * @return a new instance of a Slime enemy with base stats.
      */
@@ -115,6 +131,16 @@ public class EnemyFactoryImpl implements EnemyFactory {
     @Override
     public Enemy createBaseSkull(final int x, final int y, final Player player) {
         return Skull.createDefault(x, y, player);
+    }
+    /**
+     * @param x
+     * @param y
+     * @param player
+     * @return a new instance of a Cultist enemy with base stats.
+     */
+    @Override
+    public Enemy createBaseCultist(final int x, final int y, final Player player) {
+        return Cultist.createDefault(x, y, player);
     }
     /**
      * @param enemy

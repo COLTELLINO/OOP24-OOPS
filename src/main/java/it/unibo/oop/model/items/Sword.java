@@ -15,7 +15,7 @@ import it.unibo.oop.utils.Direction;
 justification = "To position the weapon, the player size and position are needed, "
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
 public class Sword extends Weapon {
-    private static final int DAMAGE = 200;
+    private static final int DAMAGE = 1;
     private static final double DURATION = 30;
     private static final double COOLDOWN = 60;
     private static final int SIZE = 70;

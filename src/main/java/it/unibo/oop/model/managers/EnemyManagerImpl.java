@@ -18,8 +18,8 @@ justification = "To spawn enemies around the player, its position is needed, "
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
 public class EnemyManagerImpl implements EnemyManager {
     private static final int WAVE_SIZE = 6;
-    private static final int MAX_ENEMIES = 12;
-    private static final int SPAWN_DISTANCE = 200;
+    private static final int MAX_ENEMIES = 36;
+    private static final int SPAWN_DISTANCE = 300;
 
     private final List<Enemy> activeEnemies = new ArrayList<>();
     private final List<Enemy> enemiesToSpawn = new ArrayList<>();
@@ -38,8 +38,8 @@ public class EnemyManagerImpl implements EnemyManager {
     @Override
     public void update() {
         waveTimer.update(this::spawnWaveIfPossible);
-        activeEnemies.removeAll(updateActiveEnemies(List.copyOf(activeEnemies)));
         positionedEnemies.removeAll(updateActiveEnemies(List.copyOf(positionedEnemies)));
+        activeEnemies.removeAll(updateActiveEnemies(List.copyOf(activeEnemies)));
     }
 
     /**
@@ -55,7 +55,6 @@ public class EnemyManagerImpl implements EnemyManager {
     }
     /**
      * Spawns a wave of enemies if there aren't too many on screen.
-     * (This method is protected to allow for easy junit testing.)
      */
     protected void spawnWaveIfPossible() {
         if (activeEnemies.size() + WAVE_SIZE > MAX_ENEMIES 

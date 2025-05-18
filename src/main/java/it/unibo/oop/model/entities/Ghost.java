@@ -32,11 +32,4 @@ public class Ghost extends Enemy {
             final int size, final Player player) {
         super(x, y, maxHealth, health, attack, speed, size, player);
     }
-    /**
-     * @return the name of the enemy class matching with its image.
-     */
-    @Override
-    public String getEnemyName() {
-        return this.getClass().getSimpleName();
-    }
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import it.unibo.oop.model.entities.Enemy;
 import it.unibo.oop.model.entities.Entity;
@@ -155,17 +156,30 @@ public class GameThreadImpl implements Runnable, GameThread {
      * Handles the spawning of enemies.
      */
     private void spawnEnemies() {
-        final Enemy baseSkull = this.enemyFactory.createBaseSkull(ENEMY_X, ENEMY_Y, player);
         final Enemy baseZombie = this.enemyFactory.createBaseZombie(ENEMY_X, ENEMY_Y, player);
-        baseSkull.setOnDeathObserver(() -> {
-            this.experienceManager.spawnXP(baseSkull.getX() + baseSkull.getSize() / 2,
-                baseSkull.getY() + baseSkull.getSize() / 2, 10);
-        });
+        final Enemy baseSkull = this.enemyFactory.createBaseSkull(ENEMY_X, ENEMY_Y, player);
+        final Enemy baseCultist = this.enemyFactory.createBaseCultist(ENEMY_X, ENEMY_Y, player);
+        Stream.of(baseZombie, baseSkull, baseCultist)
+            .forEach(e -> 
+                e.setOnDeathObserver(() -> {
+                    this.experienceManager.spawnXP(e.getX() + e.getSize() / 2,
+                        e.getY() + e.getSize() / 2, 10);
+                }));
         baseSkull.setObserver(() -> {
-           projectileManager.addEnemyProjectile(baseSkull.getProjectile());
+            projectileManager.addEnemyProjectile(baseSkull.getProjectile());
+        });
+        baseCultist.setObserver(() -> {
+            final Enemy skull = this.enemyFactory
+                .createBaseSkull(baseCultist.getX(), baseCultist.getY(), player);
+            skull.setOnDeathObserver(() -> {
+                    this.experienceManager.spawnXP(skull.getX() + skull.getSize() / 2,
+                        skull.getY() + skull.getSize() / 2, 10);
+                });
+            enemyManager.spawnEnemy(skull);
         });
         this.enemyManager.addEnemy(baseSkull);
         this.enemyManager.addEnemy(baseZombie);
+        this.enemyManager.addEnemy(baseCultist);
     }
     /**
      * @return all the entities.

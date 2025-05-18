@@ -58,6 +58,18 @@ public interface EnemyFactory {
     /**
      * @param x
      * @param y
+     * @param maxHealth
+     * @param health
+     * @param speed
+     * @param attack
+     * @param size
+     * @param player
+     * @return a new instance of a Cultist enemy.
+     */
+    Enemy createCultist(int x, int y, int maxHealth, int health, int attack, int speed, int size, Player player);
+    /**
+     * @param x
+     * @param y
      * @param player
      * @return a new instance of a Slime enemy with base stats.
      */
@@ -83,6 +95,13 @@ public interface EnemyFactory {
      * @return a new instance of a Skull enemy with base stats.
      */
     Enemy createBaseSkull(int x, int y, Player player);
+    /**
+     * @param x
+     * @param y
+     * @param player
+     * @return a new instance of a Cultist enemy with base stats.
+     */
+    Enemy createBaseCultist(int x, int y, Player player);
     /**
      * @param enemy
      * @return a new instance of a Boss version of an enemy.
