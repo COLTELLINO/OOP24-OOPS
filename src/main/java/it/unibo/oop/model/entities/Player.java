@@ -13,6 +13,15 @@ public class Player extends Entity {
     private int level = 1;
     private static final int LEVELUP_SCALER = 20;
     private final HealthManager healthManager;
+
+    private static final int DEFAULT_PICKUP_RANGE = 40;
+    private static final int DEFAULT_CRIT_DAMAGE = 150;
+    private static final int MIN_CRIT_DAMAGE = 100;
+    private int defense;
+    private int pickupRange = DEFAULT_PICKUP_RANGE;
+    private int critRate;
+    private int critDamage = DEFAULT_CRIT_DAMAGE;
+
     /**
      * @param x
      * @param y
@@ -143,5 +152,65 @@ public class Player extends Entity {
      */
     public int getXPToNextLevel() {
         return 100 + (level * LEVELUP_SCALER);
+    }
+
+    /**
+     * @return the defense value.
+     */
+    public int getDefense() {
+        return defense;
+    }
+
+    /**
+     * Sets the defense value.
+     * @param defense the new defense value
+     */
+    public void setDefense(final int defense) {
+        this.defense = defense;
+    }
+
+    /**
+     * @return the pickup range.
+     */
+    public int getPickupRange() {
+        return pickupRange;
+    }
+
+    /**
+     * Sets the pickup range.
+     * @param pickupRange the new pickup range
+     */
+    public void setPickupRange(final int pickupRange) {
+        this.pickupRange = pickupRange;
+    }
+
+    /**
+     * @return the critical hit rate (0-100).
+     */
+    public int getCritRate() {
+        return critRate;
+    }
+
+    /**
+     * Sets the critical hit rate (0-100).
+     * @param critRate the new critical hit rate
+     */
+    public void setCritRate(final int critRate) {
+        this.critRate = Math.min(100, Math.max(0, critRate));
+    }
+
+    /**
+     * @return the critical hit damage percentage.
+     */
+    public int getCritDamage() {
+        return critDamage;
+    }
+
+    /**
+     * Sets the critical hit damage percentage (minimum 100).
+     * @param critDamage the new critical hit damage
+     */
+    public void setCritDamage(final int critDamage) {
+        this.critDamage = Math.max(MIN_CRIT_DAMAGE, critDamage);
     }
 }

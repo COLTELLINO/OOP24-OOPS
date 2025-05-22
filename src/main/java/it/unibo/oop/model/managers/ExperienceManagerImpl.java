@@ -14,7 +14,6 @@ import it.unibo.oop.model.items.ExperienceOrb;
 @SuppressFBWarnings(value = {"EI2"}, 
 justification = "To give the player xp it needs to be externally mutable.")
 public class ExperienceManagerImpl implements ExperienceManager {
-    private static final int RANGE = 40;
     private final List<ExperienceOrb> orbs;
     private final Player player;
 
@@ -33,8 +32,8 @@ public class ExperienceManagerImpl implements ExperienceManager {
     @Override
     public void update() {
         for (final ExperienceOrb orb : new ArrayList<>(orbs)) {
-            if (Math.abs(player.getX() + (player.getSize() / 2) - orb.getX()) <= RANGE 
-                && Math.abs(player.getY() + (player.getSize() / 2) - orb.getY()) <= RANGE) {
+            if (Math.abs(player.getX() + (player.getSize() / 2) - orb.getX()) <= player.getPickupRange() 
+                && Math.abs(player.getY() + (player.getSize() / 2) - orb.getY()) <= player.getPickupRange()) {
                 orbs.remove(orb);
                 this.player.addXp(orb.getXP());
             }
