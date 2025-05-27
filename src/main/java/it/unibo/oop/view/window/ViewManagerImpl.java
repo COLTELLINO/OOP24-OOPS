@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import it.unibo.oop.model.entities.Player;
+import it.unibo.oop.model.handlers.MouseHandler;
 import it.unibo.oop.model.managers.EnemyManager;
 import it.unibo.oop.model.managers.ExperienceManager;
 import it.unibo.oop.model.managers.HealthManager;
@@ -21,6 +22,8 @@ import it.unibo.oop.utils.Camera;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * 
@@ -39,6 +42,7 @@ public final class ViewManagerImpl implements ViewManager {
     private final OptionPanel optionPanel;
     private final GamePanel gamePanel;
     private final TestPanel testPanel;
+    private final MouseHandler mouseHandler = new MouseHandler();
     /**
      * @param gameState
      * @param player
@@ -58,12 +62,26 @@ public final class ViewManagerImpl implements ViewManager {
         this.gamePanel = new GamePanel(this.sw / PROPORTION, this.sh / PROPORTION, 
         player, enemyManager, weaponManager, experienceManager, healthManager, projectileManager, camera);
         testPanel = new TestPanel(this.sw / PROPORTION, this.sh / PROPORTION);
+
+        // Aggiungi MouseHandler al GamePanel
+        this.gamePanel.addMouseListener(mouseHandler);
+        this.gamePanel.addMouseMotionListener(mouseHandler);
+
         this.changeGameState(gameState);
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setLocationRelativeTo(null);
         this.start();
     }
 
+    /**
+     * Returns the MouseHandler for mouse input.
+     * Suppress SpotBugs warning: MouseHandler is stateless and safe to expose.
+     * @return the MouseHandler
+     */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "MouseHandler is stateless and safe to expose")
+    public MouseHandler getMouseHandler() {
+        return mouseHandler;
+    }
     @Override
     public void start() {
         SwingUtilities.invokeLater(() -> {

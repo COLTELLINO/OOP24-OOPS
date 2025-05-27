@@ -35,6 +35,8 @@ import it.unibo.oop.utils.TimerImpl;
 import it.unibo.oop.view.window.ViewManager;
 import it.unibo.oop.view.window.ViewManagerFactory;
 import it.unibo.oop.view.window.ViewManagerFactoryImpl;
+import it.unibo.oop.view.window.ViewManagerImpl;
+import it.unibo.oop.model.handlers.MouseHandler;
 /**
 * Controller of the application.
 */
@@ -128,6 +130,12 @@ public class GameThreadImpl implements Runnable, GameThread {
             healthManager.update();
             projectileManager.update();
             camera.update(player, window.getGameScreenWidth(), window.getGameScreenHeight());
+        }
+        // Prendi MouseHandler direttamente dal ViewManagerImpl
+        final MouseHandler mouseHandler = ((ViewManagerImpl) window).getMouseHandler();
+
+        if (mouseHandler.isMouseClicked()) {
+            mouseHandler.clearMouseClick();
         }
         this.window.repaint();
     }
