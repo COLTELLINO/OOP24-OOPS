@@ -22,19 +22,20 @@ public interface AudioHandler {
     /**
      * Plays a music file in a loop.
      * @param i
-     * @param percentage
      */
-    void playMusic(int i, Percentage percentage);
-
+    void playMusic(int i);
     /**
      * Stops the currently playing music.
      */
     void stopMusic();
-
     /**
      * Plays a sound effect once.
      * @param i
-     * @param percentage
      */
-    void playSoundEffect(int i, Percentage percentage);
+    void playSoundEffect(int i);
+    /**
+     * Sets the volume of the audio.
+     * @param volume the volume to set, as a Percentage
+     */
+    void setVolume(Percentage volume);
 }

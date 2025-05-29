@@ -21,6 +21,7 @@ import it.unibo.oop.utils.Percentage;
  */
 public class AudioHandlerImpl implements AudioHandler {
     private static final float FLOAT_DB = 20.0f;
+    private Percentage volume = Percentage.FIFTY_PERCENT;
     private final List<URL> soundList = new ArrayList<>();
     private Clip clip;
 
@@ -56,12 +57,11 @@ public class AudioHandlerImpl implements AudioHandler {
     /**
      * Plays a music file in a loop.
      * @param i
-     * @param percentage
      */
     @Override
-    public void playMusic(final int i, final Percentage percentage) {
+    public void playMusic(final int i) {
         this.setFile(i);
-        this.setVolume(percentage);
+        this.applyVolume();
         this.play();
         this.loop();
     }
@@ -77,22 +77,29 @@ public class AudioHandlerImpl implements AudioHandler {
     /**
      * Plays a sound effect once.
      * @param i
-     * @param percentage
      */
     @Override
-    public void playSoundEffect(final int i, final Percentage percentage) {
+    public void playSoundEffect(final int i) {
         this.setFile(i);
-        this.setVolume(percentage);
+        this.applyVolume();
         this.play();
     }
     /**
-     * Sets the volume of the audio clip.
-     * @param volumeScale
+     * Sets the volume of the audio.
+     * @param volume the volume to set, as a Percentage
      */
-    private void setVolume(final Percentage volumeScale) {
+    public void setVolume(final Percentage volume) {
+        if (volume != null) {
+            this.volume = volume;
+        }
+    }
+    /**
+     * Applies the volume to the clip.
+     */
+    private void applyVolume() {
         if (clip != null && clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
             final FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            final float dB = (float) (Math.log(volumeScale.getPercentage()) / Math.log(10.0) * FLOAT_DB);
+            final float dB = (float) (Math.log(this.volume.getPercentage()) / Math.log(10.0) * FLOAT_DB);
             volumeControl.setValue(dB);
         }
     }
