@@ -42,7 +42,9 @@ public abstract class Enemy extends Entity {
     /**
      * @return the name of the enemy class matching with its image.
      */
-    public abstract String getEnemyName();
+    public String getEnemyName() {
+        return this.getClass().getSimpleName();
+    }
     /**
      * Updates the enemy.
      */

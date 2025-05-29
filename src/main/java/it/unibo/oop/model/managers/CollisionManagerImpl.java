@@ -19,8 +19,10 @@ import java.awt.Rectangle;
  */
 public class CollisionManagerImpl implements CollisionManager {
     private static final int WEAPON_IFRAME = 30;
+    private static final int PLAYER_IFRAME = 20;
     private static final int PROJECTILE_IFRAME = 60;
     private final Map<Entity, Integer> entityCooldowns = new HashMap<>();
+    private final Map<Enemy, Integer> playerCooldown = new HashMap<>();
     private final Map<Entity, Map<Projectile, Integer>> projectileCooldowns = new HashMap<>();
 
     /**
@@ -41,12 +43,14 @@ public class CollisionManagerImpl implements CollisionManager {
     public void update() {
         removeDeadEntities();
         entityCooldowns.replaceAll((enemy, cooldown) -> Math.max(0, cooldown - 1));
+        playerCooldown.replaceAll((enemy, cooldown) -> Math.max(0, cooldown - 1));
         for (final Map<Projectile, Integer> cooldownMap : projectileCooldowns.values()) {
             cooldownMap.replaceAll((proj, cooldown) -> Math.max(0, cooldown - 1));
         }
     }
     private void removeDeadEntities() {
         entityCooldowns.entrySet().removeIf(e -> !e.getKey().isAlive());
+        playerCooldown.entrySet().removeIf(e -> !e.getKey().isAlive());
         projectileCooldowns.entrySet().removeIf(entry -> !entry.getKey().isAlive());
     }
     /**
@@ -57,6 +61,15 @@ public class CollisionManagerImpl implements CollisionManager {
      */
     private boolean canTakeWeaponDamage(final Entity entity) {
         return entityCooldowns.getOrDefault(entity, 0) == 0;
+    }
+    /**
+     * Checks if an entity can take damage.
+     * 
+     * @param enemy the enemy to check
+     * @return true if the player can take damage from the enemy
+     */
+    private boolean canTakeEnemyContactDamage(final Enemy enemy) {
+        return playerCooldown.getOrDefault(enemy, 0) == 0;
     }
     /**
      * Checks if an entity can take damage from a specific projectile.
@@ -76,6 +89,13 @@ public class CollisionManagerImpl implements CollisionManager {
      */
     private void registerWeaponDamage(final Entity entity) {
         entityCooldowns.put(entity, WEAPON_IFRAME);
+    }
+    /**
+     * Registers damage for the player, starting its i-frame cooldown.
+     * @param enemy that the player took damage from.
+     */
+    private void registerPlayerDamage(final Enemy enemy) {
+        playerCooldown.put(enemy, PLAYER_IFRAME);
     }
     /**
      * Registers damage for an entity, starting its i-frame cooldown.
@@ -129,8 +149,10 @@ public class CollisionManagerImpl implements CollisionManager {
     @Override
     public void handlePlayerEnemyCollisions(final Player player, final List<Enemy> enemies) {
         for (final Enemy enemy : enemies) {
-            if (isColliding(player.getHitbox(), enemy.getHitbox()) && !enemy.isDying()) {
+            if (isColliding(player.getHitbox(), enemy.getHitbox()) 
+                && !enemy.isDying() && canTakeEnemyContactDamage(enemy)) {
                 player.setHealth(player.getHealth() - enemy.getAttack());
+                registerPlayerDamage(enemy);
             }
         }
     }
