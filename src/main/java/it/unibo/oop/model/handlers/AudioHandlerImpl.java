@@ -29,8 +29,11 @@ public class AudioHandlerImpl implements AudioHandler {
      * Initializes the AudioHandler and adds audio files to the sound list.
     */
     public AudioHandlerImpl() {
-        this.soundList.add(AudioHandlerImpl.class.getResource("/Audio/Music/test.wav"));
-        this.soundList.add(AudioHandlerImpl.class.getResource("/Audio/SoundEffects/test.wav"));
+        this.soundList.add(AudioHandlerImpl.class.getResource("/Audio/SoundEffects/explosion.wav"));
+        this.soundList.add(AudioHandlerImpl.class.getResource("/Audio/SoundEffects/hit.wav"));
+        this.soundList.add(AudioHandlerImpl.class.getResource("/Audio/SoundEffects/shot.wav"));
+        this.soundList.add(AudioHandlerImpl.class.getResource("/Audio/SoundEffects/xp.wav"));
+        this.soundList.add(AudioHandlerImpl.class.getResource("/Audio/SoundEffects/select.wav"));
     }
     /**
      * Adds an url to the soundList.

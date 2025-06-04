@@ -87,7 +87,6 @@ public class GameThreadImpl implements Runnable, GameThread {
         this.window.addKeyListener(inputHandler);
         this.window.setFocusable(true);
         this.audioHandler.setVolume(Percentage.TWENTY_PERCENT);
-        this.audioHandler.playSoundEffect(1);
         this.startThread();
     }
     /**
