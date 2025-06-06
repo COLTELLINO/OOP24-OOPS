@@ -19,6 +19,7 @@ public final class InputHandler extends KeyAdapter {
     private final Player player;
     private boolean debugMode;
     private final Set<Integer> pressedKeys = new HashSet<>();
+    private Runnable pauseObserver;
 
     /**
      * Constructor that initializes the InputHandler with the player.
@@ -30,7 +31,7 @@ public final class InputHandler extends KeyAdapter {
 
     /**
      * Handles the key press events to change the player's direction.
-     * @param e the KeyEvent that contains the key code
+     * @param e the key event
      */
     @Override
     public void keyPressed(final KeyEvent e) {
@@ -38,13 +39,16 @@ public final class InputHandler extends KeyAdapter {
         if (keyCode == KeyEvent.VK_H) {
             debugMode = !debugMode;
         }
+        if (keyCode == KeyEvent.VK_P && pauseObserver != null) {
+            pauseObserver.run();
+        }
         pressedKeys.add(keyCode);
         updateDirection();
     }
 
     /**
      * Handles the key release events.
-     * @param e the KeyEvent that contains the key code
+     * @param e the key event
      */
     @Override
     public void keyReleased(final KeyEvent e) {
@@ -86,5 +90,13 @@ public final class InputHandler extends KeyAdapter {
      */
     public boolean isDebugMode() {
         return debugMode;
+    }
+
+    /**
+     * Sets the pause observer.
+     * @param observer the observer to set
+     */
+    public void setPauseObserver(final Runnable observer) {
+        this.pauseObserver = observer;
     }
 }

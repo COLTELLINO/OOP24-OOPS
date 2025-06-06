@@ -88,6 +88,13 @@ public class GameThreadImpl implements Runnable, GameThread {
         this.window.setFocusable(true);
         this.audioHandler.setVolume(Percentage.TWENTY_PERCENT);
         this.startThread();
+        this.inputHandler.setPauseObserver(() -> {
+            if (window.getCurrentGameState() == GameState.PLAYSTATE) {
+                window.changeGameState(GameState.PAUSEMENU);
+            } else if (window.getCurrentGameState() == GameState.PAUSEMENU) {
+                window.changeGameState(GameState.PLAYSTATE);
+            }
+        });
     }
     /**
      * Starts the gameThread.

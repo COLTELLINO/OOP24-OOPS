@@ -91,6 +91,7 @@ public class AudioHandlerImpl implements AudioHandler {
      * Sets the volume of the audio.
      * @param volume the volume to set, as a Percentage
      */
+    @Override
     public void setVolume(final Percentage volume) {
         if (volume != null) {
             this.volume = volume;

@@ -18,6 +18,7 @@ import it.unibo.oop.view.panels.MyPanel;
 import it.unibo.oop.view.panels.OptionPanel;
 import it.unibo.oop.view.panels.TestPanel;
 import it.unibo.oop.view.panels.TitlePanel;
+import it.unibo.oop.view.panels.PausePanel;
 import it.unibo.oop.utils.Camera;
 
 import java.awt.Dimension;
@@ -42,6 +43,7 @@ public final class ViewManagerImpl implements ViewManager {
     private final OptionPanel optionPanel;
     private final GamePanel gamePanel;
     private final TestPanel testPanel;
+    private final PausePanel pausePanel;
     private final MouseHandler mouseHandler = new MouseHandler();
     /**
      * @param gameState
@@ -62,6 +64,7 @@ public final class ViewManagerImpl implements ViewManager {
         this.gamePanel = new GamePanel(this.sw / PROPORTION, this.sh / PROPORTION, 
         player, enemyManager, weaponManager, experienceManager, healthManager, projectileManager, camera);
         testPanel = new TestPanel(this.sw / PROPORTION, this.sh / PROPORTION);
+        this.pausePanel = new PausePanel();
 
         // Aggiungi MouseHandler al GamePanel
         this.gamePanel.addMouseListener(mouseHandler);
@@ -97,7 +100,7 @@ public final class ViewManagerImpl implements ViewManager {
                 case TITLESTATE -> {
                     this.currentPanel = titlePanel;
                 }
-                case TITLEOPTIONSTATE, PAUSESTATE -> {
+                case TITLEOPTIONSTATE -> {
                     this.currentPanel = optionPanel;
                 }
                 case PLAYSTATE -> {
@@ -105,6 +108,9 @@ public final class ViewManagerImpl implements ViewManager {
                 }
                 case TESTSTATE -> {
                     this.currentPanel = testPanel;
+                }
+                case PAUSEMENU -> {
+                    this.currentPanel = pausePanel;
                 }
                 default -> throw new IllegalArgumentException();
             }
