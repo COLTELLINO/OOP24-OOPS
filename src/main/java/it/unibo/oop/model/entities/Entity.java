@@ -139,7 +139,7 @@ justification = "The hitbox of the entity is needed to check for collisions")
      * @param health
      */
     public void setHealth(final int health) {
-        this.health = health;
+        this.health = Math.max(0, health);
     }
     /**
      * Sets the Entity's attack value. 

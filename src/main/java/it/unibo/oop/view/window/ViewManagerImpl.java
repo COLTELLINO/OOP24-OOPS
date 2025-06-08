@@ -5,8 +5,8 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import it.unibo.oop.controller.gamethread.MouseHandler;
 import it.unibo.oop.model.entities.Player;
-import it.unibo.oop.model.handlers.MouseHandler;
 import it.unibo.oop.model.managers.EnemyManager;
 import it.unibo.oop.model.managers.ExperienceManager;
 import it.unibo.oop.model.managers.HealthManager;

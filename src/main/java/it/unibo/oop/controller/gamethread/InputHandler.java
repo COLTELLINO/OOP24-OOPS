@@ -1,4 +1,4 @@
-package it.unibo.oop.model.handlers;
+package it.unibo.oop.controller.gamethread;
 
 import it.unibo.oop.model.entities.Player;
 import it.unibo.oop.utils.Direction;
@@ -60,6 +60,10 @@ public final class InputHandler extends KeyAdapter {
      * Updates the player's direction based on currently pressed keys.
      */
     private void updateDirection() {
+        if (player.getHealth() <= 0) {
+            player.setDirection(Direction.NONE);
+            return;
+        }
         final boolean up = pressedKeys.contains(KeyEvent.VK_W);
         final boolean down = pressedKeys.contains(KeyEvent.VK_S);
         final boolean left = pressedKeys.contains(KeyEvent.VK_A);

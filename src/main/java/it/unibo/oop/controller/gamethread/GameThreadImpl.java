@@ -14,7 +14,6 @@ import it.unibo.oop.model.factories.EnemyFactory;
 import it.unibo.oop.model.factories.EnemyFactoryImpl;
 import it.unibo.oop.model.handlers.AudioHandler;
 import it.unibo.oop.model.handlers.AudioHandlerImpl;
-import it.unibo.oop.model.handlers.InputHandler;
 import it.unibo.oop.model.items.Weapon;
 import it.unibo.oop.model.managers.CollisionManager;
 import it.unibo.oop.model.managers.CollisionManagerImpl;
@@ -37,7 +36,6 @@ import it.unibo.oop.view.window.ViewManager;
 import it.unibo.oop.view.window.ViewManagerFactory;
 import it.unibo.oop.view.window.ViewManagerFactoryImpl;
 import it.unibo.oop.view.window.ViewManagerImpl;
-import it.unibo.oop.model.handlers.MouseHandler;
 /**
 * Controller of the application.
 */
