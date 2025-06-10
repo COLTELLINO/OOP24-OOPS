@@ -5,13 +5,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Stream;
 
 import it.unibo.oop.model.entities.Enemy;
 import it.unibo.oop.model.entities.Entity;
 import it.unibo.oop.model.entities.Player;
-import it.unibo.oop.model.factories.EnemyFactory;
-import it.unibo.oop.model.factories.EnemyFactoryImpl;
 import it.unibo.oop.model.handlers.AudioHandler;
 import it.unibo.oop.model.handlers.AudioHandlerImpl;
 import it.unibo.oop.model.items.Weapon;
@@ -47,8 +44,6 @@ public class GameThreadImpl implements Runnable, GameThread {
     private static final int PLAYER_ATTACK = 5;
     private static final int PLAYER_SPEED = 5;
     private static final int PLAYER_SIZE = 50;
-    private static final int ENEMY_X = 500;
-    private static final int ENEMY_Y = 500;
 
     private final Timer timer = new TimerImpl(1);
     private final Camera camera = new Camera(0, 0);
@@ -56,7 +51,6 @@ public class GameThreadImpl implements Runnable, GameThread {
         PLAYER_ATTACK, PLAYER_SPEED, PLAYER_SIZE);
     private final InputHandler inputHandler = new InputHandler(player);
     private final EnemyManager enemyManager = new EnemyManagerImpl(player);
-    private final EnemyFactory enemyFactory = new EnemyFactoryImpl();
     private final ProjectileManager projectileManager = new ProjectileManagerImpl();
     private final WeaponManager weaponManager = new WeaponManagerImpl(player, projectileManager);
     private final ExperienceManager experienceManager = new ExperienceManagerImpl(player);
@@ -126,7 +120,7 @@ public class GameThreadImpl implements Runnable, GameThread {
             getAllEntities().forEach((e) -> e.showHitbox(inputHandler.isDebugMode()));
             projectileManager.getAllProjectiles().forEach((p) -> p.setShowHitbox(inputHandler.isDebugMode()));
             weaponManager.getWeapons().forEach((w) -> w.setShowHitbox(inputHandler.isDebugMode()));
-            this.spawnEnemies();
+            enemyManager.spawnEnemies(this.projectileManager, this.experienceManager);
             collisionManager.update();
             this.checkCollisions();
             weaponManager.update();
@@ -146,7 +140,7 @@ public class GameThreadImpl implements Runnable, GameThread {
         this.window.repaint();
     }
     /**
-     * Checks for collisions between the player and enemies.
+     * Checks for collisions between the player, enemies and projectiles.
      */
     private void checkCollisions() {
         collisionManager.handleEnemyProjectilenCollision(enemyManager.getSpawnedEnemies(),
@@ -164,35 +158,6 @@ public class GameThreadImpl implements Runnable, GameThread {
                 collisionManager.handleWeaponCollision(enemies, weapon);
             }
         }
-    }
-    /**
-     * Handles the spawning of enemies.
-     */
-    private void spawnEnemies() {
-        final Enemy baseZombie = this.enemyFactory.createBaseZombie(ENEMY_X, ENEMY_Y, player);
-        final Enemy baseSkull = this.enemyFactory.createBaseSkull(ENEMY_X, ENEMY_Y, player);
-        final Enemy baseCultist = this.enemyFactory.createBaseCultist(ENEMY_X, ENEMY_Y, player);
-        Stream.of(baseZombie, baseSkull, baseCultist)
-            .forEach(e -> 
-                e.setOnDeathObserver(() -> {
-                    this.experienceManager.spawnXP(e.getX() + e.getSize() / 2,
-                        e.getY() + e.getSize() / 2, 10);
-                }));
-        baseSkull.setObserver(() -> {
-            projectileManager.addEnemyProjectile(baseSkull.getProjectile());
-        });
-        baseCultist.setObserver(() -> {
-            final Enemy skull = this.enemyFactory
-                .createBaseSkull(baseCultist.getX(), baseCultist.getY(), player);
-            skull.setOnDeathObserver(() -> {
-                    this.experienceManager.spawnXP(skull.getX() + skull.getSize() / 2,
-                        skull.getY() + skull.getSize() / 2, 10);
-                });
-            enemyManager.spawnEnemy(skull);
-        });
-        this.enemyManager.addEnemy(baseSkull);
-        this.enemyManager.addEnemy(baseZombie);
-        this.enemyManager.addEnemy(baseCultist);
     }
     /**
      * @return all the entities.

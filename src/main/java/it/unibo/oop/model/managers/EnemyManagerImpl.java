@@ -1,10 +1,13 @@
 package it.unibo.oop.model.managers;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.model.entities.Enemy;
 import it.unibo.oop.model.entities.Player;
+import it.unibo.oop.model.factories.EnemyFactory;
+import it.unibo.oop.model.factories.EnemyFactoryImpl;
 import it.unibo.oop.utils.Timer;
 import it.unibo.oop.utils.TimerImpl;
 
@@ -24,6 +27,7 @@ public class EnemyManagerImpl implements EnemyManager {
     private final List<Enemy> activeEnemies = new ArrayList<>();
     private final List<Enemy> enemiesToSpawn = new ArrayList<>();
     private final List<Enemy> positionedEnemies = new ArrayList<>();
+    private final EnemyFactory enemyFactory = new EnemyFactoryImpl();
     private final Timer waveTimer = new TimerImpl(120);
     private final Player player;
     /**
@@ -52,6 +56,59 @@ public class EnemyManagerImpl implements EnemyManager {
         enemies.addAll(activeEnemies);
         enemies.addAll(positionedEnemies);
         return enemies;
+    }
+    /**
+     * Handles which and when enemies spawn in the game.
+     * @param projectileManager
+     * @param experienceManager
+     */
+    public void spawnEnemies(final ProjectileManager projectileManager, final ExperienceManager experienceManager) {
+        final Enemy baseZombie = this.enemyFactory.createBaseZombie(player.getX(), player.getY(), player);
+        final Enemy baseSkull = this.enemyFactory.createBaseSkull(player.getX(), player.getY(), player);
+        final Enemy baseCultist = this.enemyFactory.createBaseCultist(player.getX(), player.getY(), player);
+        Stream.of(baseZombie, baseSkull, baseCultist)
+            .forEach(e -> 
+                e.setOnDeathObserver(() -> {
+                    experienceManager.spawnXP(e.getX() + e.getSize() / 2,
+                        e.getY() + e.getSize() / 2, 10);
+                }));
+        baseSkull.setObserver(() -> {
+            projectileManager.addEnemyProjectile(baseSkull.getProjectile());
+        });
+        baseCultist.setObserver(() -> {
+            final Enemy skull = this.enemyFactory
+                .createBaseSkull(baseCultist.getX(), baseCultist.getY(), player);
+            skull.setOnDeathObserver(() -> {
+                    experienceManager.spawnXP(skull.getX() + skull.getSize() / 2,
+                        skull.getY() + skull.getSize() / 2, 10);
+                });
+            this.spawnEnemy(skull);
+        });
+        this.addEnemy(baseSkull);
+        this.addEnemy(baseZombie);
+        this.addEnemy(baseCultist);
+    }
+        /**
+     * Adds an enemy to the spawn list.
+     * @param enemy
+     */
+    @Override
+    public void addEnemy(final Enemy enemy) {
+        if (enemy != null && enemiesToSpawn.size() + activeEnemies.size() < MAX_ENEMIES) {
+            enemiesToSpawn.add(enemy);
+        }
+    }
+    /**
+     * Forces an enemy to spawn.
+     * Warning: to ensure that the enemy is able to spawn and does not suffer from starvation,
+     * the maximum amount of enemies is increased for this method. 
+     * @param enemy
+     */
+    @Override
+    public void spawnEnemy(final Enemy enemy) {
+        if (enemy != null && positionedEnemies.size() < MAX_ENEMIES * 2) {
+            positionedEnemies.add(enemy);
+        }
     }
     /**
      * Spawns a wave of enemies if there aren't too many on screen.
@@ -98,28 +155,6 @@ public class EnemyManagerImpl implements EnemyManager {
             }
         }
         return toRemove;
-    }
-    /**
-     * Adds an enemy to the spawn list.
-     * @param enemy
-     */
-    @Override
-    public void addEnemy(final Enemy enemy) {
-        if (enemy != null && enemiesToSpawn.size() + activeEnemies.size() < MAX_ENEMIES) {
-            enemiesToSpawn.add(enemy);
-        }
-    }
-    /**
-     * Forces an enemy to spawn.
-     * Warning: to ensure that the enemy is able to spawn and does not suffer from starvation,
-     * the maximum amount of enemies is increased for this method. 
-     * @param enemy
-     */
-    @Override
-    public void spawnEnemy(final Enemy enemy) {
-        if (enemy != null && positionedEnemies.size() < MAX_ENEMIES * 2) {
-            positionedEnemies.add(enemy);
-        }
     }
     /**
      * @return the max amount of enemies.

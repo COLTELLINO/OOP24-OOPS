@@ -4,9 +4,9 @@ package it.unibo.oop.model.entities;
  * 
  */
 public class Slime extends Enemy {
-    private static final int BASE_MAXHEALTH = 200;
-    private static final int BASE_HEALTH = 200;
-    private static final int BASE_ATTACK = 5;
+    private static final int BASE_MAXHEALTH = 5;
+    private static final int BASE_HEALTH = 5;
+    private static final int BASE_ATTACK = 3;
     private static final int BASE_SPEED = 1;
     private static final int BASE_SIZE = 32;
     /**

@@ -12,6 +12,12 @@ public interface EnemyManager {
      */
     void update();
     /**
+     * Handles which and when enemies spawn in the game.
+     * @param projectileManager
+     * @param experienceManager
+     */
+    public void spawnEnemies(final ProjectileManager projectileManager, final ExperienceManager experienceManager);
+    /**
      * Adds an enemy to the spawn list.
      * @param enemy
      */

@@ -18,7 +18,6 @@ import it.unibo.oop.view.panels.MyPanel;
 import it.unibo.oop.view.panels.OptionPanel;
 import it.unibo.oop.view.panels.TestPanel;
 import it.unibo.oop.view.panels.TitlePanel;
-import it.unibo.oop.view.panels.PausePanel;
 import it.unibo.oop.utils.Camera;
 
 import java.awt.Dimension;
@@ -43,7 +42,7 @@ public final class ViewManagerImpl implements ViewManager {
     private final OptionPanel optionPanel;
     private final GamePanel gamePanel;
     private final TestPanel testPanel;
-    private final PausePanel pausePanel;
+    private final GamePanel pausePanel; // Da cambiare in PausePanel quando/se ci sarà
     private final MouseHandler mouseHandler = new MouseHandler();
     /**
      * @param gameState
@@ -64,7 +63,9 @@ public final class ViewManagerImpl implements ViewManager {
         this.gamePanel = new GamePanel(this.sw / PROPORTION, this.sh / PROPORTION, 
         player, enemyManager, weaponManager, experienceManager, healthManager, projectileManager, camera);
         testPanel = new TestPanel(this.sw / PROPORTION, this.sh / PROPORTION);
-        this.pausePanel = new PausePanel();
+        this.pausePanel = new GamePanel(this.sw / PROPORTION, this.sh / PROPORTION, 
+        player, enemyManager, weaponManager, experienceManager, healthManager, projectileManager, camera);
+        // Da cambiare in PausePanel quando/se ci sarà
 
         // Aggiungi MouseHandler al GamePanel
         this.gamePanel.addMouseListener(mouseHandler);

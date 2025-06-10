@@ -3,7 +3,7 @@ package it.unibo.oop.junit;
 import it.unibo.oop.model.entities.Player;
 import it.unibo.oop.model.managers.EnemyManagerImpl;
 /**
- * Class to Test if EnemyManagerImpl is working as intended.
+ * This class extends EnemyManagerImpl to allow testing of protected methods.
  */
 public class TestableEnemyManager extends EnemyManagerImpl {
     /**
