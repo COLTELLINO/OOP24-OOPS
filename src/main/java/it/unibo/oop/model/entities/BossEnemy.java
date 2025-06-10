@@ -5,6 +5,7 @@ package it.unibo.oop.model.entities;
  */
 public class BossEnemy extends EnemyDecorator {
     private static final int SPEED_SCALE = 2;
+    private static final int HEALTH_SCALE = 2;
     private static final int SIZE_SCALE = 2;
     /**
      * @param enemy
@@ -12,6 +13,8 @@ public class BossEnemy extends EnemyDecorator {
     public BossEnemy(final Enemy enemy) {
         super(enemy);
         super.setSizeScale(enemy.getSizeScale() * SIZE_SCALE);
+        super.setMaxHealth(enemy.getMaxHealth() * HEALTH_SCALE);
+        super.setHealth(enemy.getHealth() * HEALTH_SCALE);
         super.setSpeed(enemy.getSpeed() * SPEED_SCALE);
         super.setSize(enemy.getSize() * SIZE_SCALE);
     }

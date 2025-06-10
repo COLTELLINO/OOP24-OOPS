@@ -16,7 +16,7 @@ public interface EnemyManager {
      * @param projectileManager
      * @param experienceManager
      */
-    public void spawnEnemies(final ProjectileManager projectileManager, final ExperienceManager experienceManager);
+    void spawnEnemies(ProjectileManager projectileManager, ExperienceManager experienceManager);
     /**
      * Adds an enemy to the spawn list.
      * @param enemy

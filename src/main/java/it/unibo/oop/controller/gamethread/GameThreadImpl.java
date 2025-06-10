@@ -61,16 +61,6 @@ public class GameThreadImpl implements Runnable, GameThread {
     private final ViewManager window;
     private Boolean running = true;
     /**
-     * Functional interface to observe enemies and act when a condition is met.
-     */
-    @FunctionalInterface
-    public interface EnemyObserver {
-        /**
-         * Executes an action in response to an event triggered by an enemy.
-         */
-        void enemyObserverAction();
-    }
-    /**
      *
      */
     public GameThreadImpl() {

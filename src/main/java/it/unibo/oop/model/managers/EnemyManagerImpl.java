@@ -31,6 +31,16 @@ public class EnemyManagerImpl implements EnemyManager {
     private final Timer waveTimer = new TimerImpl(120);
     private final Player player;
     /**
+     * Functional interface to observe enemies and act when a condition is met.
+     */
+    @FunctionalInterface
+    public interface EnemyObserver {
+        /**
+         * Executes an action in response to an event triggered by an enemy.
+         */
+        void enemyObserverAction();
+    }
+    /**
      * @param player
      */
     public EnemyManagerImpl(final Player player) {
@@ -62,6 +72,7 @@ public class EnemyManagerImpl implements EnemyManager {
      * @param projectileManager
      * @param experienceManager
      */
+    @Override
     public void spawnEnemies(final ProjectileManager projectileManager, final ExperienceManager experienceManager) {
         final Enemy baseZombie = this.enemyFactory.createBaseZombie(player.getX(), player.getY(), player);
         final Enemy baseSkull = this.enemyFactory.createBaseSkull(player.getX(), player.getY(), player);

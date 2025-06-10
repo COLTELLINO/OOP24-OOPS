@@ -2,7 +2,7 @@ package it.unibo.oop.model.entities;
 
 import java.awt.Rectangle;
 
-import it.unibo.oop.controller.gamethread.GameThreadImpl.EnemyObserver;
+import it.unibo.oop.model.managers.EnemyManagerImpl.EnemyObserver;
 import it.unibo.oop.utils.Direction;
 
 /**

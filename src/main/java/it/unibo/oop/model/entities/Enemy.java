@@ -3,7 +3,7 @@ package it.unibo.oop.model.entities;
 import java.util.Optional;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import it.unibo.oop.controller.gamethread.GameThreadImpl.EnemyObserver;
+import it.unibo.oop.model.managers.EnemyManagerImpl.EnemyObserver;
 import it.unibo.oop.model.projectiles.Projectile;
 import it.unibo.oop.utils.Direction;
 /**
