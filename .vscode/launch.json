@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "MainApp",
+            "request": "launch",
+            "mainClass": "it.unibo.oop.MainApp",
+            "projectName": "OOP24-OOPS"
+        },
+        {
+            "type": "java",
             "name": "Launch MainApp",
             "request": "launch",
             "mainClass": "it.unibo.oop.MainApp",
