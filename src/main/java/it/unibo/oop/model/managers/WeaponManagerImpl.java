@@ -7,7 +7,19 @@ import java.lang.reflect.InvocationTargetException;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.model.entities.Player;
-import it.unibo.oop.model.items.*;
+import it.unibo.oop.model.items.Upgrade;
+import it.unibo.oop.model.items.Weapon;
+import it.unibo.oop.model.items.Bow;
+import it.unibo.oop.model.items.CursorSaw;
+import it.unibo.oop.model.items.HeatWave;
+import it.unibo.oop.model.items.MagicStaff;
+import it.unibo.oop.model.items.Magnet;
+import it.unibo.oop.model.items.ShadowCloak;
+import it.unibo.oop.model.items.Shield;
+import it.unibo.oop.model.items.SpeedBoots;
+import it.unibo.oop.model.items.Sword;
+import it.unibo.oop.model.items.BlackBelt;
+import it.unibo.oop.model.items.Wax;
 
 /**
  * Implementation of WeaponManager for managing weapons.
@@ -22,7 +34,7 @@ public class WeaponManagerImpl implements WeaponManager {
     private final Random random;
     private int playerLastLevel = 1;
     private final ProjectileManager projectileManager;
-    
+
     /**
      * The max level of a weapon.
      */
@@ -58,7 +70,7 @@ public class WeaponManagerImpl implements WeaponManager {
      * Initializes the weapon pool with all available weapons.
      */
     private void initializeWeaponPool() {
-        upgrades.add(new CursorSaw(player));
+        upgrades.add(new Sword(player));
         upgradePool.add(Sword.class);
         upgradePool.add(Bow.class);
         upgradePool.add(MagicStaff.class);
@@ -67,6 +79,9 @@ public class WeaponManagerImpl implements WeaponManager {
         upgradePool.add(CursorSaw.class);
         upgradePool.add(SpeedBoots.class);
         upgradePool.add(BlackBelt.class);
+        upgradePool.add(Wax.class);
+        upgradePool.add(ShadowCloak.class);
+        upgradePool.add(Magnet.class);
         // Add other weapon types here
     }
 
@@ -142,6 +157,12 @@ public class WeaponManagerImpl implements WeaponManager {
         }
     }
 
+    /**
+     * Sets the cursor position for the weapons that require it.
+     * @param x the x-coordinate of the cursor
+     * @param y the y-coordinate of the cursor
+     */
+    @Override
     public void setCursorPosition(final int x, final int y) {
         for (final Upgrade upgrade : upgrades) {
             if (upgrade instanceof CursorSaw) {

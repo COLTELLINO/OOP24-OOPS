@@ -38,13 +38,19 @@ public interface WeaponRenderer {
      */
     void drawMagicStaff(Graphics g, MagicStaff staff);
 
+    /**
+     * Draws a CursorSaw.
+     * 
+     * @param g the graphics context
+     * @param cursorSaw the CursorSaw to draw
+     */
     void drawCursorSaw(Graphics g, CursorSaw cursorSaw);
 
         /**
      * Draws a HeatWave.
      * 
      * @param g the graphics context
-     * @param staff the HeatWave to draw
+     * @param heatwave the HeatWave to draw
      */
     void drawHeatWave(Graphics g, HeatWave heatwave);
 }

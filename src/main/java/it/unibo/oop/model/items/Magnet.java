@@ -4,45 +4,44 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.model.entities.Player;
 
 /**
- * Represents a Black Belt accessory that increases player attack.
+ * Represents a Magnet accessory that increases the player's pickup range.
  */
 @SuppressFBWarnings(value = {"EI2", "EI"}, 
 justification = "To position the accessory, the player size and position are needed, "
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
-public class BlackBelt extends Accessory {
+public class Magnet extends Accessory {
 
     private final Player player;
     private int level;
     private int lastLevel;
-    private static final int BASE_BONUS = 3;
-    private static final int SCALER = 3;
+    private static final int BASE_BONUS = 20;
+    private static final int SCALER = 10;
 
     /**
-     * Constructs a BlackBelt accessory.
-     * 
-     * @param player the player associated with this accessory
+     * Creates a new Magnet instance.
+     * @param player the player associated with this magnet
      */
-    public BlackBelt(final Player player) {
+    public Magnet(final Player player) {
         super(player);
         this.player = player;
         this.level = 1;
     }
 
     /**
-     * Updates the BlackBelt's state, increasing the player's attack if the level has changed.
+     * Updates the magnet's state.
      */
     @Override
     public void update() {
         if (lastLevel < getLevel()) {
             lastLevel++;
-            player.setAttack(player.getAttack() + BASE_BONUS + (getLevel() - 1) * SCALER);
+            player.setPickupRange(player.getPickupRange() + BASE_BONUS + (getLevel() - 1) * SCALER);
         }
     }
 
     /**
-     * Gets the level of the BlackBelt.
+     * Gets the level of the magnet.
      * 
-     * @return the level of the BlackBelt
+     * @return the level of the magnet
      */
     @Override
     public int getLevel() {
@@ -50,9 +49,9 @@ public class BlackBelt extends Accessory {
     }
 
     /**
-     * Sets the level of the BlackBelt.
+     * Sets the level of the magnet.
      * 
-     * @param level the new level of the BlackBelt
+     * @param level the new level of the magnet
      */
     @Override
     public void setLevel(final int level) {

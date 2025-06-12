@@ -40,8 +40,6 @@ public class MagicStaff extends Weapon {
     };
     private Direction direction = Direction.UP;
     private Direction lastDirection = Direction.UP;
-    private boolean showHitbox;
-    private int level;
 
     /**
     * Functional interface for observing projectile actions.
@@ -66,7 +64,6 @@ public class MagicStaff extends Weapon {
         this.cooldown = 0;
         this.projectiles = new ArrayList<>();
         this.explosionHitboxes = new LinkedHashMap<>();
-        this.level = 1;
     }
 
     /**
@@ -79,7 +76,7 @@ public class MagicStaff extends Weapon {
             observerAction();
             cooldown = COOLDOWN;
         } else {
-            if (level >= 3) {
+            if (getLevel() >= 3) {
                 cooldown -= SPEEDSCALER;
             } else {
                 cooldown--;
@@ -163,7 +160,7 @@ public class MagicStaff extends Weapon {
                 EXPLOSION_SIZE
             );
 
-            if (level >= 2) {
+            if (getLevel() >= 2) {
                 explosionHitboxes.put(scaleRectangle(explosion, SIZESCALER), EXPLOSION_LIFETIME);
             } else {
                 explosionHitboxes.put(explosion, EXPLOSION_LIFETIME);
@@ -204,50 +201,13 @@ public class MagicStaff extends Weapon {
     public Player getPlayer() {
         return null;
     }
-    /**
-     * Gets the level of the magic staff.
-     * 
-     * @return the level of the magic staff
-     */
-    @Override
-    public int getLevel() {
-        return level;
-    }
 
     /**
-     * Sets the level of the magic staff.
-     * 
-     * @param level the new level of the magic staff
+     * @return the base damage of the magic staff.
      */
     @Override
-    public void setLevel(final int level) {
-        this.level = level;
-    }
-    /** 
-     * @return the damage of the staff.
-     */
-    @Override
-    public int getDamage() {
-        final int baseDamage = DAMAGE + ((level - 1) * DAMAGESCALER);
-        final Player player = getPlayer();
-        if (Math.random() * 100 < player.getCritRate()) {
-            return (int) Math.round(baseDamage * player.getCritDamage());
-        }
-        return baseDamage;
-    }
-    /**
-     * @param showHitbox the visibility of the hitbox.
-     */
-    @Override
-    public void setShowHitbox(final boolean showHitbox) {
-        this.showHitbox = showHitbox;
-    }
-    /**
-     * @return the visibility of the hitbox.
-     */
-    @Override
-    public boolean isShowHitbox() {
-        return showHitbox;
+    protected int getBaseDamage() {
+        return DAMAGE + ((getLevel() - 1) * DAMAGESCALER);
     }
     /**
      * @return the list of projectiles.

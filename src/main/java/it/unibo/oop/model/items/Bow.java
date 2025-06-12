@@ -32,8 +32,6 @@ public class Bow extends Weapon {
     };
     private Direction direction = Direction.UP;
     private Direction lastDirection = Direction.UP;
-    private boolean showHitbox;
-    private int level;
     private static final int DAMAGESCALER = 1;
     private static final int ATTACKSPEEDSCALER = 3;
     private static final int SPEEDSCALER = 3;
@@ -48,7 +46,6 @@ public class Bow extends Weapon {
         this.player = player;
         this.cooldown = 0;
         this.projectiles = new ArrayList<>();
-        this.level = 1;
     }
 
     /**
@@ -61,7 +58,7 @@ public class Bow extends Weapon {
             observerAction();
             cooldown = COOLDOWN;
         } else {
-            if (level >= 4) {
+            if (getLevel() >= 4) {
                 cooldown -= ATTACKSPEEDSCALER;
             } else {
                 cooldown--;
@@ -97,7 +94,7 @@ public class Bow extends Weapon {
      * Shoots projectiles based on the bow's level.
      */
     private void shoot() {
-        switch (level) {
+        switch (getLevel()) {
             case 1 -> {
                 projectiles.add(new Arrow(player.getX(), player.getY(), direction, DAMAGE, SPEED, PROJECTILE_SIZE));
             }
@@ -118,10 +115,10 @@ public class Bow extends Weapon {
             case WeaponManager.MAX_LEVEL -> {
                 for (final Direction dir : Direction.verticalHorizontal()) {
                     projectiles.add(new Arrow(player.getX(), player.getY(), dir, 
-                    DAMAGE, SPEED + ((level - 1) * SPEEDSCALER), PROJECTILE_SIZE));
+                    DAMAGE, SPEED + ((getLevel() - 1) * SPEEDSCALER), PROJECTILE_SIZE));
                 }
             }
-            default -> throw new IllegalStateException("Unexpected level: " + level);
+            default -> throw new IllegalStateException("Unexpected level: " + getLevel());
         }
     }
 
@@ -140,51 +137,14 @@ public class Bow extends Weapon {
     public Player getPlayer() {
         return this.player;
     }
-    /**
-     * Gets the level of the bow.
-     * 
-     * @return the level of the bow
-     */
-    @Override
-    public int getLevel() {
-        return level;
-    }
 
     /**
-     * Sets the level of the bow.
-     * 
-     * @param level the new level of the bow
+     * Gets the base damage dealt by the Bow.
+     * @return the base damage dealt by the Bow
      */
     @Override
-    public void setLevel(final int level) {
-        this.level = level;
-    }
-
-    /**
-     * @return the damage of the bow.
-     */
-    @Override
-    public int getDamage() {
-        final int baseDamage = DAMAGE + ((level - 1) * DAMAGESCALER);
-        final Player player = getPlayer();
-        if (Math.random() * 100 < player.getCritRate()) {
-            return (int) Math.round(baseDamage * player.getCritDamage());
-        }
-        return baseDamage;
-    }
-    /**
-     * @param showHitbox the visibility of the hitbox.
-     */
-    @Override
-    public void setShowHitbox(final boolean showHitbox) {
-        this.showHitbox = showHitbox;
-    }
-    /**
-     * @return the visibility of the hitbox.
-     */
-    @Override
-    public boolean isShowHitbox() {
-        return showHitbox;
+    protected int getBaseDamage() {
+        return DAMAGE + ((getLevel() - 1) * DAMAGESCALER);
     }
 
     /**

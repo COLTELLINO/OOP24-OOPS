@@ -4,45 +4,45 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.model.entities.Player;
 
 /**
- * Represents a Black Belt accessory that increases player attack.
+ * Represents a Wax accessory that increases the player's critical hit rate.
  */
 @SuppressFBWarnings(value = {"EI2", "EI"}, 
 justification = "To position the accessory, the player size and position are needed, "
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
-public class BlackBelt extends Accessory {
+public class Wax extends Accessory {
 
     private final Player player;
     private int level;
     private int lastLevel;
-    private static final int BASE_BONUS = 3;
+    private static final int BASE_BONUS = 5;
     private static final int SCALER = 3;
 
     /**
-     * Constructs a BlackBelt accessory.
-     * 
+     * Constructs a Wax accessory.
+     *
      * @param player the player associated with this accessory
      */
-    public BlackBelt(final Player player) {
+    public Wax(final Player player) {
         super(player);
         this.player = player;
         this.level = 1;
     }
 
     /**
-     * Updates the BlackBelt's state, increasing the player's attack if the level has changed.
+     * Updates the Wax's state, increasing the player's critical hit rate if the level has changed.
      */
     @Override
     public void update() {
         if (lastLevel < getLevel()) {
             lastLevel++;
-            player.setAttack(player.getAttack() + BASE_BONUS + (getLevel() - 1) * SCALER);
+            player.setCritRate(player.getCritRate() + BASE_BONUS + (getLevel() - 1) * SCALER);
         }
     }
 
     /**
-     * Gets the level of the BlackBelt.
-     * 
-     * @return the level of the BlackBelt
+     * Gets the level of the Wax.
+     *
+     * @return the level of the Wax
      */
     @Override
     public int getLevel() {
@@ -50,9 +50,9 @@ public class BlackBelt extends Accessory {
     }
 
     /**
-     * Sets the level of the BlackBelt.
-     * 
-     * @param level the new level of the BlackBelt
+     * Sets the level of the Wax.
+     *
+     * @param level the new level of the Wax
      */
     @Override
     public void setLevel(final int level) {

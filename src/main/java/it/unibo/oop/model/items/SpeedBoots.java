@@ -17,12 +17,20 @@ public class SpeedBoots extends Accessory {
     private static final int BASE_BONUS = 2;
     private static final int SCALER = 2;
 
+    /**
+     * Constructs SpeedBoots accessory.
+     *
+     * @param player the player associated with this accessory
+     */
     public SpeedBoots(final Player player) {
         super(player);
         this.player = player;
         this.level = 1;
     }
 
+    /**
+     * Updates the SpeedBoots' state, increasing the player's speed if the level has changed.
+     */
     @Override
     public void update() {
         if (lastLevel < getLevel()) {
@@ -31,11 +39,21 @@ public class SpeedBoots extends Accessory {
         }
     }
 
+    /**
+     * Gets the level of the SpeedBoots.
+     *
+     * @return the level of the SpeedBoots
+     */
     @Override
     public int getLevel() {
         return level;
     }
 
+    /**
+     * Sets the level of the SpeedBoots.
+     *
+     * @param level the new level of the SpeedBoots
+     */
     @Override
     public void setLevel(final int level) {
         this.level = level;

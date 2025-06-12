@@ -104,6 +104,11 @@ class TestCollisionManager {
             public void update() {
 
             }
+
+            @Override
+            protected int getBaseDamage() {
+                return WEAPON_DAMAGE;
+            }
         };
 
         arrow = new Arrow(ARROW_X, ARROW_Y, Direction.RIGHT, ARROW_DAMAGE, ARROW_SPEED, ARROW_SIZE) {

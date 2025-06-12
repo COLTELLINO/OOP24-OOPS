@@ -218,6 +218,7 @@ public class Player extends Entity {
      * Sets the speed value.
      * @param speed the new speed value
      */
+    @Override
     public void setSpeed(final int speed) {
         super.setSpeed(speed);
     }
@@ -225,6 +226,7 @@ public class Player extends Entity {
     /**
      * @return the speed value.
      */
+    @Override
     public int getSpeed() {
         return super.getSpeed();
     }
@@ -233,6 +235,7 @@ public class Player extends Entity {
      * Sets the attack value.
      * @param attack the new attack value
      */
+    @Override
     public void setAttack(final int attack) {
         super.setAttack(attack);
     }

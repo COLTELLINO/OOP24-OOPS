@@ -92,7 +92,7 @@ public final class WeaponRendererImpl implements WeaponRenderer {
      * Draws a sword on the screen.
      * 
      * @param g the graphics context
-     * @param sword the sword to draw
+     * @param heatwave the sword to draw
      */
     @Override
     public void drawHeatWave(final Graphics g, final HeatWave heatwave) {
@@ -170,6 +170,13 @@ public final class WeaponRendererImpl implements WeaponRenderer {
         g2d.setComposite(originalComposite);
     }
 
+    /**
+     * Draws a CursorSaw on the screen.
+     * 
+     * @param g the graphics context
+     * @param cursorSaw the CursorSaw to draw
+     */
+    @Override
     public void drawCursorSaw(final Graphics g, final CursorSaw cursorSaw) {
         if (!(g instanceof Graphics2D)) {
             LOGGER.log(Level.WARNING, "Graphics object is not an instance of Graphics2D.");

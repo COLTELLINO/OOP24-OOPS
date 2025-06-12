@@ -22,56 +22,60 @@ public class HeatWave extends Weapon {
 
     private int duration;
     private int cooldown;
-    private boolean showHitbox;
     private boolean isActive;
-    private int level;
 
+    /**
+     * Creates a new HeatWave instance for the specified player.
+     * Initializes the level to 1 and sets the duration to the defined constant.
+     * 
+     * @param player the player associated with this HeatWave
+     */
     public HeatWave(final Player player) {
         super(player);
-        this.level = 1;
         this.duration = DURATION;
     }
 
+    /**
+     * Gets the base damage dealt by the HeatWave.
+     * @return the base damage dealt by the HeatWave
+     */
     @Override
-    public int getDamage() {
-        final int baseDamage = BASE_DAMAGE + (level - 1) * DAMAGE_PER_LEVEL;
-        final Player player = getPlayer();
-        if (Math.random() * 100 < player.getCritRate()) {
-            return (int) Math.round(baseDamage * player.getCritDamage());
-        }
-        return baseDamage;
+    protected int getBaseDamage() {
+        return BASE_DAMAGE + ((getLevel() - 1) * DAMAGE_PER_LEVEL);
     }
 
+    /**
+     * Gets the radius of the HeatWave.
+     * @return the radius of the HeatWave based on its level
+     */
     public int getRadius() {
         return BASE_RADIUS + (getLevel() - 1) * RADIUS_PER_LEVEL;
     }
 
+    /**
+     * Gets the cooldown of the HeatWave.
+     * @return the cooldown in ticks, which decreases with each level
+     */
     public int getCooldown() {
-        int cd = BASE_COOLDOWN - (getLevel() - 1) * COOLDOWN_DECREASE_PER_LEVEL;
+        final int cd = BASE_COOLDOWN - (getLevel() - 1) * COOLDOWN_DECREASE_PER_LEVEL;
         return Math.max(cd, MIN_COOLDOWN);
     }
 
+    /**
+     * Gets the hitbox of the HeatWave.
+     * @return a list containing the bounding rectangle of the HeatWave if active, otherwise an empty list.
+     */
     @Override
     public List<Rectangle> getHitBox() {
         if (isActive) {
-            int radius = getRadius();
-            int x = getPlayer().getX() + getPlayer().getSize() / 2 - radius;
-            int y = getPlayer().getY() + getPlayer().getSize() / 2 - radius;
-            Rectangle bounds = new Rectangle(x, y, radius * 2, radius * 2);
+            final int radius = getRadius();
+            final int x = getPlayer().getX() + getPlayer().getSize() / 2 - radius;
+            final int y = getPlayer().getY() + getPlayer().getSize() / 2 - radius;
+            final Rectangle bounds = new Rectangle(x, y, radius * 2, radius * 2);
             return Collections.singletonList(bounds);
         } else {
             return Collections.emptyList();
         }
-    }
-
-    @Override
-    public void setShowHitbox(boolean showHitbox) {
-        this.showHitbox = showHitbox;
-    }
-
-    @Override
-    public boolean isShowHitbox() {
-        return showHitbox;
     }
 
     /**
@@ -105,6 +109,7 @@ public class HeatWave extends Weapon {
 
     /**
      * Se è attiva l'onda di calore.
+     * @return true se l'onda di calore è attiva, false altrimenti.
      */
     public boolean isActive() {
         return isActive;

@@ -28,8 +28,6 @@ public class Sword extends Weapon {
     private static final int SIZESCALER = 1;
     private static final int DAMAGESCALER = 1;
     private boolean lastDirectionRight = true;
-    private boolean showHitbox;
-    private int level;
 
     /**
      * Constructs a Sword object.
@@ -40,7 +38,6 @@ public class Sword extends Weapon {
         super(player);
         this.player = player;
         this.active = false;
-        this.level = 1;
     }
 
     /**
@@ -56,12 +53,12 @@ public class Sword extends Weapon {
         }
         switch (direction) {
             case LEFT:
-                hitbox.add(new Rectangle(player.getX() - SIZE * (level  / SIZESCALER), 
-                player.getY(), SIZE * (level / SIZESCALER), player.getSize()));
+                hitbox.add(new Rectangle(player.getX() - SIZE * (getLevel() / SIZESCALER), 
+                player.getY(), SIZE * (getLevel() / SIZESCALER), player.getSize()));
                 return hitbox;
             case RIGHT:
                 hitbox.add(new Rectangle(player.getX() + player.getSize(), player.getY(), 
-                SIZE * (level / SIZESCALER), player.getSize()));
+                SIZE * (getLevel() / SIZESCALER), player.getSize()));
                 return hitbox;
             default:
                 return List.of();
@@ -130,52 +127,11 @@ public class Sword extends Weapon {
     }
 
     /**
-     * Gets the level of the sword.
-     * 
-     * @return the level of the sword
+     * @return the sword's base damage.
      */
     @Override
-    public int getLevel() {
-        return level;
-    }
-
-    /**
-     * Sets the level of the sword.
-     * 
-     * @param level the new level of the sword
-     */
-    @Override
-    public void setLevel(final int level) {
-        this.level = level;
-    }
-
-    /**
-     * @return the sword's damage.
-     */
-    @Override
-    public int getDamage() {
-        final int baseDamage = DAMAGE + ((level - 1) * DAMAGESCALER);
-        final Player player = getPlayer();
-        if (Math.random() * 100 < player.getCritRate()) {
-            return (int) Math.round(baseDamage * player.getCritDamage());
-        }
-        return baseDamage;
-    }
-
-    /**
-     * @param showHitbox the visibility of the hitbox.
-     */
-    @Override
-    public void setShowHitbox(final boolean showHitbox) {
-        this.showHitbox = showHitbox;
-    }
-
-    /**
-     * @return the visibility of the hitbox.
-     */
-    @Override
-    public boolean isShowHitbox() {
-        return showHitbox;
+    protected int getBaseDamage() {
+        return DAMAGE + ((getLevel() - 1) * DAMAGESCALER);
     }
 
     /**
@@ -192,6 +148,6 @@ public class Sword extends Weapon {
     * @return the size of the sword
     */
     public int getSize() {
-        return SIZE * (level / SIZESCALER);
+        return SIZE * (getLevel() / SIZESCALER);
     }
 }

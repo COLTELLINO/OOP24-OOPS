@@ -39,7 +39,13 @@ public interface WeaponManager {
      */
     List<Weapon> getWeapons();
 
+    /**
+     * Sets the cursor position.
+     * @param x the new X coordinate of the cursor
+     * @param y the new Y coordinate of the cursor
+     */
     void setCursorPosition(int x, int y);
+
     /**
      * Returns the map of weapons and their levels.
      * 
