@@ -18,6 +18,8 @@ import javax.imageio.ImageIO;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.model.entities.Player;
+import it.unibo.oop.model.items.CursorSaw;
+import it.unibo.oop.model.items.HeatWave;
 import it.unibo.oop.model.items.MagicStaff;
 import it.unibo.oop.model.items.Sword;
 import it.unibo.oop.model.items.Weapon;
@@ -86,6 +88,50 @@ public final class WeaponRendererImpl implements WeaponRenderer {
         g2d.drawImage(swordImage, transform, null);
     }
 
+        /**
+     * Draws a sword on the screen.
+     * 
+     * @param g the graphics context
+     * @param sword the sword to draw
+     */
+    @Override
+    public void drawHeatWave(final Graphics g, final HeatWave heatwave) {
+        if (!heatwave.isActive()) {
+            return;
+        }
+
+        if (!(g instanceof Graphics2D)) {
+            LOGGER.log(Level.WARNING, "Graphics object is not instance of Graphics2D.");
+            return;
+        }
+
+        final Image heatWaveImage;
+        try {
+            heatWaveImage = ImageIO.read(Objects.requireNonNull(
+                getClass().getClassLoader().getResource("Weapon/HeatWave.png"),
+                "Resource 'Weapon/HeatWave.png' not found."
+            ));
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "HeatWave image could not be loaded.", e);
+            throw new IllegalStateException("HeatWave image could not be loaded.", e);
+        }
+
+        final Graphics2D g2d = (Graphics2D) g;
+        final Player player = heatwave.getPlayer();
+        final int radius = heatwave.getRadius();
+        final int drawX = player.getX() + player.getSize() / 2 - radius;
+        final int drawY = player.getY() + player.getSize() / 2 - radius;
+        final int diameter = radius * 2;
+
+        final float alpha = 0.3f;
+        final Composite originalComposite = g2d.getComposite();
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+
+        g2d.drawImage(heatWaveImage, drawX, drawY, diameter, diameter, null);
+
+        g2d.setComposite(originalComposite);
+    }
+
     /**
      * Draws a magic staff on the screen.
      * 
@@ -124,6 +170,34 @@ public final class WeaponRendererImpl implements WeaponRenderer {
         g2d.setComposite(originalComposite);
     }
 
+    public void drawCursorSaw(final Graphics g, final CursorSaw cursorSaw) {
+        if (!(g instanceof Graphics2D)) {
+            LOGGER.log(Level.WARNING, "Graphics object is not an instance of Graphics2D.");
+            return;
+        }
+        final Graphics2D g2d = (Graphics2D) g;
+        final Image sawImage;
+
+        try {
+            sawImage = ImageIO.read(Objects.requireNonNull(
+                getClass().getClassLoader().getResource("Weapon/CursorSaw.png"),
+                "Resource 'Weapon/CursorSaw.png' not found."
+            ));
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "CursorSaw image could not be loaded.", e);
+            return;
+        }
+
+        final double scale = cursorSaw.getSawSize() / 35.0;
+        final int drawX = cursorSaw.getCursorX() - (int) (sawImage.getWidth(null) * scale) / 2;
+        final int drawY = cursorSaw.getCursorY() - (int) (sawImage.getHeight(null) * scale) / 2;
+
+        final AffineTransform transform = new AffineTransform();
+        transform.translate(drawX, drawY);
+        transform.scale(scale, scale);
+        g2d.drawImage(sawImage, transform, null);
+    }
+
     /**
      * Draws a list of weapons on the screen.
      * 
@@ -138,6 +212,12 @@ public final class WeaponRendererImpl implements WeaponRenderer {
             }
             if (weapon instanceof MagicStaff) {
                 drawMagicStaff(g, (MagicStaff) weapon);
+            }
+            if (weapon instanceof HeatWave) {
+                drawHeatWave(g, (HeatWave) weapon);
+            }
+            if (weapon instanceof CursorSaw) {
+                drawCursorSaw(g, (CursorSaw) weapon);
             }
             if (weapon.isShowHitbox()) {
                 final Graphics2D g2d = g;

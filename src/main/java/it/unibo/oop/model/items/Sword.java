@@ -56,7 +56,7 @@ public class Sword extends Weapon {
         }
         switch (direction) {
             case LEFT:
-                hitbox.add(new Rectangle(player.getX() - SIZE * (level / SIZESCALER), 
+                hitbox.add(new Rectangle(player.getX() - SIZE * (level  / SIZESCALER), 
                 player.getY(), SIZE * (level / SIZESCALER), player.getSize()));
                 return hitbox;
             case RIGHT:
@@ -154,7 +154,12 @@ public class Sword extends Weapon {
      */
     @Override
     public int getDamage() {
-        return DAMAGE * (level / DAMAGESCALER);
+        final int baseDamage = DAMAGE + ((level - 1) * DAMAGESCALER);
+        final Player player = getPlayer();
+        if (Math.random() * 100 < player.getCritRate()) {
+            return (int) Math.round(baseDamage * player.getCritDamage());
+        }
+        return baseDamage;
     }
 
     /**

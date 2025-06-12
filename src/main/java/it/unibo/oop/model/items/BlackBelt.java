@@ -4,55 +4,38 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.model.entities.Player;
 
 /**
- * Represents a Shield weapon in the game.
+ * Represents a Black Belt accessory that increases player attack.
  */
 @SuppressFBWarnings(value = {"EI2", "EI"}, 
-justification = "To position the weapon, the player size and position are needed, "
+justification = "To position the accessory, the player size and position are needed, "
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
-public class Shield extends Accessory {
+public class BlackBelt extends Accessory {
 
     private final Player player;
     private int level;
     private int lastLevel;
-    private static final int BASEBONUS = 10;
-    private static final int SCALER = 10;
+    private static final int BASE_BONUS = 3;
+    private static final int SCALER = 3;
 
-    /**
-     * Creates a new Shield instance.
-     * @param player the player associated with this shield
-     */
-    public Shield(final Player player) {
+    public BlackBelt(final Player player) {
         super(player);
         this.player = player;
         this.level = 1;
     }
 
-    /**
-     * Updates the shield's state.
-     */
     @Override
     public void update() {
         if (lastLevel < getLevel()) {
             lastLevel++;
-            player.setDefense(player.getDefense() + BASEBONUS + (getLevel() - 1) * SCALER);
+            player.setAttack(player.getAttack() + BASE_BONUS + (getLevel() - 1) * SCALER);
         }
     }
 
-    /**
-     * Gets the level of the shield.
-     * 
-     * @return the level of the shield
-     */
     @Override
     public int getLevel() {
         return level;
     }
 
-    /**
-     * Sets the level of the shield.
-     * 
-     * @param level the new level of the shield
-     */
     @Override
     public void setLevel(final int level) {
         this.level = level;

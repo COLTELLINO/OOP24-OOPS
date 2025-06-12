@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.List;
 
+import it.unibo.oop.model.items.CursorSaw;
+import it.unibo.oop.model.items.HeatWave;
 import it.unibo.oop.model.items.MagicStaff;
 import it.unibo.oop.model.items.Sword;
 import it.unibo.oop.model.items.Weapon;
@@ -35,4 +37,14 @@ public interface WeaponRenderer {
      * @param staff the magic staff to draw
      */
     void drawMagicStaff(Graphics g, MagicStaff staff);
+
+    void drawCursorSaw(Graphics g, CursorSaw cursorSaw);
+
+        /**
+     * Draws a HeatWave.
+     * 
+     * @param g the graphics context
+     * @param staff the HeatWave to draw
+     */
+    void drawHeatWave(Graphics g, HeatWave heatwave);
 }

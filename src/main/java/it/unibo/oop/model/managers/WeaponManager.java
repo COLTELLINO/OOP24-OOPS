@@ -39,6 +39,7 @@ public interface WeaponManager {
      */
     List<Weapon> getWeapons();
 
+    void setCursorPosition(int x, int y);
     /**
      * Returns the map of weapons and their levels.
      * 

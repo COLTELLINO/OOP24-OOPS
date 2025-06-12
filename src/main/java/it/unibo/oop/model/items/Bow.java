@@ -35,6 +35,7 @@ public class Bow extends Weapon {
     private boolean showHitbox;
     private int level;
     private static final int DAMAGESCALER = 1;
+    private static final int ATTACKSPEEDSCALER = 3;
     private static final int SPEEDSCALER = 3;
 
     /**
@@ -61,7 +62,7 @@ public class Bow extends Weapon {
             cooldown = COOLDOWN;
         } else {
             if (level >= 4) {
-                cooldown -= SPEEDSCALER;
+                cooldown -= ATTACKSPEEDSCALER;
             } else {
                 cooldown--;
             }
@@ -117,7 +118,7 @@ public class Bow extends Weapon {
             case WeaponManager.MAX_LEVEL -> {
                 for (final Direction dir : Direction.verticalHorizontal()) {
                     projectiles.add(new Arrow(player.getX(), player.getY(), dir, 
-                    DAMAGE * (level / DAMAGESCALER), SPEED * (level / SPEEDSCALER), PROJECTILE_SIZE));
+                    DAMAGE, SPEED + ((level - 1) * SPEEDSCALER), PROJECTILE_SIZE));
                 }
             }
             default -> throw new IllegalStateException("Unexpected level: " + level);
@@ -164,7 +165,12 @@ public class Bow extends Weapon {
      */
     @Override
     public int getDamage() {
-        return 0;
+        final int baseDamage = DAMAGE + ((level - 1) * DAMAGESCALER);
+        final Player player = getPlayer();
+        if (Math.random() * 100 < player.getCritRate()) {
+            return (int) Math.round(baseDamage * player.getCritDamage());
+        }
+        return baseDamage;
     }
     /**
      * @param showHitbox the visibility of the hitbox.

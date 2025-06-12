@@ -213,4 +213,27 @@ public class Player extends Entity {
     public void setCritDamage(final int critDamage) {
         this.critDamage = Math.max(MIN_CRIT_DAMAGE, critDamage);
     }
+
+    /**
+     * Sets the speed value.
+     * @param speed the new speed value
+     */
+    public void setSpeed(final int speed) {
+        super.setSpeed(speed);
+    }
+
+    /**
+     * @return the speed value.
+     */
+    public int getSpeed() {
+        return super.getSpeed();
+    }
+
+    /**
+     * Sets the attack value.
+     * @param attack the new attack value
+     */
+    public void setAttack(final int attack) {
+        super.setAttack(attack);
+    }
 }

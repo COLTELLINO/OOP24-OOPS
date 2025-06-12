@@ -106,6 +106,11 @@ public class GameThreadImpl implements Runnable, GameThread {
      */
     @Override
     public void update() {
+        // Prendi MouseHandler direttamente dal ViewManagerImpl
+        final MouseHandler mouseHandler = ((ViewManagerImpl) window).getMouseHandler();
+        if (mouseHandler.isMouseClicked()) {
+            mouseHandler.clearMouseClick();
+        }
         if (this.window.getCurrentGameState() == GameState.PLAYSTATE) {
             getAllEntities().forEach((e) -> e.showHitbox(inputHandler.isDebugMode()));
             projectileManager.getAllProjectiles().forEach((p) -> p.setShowHitbox(inputHandler.isDebugMode()));
@@ -114,18 +119,14 @@ public class GameThreadImpl implements Runnable, GameThread {
             collisionManager.update();
             this.checkCollisions();
             weaponManager.update();
+            weaponManager.setCursorPosition((int) mouseHandler.getMousePosition().getX() + (int) camera.getX(), 
+                (int) mouseHandler.getMousePosition().getY() + (int) camera.getY());
             experienceManager.update();
             player.update();
             enemyManager.update();
             healthManager.update();
             projectileManager.update();
             camera.update(player, window.getGameScreenWidth(), window.getGameScreenHeight());
-        }
-        // Prendi MouseHandler direttamente dal ViewManagerImpl
-        final MouseHandler mouseHandler = ((ViewManagerImpl) window).getMouseHandler();
-
-        if (mouseHandler.isMouseClicked()) {
-            mouseHandler.clearMouseClick();
         }
         this.window.repaint();
     }

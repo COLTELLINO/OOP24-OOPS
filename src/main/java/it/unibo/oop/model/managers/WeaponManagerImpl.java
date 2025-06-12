@@ -7,12 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.model.entities.Player;
-import it.unibo.oop.model.items.Bow;
-import it.unibo.oop.model.items.MagicStaff;
-import it.unibo.oop.model.items.Shield;
-import it.unibo.oop.model.items.Sword;
-import it.unibo.oop.model.items.Upgrade;
-import it.unibo.oop.model.items.Weapon;
+import it.unibo.oop.model.items.*;
 
 /**
  * Implementation of WeaponManager for managing weapons.
@@ -27,6 +22,7 @@ public class WeaponManagerImpl implements WeaponManager {
     private final Random random;
     private int playerLastLevel = 1;
     private final ProjectileManager projectileManager;
+    
     /**
      * The max level of a weapon.
      */
@@ -62,11 +58,15 @@ public class WeaponManagerImpl implements WeaponManager {
      * Initializes the weapon pool with all available weapons.
      */
     private void initializeWeaponPool() {
-        upgrades.add(new Sword(player));
+        upgrades.add(new CursorSaw(player));
         upgradePool.add(Sword.class);
         upgradePool.add(Bow.class);
         upgradePool.add(MagicStaff.class);
         upgradePool.add(Shield.class);
+        upgradePool.add(HeatWave.class);
+        upgradePool.add(CursorSaw.class);
+        upgradePool.add(SpeedBoots.class);
+        upgradePool.add(BlackBelt.class);
         // Add other weapon types here
     }
 
@@ -138,6 +138,14 @@ public class WeaponManagerImpl implements WeaponManager {
                 ((MagicStaff) weapon).setObserver(() -> {
                     ((MagicStaff) weapon).getProjectiles().forEach(this.projectileManager::addPlayerProjectile);
                 });
+            }
+        }
+    }
+
+    public void setCursorPosition(final int x, final int y) {
+        for (final Upgrade upgrade : upgrades) {
+            if (upgrade instanceof CursorSaw) {
+                ((CursorSaw) upgrade).setCursorPosition(x, y);
             }
         }
     }
