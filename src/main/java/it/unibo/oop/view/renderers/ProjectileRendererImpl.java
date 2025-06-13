@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 import it.unibo.oop.model.projectiles.Projectile;
-import it.unibo.oop.utils.Direction;
 /**
  * Implementation of ProjectileRenderer for rendering projectiles.
  */
@@ -36,15 +35,16 @@ public class ProjectileRendererImpl implements ProjectileRenderer {
         transform.translate(projectile.getX(), projectile.getY());
 
         switch (projectile.getDirection()) {
-            case Direction.RIGHT -> transform.rotate(ROTATION_RIGHT, 
-            projectileImage.getWidth(null) / 2.0, projectileImage.getHeight(null) / 2.0);
-            case Direction.LEFT -> transform.rotate(ROTATION_LEFT, 
-            projectileImage.getWidth(null) / 2.0, projectileImage.getHeight(null) / 2.0);
-            case Direction.UP -> transform.rotate(0, 
-            projectileImage.getWidth(null) / 2.0, projectileImage.getHeight(null) / 2.0);
-            case Direction.DOWN -> transform.rotate(ROTATION_RIGHT * 2, 
-            projectileImage.getWidth(null) / 2.0, projectileImage.getHeight(null) / 2.0);
+            case RIGHT -> transform.rotate(ROTATION_RIGHT, 
+                projectileImage.getWidth(null) / 2.0, projectileImage.getHeight(null) / 2.0);
+            case LEFT -> transform.rotate(ROTATION_LEFT, 
+                projectileImage.getWidth(null) / 2.0, projectileImage.getHeight(null) / 2.0);
+            case UP -> transform.rotate(0, 
+                projectileImage.getWidth(null) / 2.0, projectileImage.getHeight(null) / 2.0);
+            case DOWN -> transform.rotate(ROTATION_RIGHT * 2, 
+                projectileImage.getWidth(null) / 2.0, projectileImage.getHeight(null) / 2.0);
             default -> { }
+
         }
 
         transform.scale(SCALE, SCALE);
