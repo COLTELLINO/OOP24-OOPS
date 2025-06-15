@@ -70,7 +70,7 @@ public class WeaponManagerImpl implements WeaponManager {
      * Initializes the weapon pool with all available weapons.
      */
     private void initializeWeaponPool() {
-        upgrades.add(new MagicStaff(player));
+        upgrades.add(new Sword(player));
         upgradePool.add(Sword.class);
         upgradePool.add(Bow.class);
         upgradePool.add(MagicStaff.class);
