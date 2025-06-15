@@ -16,10 +16,9 @@ justification = "To position the weapon, the player size and position are needed
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
 public class CursorSaw extends Weapon {
 
-    private static final int BASE_DAMAGE = 20;
-    private static final int DAMAGE_PER_LEVEL = 5;
-    private static final int BASE_SIZE = 40;
-    private static final int SIZE_PER_LEVEL = 8;
+    private static final int BASE_DAMAGE = 3;
+    private static final int DAMAGE_PER_LEVEL = 1;
+    private static final int SIZE = 40;
 
     private int cursorX;
     private int cursorY;
@@ -58,7 +57,7 @@ public class CursorSaw extends Weapon {
      * @return the size of the saw
      */
     public int getSawSize() {
-        return BASE_SIZE + (getLevel() - 1) * SIZE_PER_LEVEL;
+        return SIZE;
     }
 
     /**

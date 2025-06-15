@@ -41,7 +41,7 @@ public class GameThreadImpl implements Runnable, GameThread {
     private static final int PLAYER_Y = 200;
     private static final int PLAYER_MAX_HEALTH = 100;
     private static final int PLAYER_HEALTH = 100;
-    private static final int PLAYER_ATTACK = 5;
+    private static final int PLAYER_ATTACK = 100;
     private static final int PLAYER_SPEED = 5;
     private static final int PLAYER_SIZE = 50;
 

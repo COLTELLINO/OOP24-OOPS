@@ -82,7 +82,6 @@ public class WeaponManagerImpl implements WeaponManager {
         upgradePool.add(Wax.class);
         upgradePool.add(ShadowCloak.class);
         upgradePool.add(Magnet.class);
-        // Add other weapon types here
     }
 
     /**

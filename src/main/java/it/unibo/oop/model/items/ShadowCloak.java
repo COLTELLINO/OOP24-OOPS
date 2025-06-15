@@ -14,8 +14,7 @@ public class ShadowCloak extends Accessory {
     private final Player player;
     private int level;
     private int lastLevel;
-    private static final int BASE_BONUS = 20;
-    private static final int SCALER = 10;
+    private static final int BONUS = 20;
 
     /**
     * Constructs a ShadowCloak accessory.
@@ -35,7 +34,7 @@ public class ShadowCloak extends Accessory {
     public void update() {
         if (lastLevel < getLevel()) {
             lastLevel++;
-            player.setCritDamage(player.getCritDamage() + BASE_BONUS + (getLevel() - 1) * SCALER);
+            player.setCritDamage(player.getCritDamage() + BONUS);
         }
     }
 

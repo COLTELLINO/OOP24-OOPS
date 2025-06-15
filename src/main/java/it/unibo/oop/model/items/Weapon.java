@@ -68,10 +68,10 @@ public abstract class Weapon extends Upgrade {
      * @return the weapon's damage value
      */
     public int getDamage() {
-        final int baseDamage = getBaseDamage();
         final Player player = getPlayer();
+        final int baseDamage = (getBaseDamage() * player.getAttack()) / 100;
         if (Math.random() * 100 < player.getCritRate()) {
-            return baseDamage * player.getCritDamage();
+            return (baseDamage * player.getCritDamage()) / 100;
         }
         return baseDamage;
     }
