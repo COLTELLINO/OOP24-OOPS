@@ -195,14 +195,6 @@ public class MagicStaff extends Weapon {
     }
 
     /**
-     * @return the player associated with the staff.
-     */
-    @Override
-    public Player getPlayer() {
-        return null;
-    }
-
-    /**
      * @return the base damage of the magic staff.
      */
     @Override
