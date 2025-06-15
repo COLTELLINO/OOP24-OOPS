@@ -34,6 +34,16 @@ public interface AudioHandler {
      */
     void playSoundEffect(int i);
     /**
+     * Gets the music playing state.
+     * @return true if music is playing, false otherwise
+     */
+    boolean isMusicPlaying();
+    /**
+     * Sets the music playing state.
+     * @param isMusicPlaying
+     */
+    public void setMusicPlaying(final boolean isMusicPlaying);
+    /**
      * Sets the volume of the audio.
      * @param volume the volume to set, as a Percentage
      */
