@@ -9,9 +9,9 @@ import java.util.Set;
 import it.unibo.oop.model.entities.Enemy;
 import it.unibo.oop.model.entities.Entity;
 import it.unibo.oop.model.entities.Player;
-import it.unibo.oop.model.handlers.AudioHandler;
-import it.unibo.oop.model.handlers.AudioHandlerImpl;
 import it.unibo.oop.model.items.Weapon;
+import it.unibo.oop.model.managers.AudioManager;
+import it.unibo.oop.model.managers.AudioManagerImpl;
 import it.unibo.oop.model.managers.CollisionManager;
 import it.unibo.oop.model.managers.CollisionManagerImpl;
 import it.unibo.oop.model.managers.EnemyManager;
@@ -37,13 +37,14 @@ import it.unibo.oop.view.window.ViewManagerImpl;
 * Controller of the application.
 */
 public class GameThreadImpl implements Runnable, GameThread {
-    private static final int PLAYER_X = 200;
-    private static final int PLAYER_Y = 200;
+    private static final int PLAYER_X = 0;
+    private static final int PLAYER_Y = 0;
     private static final int PLAYER_MAX_HEALTH = 100;
     private static final int PLAYER_HEALTH = 100;
     private static final int PLAYER_ATTACK = 5;
     private static final int PLAYER_SPEED = 5;
     private static final int PLAYER_SIZE = 50;
+    private static final int OOP_ADVENTURE_ID = 5;
 
     private final Timer timer = new TimerImpl(1);
     private final Camera camera = new Camera(0, 0);
@@ -56,7 +57,7 @@ public class GameThreadImpl implements Runnable, GameThread {
     private final ExperienceManager experienceManager = new ExperienceManagerImpl(player);
     private final HealthManager healthManager = new HealthManagerImpl(player);
     private final CollisionManager collisionManager = new CollisionManagerImpl();
-    private final AudioHandler audioHandler = new AudioHandlerImpl();
+    private final AudioManager audioHandler = new AudioManagerImpl();
     private final ViewManagerFactory drawViewFactory = new ViewManagerFactoryImpl();
     private final ViewManager window;
     private Boolean running = true;
@@ -113,7 +114,7 @@ public class GameThreadImpl implements Runnable, GameThread {
         }
         if (this.window.getCurrentGameState() == GameState.PLAYSTATE) {
             if (!this.audioHandler.isMusicPlaying()) {
-                this.audioHandler.playMusic(5);
+                this.audioHandler.playMusic(OOP_ADVENTURE_ID);
             }
             getAllEntities().forEach((e) -> e.showHitbox(inputHandler.isDebugMode()));
             projectileManager.getAllProjectiles().forEach((p) -> p.setShowHitbox(inputHandler.isDebugMode()));

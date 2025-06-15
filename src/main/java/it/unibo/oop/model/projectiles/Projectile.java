@@ -86,7 +86,7 @@ public abstract class Projectile {
      * @return true if the projectile is out of bounds, false otherwise
      */
     public boolean isOutOfBounds() {
-        return x < 0 || x > BOUNDS || y < 0 || y > BOUNDS;
+        return x < -BOUNDS || x > BOUNDS || y < -BOUNDS || y > BOUNDS;
     }
 
     /**

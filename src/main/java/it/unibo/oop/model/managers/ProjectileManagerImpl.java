@@ -1,6 +1,7 @@
 package it.unibo.oop.model.managers;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import it.unibo.oop.model.projectiles.Projectile;
@@ -31,8 +32,24 @@ public class ProjectileManagerImpl implements ProjectileManager {
      */
     @Override
     public void update() {
-        enemyProjectileList.forEach(Projectile::update);
-        playerProjectileList.forEach(Projectile::update);
+        final Iterator<Projectile> enemyProjectileIterator = enemyProjectileList.iterator();
+        while (enemyProjectileIterator.hasNext()) {
+            final Projectile p = enemyProjectileIterator.next();
+            if (p.isOutOfBounds()) {
+                enemyProjectileIterator.remove();
+            } else {
+                p.update();
+            }
+        }
+        final Iterator<Projectile> playerProjectileIterator = playerProjectileList.iterator();
+        while (playerProjectileIterator.hasNext()) {
+            final Projectile p = playerProjectileIterator.next();
+            if (p.isOutOfBounds()) {
+                playerProjectileIterator.remove();
+            } else {
+                p.update();
+            }
+        }
     }
     /**
      * Add a projectile to the enemy projectile list.

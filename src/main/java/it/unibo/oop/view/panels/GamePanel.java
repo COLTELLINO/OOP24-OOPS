@@ -18,6 +18,8 @@ import it.unibo.oop.view.renderers.ExperienceRenderer;
 import it.unibo.oop.view.renderers.ExperienceRendererImpl;
 import it.unibo.oop.view.renderers.HealthRenderer;
 import it.unibo.oop.view.renderers.HealthRendererImpl;
+import it.unibo.oop.view.renderers.MapRenderer;
+import it.unibo.oop.view.renderers.MapRendererImpl;
 import it.unibo.oop.view.renderers.PlayerRenderer;
 import it.unibo.oop.view.renderers.PlayerRendererImpl;
 import it.unibo.oop.view.renderers.ProjectileRenderer;
@@ -46,6 +48,7 @@ public class GamePanel extends MyPanel {
     private final transient ProjectileRenderer projectileRenderer = new ProjectileRendererImpl();
     private final transient PlayerRenderer playerRenderer = new PlayerRendererImpl();
     private final transient HealthRenderer healthRenderer = new HealthRendererImpl();
+    private final transient MapRenderer mapRenderer = new MapRendererImpl();
     private final transient Camera camera;
     /**
      * @param screenWidth
@@ -73,6 +76,7 @@ public class GamePanel extends MyPanel {
         weaponRenderer = new WeaponRendererImpl();
         super.setPreferredSize(new Dimension(screenWidth, screenHeight));
         super.setBackground(Color.BLACK);
+        this.mapRenderer.createMapImage(null);
     }
     /**
      * Draws on the Screen.
@@ -85,8 +89,8 @@ public class GamePanel extends MyPanel {
 
         // 1. Inizio camera: traslazione negativa
         g2d.translate(-camera.getX(), -camera.getY());
-
         // 2. Disegna tutto ciò che segue la camera
+        this.mapRenderer.drawMap(g2d);
         this.playerRenderer.drawPlayer(this.player, g2d);
         this.enemyRenderer.drawEnemyList(this.enemyManager.getSpawnedEnemies(), g2d);
         this.projectileRenderer.drawProjectileList(this.projectileManager.getAllProjectiles(), g2d);
