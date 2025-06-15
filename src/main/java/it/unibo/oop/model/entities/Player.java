@@ -19,9 +19,8 @@ public class Player extends Entity {
     private static final int MIN_CRIT_DAMAGE = 100;
     private int defense;
     private int pickupRange = DEFAULT_PICKUP_RANGE;
-    private int critRate;
+    private int critRate = 0;
     private int critDamage = DEFAULT_CRIT_DAMAGE;
-
     /**
      * @param x
      * @param y

@@ -14,8 +14,7 @@ public class Magnet extends Accessory {
     private final Player player;
     private int level;
     private int lastLevel;
-    private static final int BASE_BONUS = 20;
-    private static final int SCALER = 10;
+    private static final int BONUS = 20;
 
     /**
      * Creates a new Magnet instance.
@@ -34,7 +33,7 @@ public class Magnet extends Accessory {
     public void update() {
         if (lastLevel < getLevel()) {
             lastLevel++;
-            player.setPickupRange(player.getPickupRange() + BASE_BONUS + (getLevel() - 1) * SCALER);
+            player.setPickupRange(player.getPickupRange() + BONUS);
         }
     }
 

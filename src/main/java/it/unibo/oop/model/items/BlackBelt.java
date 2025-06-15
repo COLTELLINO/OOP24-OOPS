@@ -14,8 +14,7 @@ public class BlackBelt extends Accessory {
     private final Player player;
     private int level;
     private int lastLevel;
-    private static final int BASE_BONUS = 3;
-    private static final int SCALER = 3;
+    private static final int BONUS = 10;
 
     /**
      * Constructs a BlackBelt accessory.
@@ -35,7 +34,7 @@ public class BlackBelt extends Accessory {
     public void update() {
         if (lastLevel < getLevel()) {
             lastLevel++;
-            player.setAttack(player.getAttack() + BASE_BONUS + (getLevel() - 1) * SCALER);
+            player.setAttack(player.getAttack() + BONUS);
         }
     }
 

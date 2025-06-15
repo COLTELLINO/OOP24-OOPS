@@ -14,8 +14,7 @@ public class SpeedBoots extends Accessory {
     private final Player player;
     private int lastLevel;
     private int level;
-    private static final int BASE_BONUS = 2;
-    private static final int SCALER = 2;
+    private static final int BONUS = 1;
 
     /**
      * Constructs SpeedBoots accessory.
@@ -35,7 +34,7 @@ public class SpeedBoots extends Accessory {
     public void update() {
         if (lastLevel < getLevel()) {
             lastLevel++;
-            player.setSpeed(player.getSpeed() + BASE_BONUS + (getLevel() - 1) * SCALER);
+            player.setSpeed(player.getSpeed() + BONUS);
         }
     }
 

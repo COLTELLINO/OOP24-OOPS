@@ -19,9 +19,9 @@ import it.unibo.oop.utils.Direction;
 justification = "To position the weapon, the player size and position are needed, "
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
 public class Bow extends Weapon {
-    private static final int DAMAGE = 1000;
-    private static final double COOLDOWN = 100;
-    private static final int SPEED = 5;
+    private static final int DAMAGE = 1;
+    private static final double COOLDOWN = 30;
+    private static final int SPEED = 10;
     private static final int PROJECTILE_SIZE = 30;
 
     private double cooldown;
@@ -33,8 +33,8 @@ public class Bow extends Weapon {
     private Direction direction = Direction.UP;
     private Direction lastDirection = Direction.UP;
     private static final int DAMAGESCALER = 1;
-    private static final int ATTACKSPEEDSCALER = 3;
-    private static final int SPEEDSCALER = 3;
+    private static final int ATTACKSPEEDSCALER = 2;
+    private static final int SPEEDSCALER = 10;
 
     /**
      * Constructs a Bow object.
@@ -115,7 +115,7 @@ public class Bow extends Weapon {
             case WeaponManager.MAX_LEVEL -> {
                 for (final Direction dir : Direction.verticalHorizontal()) {
                     projectiles.add(new Arrow(player.getX(), player.getY(), dir, 
-                    DAMAGE, SPEED + ((getLevel() - 1) * SPEEDSCALER), PROJECTILE_SIZE));
+                    DAMAGE, SPEED + SPEEDSCALER, PROJECTILE_SIZE));
                 }
             }
             default -> throw new IllegalStateException("Unexpected level: " + getLevel());

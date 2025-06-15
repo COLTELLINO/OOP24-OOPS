@@ -14,8 +14,7 @@ public class Shield extends Accessory {
     private final Player player;
     private int level;
     private int lastLevel;
-    private static final int BASEBONUS = 10;
-    private static final int SCALER = 10;
+    private static final int BONUS = 20;
 
     /**
      * Creates a new Shield instance.
@@ -34,7 +33,7 @@ public class Shield extends Accessory {
     public void update() {
         if (lastLevel < getLevel()) {
             lastLevel++;
-            player.setDefense(player.getDefense() + BASEBONUS + (getLevel() - 1) * SCALER);
+            player.setDefense(player.getDefense() + BONUS);
         }
     }
 

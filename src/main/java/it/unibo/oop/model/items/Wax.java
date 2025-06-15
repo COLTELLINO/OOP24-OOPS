@@ -14,8 +14,7 @@ public class Wax extends Accessory {
     private final Player player;
     private int level;
     private int lastLevel;
-    private static final int BASE_BONUS = 5;
-    private static final int SCALER = 3;
+    private static final int BONUS = 20;
 
     /**
      * Constructs a Wax accessory.
@@ -35,7 +34,7 @@ public class Wax extends Accessory {
     public void update() {
         if (lastLevel < getLevel()) {
             lastLevel++;
-            player.setCritRate(player.getCritRate() + BASE_BONUS + (getLevel() - 1) * SCALER);
+            player.setCritRate(player.getCritRate() + BONUS);
         }
     }
 
