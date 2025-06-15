@@ -21,6 +21,7 @@ import it.unibo.oop.utils.Direction;
 justification = "To position the weapon, the player size and position are needed, "
         + "and while it's not necessary for the player to be externally mutable for this class, it has to be for others.")
 public class MagicStaff extends Weapon {
+    private static final int LEVEL_CAP = 5;
     private static final int DAMAGE = 2;
     private static final double COOLDOWN = 80;
     private static final int SPEED = 3;
@@ -76,11 +77,7 @@ public class MagicStaff extends Weapon {
             observerAction();
             cooldown = COOLDOWN;
         } else {
-            if (getLevel() >= 3) {
-                cooldown -= SPEEDSCALER;
-            } else {
-                cooldown--;
-            }
+            cooldown -= SPEEDSCALER;
         }
         direction = player.getDirection();
         if (direction == Direction.RIGHT || direction == Direction.LEFT 
@@ -160,13 +157,12 @@ public class MagicStaff extends Weapon {
                 EXPLOSION_SIZE
             );
 
-            if (getLevel() >= 5) {
+            if (getLevel() >= LEVEL_CAP) {
                 explosionHitboxes.put(scaleRectangle(explosion, SIZESCALER), EXPLOSION_LIFETIME);
             } else {
                 explosionHitboxes.put(explosion, EXPLOSION_LIFETIME);
             }
         });
-
         projectiles.add(projectile);
     }
 
