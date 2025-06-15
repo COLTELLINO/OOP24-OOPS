@@ -112,6 +112,9 @@ public class GameThreadImpl implements Runnable, GameThread {
             mouseHandler.clearMouseClick();
         }
         if (this.window.getCurrentGameState() == GameState.PLAYSTATE) {
+            if (!this.audioHandler.isMusicPlaying()) {
+                this.audioHandler.playMusic(5);
+            }
             getAllEntities().forEach((e) -> e.showHitbox(inputHandler.isDebugMode()));
             projectileManager.getAllProjectiles().forEach((p) -> p.setShowHitbox(inputHandler.isDebugMode()));
             weaponManager.getWeapons().forEach((w) -> w.setShowHitbox(inputHandler.isDebugMode()));

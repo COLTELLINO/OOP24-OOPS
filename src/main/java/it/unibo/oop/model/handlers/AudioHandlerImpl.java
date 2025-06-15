@@ -24,6 +24,7 @@ public class AudioHandlerImpl implements AudioHandler {
     private Percentage volume = Percentage.FIFTY_PERCENT;
     private final List<URL> soundList = new ArrayList<>();
     private Clip clip;
+    private boolean isMusicPlaying;
 
     /**
      * Initializes the AudioHandler and adds audio files to the sound list.
@@ -34,6 +35,7 @@ public class AudioHandlerImpl implements AudioHandler {
         this.soundList.add(AudioHandlerImpl.class.getResource("/Audio/SoundEffects/shot.wav"));
         this.soundList.add(AudioHandlerImpl.class.getResource("/Audio/SoundEffects/xp.wav"));
         this.soundList.add(AudioHandlerImpl.class.getResource("/Audio/SoundEffects/select.wav"));
+        this.soundList.add(AudioHandlerImpl.class.getResource("/Audio/Music/OOP_Adventure.wav"));
     }
     /**
      * Adds an url to the soundList.
@@ -63,6 +65,7 @@ public class AudioHandlerImpl implements AudioHandler {
      */
     @Override
     public void playMusic(final int i) {
+        this.setMusicPlaying(true);
         this.setFile(i);
         this.applyVolume();
         this.play();
@@ -74,9 +77,25 @@ public class AudioHandlerImpl implements AudioHandler {
      */
     @Override
     public void stopMusic() {
+        this.setMusicPlaying(false);
         this.stop();
     }
-
+    /**
+     * Gets the music playing state.
+     * @return true if music is playing, false otherwise
+     */
+    @Override
+    public boolean isMusicPlaying() {
+        return isMusicPlaying;
+    }
+    /**
+     * Sets the music playing state.
+     * @param isMusicPlaying
+     */
+    @Override
+    public void setMusicPlaying(final boolean isMusicPlaying) {
+        this.isMusicPlaying = isMusicPlaying;
+    }
     /**
      * Plays a sound effect once.
      * @param i
