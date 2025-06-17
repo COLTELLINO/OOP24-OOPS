@@ -16,7 +16,7 @@ import it.unibo.oop.model.factories.EnemyFactoryImpl;
 /**
  * Tests all factories.
  */
-class TestFactories {
+class TestEnemyFactory {
     private EnemyFactory enemyFactory;
     private Player player;
     /**
