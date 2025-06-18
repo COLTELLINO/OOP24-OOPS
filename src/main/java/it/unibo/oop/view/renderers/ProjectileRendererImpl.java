@@ -20,7 +20,7 @@ import it.unibo.oop.model.projectiles.Projectile;
 public class ProjectileRendererImpl implements ProjectileRenderer {
     private static final double ROTATION_RIGHT = Math.toRadians(90);
     private static final double ROTATION_LEFT = Math.toRadians(-90);
-    private static final double SCALE = 2.0;
+    private static final double SCALE = 1.0;
     private final Map<String, BufferedImage> projectileSpriteMap = new HashMap<>();
 
     /**

@@ -111,7 +111,7 @@ class TestCollisionManager {
             }
         };
 
-        arrow = new Arrow(ARROW_X, ARROW_Y, Direction.RIGHT, ARROW_DAMAGE, ARROW_SPEED, ARROW_SIZE) {
+        arrow = new Arrow(ARROW_X, ARROW_Y, Direction.RIGHT, ARROW_DAMAGE, ARROW_SPEED, ARROW_SIZE, PLAYER_SIZE) {
             @Override
             public void handleCollision() {
 

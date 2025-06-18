@@ -1,5 +1,6 @@
 package it.unibo.oop.view.renderers;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -93,6 +94,10 @@ public class PlayerRendererImpl implements PlayerRenderer {
 
         final BufferedImage sprite = frames[frameIndex] != null ? frames[frameIndex] : frames[0];
         g2.drawImage(sprite, player.getX(), player.getY(), player.getSize(), player.getSize(), null);
+        if (player.isHitboxShown()) {
+                g2.setColor(Color.GREEN);
+                g2.draw(player.getHitbox());
+            }
     }
 
     /**

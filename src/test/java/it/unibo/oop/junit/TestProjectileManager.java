@@ -14,14 +14,12 @@ import it.unibo.oop.model.managers.ProjectileManagerImpl;
 import it.unibo.oop.utils.Direction;
 
 class TestProjectileManager {
-
-    private static final int FPS = 60;
-
     private static final int PLAYER_PROJECTILE_X = 10;
     private static final int PLAYER_PROJECTILE_Y = 10;
     private static final int PLAYER_PROJECTILE_DAMAGE = 5;
     private static final int PLAYER_PROJECTILE_SPEED = 10;
     private static final int PLAYER_PROJECTILE_SIZE = 5;
+    private static final int PLAYER_PROJECTILE_ENTITY_SIZE = 10;
 
     private static final int ENEMY_PROJECTILE_X = 20;
     private static final int ENEMY_PROJECTILE_Y = 20;
@@ -29,7 +27,8 @@ class TestProjectileManager {
     private static final int ENEMY_PROJECTILE_SPEED = 10;
     private static final int ENEMY_PROJECTILE_SIZE = 5;
 
-    private static final int EXPECTED_PLAYER_PROJECTILE_X_AFTER_UPDATE = PLAYER_PROJECTILE_X + FPS;
+    private static final int EXPECTED_PLAYER_PROJECTILE_X_AFTER_UPDATE = 
+            PLAYER_PROJECTILE_X + PLAYER_PROJECTILE_ENTITY_SIZE + PLAYER_PROJECTILE_SPEED;
 
     private ProjectileManagerImpl projectileManager;
 
@@ -43,7 +42,7 @@ class TestProjectileManager {
 
         final Projectile playerProjectile = new StaffProjectile(
             PLAYER_PROJECTILE_X, PLAYER_PROJECTILE_Y, Direction.RIGHT,
-            PLAYER_PROJECTILE_DAMAGE, PLAYER_PROJECTILE_SPEED, PLAYER_PROJECTILE_SIZE
+            PLAYER_PROJECTILE_DAMAGE, PLAYER_PROJECTILE_SPEED, PLAYER_PROJECTILE_SIZE, PLAYER_PROJECTILE_SIZE
         );
 
         projectileManager.addPlayerProjectile(playerProjectile);
@@ -58,7 +57,7 @@ class TestProjectileManager {
 
         final Projectile enemyProjectile = new StaffProjectile(
             ENEMY_PROJECTILE_X, ENEMY_PROJECTILE_Y, Direction.LEFT,
-            ENEMY_PROJECTILE_DAMAGE, ENEMY_PROJECTILE_SPEED, ENEMY_PROJECTILE_SIZE
+            ENEMY_PROJECTILE_DAMAGE, ENEMY_PROJECTILE_SPEED, ENEMY_PROJECTILE_SIZE, ENEMY_PROJECTILE_SIZE
         );
 
         projectileManager.addEnemyProjectile(enemyProjectile);
@@ -73,7 +72,7 @@ class TestProjectileManager {
 
         final Projectile playerProjectile = new StaffProjectile(
             PLAYER_PROJECTILE_X, PLAYER_PROJECTILE_Y, Direction.RIGHT,
-            PLAYER_PROJECTILE_DAMAGE, PLAYER_PROJECTILE_SPEED, PLAYER_PROJECTILE_SIZE
+            PLAYER_PROJECTILE_DAMAGE, PLAYER_PROJECTILE_SPEED, PLAYER_PROJECTILE_SIZE, PLAYER_PROJECTILE_ENTITY_SIZE
         );
 
         projectileManager.addPlayerProjectile(playerProjectile);
@@ -91,7 +90,7 @@ class TestProjectileManager {
 
         final Projectile playerProjectile = new StaffProjectile(
             PLAYER_PROJECTILE_X, PLAYER_PROJECTILE_Y, Direction.RIGHT,
-            PLAYER_PROJECTILE_DAMAGE, PLAYER_PROJECTILE_SPEED, PLAYER_PROJECTILE_SIZE
+            PLAYER_PROJECTILE_DAMAGE, PLAYER_PROJECTILE_SPEED, PLAYER_PROJECTILE_SIZE, PLAYER_PROJECTILE_SIZE
         );
 
         projectileManager.addPlayerProjectile(playerProjectile);
@@ -106,7 +105,7 @@ class TestProjectileManager {
 
         final Projectile enemyProjectile = new StaffProjectile(
             ENEMY_PROJECTILE_X, ENEMY_PROJECTILE_Y, Direction.LEFT,
-            ENEMY_PROJECTILE_DAMAGE, ENEMY_PROJECTILE_SPEED, ENEMY_PROJECTILE_SIZE
+            ENEMY_PROJECTILE_DAMAGE, ENEMY_PROJECTILE_SPEED, ENEMY_PROJECTILE_SIZE, ENEMY_PROJECTILE_SIZE
         );
 
         projectileManager.addEnemyProjectile(enemyProjectile);
@@ -121,11 +120,11 @@ class TestProjectileManager {
 
         final Projectile playerProjectile = new StaffProjectile(
             PLAYER_PROJECTILE_X, PLAYER_PROJECTILE_Y, Direction.RIGHT,
-            PLAYER_PROJECTILE_DAMAGE, PLAYER_PROJECTILE_SPEED, PLAYER_PROJECTILE_SIZE
+            PLAYER_PROJECTILE_DAMAGE, PLAYER_PROJECTILE_SPEED, PLAYER_PROJECTILE_SIZE, PLAYER_PROJECTILE_SIZE
         );
         final Projectile enemyProjectile = new StaffProjectile(
             ENEMY_PROJECTILE_X, ENEMY_PROJECTILE_Y, Direction.LEFT,
-            ENEMY_PROJECTILE_DAMAGE, ENEMY_PROJECTILE_SPEED, ENEMY_PROJECTILE_SIZE
+            ENEMY_PROJECTILE_DAMAGE, ENEMY_PROJECTILE_SPEED, ENEMY_PROJECTILE_SIZE, PLAYER_PROJECTILE_SIZE
         );
 
         projectileManager.addPlayerProjectile(playerProjectile);

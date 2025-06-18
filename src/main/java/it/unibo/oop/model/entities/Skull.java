@@ -14,8 +14,8 @@ public class Skull extends AttackingEnemy {
     private static final int BASE_SIZE = 32;
     private static final int MIN_PLAYER_DISTANCE = 200;
     private static final int PROJECTILE_SPEED = 2;
-    private static final int PROJECTILE_SIZE = 30;
-    private final CountDownTimer countDownTimer = new CountDownTimer(120);
+    private static final int PROJECTILE_SIZE = 32;
+    private final CountDownTimer countDownTimer = new CountDownTimer(10);
     /**
      * @param x
      * @param y
@@ -47,8 +47,8 @@ public class Skull extends AttackingEnemy {
         if (!countDownTimer.isRunning()) {
             countDownTimer.reset();
             this.facePlayerAndGetDirection();
-            this.setProjectile(new Bone(getX(), getY(),
-                getDirection(), getAttack(), PROJECTILE_SPEED, PROJECTILE_SIZE));
+            this.setProjectile(new Bone(getX(), getY(), getDirection(),
+                getAttack(), PROJECTILE_SPEED, PROJECTILE_SIZE, getSize()));
             observerAction();
         } else {
             countDownTimer.tick();

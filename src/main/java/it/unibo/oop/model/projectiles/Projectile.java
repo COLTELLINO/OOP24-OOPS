@@ -29,32 +29,28 @@ public abstract class Projectile {
      * @param damage the damage of the projectile
      * @param speed the speed of the projectile
      * @param size the size of the projectile
+     * @param entitySize the size of the entity that fired the projectile
      */
-    public Projectile(final int x, final int y, final Direction direction, final int damage, final int speed, final int size) {
-        final int offset1 = 40;
-        final int offset2 = 8;
-        final int offset3 = 25;
-        final int offset4 = 10;
-
+    public Projectile(final int x, final int y, final Direction direction,
+            final int damage, final int speed, final int size, final int entitySize) {
         int adjustedX = x;
         int adjustedY = y;
-
         switch (direction) {
             case UP -> {
-                adjustedY -= offset1;
-                adjustedX -= offset2;
+                adjustedY -= entitySize;
+                adjustedX += (entitySize - size) / 2;
             }
             case DOWN -> {
-                adjustedX += offset3;
-                adjustedY += offset3 * 2;
+                adjustedY += entitySize;
+                adjustedX += (entitySize - size) / 2;
             }
             case LEFT -> {
-                adjustedY += offset3;
-                adjustedX -= offset3;
+                adjustedY += (entitySize - size) / 2;
+                adjustedX -= entitySize;
             }
             case RIGHT -> {
-                adjustedY -= offset4;
-                adjustedX += offset3 * 2;
+                adjustedY += (entitySize - size) / 2;
+                adjustedX += entitySize;
             }
             default -> throw new IllegalArgumentException("Invalid direction");
         }
@@ -132,25 +128,7 @@ public abstract class Projectile {
      * @return the hitbox as a Rectangle
      */
     public Rectangle getProjectileHitBox() {
-        final int offset1 = 18;
-        final int offset2 = 16;
-        switch (this.getDirection()) {
-            case UP -> {
-                return new Rectangle(this.getX() + offset1, this.getY(), this.getSize(), this.getSize());
-            }
-            case DOWN -> {
-                return new Rectangle(this.getX() - offset2, this.getY(), this.getSize(), this.getSize());
-            }
-            case LEFT -> {
-                return new Rectangle(this.getX(), this.getY() - offset2, this.getSize(), this.getSize());
-            }
-            case RIGHT -> {
-                return new Rectangle(this.getX(), this.getY() + offset1, this.getSize(), this.getSize());
-            }
-            default -> {
-                return null;
-            }
-        }
+        return new Rectangle(this.getX(), this.getY(), this.getSize(), this.getSize());
     }
     /**
      * @return if the hitboxes are showed.

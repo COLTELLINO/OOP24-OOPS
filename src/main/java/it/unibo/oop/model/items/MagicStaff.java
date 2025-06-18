@@ -118,7 +118,7 @@ public class MagicStaff extends Weapon {
      */
     private void shoot() {
         final StaffProjectile projectile = new StaffProjectile(player.getX(), player.getY(),
-        direction, 0, SPEED, PROJECTILE_SIZE);
+        direction, 0, SPEED, PROJECTILE_SIZE, player.getSize());
 
         projectile.setObserver(explodedProjectile -> {
             final int explosionX;

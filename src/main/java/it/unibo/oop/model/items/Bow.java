@@ -96,26 +96,31 @@ public class Bow extends Weapon {
     private void shoot() {
         switch (getLevel()) {
             case 1 -> {
-                projectiles.add(new Arrow(player.getX(), player.getY(), direction, DAMAGE, SPEED, PROJECTILE_SIZE));
+                projectiles.add(new Arrow(player.getX(), player.getY(), direction,
+                    DAMAGE, SPEED, PROJECTILE_SIZE, player.getSize()));
             }
             case 2 -> {
-                projectiles.add(new Arrow(player.getX(), player.getY(), direction, DAMAGE, SPEED, PROJECTILE_SIZE));
-                projectiles.add(new Arrow(player.getX(), player.getY(), direction.getOpposite(), DAMAGE, SPEED, PROJECTILE_SIZE));
+                projectiles.add(new Arrow(player.getX(), player.getY(), direction,
+                    DAMAGE, SPEED, PROJECTILE_SIZE, player.getSize()));
+                projectiles.add(new Arrow(player.getX(), player.getY(), direction.getOpposite(),
+                    DAMAGE, SPEED, PROJECTILE_SIZE, player.getSize()));
             }
             case 3 -> {
                 for (final Direction dir : Direction.verticalHorizontal()) {
-                    projectiles.add(new Arrow(player.getX(), player.getY(), dir, DAMAGE, SPEED, PROJECTILE_SIZE));
+                    projectiles.add(new Arrow(player.getX(), player.getY(), dir,
+                        DAMAGE, SPEED, PROJECTILE_SIZE, player.getSize()));
                 }
             }
             case 4 -> {
                 for (final Direction dir : Direction.verticalHorizontal()) {
-                    projectiles.add(new Arrow(player.getX(), player.getY(), dir, DAMAGE, SPEED, PROJECTILE_SIZE));
+                    projectiles.add(new Arrow(player.getX(), player.getY(), dir,
+                        DAMAGE, SPEED, PROJECTILE_SIZE, player.getSize()));
                 }
             }
             case WeaponManager.MAX_LEVEL -> {
                 for (final Direction dir : Direction.verticalHorizontal()) {
                     projectiles.add(new Arrow(player.getX(), player.getY(), dir, 
-                    DAMAGE, SPEED + SPEEDSCALER, PROJECTILE_SIZE));
+                    DAMAGE, SPEED + SPEEDSCALER, PROJECTILE_SIZE, player.getSize()));
                 }
             }
             default -> throw new IllegalStateException("Unexpected level: " + getLevel());

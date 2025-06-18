@@ -24,10 +24,11 @@ public class StaffProjectile extends Projectile {
      * @param damage the damage of the projectile
      * @param speed the speed of the projectile
      * @param size the size of the projectile
+     * @param entitySize the size of the entity that fired the projectile
      */
     public StaffProjectile(final int x, final int y, final Direction direction, 
-                           final int damage, final int speed, final int size) {
-        super(x, y, direction, damage, speed, size);
+                           final int damage, final int speed, final int size, final int entitySize) {
+        super(x, y, direction, damage, speed, size, entitySize);
     }
 
     /**
