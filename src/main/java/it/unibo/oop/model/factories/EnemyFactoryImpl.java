@@ -7,7 +7,7 @@ import it.unibo.oop.model.entities.Ghost;
 import it.unibo.oop.model.entities.Player;
 import it.unibo.oop.model.entities.Skull;
 import it.unibo.oop.model.entities.Slime;
-import it.unibo.oop.model.entities.Zombie;
+import it.unibo.oop.model.entities.Bat;
 /**
  * Class to create enemies.
  */
@@ -42,7 +42,7 @@ public class EnemyFactoryImpl implements EnemyFactory {
     @Override
     public Enemy createZombie(final int x, final int y, final int maxHealth, final int health, final int attack, 
             final int speed, final int size, final Player player) {
-        return new Zombie(x, y, maxHealth, health, attack, speed, size, player);
+        return new Bat(x, y, maxHealth, health, attack, speed, size, player);
     }
     /**
      * @param x
@@ -59,6 +59,22 @@ public class EnemyFactoryImpl implements EnemyFactory {
     public Enemy createGhost(final int x, final int y, final int maxHealth, final int health, final int attack, 
             final int speed, final int size, final Player player) {
         return new Ghost(x, y, maxHealth, health, attack, speed, size, player);
+    }
+    /**
+     * @param x
+     * @param y
+     * @param maxHealth
+     * @param health
+     * @param attack
+     * @param speed
+     * @param size
+     * @param player
+     * @return a new instance of a Bat enemy.
+     */
+    @Override
+    public Enemy createBat(final int x, final int y, final int maxHealth, final int health, final int attack, 
+            final int speed, final int size, final Player player) {
+        return new Bat(x, y, maxHealth, health, attack, speed, size, player);
     }
     /**
      * @param x
@@ -110,7 +126,7 @@ public class EnemyFactoryImpl implements EnemyFactory {
      */
     @Override
     public Enemy createBaseZombie(final int x, final int y, final Player player) {
-        return Zombie.createDefault(x, y, player);
+        return Bat.createDefault(x, y, player);
     }
     /**
      * @param x
@@ -121,6 +137,16 @@ public class EnemyFactoryImpl implements EnemyFactory {
     @Override
     public Enemy createBaseGhost(final int x, final int y, final Player player) {
         return Ghost.createDefault(x, y, player);
+    }
+    /**
+     * @param x
+     * @param y
+     * @param player
+     * @return a new instance of a Bat enemy with base stats.
+     */
+    @Override
+    public Enemy createBaseBat(final int x, final int y, final Player player) {
+        return Bat.createDefault(x, y, player);
     }
     /**
      * @param x

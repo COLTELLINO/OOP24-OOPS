@@ -54,6 +54,18 @@ public interface EnemyFactory {
      * @param player
      * @return a new instance of a Skull enemy.
      */
+    Enemy createBat(int x, int y, int maxHealth, int health, int attack, int speed, int size, Player player);
+    /**
+     * @param x
+     * @param y
+     * @param maxHealth
+     * @param health
+     * @param speed
+     * @param attack
+     * @param size
+     * @param player
+     * @return a new instance of a Skull enemy.
+     */
     Enemy createSkull(int x, int y, int maxHealth, int health, int attack, int speed, int size, Player player);
     /**
      * @param x
@@ -88,6 +100,13 @@ public interface EnemyFactory {
      * @return a new instance of a Ghost enemy with base stats.
      */
     Enemy createBaseGhost(int x, int y, Player player);
+    /**
+     * @param x
+     * @param y
+     * @param player
+     * @return a new instance of a Bat enemy with base stats.
+     */
+    Enemy createBaseBat(int x, int y, Player player);
     /**
      * @param x
      * @param y

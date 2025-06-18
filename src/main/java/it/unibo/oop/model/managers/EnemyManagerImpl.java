@@ -74,14 +74,17 @@ public class EnemyManagerImpl implements EnemyManager {
      */
     @Override
     public void spawnEnemies(final ProjectileManager projectileManager, final ExperienceManager experienceManager) {
+        final Enemy baseSlime = this.enemyFactory.createBaseSlime(player.getX(), player.getY(), player);
+        final Enemy baseGhost = this.enemyFactory.createBaseGhost(player.getX(), player.getY(), player);
+        final Enemy baseBat = this.enemyFactory.createBaseBat(player.getX(), player.getY(), player);
         final Enemy baseZombie = this.enemyFactory.createBaseZombie(player.getX(), player.getY(), player);
         final Enemy baseSkull = this.enemyFactory.createBaseSkull(player.getX(), player.getY(), player);
         final Enemy baseCultist = this.enemyFactory.createBaseCultist(player.getX(), player.getY(), player);
-        Stream.of(baseZombie, baseSkull, baseCultist)
+        Stream.of(baseSlime, baseGhost, baseBat, baseZombie, baseSkull, baseCultist)
             .forEach(e -> 
                 e.setOnDeathObserver(() -> {
                     experienceManager.spawnXP(e.getX() + e.getSize() / 2,
-                        e.getY() + e.getSize() / 2, 10);
+                        e.getY() + e.getSize() / 2, 100);
                 }));
         baseSkull.setObserver(() -> {
             projectileManager.addEnemyProjectile(baseSkull.getProjectile());
@@ -91,12 +94,15 @@ public class EnemyManagerImpl implements EnemyManager {
                 .createBaseSkull(baseCultist.getX(), baseCultist.getY(), player);
             skull.setOnDeathObserver(() -> {
                     experienceManager.spawnXP(skull.getX() + skull.getSize() / 2,
-                        skull.getY() + skull.getSize() / 2, 10);
+                        skull.getY() + skull.getSize() / 2, 1000);
                 });
             this.spawnEnemy(skull);
         });
-        this.addEnemy(baseSkull);
+        this.addEnemy(baseSlime);
+        this.addEnemy(baseGhost);
+        this.addEnemy(baseBat);
         this.addEnemy(baseZombie);
+        this.addEnemy(baseSkull);
         this.addEnemy(baseCultist);
     }
         /**
