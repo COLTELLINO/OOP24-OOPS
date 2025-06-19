@@ -1,14 +1,17 @@
 package it.unibo.oop.model.managers;
 
 import java.util.Set;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import it.unibo.oop.model.entities.Enemy;
 import it.unibo.oop.model.entities.Entity;
 import it.unibo.oop.model.entities.Player;
+import it.unibo.oop.model.events.DamageEvent;
 import it.unibo.oop.model.items.Weapon;
 import it.unibo.oop.model.projectiles.Projectile;
 
@@ -24,6 +27,7 @@ public class CollisionManagerImpl implements CollisionManager {
     private final Map<Entity, Integer> entityCooldowns = new HashMap<>();
     private final Map<Enemy, Integer> playerCooldown = new HashMap<>();
     private final Map<Entity, Map<Projectile, Integer>> projectileCooldowns = new HashMap<>();
+    private final List<DamageEvent> damageEvents = new ArrayList<>();
 
     /**
      * Check if two objects are colliding.
@@ -46,6 +50,14 @@ public class CollisionManagerImpl implements CollisionManager {
         playerCooldown.replaceAll((enemy, cooldown) -> Math.max(0, cooldown - 1));
         for (final Map<Projectile, Integer> cooldownMap : projectileCooldowns.values()) {
             cooldownMap.replaceAll((proj, cooldown) -> Math.max(0, cooldown - 1));
+        }
+        final Iterator<DamageEvent> damageEventsIterator = damageEvents.iterator();
+        while (damageEventsIterator.hasNext()) {
+            final DamageEvent event = damageEventsIterator.next();
+            event.update();
+            if (event.isOver()) {
+                damageEventsIterator.remove();
+            }
         }
     }
     private void removeDeadEntities() {
@@ -119,6 +131,7 @@ public class CollisionManagerImpl implements CollisionManager {
             if (canTakeWeaponDamage(enemy)) {
                 enemy.setHealth(enemy.getHealth() - weapon.getDamage());
                 registerWeaponDamage(enemy);
+                damageEvents.add(new DamageEvent(enemy.getX(), enemy.getY(), weapon.getDamage()));
             }
         }
     }
@@ -136,6 +149,7 @@ public class CollisionManagerImpl implements CollisionManager {
                     if (canTakeProjectileDamage(enemy, projectile)) {
                         enemy.setHealth(enemy.getHealth() - projectile.getDamage());
                         registerProjectileDamage(enemy, projectile);
+                        damageEvents.add(new DamageEvent(enemy.getX(), enemy.getY(), projectile.getDamage()));
                     }
                 }
             }
@@ -165,12 +179,19 @@ public class CollisionManagerImpl implements CollisionManager {
     public void handlePlayerProjectilenCollision(final Player player, final List<Projectile> projectiles) {
         for (final Projectile projectile : projectiles) {
             if (isColliding(player.getHitbox(), projectile.getProjectileHitBox())) {
-                    projectile.handleCollision();
-                    if (canTakeProjectileDamage(player, projectile)) {
-                        player.setHealth(player.getHealth() - projectile.getDamage());
-                        registerProjectileDamage(player, projectile);
-                    }
+                projectile.handleCollision();
+                if (canTakeProjectileDamage(player, projectile)) {
+                    player.setHealth(player.getHealth() - projectile.getDamage());
+                    registerProjectileDamage(player, projectile);
                 }
+            }
         }
+    }
+    /**
+     * @return the list of damage events
+     */
+    @Override
+    public List<DamageEvent> getDamageEvents() {
+        return List.copyOf(damageEvents);
     }
 }

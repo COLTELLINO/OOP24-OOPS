@@ -21,7 +21,7 @@ public class EnemyRendererImpl implements EnemyRenderer {
     private static final int BLINK_INTERVAL = 6;
     private static final float ALPHA_VALUE = 0.6f;
     private static final int BOB_AMPLITUDE = 2;
-    private static final int BOB_SPEED = 500;
+    private static final int BOB_SPEED = 750;
     private final Map<String, BufferedImage> enemySpriteMap = new HashMap<>();
     /**
      * Draws current enemy.

@@ -8,6 +8,7 @@ import javax.swing.SwingUtilities;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.model.entities.Player;
+import it.unibo.oop.model.managers.CollisionManager;
 import it.unibo.oop.model.managers.EnemyManager;
 import it.unibo.oop.model.managers.ExperienceManager;
 import it.unibo.oop.model.managers.HealthManager;
@@ -30,17 +31,19 @@ public class ViewManagerFactoryImpl implements ViewManagerFactory {
      * @param enemyManager
      * @param weaponManager
      * @param experienceManager
+     * @param collisionManager
      * @param healthManager
      * @return a DrawView window.
      */
     @Override
     public ViewManager createViewManager(final GameState gameState, final Player player, final EnemyManager enemyManager, 
         final WeaponManager weaponManager, final ExperienceManager experienceManager,
-                final HealthManager healthManager, final ProjectileManager projectileManager, final Camera camera) {
+        final CollisionManager collisionManager, final HealthManager healthManager, 
+        final ProjectileManager projectileManager, final Camera camera) {
             try {
                 SwingUtilities.invokeAndWait(() -> {
-                    this.window = new ViewManagerImpl(GameState.TITLESTATE, player, 
-                            enemyManager, weaponManager, experienceManager, healthManager, projectileManager, camera);
+                    this.window = new ViewManagerImpl(GameState.TITLESTATE, player, enemyManager, weaponManager,
+                        experienceManager, collisionManager, healthManager, projectileManager, camera);
                     });
             } catch (InvocationTargetException | InterruptedException e) {
                 Logger.getLogger(this.getClass().getName())

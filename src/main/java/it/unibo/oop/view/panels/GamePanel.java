@@ -7,11 +7,14 @@ import java.awt.Graphics2D;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.model.entities.Player;
+import it.unibo.oop.model.managers.CollisionManager;
 import it.unibo.oop.model.managers.EnemyManager;
 import it.unibo.oop.model.managers.ExperienceManager;
 import it.unibo.oop.model.managers.HealthManager;
 import it.unibo.oop.model.managers.ProjectileManager;
 import it.unibo.oop.model.managers.WeaponManager;
+import it.unibo.oop.view.renderers.DamageEventRenderer;
+import it.unibo.oop.view.renderers.DamageEventRendererImpl;
 import it.unibo.oop.view.renderers.EnemyRenderer;
 import it.unibo.oop.view.renderers.EnemyRendererImpl;
 import it.unibo.oop.view.renderers.ExperienceRenderer;
@@ -41,6 +44,7 @@ public class GamePanel extends MyPanel {
     private final transient ProjectileManager projectileManager;
     private final transient WeaponManager weaponManager;
     private final transient ExperienceManager experienceManager;
+    private final transient CollisionManager collisionManager;
     private final transient HealthManager healthManager;
     private final transient EnemyRenderer enemyRenderer = new EnemyRendererImpl();
     private final transient WeaponRenderer weaponRenderer;
@@ -49,6 +53,7 @@ public class GamePanel extends MyPanel {
     private final transient PlayerRenderer playerRenderer = new PlayerRendererImpl();
     private final transient HealthRenderer healthRenderer = new HealthRendererImpl();
     private final transient MapRenderer mapRenderer = new MapRendererImpl();
+    private final transient DamageEventRenderer damageEventRenderer = new DamageEventRendererImpl();
     private final transient Camera camera;
     /**
      * @param screenWidth
@@ -57,13 +62,14 @@ public class GamePanel extends MyPanel {
      * @param enemyManager
      * @param weaponManager
      * @param experienceManager
+     * @param collisionManager
      * @param healthManager
      * @param projectileManager
      * @param camera
      */
     public GamePanel(final int screenWidth, final int screenHeight, final Player player, 
             final EnemyManager enemyManager, final WeaponManager weaponManager,
-            final ExperienceManager experienceManager,
+            final ExperienceManager experienceManager, final CollisionManager collisionManager,
             final HealthManager healthManager, final ProjectileManager projectileManager,
             final Camera camera) {
         this.player = player;
@@ -71,6 +77,7 @@ public class GamePanel extends MyPanel {
         this.projectileManager = projectileManager;
         this.weaponManager = weaponManager;
         this.experienceManager = experienceManager;
+        this.collisionManager = collisionManager;
         this.healthManager = healthManager;
         this.camera = camera;
         weaponRenderer = new WeaponRendererImpl();
@@ -96,6 +103,7 @@ public class GamePanel extends MyPanel {
         this.projectileRenderer.drawProjectileList(this.projectileManager.getAllProjectiles(), g2d);
         this.weaponRenderer.drawWeaponList(g2d, this.weaponManager.getWeapons());
         this.experienceRenderer.drawExperienceOrbs(g2d, this.experienceManager.getOrbs());
+        this.damageEventRenderer.drawDamageEventList(g2d, this.collisionManager.getDamageEvents());
 
         // 3. Fine camera: ripristina traslazione
         g2d.translate(camera.getX(), camera.getY());

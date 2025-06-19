@@ -7,6 +7,7 @@ import javax.swing.SwingUtilities;
 
 import it.unibo.oop.controller.gamethread.MouseHandler;
 import it.unibo.oop.model.entities.Player;
+import it.unibo.oop.model.managers.CollisionManager;
 import it.unibo.oop.model.managers.EnemyManager;
 import it.unibo.oop.model.managers.ExperienceManager;
 import it.unibo.oop.model.managers.HealthManager;
@@ -50,21 +51,22 @@ public final class ViewManagerImpl implements ViewManager {
      * @param enemyManager
      * @param weaponManager
      * @param experienceManager
+     * @param collisionManager
      * @param healthManager
      * @param projectileManager
      * @param camera
      */
     public ViewManagerImpl(final GameState gameState, final Player player, final EnemyManager enemyManager,
-        final WeaponManager weaponManager, final ExperienceManager experienceManager,
-        final HealthManager healthManager, final ProjectileManager projectileManager,
-        final Camera camera) {
+        final WeaponManager weaponManager, final ExperienceManager experienceManager, 
+        final CollisionManager collisionManager, final HealthManager healthManager,
+        final ProjectileManager projectileManager, final Camera camera) {
         this.titlePanel = new TitlePanel(this.sw / PROPORTION, this.sh / PROPORTION, this);
         this.optionPanel = new OptionPanel(this.sw / PROPORTION, this.sh / PROPORTION, this);
         this.gamePanel = new GamePanel(this.sw / PROPORTION, this.sh / PROPORTION, 
-        player, enemyManager, weaponManager, experienceManager, healthManager, projectileManager, camera);
+        player, enemyManager, weaponManager, experienceManager, collisionManager, healthManager, projectileManager, camera);
         testPanel = new TestPanel(this.sw / PROPORTION, this.sh / PROPORTION);
         this.pausePanel = new GamePanel(this.sw / PROPORTION, this.sh / PROPORTION, 
-        player, enemyManager, weaponManager, experienceManager, healthManager, projectileManager, camera);
+        player, enemyManager, weaponManager, experienceManager, collisionManager, healthManager, projectileManager, camera);
         // Da cambiare in PausePanel quando/se ci sarà
 
         // Aggiungi MouseHandler al GamePanel

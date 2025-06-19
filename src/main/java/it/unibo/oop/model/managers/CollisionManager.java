@@ -6,6 +6,7 @@ import java.util.Set;
 
 import it.unibo.oop.model.entities.Enemy;
 import it.unibo.oop.model.entities.Player;
+import it.unibo.oop.model.events.DamageEvent;
 import it.unibo.oop.model.items.Weapon;
 import it.unibo.oop.model.projectiles.Projectile;
 
@@ -13,6 +14,10 @@ import it.unibo.oop.model.projectiles.Projectile;
  * Interface for managing collisions between game objects.
  */
 public interface CollisionManager {
+    /**
+     * Updates the cooldowns for all entities.
+     */
+    void update();
     /**
      * Check if two objects are colliding.
      * @param h1 the first object
@@ -47,8 +52,7 @@ public interface CollisionManager {
      */
     void handlePlayerProjectilenCollision(Player player, List<Projectile> projectiles);
     /**
-     * Updates the cooldowns for all entities.
+     * @return the list of damage events
      */
-    void update();
-
+    List<DamageEvent> getDamageEvents();
 }

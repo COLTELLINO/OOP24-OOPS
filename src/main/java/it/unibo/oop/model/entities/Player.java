@@ -13,7 +13,7 @@ public class Player extends Entity {
     private int level = 1;
     private static final int LEVELUP_SCALER = 20;
     private final HealthManager healthManager;
-    private static final int MAXBOUND = 4500;
+    private static final int MAXBOUND = 5000;
     private static final int DEFAULT_PICKUP_RANGE = 40;
     private static final int DEFAULT_CRIT_DAMAGE = 150;
     private static final int MIN_CRIT_DAMAGE = 100;

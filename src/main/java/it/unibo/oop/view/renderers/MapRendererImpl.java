@@ -1,5 +1,6 @@
 package it.unibo.oop.view.renderers;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -13,7 +14,11 @@ import java.util.logging.Logger;
  * This class is responsible for rendering the game map using textures.
  */
 public class MapRendererImpl implements MapRenderer {
-    private static final int MAPSIZE = 6000;
+    private static final int MAPSIZE = 5000;
+    private static final int BORDER = MAPSIZE * 2;
+    private static final int PLAYER_SIZE = 50;
+    private static final int G_VALUE = 50;
+    private static final int B_VALUE = 100;
     private BufferedImage mapImage;
     private final List<BufferedImage> mapTextures = new ArrayList<>();
     private final Random random = new Random();
@@ -27,6 +32,8 @@ public class MapRendererImpl implements MapRenderer {
         if (mapImage == null) {
             createMapImage(g2);
         }
+        g2.setColor(new Color(0, G_VALUE, B_VALUE));
+        g2.fillRect(-BORDER, -BORDER, 2 * BORDER, 2 * BORDER);
         g2.drawImage(mapImage, -MAPSIZE, -MAPSIZE, null);
     }
     /**
@@ -36,7 +43,7 @@ public class MapRendererImpl implements MapRenderer {
     @Override
     public void createMapImage(final Graphics2D g2) {
         this.loadTextures();
-        mapImage = new BufferedImage(2 * MAPSIZE, 2 * MAPSIZE, BufferedImage.TYPE_INT_ARGB);
+        mapImage = new BufferedImage(2 * MAPSIZE + PLAYER_SIZE, 2 * MAPSIZE + PLAYER_SIZE, BufferedImage.TYPE_INT_ARGB);
         final Graphics2D g2d = mapImage.createGraphics();
 
         final int tileWidth = mapTextures.get(0).getWidth();

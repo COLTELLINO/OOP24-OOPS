@@ -66,7 +66,7 @@ public class GameThreadImpl implements Runnable, GameThread {
      */
     public GameThreadImpl() {
         this.window = drawViewFactory.createViewManager(GameState.TITLESTATE, player, enemyManager, 
-            weaponManager, experienceManager, healthManager, projectileManager, camera);
+            weaponManager, experienceManager, collisionManager, healthManager, projectileManager, camera);
         this.window.addKeyListener(inputHandler);
         this.window.setFocusable(true);
         this.audioHandler.setVolume(Percentage.TWENTY_PERCENT);
