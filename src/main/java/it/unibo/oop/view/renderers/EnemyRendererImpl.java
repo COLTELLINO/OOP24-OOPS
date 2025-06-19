@@ -13,12 +13,15 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 import it.unibo.oop.model.entities.Enemy;
+
 /**
  * Class used to draw enemies.
  */
 public class EnemyRendererImpl implements EnemyRenderer {
     private static final int BLINK_INTERVAL = 6;
     private static final float ALPHA_VALUE = 0.6f;
+    private static final int BOB_AMPLITUDE = 2;
+    private static final int BOB_SPEED = 500;
     private final Map<String, BufferedImage> enemySpriteMap = new HashMap<>();
     /**
      * Draws current enemy.
@@ -32,8 +35,10 @@ public class EnemyRendererImpl implements EnemyRenderer {
                 g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, ALPHA_VALUE));
             }
             final BufferedImage image = getEnemySprite(enemy);
-                g2.drawImage(image, enemy.getX(), enemy.getY(), image.getWidth() * enemy.getSizeScale(),
-                    image.getHeight() * enemy.getSizeScale(), null);
+            final long currentTime = System.currentTimeMillis();
+            final int yOffset = (int) (Math.sin(currentTime / (double) BOB_SPEED * 2 * Math.PI) * BOB_AMPLITUDE);
+            g2.drawImage(image, enemy.getX(), enemy.getY() + yOffset,
+                image.getWidth() * enemy.getSizeScale(), image.getHeight() * enemy.getSizeScale(), null);
             if (enemy.isHitboxShown()) {
                 g2.setColor(Color.RED);
                 g2.draw(enemy.getHitbox());
@@ -41,7 +46,7 @@ public class EnemyRendererImpl implements EnemyRenderer {
             g2.setComposite(AlphaComposite.SrcOver);
         } catch (IllegalArgumentException e) {
             Logger.getLogger(this.getClass().getName())
-                    .log(Level.SEVERE, e.getClass().getSimpleName() + " occurred: ", e);
+                .log(Level.SEVERE, e.getClass().getSimpleName() + " occurred: ", e);
         }
     }
     /**
@@ -66,7 +71,7 @@ public class EnemyRendererImpl implements EnemyRenderer {
             } catch (IOException e) {
                 Logger.getLogger(this.getClass().getName())
                     .log(Level.SEVERE, e.getClass().getSimpleName() + " occurred: ", e);
-                    return null;
+                return null;
             }
         });
     }
