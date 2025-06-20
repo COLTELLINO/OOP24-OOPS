@@ -162,11 +162,13 @@ public final class ViewManagerImpl implements ViewManager {
 
     @Override
     public int getGameScreenWidth() {
-        return this.sw / PROPORTION;
+        // return this.sw / PROPORTION;
+        return this.gamePanel.getWidth();
     }
 
     @Override
     public int getGameScreenHeight() {
-        return this.sh / PROPORTION;
+        // return this.sh / PROPORTION;
+        return this.gamePanel.getHeight();
     }
 }
