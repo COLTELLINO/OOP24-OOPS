@@ -7,6 +7,7 @@ import it.unibo.oop.model.entities.Ghost;
 import it.unibo.oop.model.entities.Player;
 import it.unibo.oop.model.entities.Skull;
 import it.unibo.oop.model.entities.Slime;
+import it.unibo.oop.model.entities.Zombie;
 import it.unibo.oop.model.entities.Bat;
 /**
  * Class to create enemies.
@@ -42,7 +43,7 @@ public class EnemyFactoryImpl implements EnemyFactory {
     @Override
     public Enemy createZombie(final int x, final int y, final int maxHealth, final int health, final int attack, 
             final int speed, final int size, final Player player) {
-        return new Bat(x, y, maxHealth, health, attack, speed, size, player);
+        return new Zombie(x, y, maxHealth, health, attack, speed, size, player);
     }
     /**
      * @param x
@@ -126,7 +127,7 @@ public class EnemyFactoryImpl implements EnemyFactory {
      */
     @Override
     public Enemy createBaseZombie(final int x, final int y, final Player player) {
-        return Bat.createDefault(x, y, player);
+        return Zombie.createDefault(x, y, player);
     }
     /**
      * @param x

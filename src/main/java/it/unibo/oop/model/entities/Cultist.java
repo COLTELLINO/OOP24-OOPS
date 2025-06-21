@@ -8,11 +8,11 @@ import it.unibo.oop.utils.CountDownTimer;
 public class Cultist extends AttackingEnemy {
     private static final int BASE_MAXHEALTH = 5;
     private static final int BASE_HEALTH = 5;
-    private static final int BASE_ATTACK = 2;
+    private static final int BASE_ATTACK = 1;
     private static final int BASE_SPEED = 1;
     private static final int BASE_SIZE = 32;
     private static final int MIN_PLAYER_DISTANCE = 300;
-    private final CountDownTimer countDownTimer = new CountDownTimer(300);
+    private final CountDownTimer countDownTimer = new CountDownTimer(180);
     /**
      * @param x
      * @param y

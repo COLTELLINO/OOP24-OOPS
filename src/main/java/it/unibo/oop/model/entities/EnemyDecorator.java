@@ -76,7 +76,7 @@ public abstract class EnemyDecorator extends Enemy {
      * @return the Entity's speed value
      */
     @Override
-    protected int getSpeed() {
+    public int getSpeed() {
         return decoratedEnemy.getSpeed();
     }
     /**

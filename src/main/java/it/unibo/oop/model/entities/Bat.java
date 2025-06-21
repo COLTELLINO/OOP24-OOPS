@@ -5,8 +5,8 @@ package it.unibo.oop.model.entities;
  */
 public class Bat extends Enemy {
     private static final int BASE_MAXHEALTH = 3;
-    private static final int BASE_HEALTH = 3;
-    private static final int BASE_ATTACK = 2;
+    private static final int BASE_HEALTH = 9;
+    private static final int BASE_ATTACK = 3;
     private static final int BASE_SPEED = 2;
     private static final int BASE_SIZE = 32;
     /**

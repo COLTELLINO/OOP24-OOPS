@@ -5,9 +5,9 @@ package it.unibo.oop.model.entities;
  */
 public class Ghost extends Enemy {
     private static final int BASE_MAXHEALTH = 20;
-    private static final int BASE_HEALTH = 20;
-    private static final int BASE_ATTACK = 5;
-    private static final int BASE_SPEED = 2;
+    private static final int BASE_HEALTH = 9;
+    private static final int BASE_ATTACK = 2;
+    private static final int BASE_SPEED = 1;
     private static final int BASE_SIZE = 32;
     /**
      * @param x

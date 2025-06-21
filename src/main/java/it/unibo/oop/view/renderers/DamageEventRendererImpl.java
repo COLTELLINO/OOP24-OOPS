@@ -15,6 +15,9 @@ import it.unibo.oop.model.events.DamageEvent;
  */
 public class DamageEventRendererImpl implements DamageEventRenderer {
     private static final int FONT_SIZE = 12;
+    private static final int LOW_DAMAGE = 10;
+    private static final int MEDIUM_DAMAGE = 20;
+    private static final int HIGH_DAMAGE = 30;
     private final Font font;
     /**
      * Constructor for DamageEventRendererImpl.
@@ -30,10 +33,19 @@ public class DamageEventRendererImpl implements DamageEventRenderer {
      */
     @Override
     public void drawDamageEvent(final Graphics2D g2, final DamageEvent event) {
-        g2.setColor(Color.WHITE);
-        g2.setFont(font);
-        g2.drawString(String.valueOf(event.getValue()), event.getX(), event.getY());
-        g2.setFont(new Font("Dialog", Font.PLAIN, FONT_SIZE));
+        if (event.getValue() > 0) {
+            g2.setColor(Color.WHITE);
+            if (event.getValue() >= LOW_DAMAGE && event.getValue() < MEDIUM_DAMAGE) {
+                g2.setColor(Color.YELLOW);
+            } else if (event.getValue() >= MEDIUM_DAMAGE && event.getValue() < HIGH_DAMAGE) {
+                g2.setColor(Color.ORANGE);
+            } else if (event.getValue() >= HIGH_DAMAGE) {
+                g2.setColor(Color.RED);
+            }
+            g2.setFont(font);
+            g2.drawString(String.valueOf(event.getValue()), event.getX(), event.getY());
+            g2.setFont(new Font("Dialog", Font.PLAIN, FONT_SIZE));
+        }
     }
     /**
      * Draws a list of DamageEvents.

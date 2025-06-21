@@ -10,7 +10,7 @@ public class TestableEnemyManager extends EnemyManagerImpl {
      * @param player
      */
     public TestableEnemyManager(final Player player) {
-        super(player);
+        super(player, null);
     }
     /**
      * Spawns a wave of enemies if there aren't too many on screen.

@@ -5,7 +5,7 @@ package it.unibo.oop.model.entities;
  */
 public class Zombie extends Enemy {
     private static final int BASE_MAXHEALTH = 10;
-    private static final int BASE_HEALTH = 10;
+    private static final int BASE_HEALTH = 12;
     private static final int BASE_ATTACK = 4;
     private static final int BASE_SPEED = 1;
     private static final int BASE_SIZE = 32;

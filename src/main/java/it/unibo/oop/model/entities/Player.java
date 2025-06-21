@@ -9,7 +9,7 @@ public class Player extends Entity {
     private Direction direction;
     private int xp;
     private int level = 1;
-    private static final int LEVELUP_SCALER = 20;
+    private static final int LEVELUP_SCALER = 50;
     private static final int MAXBOUND = 5000;
     private static final int DEFAULT_PICKUP_RANGE = 40;
     private static final int DEFAULT_CRIT_DAMAGE = 150;
@@ -81,7 +81,7 @@ public class Player extends Entity {
     @Override
     public void update() {
         if (this.getHealth() <= 0) {
-            this.setAlive(false);
+            setAlive(false);
         }
         if (!this.isAlive()) {
             return;
@@ -222,15 +222,6 @@ public class Player extends Entity {
     public void setSpeed(final int speed) {
         super.setSpeed(speed);
     }
-
-    /**
-     * @return the speed value.
-     */
-    @Override
-    public int getSpeed() {
-        return super.getSpeed();
-    }
-
     /**
      * Sets the attack value.
      * @param attack the new attack value

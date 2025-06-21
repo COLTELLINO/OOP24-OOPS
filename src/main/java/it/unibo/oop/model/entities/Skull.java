@@ -9,13 +9,13 @@ import it.unibo.oop.utils.CountDownTimer;
 public class Skull extends AttackingEnemy {
     private static final int BASE_MAXHEALTH = 10;
     private static final int BASE_HEALTH = 10;
-    private static final int BASE_ATTACK = 1;
+    private static final int BASE_ATTACK = 2;
     private static final int BASE_SPEED = 1;
     private static final int BASE_SIZE = 32;
     private static final int MIN_PLAYER_DISTANCE = 200;
     private static final int PROJECTILE_SPEED = 2;
     private static final int PROJECTILE_SIZE = 32;
-    private final CountDownTimer countDownTimer = new CountDownTimer(10);
+    private final CountDownTimer countDownTimer = new CountDownTimer(60);
     /**
      * @param x
      * @param y

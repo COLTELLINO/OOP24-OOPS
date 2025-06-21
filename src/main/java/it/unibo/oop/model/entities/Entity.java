@@ -83,7 +83,7 @@ justification = "The hitbox of the entity is needed to check for collisions")
     /**
      * @return the Entity's speed value. 
      */
-    protected int getSpeed() {
+    public int getSpeed() {
         return speed;
     }
     /**

@@ -2,6 +2,7 @@ package it.unibo.oop.view.panels;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
@@ -67,9 +68,7 @@ public class GamePanel extends MyPanel {
         super.paintComponent(g);
         final Graphics2D g2d = (Graphics2D) g;
 
-        // 1. Inizio camera: traslazione negativa
         g2d.translate(-camera.getX(), -camera.getY());
-        // 2. Disegna tutto ciò che segue la camera
         this.mapRenderer.drawMap(g2d);
         this.playerRenderer.drawPlayer(this.gameController.getPlayer(), g2d);
         this.enemyRenderer.drawEnemyList(this.gameController.getEnemies(), g2d);
@@ -78,14 +77,20 @@ public class GamePanel extends MyPanel {
         this.experienceRenderer.drawExperienceOrbs(g2d, this.gameController.getExperienceOrbs());
         this.damageEventRenderer.drawDamageEventList(g2d, this.gameController.getDamageEvents());
 
-        // 3. Fine camera: ripristina traslazione
         g2d.translate(camera.getX(), camera.getY());
-
-        // 4. Disegna HUD/barre che restano fisse
-        drawXPBar(g2d);
-        drawHealthBar(g2d);
+        this.drawHealthBar(g2d);
+        this.drawXPBar(g2d);
+        this.drawTimer(g2d);
     }
-
+    private void drawTimer(final Graphics2D g2d) {
+        final String timerText = this.gameController.getTimerString();
+        final int stringWidth = g2d.getFontMetrics().stringWidth(timerText);
+        final int x = (getWidth() - stringWidth) / 2;
+        final int y = 30;
+        g2d.setFont(new Font("Arial", Font.BOLD, 16));
+        g2d.setColor(Color.WHITE);
+        g2d.drawString(timerText, x, y);
+    }
     private void drawXPBar(final Graphics2D g2d) {
         final int currentXP = this.gameController.getCurrentXP();
         final int xpToNextLevel = this.gameController.getXPToNextLevel();
