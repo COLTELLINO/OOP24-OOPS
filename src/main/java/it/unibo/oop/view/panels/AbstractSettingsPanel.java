@@ -4,15 +4,19 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.util.List;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+
+import it.unibo.oop.controller.controllers.AudioController;
+import it.unibo.oop.utils.Percentage;
 import it.unibo.oop.view.window.ViewManager;
 
 /**
@@ -21,15 +25,11 @@ import it.unibo.oop.view.window.ViewManager;
 public abstract class AbstractSettingsPanel extends MyPanel {
     private static final long serialVersionUID = 1L;
     private static final int FONT_SIZE = 24;
-    private static final int VERTICAL_BORDER = 10;
-    private static final int ROWS = 3;
-    private static final int COLUMNS = 2;
-    private static final int GAP = 5;
-
+    private static final int SIZE_SELECTOR_WIDTH = 500;
+    private static final int SIZE_SELECTOR_HEIGHT = 400;
     /** Field for entering custom screen size. */
     private final JTextField screenSizeField = new JTextField(10);
-    /** Panel containing the screen size controls. */
-    private final JPanel screenSizePanel = new JPanel(new BorderLayout());
+    private final AudioController audioController;
 
     private boolean initialized;
 
@@ -43,9 +43,11 @@ public abstract class AbstractSettingsPanel extends MyPanel {
     public AbstractSettingsPanel(
         final int screenWidth,
         final int screenHeight,
-        final ViewManager drawView, // NOPMD
-        final String title // NOPMD
+        final ViewManager drawView,
+        final String title,
+        final AudioController audioController
     ) {
+        this.audioController = audioController;
         super.setPreferredSize(new Dimension(screenWidth, screenHeight));
         super.setLayout(new BorderLayout());
     }
@@ -64,33 +66,35 @@ public abstract class AbstractSettingsPanel extends MyPanel {
         titleLabel.setFont(new Font("Arial", Font.BOLD, FONT_SIZE));
         super.add(titleLabel, BorderLayout.NORTH);
 
-        final JPanel outerPanel = new JPanel(new BorderLayout());
-        outerPanel.setBorder(BorderFactory.createEmptyBorder(VERTICAL_BORDER, VERTICAL_BORDER, VERTICAL_BORDER, VERTICAL_BORDER));
-
         final JPanel buttonPanel = new JPanel(new GridLayout(ROWS, COLUMNS, GAP, GAP));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(VERTICAL_BORDER, HORIZONTAL_BORDER, VERTICAL_BORDER, HORIZONTAL_BORDER));
 
         final JButton fullscreenButton = new JButton("Fullscreen");
         final JButton screenSizeButton = new JButton("Screen Size");
-        final JButton volumeButton = new JButton("Volume");
-        final JButton sfxButton = new JButton("SFX");
         final JButton returnButton = createReturnButton(drawView);
-        addExtraButtons(buttonPanel, drawView);
 
         fullscreenButton.addActionListener(e -> toggleFullscreen());
         screenSizeButton.addActionListener(e -> changeScreenSize());
         screenSizeField.addActionListener(e -> changeScreenSize());
+        final JButton increaseVolume = new JButton("Volume +");
+        final JButton decreaseVolume = new JButton("Volume -");
 
-        screenSizePanel.add(screenSizeButton, BorderLayout.WEST);
-        screenSizePanel.add(screenSizeField, BorderLayout.CENTER);
+        final JLabel volumePercentageLabel = new JLabel(getVolumeLabelText(audioController.getVolume()), SwingConstants.CENTER);
+        volumePercentageLabel.setFont(new Font("Arial", Font.BOLD, FONT_SIZE - 4));
+        volumePercentageLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0)); // padding top and bottom
+
+        decreaseVolume.addActionListener(e -> updateVolume(-1, volumePercentageLabel));
+        increaseVolume.addActionListener(e -> updateVolume(1, volumePercentageLabel));
 
         buttonPanel.add(fullscreenButton);
-        buttonPanel.add(screenSizePanel);
-        buttonPanel.add(volumeButton);
-        buttonPanel.add(sfxButton);
+        buttonPanel.add(screenSizeButton);
+        buttonPanel.add(increaseVolume);
+        buttonPanel.add(decreaseVolume);
         buttonPanel.add(returnButton);
+        addExtraButtons(buttonPanel, drawView);
 
-        outerPanel.add(buttonPanel, BorderLayout.CENTER);
-        super.add(outerPanel, BorderLayout.WEST);
+        super.add(buttonPanel, BorderLayout.CENTER);
+        super.add(volumePercentageLabel, BorderLayout.SOUTH);
     }
 
     /**
@@ -122,31 +126,79 @@ public abstract class AbstractSettingsPanel extends MyPanel {
             frame.setExtendedState(isFullscreen ? JFrame.NORMAL : JFrame.MAXIMIZED_BOTH);
         }
     }
-
+    /**
+     * Changes the screen size based on user selection.
+     */
     private void changeScreenSize() {
         final JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        if (frame != null) {
-            final String widthInput =
-                JOptionPane.showInputDialog(frame, "Enter width:", "Screen Size", JOptionPane.PLAIN_MESSAGE);
-            final String heightInput =
-                JOptionPane.showInputDialog(frame, "Enter height:", "Screen Size", JOptionPane.PLAIN_MESSAGE);
-
-            if (widthInput != null && heightInput != null) {
-                try {
-                    final int width = Integer.parseInt(widthInput);
-                    final int height = Integer.parseInt(heightInput);
-                    frame.setSize(width, height);
-                    screenSizeField.setText(width + "x" + height);
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(
-                        frame,
-                        "Invalid input. Please enter numeric values.",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE
-                    );
-                    screenSizeField.setText("Invalid! Use: 1090x180");
-                }
+        final JFrame sizeSelector = new JFrame("Select Screen Size");
+        sizeSelector.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        sizeSelector.setLayout(new GridLayout(0, 1, 10, 10));
+        sizeSelector.setSize(SIZE_SELECTOR_WIDTH, SIZE_SELECTOR_HEIGHT);
+        sizeSelector.setLocationRelativeTo(frame);
+        final List<Dimension> sizes = List.of(
+            new Dimension(800, 600),
+            new Dimension(1024, 768),
+            new Dimension(1280, 720),
+            new Dimension(1366, 768),
+            new Dimension(1920, 1080)
+        );
+        for (final Dimension size : sizes) {
+            final JButton sizeButton = new JButton(size.width + " x " + size.height);
+            sizeButton.addActionListener(e -> {
+                resizeFrameCentered(frame, size.width, size.height);
+                screenSizeField.setText(size.width + "x" + size.height);
+                sizeSelector.dispose();
+            });
+            sizeSelector.add(sizeButton);
+        }
+        sizeSelector.setVisible(true);
+    }
+    /**
+     * Resizes the frame to new dimensions, keeping it centered on the screen.
+     * @param frame
+     * @param newWidth
+     * @param newHeight
+     */
+    private void resizeFrameCentered(final JFrame frame, final int newWidth, final int newHeight) {
+        final int centerX = frame.getX() + frame.getWidth() / 2;
+        final int centerY = frame.getY() + frame.getHeight() / 2;
+        int newX = centerX - newWidth / 2;
+        int newY = centerY - newHeight / 2;
+        final Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        if (newX < 0) {
+            newX = 0;
+        } else if (newX + newWidth > screenSize.width) {
+            newX = screenSize.width - newWidth;
+        }
+        if (newY < 0) {
+            newY = 0;
+        } else if (newY + newHeight > screenSize.height) {
+            newY = screenSize.height - newHeight;
+        }
+        frame.setSize(newWidth, newHeight);
+        frame.setLocation(newX, newY);
+    }
+    private int getCurrentVolumeIndex() {
+        final Percentage[] values = Percentage.values();
+        final Percentage current = audioController.getVolume();
+        for (int i = 0; i < values.length; i++) {
+            if (values[i] == current) {
+                return i;
             }
         }
+        return 0;
+    }
+    private void updateVolume(final int direction, final JLabel label) {
+        final Percentage[] values = Percentage.values();
+        int currentIndex = getCurrentVolumeIndex();
+        int newIndex = Math.max(0, Math.min(values.length - 1, currentIndex + direction));
+        audioController.setVolume(values[newIndex]);
+        if (label != null) {
+            label.setText(getVolumeLabelText(values[newIndex]));
+        }
+    }
+    private String getVolumeLabelText(final Percentage p) {
+        return "Volume: " + (int) (p.getPercentage() * 100) + "%";
     }
 }

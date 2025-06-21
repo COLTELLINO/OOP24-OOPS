@@ -1,4 +1,4 @@
-package it.unibo.oop.controller.gamethread;
+package it.unibo.oop.controller;
 
 import it.unibo.oop.model.entities.Player;
 import it.unibo.oop.utils.Direction;

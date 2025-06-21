@@ -6,13 +6,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import it.unibo.oop.model.entities.Player;
-import it.unibo.oop.model.managers.CollisionManager;
-import it.unibo.oop.model.managers.EnemyManager;
-import it.unibo.oop.model.managers.ExperienceManager;
-import it.unibo.oop.model.managers.HealthManager;
-import it.unibo.oop.model.managers.ProjectileManager;
-import it.unibo.oop.model.managers.WeaponManager;
 import it.unibo.oop.view.renderers.DamageEventRenderer;
 import it.unibo.oop.view.renderers.DamageEventRendererImpl;
 import it.unibo.oop.view.renderers.EnemyRenderer;
@@ -29,6 +22,7 @@ import it.unibo.oop.view.renderers.ProjectileRenderer;
 import it.unibo.oop.view.renderers.ProjectileRendererImpl;
 import it.unibo.oop.view.renderers.WeaponRenderer;
 import it.unibo.oop.view.renderers.WeaponRendererImpl;
+import it.unibo.oop.controller.controllers.GameController;
 import it.unibo.oop.utils.Camera;
 /**
  * 
@@ -39,13 +33,7 @@ public class GamePanel extends MyPanel {
     @SuppressWarnings("unused") // TEMPORARY
     private static final double serialVersionUID = getSerialVersionUID();
 
-    private final transient Player player;
-    private final transient EnemyManager enemyManager;
-    private final transient ProjectileManager projectileManager;
-    private final transient WeaponManager weaponManager;
-    private final transient ExperienceManager experienceManager;
-    private final transient CollisionManager collisionManager;
-    private final transient HealthManager healthManager;
+    private final transient GameController gameController;
     private final transient EnemyRenderer enemyRenderer = new EnemyRendererImpl();
     private final transient WeaponRenderer weaponRenderer;
     private final transient ExperienceRenderer experienceRenderer = new ExperienceRendererImpl();
@@ -58,27 +46,12 @@ public class GamePanel extends MyPanel {
     /**
      * @param screenWidth
      * @param screenHeight
-     * @param player
-     * @param enemyManager
-     * @param weaponManager
-     * @param experienceManager
      * @param collisionManager
-     * @param healthManager
-     * @param projectileManager
      * @param camera
      */
-    public GamePanel(final int screenWidth, final int screenHeight, final Player player, 
-            final EnemyManager enemyManager, final WeaponManager weaponManager,
-            final ExperienceManager experienceManager, final CollisionManager collisionManager,
-            final HealthManager healthManager, final ProjectileManager projectileManager,
-            final Camera camera) {
-        this.player = player;
-        this.enemyManager = enemyManager;
-        this.projectileManager = projectileManager;
-        this.weaponManager = weaponManager;
-        this.experienceManager = experienceManager;
-        this.collisionManager = collisionManager;
-        this.healthManager = healthManager;
+    public GamePanel(final int screenWidth, final int screenHeight, 
+            final GameController GameController, final Camera camera) {
+        this.gameController = GameController;
         this.camera = camera;
         weaponRenderer = new WeaponRendererImpl();
         super.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -98,12 +71,12 @@ public class GamePanel extends MyPanel {
         g2d.translate(-camera.getX(), -camera.getY());
         // 2. Disegna tutto ciò che segue la camera
         this.mapRenderer.drawMap(g2d);
-        this.playerRenderer.drawPlayer(this.player, g2d);
-        this.enemyRenderer.drawEnemyList(this.enemyManager.getSpawnedEnemies(), g2d);
-        this.projectileRenderer.drawProjectileList(this.projectileManager.getAllProjectiles(), g2d);
-        this.weaponRenderer.drawWeaponList(g2d, this.weaponManager.getWeapons());
-        this.experienceRenderer.drawExperienceOrbs(g2d, this.experienceManager.getOrbs());
-        this.damageEventRenderer.drawDamageEventList(g2d, this.collisionManager.getDamageEvents());
+        this.playerRenderer.drawPlayer(this.gameController.getPlayer(), g2d);
+        this.enemyRenderer.drawEnemyList(this.gameController.getEnemies(), g2d);
+        this.projectileRenderer.drawProjectileList(this.gameController.getProjectiles(), g2d);
+        this.weaponRenderer.drawWeaponList(g2d, this.gameController.getWeapons());
+        this.experienceRenderer.drawExperienceOrbs(g2d, this.gameController.getExperienceOrbs());
+        this.damageEventRenderer.drawDamageEventList(g2d, this.gameController.getDamageEvents());
 
         // 3. Fine camera: ripristina traslazione
         g2d.translate(camera.getX(), camera.getY());
@@ -114,8 +87,8 @@ public class GamePanel extends MyPanel {
     }
 
     private void drawXPBar(final Graphics2D g2d) {
-        final int currentXP = this.experienceManager.getCurrentXP();
-        final int xpToNextLevel = this.experienceManager.getXPToNextLevel();
+        final int currentXP = this.gameController.getCurrentXP();
+        final int xpToNextLevel = this.gameController.getXPToNextLevel();
         final int barWidth = 300;
         final int barHeight = 20;
         final int x = 20;
@@ -125,34 +98,24 @@ public class GamePanel extends MyPanel {
         final double xpRatio = (double) currentXP / xpToNextLevel;
         final int filledWidth = (int) (barWidth * xpRatio);
 
-        // Sfondo della barra (grigio)
         g2d.setColor(Color.DARK_GRAY);
         g2d.fillRect(x, y, barWidth, barHeight);
-
-        // Parte riempita (verde)
         g2d.setColor(Color.GREEN);
         g2d.fillRect(x, y, filledWidth, barHeight);
-
-        // Bordo bianco
         g2d.setColor(Color.WHITE);
         g2d.drawRect(x, y, barWidth, barHeight);
-
-        // Testo XP
         g2d.setColor(Color.WHITE);
         g2d.drawString("XP: " + currentXP + " / " + xpToNextLevel, x + offset, y - offset);
-
         g2d.setColor(Color.WHITE);
         g2d.drawString("XP: " + currentXP + " / " + xpToNextLevel, x + offset, y - offset);
-
-        // Mostra anche il livello del giocatore
-        g2d.drawString("LVL: " + this.player.getLevel(), x + barWidth + offset * 2, y + barHeight - offset);
+        g2d.drawString("LVL: " + this.gameController.getPlayerLevel(), x + barWidth + offset * 2, y + barHeight - offset);
     }
 
     private void drawHealthBar(final Graphics2D g2d) {
         this.healthRenderer.drawHealthBar(
             g2d, 
-            this.healthManager.getHealth(), 
-            this.healthManager.getMaxHealth()
+            this.gameController.getPlayerHealth(), 
+            this.gameController.getPlayerMaxHealth()
         );
     }
 }

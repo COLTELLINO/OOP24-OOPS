@@ -7,14 +7,9 @@ import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import it.unibo.oop.model.entities.Player;
-import it.unibo.oop.model.managers.CollisionManager;
-import it.unibo.oop.model.managers.EnemyManager;
-import it.unibo.oop.model.managers.ExperienceManager;
-import it.unibo.oop.model.managers.HealthManager;
-import it.unibo.oop.model.managers.ProjectileManager;
-import it.unibo.oop.model.managers.WeaponManager;
 import it.unibo.oop.utils.GameState;
+import it.unibo.oop.controller.controllers.AudioController;
+import it.unibo.oop.controller.controllers.GameController;
 import it.unibo.oop.utils.Camera;
 
 /**
@@ -27,6 +22,7 @@ public class ViewManagerFactoryImpl implements ViewManagerFactory {
     private ViewManager window;
     /**
      * @param gameState
+     * @param gameController
      * @param player
      * @param enemyManager
      * @param weaponManager
@@ -36,19 +32,16 @@ public class ViewManagerFactoryImpl implements ViewManagerFactory {
      * @return a DrawView window.
      */
     @Override
-    public ViewManager createViewManager(final GameState gameState, final Player player, final EnemyManager enemyManager, 
-        final WeaponManager weaponManager, final ExperienceManager experienceManager,
-        final CollisionManager collisionManager, final HealthManager healthManager, 
-        final ProjectileManager projectileManager, final Camera camera) {
-            try {
-                SwingUtilities.invokeAndWait(() -> {
-                    this.window = new ViewManagerImpl(GameState.TITLESTATE, player, enemyManager, weaponManager,
-                        experienceManager, collisionManager, healthManager, projectileManager, camera);
-                    });
-            } catch (InvocationTargetException | InterruptedException e) {
-                Logger.getLogger(this.getClass().getName())
-                    .log(Level.SEVERE, e.getClass().getSimpleName() + " occurred: ", e);
-            }
-            return this.window;
+    public ViewManager createViewManager(final GameState gameState, final GameController gameController, 
+            final AudioController audioController, final Camera camera) {
+        try {
+            SwingUtilities.invokeAndWait(() -> {
+                this.window = new ViewManagerImpl(GameState.TITLESTATE, gameController, audioController, camera);
+                });
+        } catch (InvocationTargetException | InterruptedException e) {
+            Logger.getLogger(this.getClass().getName())
+                .log(Level.SEVERE, e.getClass().getSimpleName() + " occurred: ", e);
+        }
+        return this.window;
     }
 }

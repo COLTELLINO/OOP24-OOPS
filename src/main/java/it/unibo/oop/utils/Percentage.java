@@ -6,6 +6,10 @@ public enum Percentage {
     /**
      * 
      */
+    ZERO_PERCENT(0.0),
+    /**
+     * 
+     */
     TEN_PERCENT(0.1), TWENTY_PERCENT(0.2), THIRTY_PERCENT(0.3),
     /**
      * 

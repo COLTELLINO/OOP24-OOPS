@@ -1,7 +1,5 @@
 package it.unibo.oop.model.entities;
 
-import it.unibo.oop.model.managers.HealthManager;
-import it.unibo.oop.model.managers.HealthManagerImpl;
 import it.unibo.oop.utils.Direction;
 
 /**
@@ -12,7 +10,6 @@ public class Player extends Entity {
     private int xp;
     private int level = 1;
     private static final int LEVELUP_SCALER = 20;
-    private final HealthManager healthManager;
     private static final int MAXBOUND = 5000;
     private static final int DEFAULT_PICKUP_RANGE = 40;
     private static final int DEFAULT_CRIT_DAMAGE = 150;
@@ -34,7 +31,6 @@ public class Player extends Entity {
                   final int speed, final int size) {
         super(x, y, maxHealth, health, attack, speed, size);
         this.direction = Direction.NONE;
-        this.healthManager = new HealthManagerImpl(this);
     }
     /**
      * @return the facing direction of the player.
@@ -84,12 +80,12 @@ public class Player extends Entity {
      */
     @Override
     public void update() {
-
-        healthManager.update();
-        if (!healthManager.isAlive()) {
+        if (this.getHealth() <= 0) {
+            this.setAlive(false);
+        }
+        if (!this.isAlive()) {
             return;
         }
-
         int dx = 0;
         int dy = 0;
         final int speed = getSpeed();

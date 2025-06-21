@@ -10,8 +10,6 @@ public enum GameState {
     TITLEOPTIONSTATE,
     /** Main gameplay. */
     PLAYSTATE,
-    /** Test/debug state. */
-    TESTSTATE,
     /** Pause menu. */
     PAUSEMENU,
     /** Game over screen. */

@@ -2,6 +2,7 @@ package it.unibo.oop.view.panels;
 
 import javax.swing.JButton;
 
+import it.unibo.oop.controller.controllers.AudioController;
 import it.unibo.oop.utils.GameState;
 import it.unibo.oop.view.window.ViewManager;
 
@@ -17,8 +18,9 @@ public final class OptionPanel extends AbstractSettingsPanel {
      * @param screenHeight height of the panel
      * @param drawView
      */
-    public OptionPanel(final int screenWidth, final int screenHeight, final ViewManager drawView) {
-        super(screenWidth, screenHeight, drawView, "Settings");
+    public OptionPanel(final int screenWidth, final int screenHeight, final ViewManager drawView, 
+                       final AudioController audioController) {
+        super(screenWidth, screenHeight, drawView, "Settings", audioController);
         initPanel(drawView);
     }
 

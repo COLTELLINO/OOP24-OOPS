@@ -7,7 +7,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import it.unibo.oop.utils.GameState;
 import it.unibo.oop.view.window.ViewManager;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -43,9 +42,9 @@ public final class GameOverPanel extends MyPanel {
             VERTICAL_BORDER, HORIZONTAL_BORDER, VERTICAL_BORDER, HORIZONTAL_BORDER));
 
         buttonPanel.add(new JLabel());
-        final JButton returnButton = new JButton("Return");
+        final JButton returnButton = new JButton("Quit");
         returnButton.setFont(new JButton().getFont());
-        returnButton.addActionListener(e -> this.drawView.changeGameState(GameState.TITLESTATE));
+        returnButton.addActionListener(e -> System.exit(0));
         buttonPanel.add(returnButton);
         buttonPanel.add(new JLabel());
 

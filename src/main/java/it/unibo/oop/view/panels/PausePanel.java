@@ -2,6 +2,7 @@ package it.unibo.oop.view.panels;
 
 import javax.swing.JButton;
 
+import it.unibo.oop.controller.controllers.AudioController;
 import it.unibo.oop.utils.GameState;
 import it.unibo.oop.view.window.ViewManager;
 
@@ -10,15 +11,15 @@ import it.unibo.oop.view.window.ViewManager;
  */
 public final class PausePanel extends AbstractSettingsPanel {
     private static final long serialVersionUID = 1L;
-
     /**
      * Constructs the pause panel.
      * @param screenWidth width of the panel
      * @param screenHeight height of the panel
      * @param drawView
      */
-    public PausePanel(final int screenWidth, final int screenHeight, final ViewManager drawView) {
-        super(screenWidth, screenHeight, drawView, "PAUSA");
+    public PausePanel(final int screenWidth, final int screenHeight, final ViewManager drawView, 
+                     final AudioController audioController) {
+        super(screenWidth, screenHeight, drawView, "PAUSA", audioController);
         initPanel(drawView);
     }
 

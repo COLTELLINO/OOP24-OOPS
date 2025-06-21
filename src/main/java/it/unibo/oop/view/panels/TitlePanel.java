@@ -10,7 +10,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.utils.GameState;
@@ -45,18 +44,16 @@ public class TitlePanel extends MyPanel {
         setBorder(BorderFactory.createEmptyBorder(VERTICAL_BORDER, HORIZONTAL_BORDER, VERTICAL_BORDER, HORIZONTAL_BORDER));
 
         final JButton newGameButton = new JButton("New Game");
-        final JButton loadGameButton = new JButton("Load Game");
         final JButton settingsButton = new JButton("Settings");
         final JButton quitButton = new JButton("Quit");
 
         newGameButton.addActionListener(e -> this.drawView.changeGameState(GameState.PLAYSTATE));
         settingsButton.addActionListener(e -> this.drawView.changeGameState(GameState.TITLEOPTIONSTATE));
         quitButton.addActionListener(e -> {
-            SwingUtilities.getWindowAncestor(quitButton).dispose();
+            System.exit(0);
         });
 
         buttonPanel.add(newGameButton);
-        buttonPanel.add(loadGameButton);
         buttonPanel.add(settingsButton);
         buttonPanel.add(quitButton);
 

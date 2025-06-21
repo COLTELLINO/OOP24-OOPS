@@ -5,20 +5,14 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import it.unibo.oop.controller.gamethread.MouseHandler;
-import it.unibo.oop.model.entities.Player;
-import it.unibo.oop.model.managers.CollisionManager;
-import it.unibo.oop.model.managers.EnemyManager;
-import it.unibo.oop.model.managers.ExperienceManager;
-import it.unibo.oop.model.managers.HealthManager;
-import it.unibo.oop.model.managers.ProjectileManager;
-import it.unibo.oop.model.managers.WeaponManager;
+import it.unibo.oop.controller.MouseHandler;
+import it.unibo.oop.controller.controllers.AudioController;
+import it.unibo.oop.controller.controllers.GameController;
 import it.unibo.oop.utils.GameState;
 import it.unibo.oop.view.panels.GamePanel;
 import it.unibo.oop.view.panels.MyPanel;
 import it.unibo.oop.view.panels.OptionPanel;
 import it.unibo.oop.view.panels.PausePanel;
-import it.unibo.oop.view.panels.TestPanel;
 import it.unibo.oop.view.panels.TitlePanel;
 import it.unibo.oop.view.panels.GameOverPanel;
 import it.unibo.oop.utils.Camera;
@@ -29,7 +23,7 @@ import java.awt.Toolkit;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
- * 
+ *
  */
 public final class ViewManagerImpl implements ViewManager {
     private static final String FRAME_NAME = "OOP Survivors";
@@ -44,12 +38,12 @@ public final class ViewManagerImpl implements ViewManager {
     private final TitlePanel titlePanel;
     private final OptionPanel optionPanel;
     private final GamePanel gamePanel;
-    private final TestPanel testPanel;
     private final PausePanel pausePanel;
     private final GameOverPanel gameOverPanel;
     private final MouseHandler mouseHandler = new MouseHandler();
     /**
      * @param gameState
+     * @param gameController
      * @param player
      * @param enemyManager
      * @param weaponManager
@@ -59,22 +53,17 @@ public final class ViewManagerImpl implements ViewManager {
      * @param projectileManager
      * @param camera
      */
-    public ViewManagerImpl(final GameState gameState, final Player player, final EnemyManager enemyManager,
-        final WeaponManager weaponManager, final ExperienceManager experienceManager, 
-        final CollisionManager collisionManager, final HealthManager healthManager,
-        final ProjectileManager projectileManager, final Camera camera) {
+    public ViewManagerImpl(final GameState gameState, final GameController gameController,
+            final AudioController audioController, final Camera camera) {
         this.titlePanel = new TitlePanel(this.sw / PROPORTION, this.sh / PROPORTION, this);
-        this.optionPanel = new OptionPanel(this.sw / PROPORTION, this.sh / PROPORTION, this);
-        this.gamePanel = new GamePanel(this.sw / PROPORTION, this.sh / PROPORTION, 
-        player, enemyManager, weaponManager, experienceManager, collisionManager, healthManager, projectileManager, camera);
-        testPanel = new TestPanel(this.sw / PROPORTION, this.sh / PROPORTION);
-        this.pausePanel = new PausePanel(this.sw / PROPORTION, this.sh / PROPORTION, this);
+        this.optionPanel = new OptionPanel(this.sw / PROPORTION, this.sh / PROPORTION, this, audioController);
+        this.gamePanel = new GamePanel(this.sw / PROPORTION, this.sh / PROPORTION, gameController, camera);
+        this.pausePanel = new PausePanel(this.sw / PROPORTION, this.sh / PROPORTION, this, audioController);
         this.gameOverPanel = new GameOverPanel(this.sw / PROPORTION, this.sh / PROPORTION, this);
-
         this.gamePanel.addMouseListener(mouseHandler);
         this.gamePanel.addMouseMotionListener(mouseHandler);
-
         this.changeGameState(gameState);
+        this.frame.setMinimumSize(new Dimension(this.sw / PROPORTION, this.sh / PROPORTION));
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setLocationRelativeTo(null);
         this.start();
@@ -110,9 +99,6 @@ public final class ViewManagerImpl implements ViewManager {
                 case PLAYSTATE -> {
                     this.currentPanel = gamePanel;
                 }
-                case TESTSTATE -> {
-                    this.currentPanel = testPanel;
-                }
                 case PAUSEMENU -> {
                     this.currentPanel = pausePanel;
                 }
@@ -130,7 +116,8 @@ public final class ViewManagerImpl implements ViewManager {
     private void setState() {
         SwingUtilities.invokeLater(() -> {
             this.frame.setContentPane(this.currentPanel);
-            this.frame.pack();
+            this.frame.revalidate();
+            this.frame.repaint();
         });
     }
     @Override

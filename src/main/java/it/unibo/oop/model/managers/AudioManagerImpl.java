@@ -114,7 +114,16 @@ public class AudioManagerImpl implements AudioManager {
     public void setVolume(final Percentage volume) {
         if (volume != null) {
             this.volume = volume;
+            this.applyVolume();
         }
+    }
+    /**
+     * Gets the current volume.
+     * @return the current volume as a Percentage
+     */
+    @Override
+    public Percentage getVolume() {
+        return this.volume;
     }
     /**
      * Applies the volume to the clip.

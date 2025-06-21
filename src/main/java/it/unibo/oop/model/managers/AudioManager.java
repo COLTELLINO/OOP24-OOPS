@@ -48,4 +48,9 @@ public interface AudioManager {
      * @param volume the volume to set, as a Percentage
      */
     void setVolume(Percentage volume);
+    /**
+     * Gets the current volume of the audio.
+     * @return the current volume as a Percentage
+     */
+    Percentage getVolume();
 }

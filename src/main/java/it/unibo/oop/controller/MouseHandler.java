@@ -1,4 +1,4 @@
-package it.unibo.oop.controller.gamethread;
+package it.unibo.oop.controller;
 
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
