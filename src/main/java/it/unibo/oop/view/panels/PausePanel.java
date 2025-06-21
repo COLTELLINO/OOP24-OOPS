@@ -16,10 +16,11 @@ public final class PausePanel extends AbstractSettingsPanel {
      * @param screenWidth width of the panel
      * @param screenHeight height of the panel
      * @param drawView
+     * @param audioController
      */
     public PausePanel(final int screenWidth, final int screenHeight, final ViewManager drawView, 
                      final AudioController audioController) {
-        super(screenWidth, screenHeight, drawView, "PAUSA", audioController);
+        super(screenWidth, screenHeight, audioController);
         initPanel(drawView);
     }
 

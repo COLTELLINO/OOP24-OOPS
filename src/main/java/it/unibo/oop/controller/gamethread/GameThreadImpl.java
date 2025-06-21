@@ -58,9 +58,9 @@ public class GameThreadImpl implements Runnable, GameThread {
     private final ExperienceManager experienceManager = new ExperienceManagerImpl(player);
     private final CollisionManager collisionManager = new CollisionManagerImpl();
     private final AudioManager audioManager = new AudioManagerImpl();
-    final GameController gameController = new GameController(player, enemyManager, projectileManager, 
+    private final GameController gameController = new GameController(player, enemyManager, projectileManager, 
             weaponManager, experienceManager, collisionManager);
-    final AudioController audioController = new AudioController(audioManager);
+    private final AudioController audioController = new AudioController(audioManager);
     private final ViewManagerFactory drawViewFactory = new ViewManagerFactoryImpl();
     private final ViewManager window;
     private Boolean running = true;

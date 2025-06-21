@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.controller.controllers.AudioController;
 import it.unibo.oop.utils.Percentage;
 import it.unibo.oop.view.window.ViewManager;
@@ -22,6 +23,8 @@ import it.unibo.oop.view.window.ViewManager;
 /**
  * Abstract panel for settings and pause screens, provides common buttons and layout.
  */
+@SuppressFBWarnings(value = {"EI2"}, 
+    justification = "AudioController needs to be stored and kept mutable to allow volume changes.")
 public abstract class AbstractSettingsPanel extends MyPanel {
     private static final long serialVersionUID = 1L;
     private static final int FONT_SIZE = 24;
@@ -35,16 +38,13 @@ public abstract class AbstractSettingsPanel extends MyPanel {
 
     /**
      * Constructs the panel with common settings buttons.
-     * @param screenWidth width of the panel
-     * @param screenHeight height of the panel
-     * @param drawView
-     * @param title
+     * @param screenWidth
+     * @param screenHeight
+     * @param audioController
      */
     public AbstractSettingsPanel(
         final int screenWidth,
         final int screenHeight,
-        final ViewManager drawView,
-        final String title,
         final AudioController audioController
     ) {
         this.audioController = audioController;
@@ -67,7 +67,8 @@ public abstract class AbstractSettingsPanel extends MyPanel {
         super.add(titleLabel, BorderLayout.NORTH);
 
         final JPanel buttonPanel = new JPanel(new GridLayout(ROWS, COLUMNS, GAP, GAP));
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(VERTICAL_BORDER, HORIZONTAL_BORDER, VERTICAL_BORDER, HORIZONTAL_BORDER));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(VERTICAL_BORDER, HORIZONTAL_BORDER,
+            VERTICAL_BORDER, HORIZONTAL_BORDER));
 
         final JButton fullscreenButton = new JButton("Fullscreen");
         final JButton screenSizeButton = new JButton("Screen Size");
@@ -191,8 +192,8 @@ public abstract class AbstractSettingsPanel extends MyPanel {
     }
     private void updateVolume(final int direction, final JLabel label) {
         final Percentage[] values = Percentage.values();
-        int currentIndex = getCurrentVolumeIndex();
-        int newIndex = Math.max(0, Math.min(values.length - 1, currentIndex + direction));
+        final int currentIndex = getCurrentVolumeIndex();
+        final int newIndex = Math.max(0, Math.min(values.length - 1, currentIndex + direction));
         audioController.setVolume(values[newIndex]);
         if (label != null) {
             label.setText(getVolumeLabelText(values[newIndex]));

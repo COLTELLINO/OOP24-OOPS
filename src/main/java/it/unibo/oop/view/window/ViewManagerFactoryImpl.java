@@ -23,12 +23,7 @@ public class ViewManagerFactoryImpl implements ViewManagerFactory {
     /**
      * @param gameState
      * @param gameController
-     * @param player
-     * @param enemyManager
-     * @param weaponManager
-     * @param experienceManager
-     * @param collisionManager
-     * @param healthManager
+     * @param audioController
      * @return a DrawView window.
      */
     @Override

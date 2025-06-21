@@ -1,11 +1,14 @@
 package it.unibo.oop.controller.controllers;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.model.managers.AudioManager;
 import it.unibo.oop.utils.Percentage;
 /** 
  * Controller for managing audio settings in the game.
  * It allows setting the volume of the audio manager.
  */
+@SuppressFBWarnings(value = {"EI2", "EI"}, 
+    justification = "AudioController needs to keep a reference to AudioManager for sound control.")
 public class AudioController {
 
     private final AudioManager audioManager;

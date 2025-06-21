@@ -7,6 +7,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+
 import it.unibo.oop.view.window.ViewManager;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -44,7 +46,7 @@ public final class GameOverPanel extends MyPanel {
         buttonPanel.add(new JLabel());
         final JButton returnButton = new JButton("Quit");
         returnButton.setFont(new JButton().getFont());
-        returnButton.addActionListener(e -> System.exit(0));
+        returnButton.addActionListener(e -> SwingUtilities.getWindowAncestor(returnButton).dispose());
         buttonPanel.add(returnButton);
         buttonPanel.add(new JLabel());
 

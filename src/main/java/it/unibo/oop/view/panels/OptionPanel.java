@@ -17,10 +17,11 @@ public final class OptionPanel extends AbstractSettingsPanel {
      * @param screenWidth width of the panel
      * @param screenHeight height of the panel
      * @param drawView
+     * @param audioController
      */
     public OptionPanel(final int screenWidth, final int screenHeight, final ViewManager drawView, 
                        final AudioController audioController) {
-        super(screenWidth, screenHeight, drawView, "Settings", audioController);
+        super(screenWidth, screenHeight, audioController);
         initPanel(drawView);
     }
 

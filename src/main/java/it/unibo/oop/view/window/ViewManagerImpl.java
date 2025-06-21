@@ -44,13 +44,7 @@ public final class ViewManagerImpl implements ViewManager {
     /**
      * @param gameState
      * @param gameController
-     * @param player
-     * @param enemyManager
-     * @param weaponManager
-     * @param experienceManager
-     * @param collisionManager
-     * @param healthManager
-     * @param projectileManager
+     * @param audioController
      * @param camera
      */
     public ViewManagerImpl(final GameState gameState, final GameController gameController,

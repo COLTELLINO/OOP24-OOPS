@@ -2,16 +2,26 @@ package it.unibo.oop.controller.controllers;
 
 import java.util.List;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.model.entities.Enemy;
 import it.unibo.oop.model.entities.Player;
 import it.unibo.oop.model.events.DamageEvent;
 import it.unibo.oop.model.items.ExperienceOrb;
 import it.unibo.oop.model.items.Weapon;
-import it.unibo.oop.model.managers.*;
+import it.unibo.oop.model.managers.CollisionManager;
+import it.unibo.oop.model.managers.EnemyManager;
+import it.unibo.oop.model.managers.ExperienceManager;
+import it.unibo.oop.model.managers.ProjectileManager;
+import it.unibo.oop.model.managers.WeaponManager;
 import it.unibo.oop.model.projectiles.Projectile;
-
+/**
+ * Controller that provides methods to access game data and manage the game state. 
+ * It acts as a bridge between the model and the view.
+ */
+@SuppressFBWarnings(value = {"EI2", "EI"}, 
+    justification = "Storing references to mutable managers to coordinate game logic is necessary "
+      + "design requires these objects to be externally mutable.")
 public class GameController {
-
     private final Player player;
     private final EnemyManager enemyManager;
     private final ProjectileManager projectileManager;
@@ -27,8 +37,9 @@ public class GameController {
      * @param experienceManager
      * @param collisionManager
      */
-    public GameController(Player player, EnemyManager enemyManager, ProjectileManager projectileManager, 
-            WeaponManager weaponManager, ExperienceManager experienceManager, CollisionManager collisionManager) {
+    public GameController(final Player player, final EnemyManager enemyManager, 
+            final ProjectileManager projectileManager, final WeaponManager weaponManager,
+            final ExperienceManager experienceManager, final CollisionManager collisionManager) {
         this.player = player;
         this.enemyManager = enemyManager;
         this.projectileManager = projectileManager;

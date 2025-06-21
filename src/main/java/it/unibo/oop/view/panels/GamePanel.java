@@ -46,12 +46,12 @@ public class GamePanel extends MyPanel {
     /**
      * @param screenWidth
      * @param screenHeight
-     * @param collisionManager
+     * @param gameController
      * @param camera
      */
     public GamePanel(final int screenWidth, final int screenHeight, 
-            final GameController GameController, final Camera camera) {
-        this.gameController = GameController;
+            final GameController gameController, final Camera camera) {
+        this.gameController = gameController;
         this.camera = camera;
         weaponRenderer = new WeaponRendererImpl();
         super.setPreferredSize(new Dimension(screenWidth, screenHeight));
