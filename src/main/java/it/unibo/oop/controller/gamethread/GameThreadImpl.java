@@ -112,6 +112,12 @@ public class GameThreadImpl implements Runnable, GameThread {
         if (mouseHandler.isMouseClicked()) {
             mouseHandler.clearMouseClick();
         }
+        if (this.window.getCurrentGameState() == GameState.PLAYSTATE && !healthManager.isAlive()) {
+            audioHandler.stopMusic();
+            window.changeGameState(GameState.GAMEOVER);
+            return;
+        }
+
         if (this.window.getCurrentGameState() == GameState.PLAYSTATE) {
             if (!this.audioHandler.isMusicPlaying()) {
                 this.audioHandler.playMusic(OOP_ADVENTURE_ID);

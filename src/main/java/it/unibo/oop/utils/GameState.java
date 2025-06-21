@@ -1,10 +1,19 @@
 package it.unibo.oop.utils;
+
 /**
- * 
+ * Represents the possible states of the game.
  */
 public enum GameState {
-    /**
-     * 
-     */
-    TITLESTATE, TITLEOPTIONSTATE, PLAYSTATE, TESTSTATE, PAUSEMENU;
+    /** Title screen. */
+    TITLESTATE,
+    /** Options menu from title. */
+    TITLEOPTIONSTATE,
+    /** Main gameplay. */
+    PLAYSTATE,
+    /** Test/debug state. */
+    TESTSTATE,
+    /** Pause menu. */
+    PAUSEMENU,
+    /** Game over screen. */
+    GAMEOVER
 }

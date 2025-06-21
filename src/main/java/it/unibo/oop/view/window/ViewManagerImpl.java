@@ -20,6 +20,7 @@ import it.unibo.oop.view.panels.OptionPanel;
 import it.unibo.oop.view.panels.PausePanel;
 import it.unibo.oop.view.panels.TestPanel;
 import it.unibo.oop.view.panels.TitlePanel;
+import it.unibo.oop.view.panels.GameOverPanel;
 import it.unibo.oop.utils.Camera;
 
 import java.awt.Dimension;
@@ -45,6 +46,7 @@ public final class ViewManagerImpl implements ViewManager {
     private final GamePanel gamePanel;
     private final TestPanel testPanel;
     private final PausePanel pausePanel;
+    private final GameOverPanel gameOverPanel;
     private final MouseHandler mouseHandler = new MouseHandler();
     /**
      * @param gameState
@@ -67,6 +69,7 @@ public final class ViewManagerImpl implements ViewManager {
         player, enemyManager, weaponManager, experienceManager, collisionManager, healthManager, projectileManager, camera);
         testPanel = new TestPanel(this.sw / PROPORTION, this.sh / PROPORTION);
         this.pausePanel = new PausePanel(this.sw / PROPORTION, this.sh / PROPORTION, this);
+        this.gameOverPanel = new GameOverPanel(this.sw / PROPORTION, this.sh / PROPORTION, this);
 
         this.gamePanel.addMouseListener(mouseHandler);
         this.gamePanel.addMouseMotionListener(mouseHandler);
@@ -112,6 +115,9 @@ public final class ViewManagerImpl implements ViewManager {
                 }
                 case PAUSEMENU -> {
                     this.currentPanel = pausePanel;
+                }
+                case GAMEOVER -> {
+                    this.currentPanel = gameOverPanel;
                 }
                 default -> throw new IllegalArgumentException();
             }
