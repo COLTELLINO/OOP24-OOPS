@@ -22,7 +22,7 @@ import it.unibo.oop.model.managers.AudioManagerImpl;
 import it.unibo.oop.model.managers.ProjectileManagerImpl;
 import it.unibo.oop.model.managers.WeaponManagerImpl;
 
-class WeaponManagerTest {
+class TestWeaponManager {
 
     private static final AudioManager AUDIOMANAGER = new AudioManagerImpl();
     private WeaponManagerImpl weaponManager;
