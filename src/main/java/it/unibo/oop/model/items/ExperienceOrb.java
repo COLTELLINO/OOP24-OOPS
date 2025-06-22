@@ -1,13 +1,14 @@
 package it.unibo.oop.model.items;
 
 /**
-*
+*   Represents an experience orb in the game.
 */
 public class ExperienceOrb {
 
     private final int x, y;
     private final int xp;
     /**
+     * Constructs an ExperienceOrb.
      * @param x
      * @param y
      * @param amount

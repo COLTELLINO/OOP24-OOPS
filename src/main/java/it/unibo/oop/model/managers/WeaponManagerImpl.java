@@ -36,7 +36,7 @@ public class WeaponManagerImpl implements WeaponManager {
     private final ProjectileManager projectileManager;
 
     /**
-     * The max level of a weapon.
+     * The maximum level of the weapons.
      */
     public static final int MAX_LEVEL = 5;
     private boolean first = true;
@@ -171,7 +171,9 @@ public class WeaponManagerImpl implements WeaponManager {
     }
 
     /**
-     * Returns 3 random upgrade classes from the upgrade pool for the player to choose from.
+     * Returns 3 random upgrades from the upgrade pool for the player to choose from.
+     * The choice interface hasn't been implemented yet, so this method
+     * is unused for now.
      * 
      * @return a list of 3 random upgrade classes
      */

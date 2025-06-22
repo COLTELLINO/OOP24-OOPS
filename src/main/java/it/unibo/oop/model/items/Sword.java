@@ -135,14 +135,6 @@ public class Sword extends Weapon {
     }
 
     /**
-     * Handles the weapon collision.
-     */
-    @Override
-    public void handleCollision() {
-        //unused for the sword.
-    }
-
-    /**
     * Gets the size of the sword based on its level and scaler.
     * 
     * @return the size of the sword

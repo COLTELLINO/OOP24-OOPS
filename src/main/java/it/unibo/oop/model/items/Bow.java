@@ -37,7 +37,7 @@ public class Bow extends Weapon {
     private static final int SPEEDSCALER = 10;
 
     /**
-     * Constructs a Bow object.
+     * Constructs a Bow.
      * 
      * @param player the player associated with the bow
      */
@@ -150,14 +150,6 @@ public class Bow extends Weapon {
     @Override
     protected int getBaseDamage() {
         return DAMAGE + ((getLevel() - 1) * DAMAGESCALER);
-    }
-
-    /**
-     * handles the weapon collision.
-     */
-    @Override
-    public void handleCollision() {
-        //unused for the bow.
     }
 
     /**

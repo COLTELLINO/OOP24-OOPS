@@ -47,19 +47,20 @@ public class GameThreadImpl implements Runnable, GameThread {
     private static final int PLAYER_ATTACK = 100;
     private static final int PLAYER_SPEED = 5;
     private static final int PLAYER_SIZE = 50;
+    private int playerLevel = 1;
 
     private final Timer timer = new TimerImpl(1);
     private final CountDownTimer countDownTimer = new CountDownTimer((int) timer.getFps());
     private final Camera camera = new Camera(0, 0);
     private final Player player = new Player(PLAYER_X, PLAYER_Y, PLAYER_MAX_HEALTH, PLAYER_HEALTH,
         PLAYER_ATTACK, PLAYER_SPEED, PLAYER_SIZE);
+    private final AudioManager audioManager = new AudioManagerImpl();
     private final InputHandler inputHandler = new InputHandler(player);
     private final EnemyManager enemyManager = new EnemyManagerImpl(player, countDownTimer);
-    private final ProjectileManager projectileManager = new ProjectileManagerImpl();
+    private final ProjectileManager projectileManager = new ProjectileManagerImpl(audioManager);
     private final WeaponManager weaponManager = new WeaponManagerImpl(player, projectileManager);
     private final ExperienceManager experienceManager = new ExperienceManagerImpl(player);
-    private final CollisionManager collisionManager = new CollisionManagerImpl();
-    private final AudioManager audioManager = new AudioManagerImpl();
+    private final CollisionManager collisionManager = new CollisionManagerImpl(audioManager);
     private final GameController gameController = new GameController(player, enemyManager, projectileManager, 
             weaponManager, experienceManager, collisionManager, countDownTimer);
     private final AudioController audioController = new AudioController(audioManager);
@@ -110,7 +111,6 @@ public class GameThreadImpl implements Runnable, GameThread {
      */
     @Override
     public void update() {
-        // Prendi MouseHandler direttamente dal ViewManagerImpl
         final MouseHandler mouseHandler = ((ViewManagerImpl) window).getMouseHandler();
         if (mouseHandler.isMouseClicked()) {
             mouseHandler.clearMouseClick();
@@ -128,6 +128,10 @@ public class GameThreadImpl implements Runnable, GameThread {
                 this.countDownTimer.tick();
             } else {
                 this.countDownTimer.reset();
+            }
+            if (player.getLevel() > playerLevel) {
+                playerLevel++;
+                audioManager.playSoundEffect(3);
             }
             getAllEntities().forEach((e) -> e.showHitbox(inputHandler.isDebugMode()));
             projectileManager.getAllProjectiles().forEach((p) -> p.setShowHitbox(inputHandler.isDebugMode()));

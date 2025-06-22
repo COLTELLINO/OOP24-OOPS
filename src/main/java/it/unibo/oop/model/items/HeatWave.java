@@ -26,8 +26,6 @@ public class HeatWave extends Weapon {
 
     /**
      * Creates a new HeatWave instance for the specified player.
-     * Initializes the level to 1 and sets the duration to the defined constant.
-     * 
      * @param player the player associated with this HeatWave
      */
     public HeatWave(final Player player) {
@@ -79,8 +77,7 @@ public class HeatWave extends Weapon {
     }
 
     /**
-     * Chiama questo metodo ogni tick/frame.
-     * Quando il cooldown scade, genera una nuova onda.
+     * Updates the state of the HeatWave.
      */
     @Override
     public void update() {
@@ -101,15 +98,8 @@ public class HeatWave extends Weapon {
     }
 
     /**
-     * Gestisce la collisione con i nemici (da chiamare dal CollisionManager).
-     */
-    @Override
-    public void handleCollision() {
-    }
-
-    /**
-     * Se è attiva l'onda di calore.
-     * @return true se l'onda di calore è attiva, false altrimenti.
+     * If the HeatWave is active.
+     * @return true if the HeatWave is currently active, false otherwise.
      */
     public boolean isActive() {
         return isActive;

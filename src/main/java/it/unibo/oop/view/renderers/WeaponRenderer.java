@@ -46,7 +46,7 @@ public interface WeaponRenderer {
      */
     void drawCursorSaw(Graphics g, CursorSaw cursorSaw);
 
-        /**
+    /**
      * Draws a HeatWave.
      * 
      * @param g the graphics context

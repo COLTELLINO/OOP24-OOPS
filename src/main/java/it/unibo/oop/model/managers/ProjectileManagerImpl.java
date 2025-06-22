@@ -4,15 +4,19 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.oop.model.projectiles.Projectile;
 import it.unibo.oop.model.projectiles.StaffProjectile;
 
 /**
  * Class that manages projectiles.
  */
+@SuppressFBWarnings(value = {"EI2", "EI"}, 
+justification = "The audio manager is needed to play sound effects on collision events")
 public class ProjectileManagerImpl implements ProjectileManager {
     private final List<Projectile> enemyProjectileList = new ArrayList<>();
     private final List<Projectile> playerProjectileList = new ArrayList<>();
+    private final AudioManager audioManager;
 
     /**
     * Functional interface for observing projectile events in the manager.
@@ -27,6 +31,13 @@ public class ProjectileManagerImpl implements ProjectileManager {
         void onProjectileExploded(Projectile projectile);
     }
 
+    /**
+     * Constructor for ProjectileManagerImpl.
+     * @param audioManager the audio manager to handle sound effects
+     */
+    public ProjectileManagerImpl(final AudioManager audioManager) {
+        this.audioManager = audioManager;
+    }
     /**
      * Updates all projectiles.
      */
@@ -66,9 +77,10 @@ public class ProjectileManagerImpl implements ProjectileManager {
     @Override
     public void addPlayerProjectile(final Projectile projectile) {
         playerProjectileList.add(projectile);
-
+        audioManager.playSoundEffect(2);
         if (projectile instanceof StaffProjectile) {
             projectile.setManagerObserver(explodedProjectile -> {
+                audioManager.playSoundEffect(0);
                 playerProjectileList.remove(explodedProjectile);
             });
         }

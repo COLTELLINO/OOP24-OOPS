@@ -16,12 +16,15 @@ import it.unibo.oop.model.items.MagicStaff;
 import it.unibo.oop.model.items.Sword;
 import it.unibo.oop.model.items.Upgrade;
 import it.unibo.oop.model.items.Weapon;
+import it.unibo.oop.model.managers.AudioManager;
 import it.unibo.oop.model.managers.ProjectileManager;
+import it.unibo.oop.model.managers.AudioManagerImpl;
 import it.unibo.oop.model.managers.ProjectileManagerImpl;
 import it.unibo.oop.model.managers.WeaponManagerImpl;
 
 class WeaponManagerTest {
 
+    private static final AudioManager AUDIOMANAGER = new AudioManagerImpl();
     private WeaponManagerImpl weaponManager;
     private static final int SPEED = 5;
     private static final int SIZE = 50;
@@ -30,7 +33,7 @@ class WeaponManagerTest {
     @SuppressWarnings("checkstyle:MagicNumber")
     void setUp() {
         final Player player = new Player(0, 0, 100, 100, 10, SPEED, SIZE);
-        final ProjectileManager projectileManager = new ProjectileManagerImpl();
+        final ProjectileManager projectileManager = new ProjectileManagerImpl(AUDIOMANAGER);
         weaponManager = new WeaponManagerImpl(player, projectileManager);
     }
 

@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import it.unibo.oop.model.projectiles.Projectile;
 import it.unibo.oop.model.projectiles.StaffProjectile;
+import it.unibo.oop.model.managers.AudioManager;
+import it.unibo.oop.model.managers.AudioManagerImpl;
 import it.unibo.oop.model.managers.ProjectileManagerImpl;
 import it.unibo.oop.utils.Direction;
 
@@ -26,6 +28,7 @@ class TestProjectileManager {
     private static final int ENEMY_PROJECTILE_DAMAGE = 5;
     private static final int ENEMY_PROJECTILE_SPEED = 10;
     private static final int ENEMY_PROJECTILE_SIZE = 5;
+    private static final AudioManager AUDIOMANAGER = new AudioManagerImpl();
 
     private static final int EXPECTED_PLAYER_PROJECTILE_X_AFTER_UPDATE = 
             PLAYER_PROJECTILE_X + PLAYER_PROJECTILE_ENTITY_SIZE + PLAYER_PROJECTILE_SPEED;
@@ -34,7 +37,7 @@ class TestProjectileManager {
 
     @BeforeEach
     void setUp() {
-        projectileManager = new ProjectileManagerImpl();
+        projectileManager = new ProjectileManagerImpl(AUDIOMANAGER);
     }
 
     @Test

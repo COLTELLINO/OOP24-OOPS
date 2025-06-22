@@ -88,11 +88,11 @@ public final class WeaponRendererImpl implements WeaponRenderer {
         g2d.drawImage(swordImage, transform, null);
     }
 
-        /**
-     * Draws a sword on the screen.
+    /**
+     * Draws an HeatWave on the screen.
      * 
      * @param g the graphics context
-     * @param heatwave the sword to draw
+     * @param heatwave the heatwave to draw
      */
     @Override
     public void drawHeatWave(final Graphics g, final HeatWave heatwave) {
@@ -195,7 +195,7 @@ public final class WeaponRendererImpl implements WeaponRenderer {
             return;
         }
 
-        final double scale = cursorSaw.getSawSize() / 35.0;
+        final double scale = cursorSaw.getSize() / 35.0;
         final int drawX = cursorSaw.getCursorX() - (int) (sawImage.getWidth(null) * scale) / 2;
         final int drawY = cursorSaw.getCursorY() - (int) (sawImage.getHeight(null) * scale) / 2;
 

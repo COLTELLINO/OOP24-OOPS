@@ -16,6 +16,8 @@ import it.unibo.oop.model.entities.Enemy;
 import it.unibo.oop.model.entities.Player;
 import it.unibo.oop.model.entities.Slime;
 import it.unibo.oop.model.items.Weapon;
+import it.unibo.oop.model.managers.AudioManagerImpl;
+import it.unibo.oop.model.managers.AudioManager;
 import it.unibo.oop.model.managers.CollisionManagerImpl;
 import it.unibo.oop.model.projectiles.Arrow;
 import it.unibo.oop.model.projectiles.Projectile;
@@ -59,6 +61,7 @@ class TestCollisionManager {
 
     private static final int EXPECTED_HEALTH_AFTER_DAMAGE = 90;
     private static final int EXPECTED_HEALTH_AFTER_WEAPON_DAMAGE = 80;
+    private static final AudioManager AUDIOMANAGER = new AudioManagerImpl();
 
     private CollisionManagerImpl collisionManager;
     private Player player;
@@ -68,17 +71,13 @@ class TestCollisionManager {
 
     @BeforeEach
     void setUp() {
-        collisionManager = new CollisionManagerImpl();
+        collisionManager = new CollisionManagerImpl(AUDIOMANAGER);
 
         player = new Player(PLAYER_X, PLAYER_Y, PLAYER_MAX_HEALTH, PLAYER_HEALTH, PLAYER_ATTACK, PLAYER_SPEED, PLAYER_SIZE);
 
         enemy = new Slime(ENEMY_X, ENEMY_Y, ENEMY_MAX_HEALTH, ENEMY_HEALTH, ENEMY_ATTACK, ENEMY_SPEED, ENEMY_SIZE, player);
 
         weapon = new Weapon(player) {
-            @Override
-            public void handleCollision() {
-
-            }
 
             @Override
             public int getDamage() {

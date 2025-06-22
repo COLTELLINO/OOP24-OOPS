@@ -11,7 +11,7 @@ import it.unibo.oop.model.items.Weapon;
 public interface WeaponManager {
 
     /**
-     * MAX LEVEL of a weapon.
+     * MAX LEVEL of the weapons.
      */
     int MAX_LEVEL = 5;
     /**
@@ -27,6 +27,8 @@ public interface WeaponManager {
     void addChosenUpgrade(Class<? extends Upgrade> chosenUpgradeClass);
     /**
      * Returns 3 random upgrades from the upgrade pool for the player to choose from.
+     * The choice interface hasn't been implemented yet, so this method
+     * is unused for now.
      * 
      * @return a list of 3 random upgrades
      */

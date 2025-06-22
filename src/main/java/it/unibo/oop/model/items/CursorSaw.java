@@ -32,7 +32,7 @@ public class CursorSaw extends Weapon {
     }
 
     /**
-     * Aggiorna la posizione del cursore.
+     * Updates the position of the cursor.
      * @param x the new X coordinate of the cursor.
      * @param y the new Y coordinate of the cursor.
      */
@@ -51,16 +51,6 @@ public class CursorSaw extends Weapon {
     }
 
     /**
-     * Gets the size of the saw based on its level.
-     * The size increases with the level of the saw.
-     * 
-     * @return the size of the saw
-     */
-    public int getSawSize() {
-        return SIZE;
-    }
-
-    /**
      * Gets the hitbox of the saw based on its current position.
      * The hitbox is a square centered around the cursor position.
      * 
@@ -68,26 +58,17 @@ public class CursorSaw extends Weapon {
      */
     @Override
     public List<Rectangle> getHitBox() {
-        final int size = getSawSize();
-        final int x = cursorX - size / 2;
-        final int y = cursorY - size / 2;
-        return Collections.singletonList(new Rectangle(x, y, size, size));
+        final int x = cursorX - SIZE / 2;
+        final int y = cursorY - SIZE / 2;
+        return Collections.singletonList(new Rectangle(x, y, SIZE, SIZE));
     }
 
     /**
      * Updates the state of the saw.
-     * Currently, this method does not perform any actions.
      */
     @Override
     public void update() {
-    }
-
-    /**
-     * Handles the collision of the saw.
-     * Currently, this method does not perform any actions.
-     */
-    @Override
-    public void handleCollision() {
+        //unused.
     }
 
     /**
@@ -106,5 +87,14 @@ public class CursorSaw extends Weapon {
      */
     public int getCursorY() {
         return this.cursorY;
+    }
+
+    /**
+     * Gets the size of the CursorSaw.
+     * 
+     * @return the size of the saw
+     */
+    public int getSize() {
+        return SIZE;
     }
 }

@@ -78,7 +78,6 @@ public abstract class Weapon extends Upgrade {
 
     /**
      * Returns the base damage of the weapon, without critical hit calculation.
-     * Subclasses must implement this to provide their specific base damage logic.
      * @return the base damage value
      */
     protected abstract int getBaseDamage();
@@ -89,8 +88,4 @@ public abstract class Weapon extends Upgrade {
      */
     public abstract List<Rectangle> getHitBox();
 
-    /**
-     * Handles the weapon's collision logic.
-     */
-    public abstract void handleCollision();
 }

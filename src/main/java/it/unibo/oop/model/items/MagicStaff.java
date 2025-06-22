@@ -205,14 +205,6 @@ public class MagicStaff extends Weapon {
     }
 
     /**
-     * hndles the weapon collision.
-     */
-    @Override
-    public void handleCollision() {
-        //unused
-    }
-
-    /**
      * If an observer is present, trigger its action.
      */
     protected void observerAction() {

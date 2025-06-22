@@ -1,6 +1,9 @@
 package it.unibo.oop.model.managers;
 
 import java.util.Set;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -20,6 +23,8 @@ import java.awt.Rectangle;
 /**
  * Class managing collisions between game objects.
  */
+@SuppressFBWarnings(value = {"EI2", "EI"}, 
+justification = "The audio manager is needed to play sound effects on collision events")
 public class CollisionManagerImpl implements CollisionManager {
     private static final int WEAPON_IFRAME = 30;
     private static final int PLAYER_IFRAME = 20;
@@ -28,7 +33,15 @@ public class CollisionManagerImpl implements CollisionManager {
     private final Map<Enemy, Integer> playerCooldown = new HashMap<>();
     private final Map<Entity, Map<Projectile, Integer>> projectileCooldowns = new HashMap<>();
     private final List<DamageEvent> damageEvents = new ArrayList<>();
+    private final AudioManager audioManager;
 
+    /**
+     * Constructor for CollisionManagerImpl.
+     * @param audioManager the audio manager to handle sound effects
+     */
+    public CollisionManagerImpl(final AudioManager audioManager) {
+        this.audioManager = audioManager;
+    }
     /**
      * Check if two objects are colliding.
      * @param h1 the first object
@@ -126,11 +139,11 @@ public class CollisionManagerImpl implements CollisionManager {
      */
     @Override
     public void handleWeaponCollision(final Set<Enemy> enemies, final Weapon weapon) {
-        weapon.handleCollision();
         for (final Enemy enemy : enemies) {
             if (canTakeWeaponDamage(enemy)) {
                 enemy.setHealth(enemy.getHealth() - weapon.getDamage());
                 registerWeaponDamage(enemy);
+                audioManager.playSoundEffect(1);
                 damageEvents.add(new DamageEvent(enemy.getX(), enemy.getY(), weapon.getDamage()));
             }
         }
@@ -183,6 +196,7 @@ public class CollisionManagerImpl implements CollisionManager {
                 if (canTakeProjectileDamage(player, projectile)) {
                     player.setHealth(player.getHealth() - projectile.getDamage());
                     registerProjectileDamage(player, projectile);
+                    audioManager.playSoundEffect(1);
                 }
             }
         }
