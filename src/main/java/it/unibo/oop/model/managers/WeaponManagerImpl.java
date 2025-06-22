@@ -154,6 +154,7 @@ public class WeaponManagerImpl implements WeaponManager {
                 });
             } else if (weapon instanceof MagicStaff) {
                 ((MagicStaff) weapon).setObserver(() -> {
+                    audioManager.playSoundEffect(2);
                     ((MagicStaff) weapon).getProjectiles().forEach(this.projectileManager::addPlayerProjectile);
                 });
             }

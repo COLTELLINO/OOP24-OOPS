@@ -154,14 +154,22 @@ public class CollisionManagerImpl implements CollisionManager {
      * @param projectiles the projectile list
      */
     @Override
-    public void handleEnemyProjectilenCollision(final List<Enemy> enemies, final List<Projectile> projectiles) {
+    public void handleEnemyProjectilenCollision(final List<Enemy> enemies, final List<Projectile> projectiles, final Player player) {
         for (final Enemy enemy : enemies) {
             for (final Projectile projectile : projectiles) {
                 if (isColliding(enemy.getHitbox(), projectile.getProjectileHitBox())) {
                     projectile.handleCollision();
                     if (canTakeProjectileDamage(enemy, projectile)) {
-                        enemy.setHealth(enemy.getHealth() - projectile.getDamage());
+                        int damage;
+                        final int baseDamage = projectile.getDamage() * player.getAttack() / 100;
+                        if (Math.random() * 100 < player.getCritRate()) {
+                            damage = baseDamage * player.getCritDamage() / 100;
+                        } else {
+                            damage = baseDamage;
+                        }
+                        enemy.setHealth(enemy.getHealth() - damage);
                         registerProjectileDamage(enemy, projectile);
+                        audioManager.playSoundEffect(1);
                         damageEvents.add(new DamageEvent(enemy.getX(), enemy.getY(), projectile.getDamage()));
                     }
                 }
@@ -196,7 +204,6 @@ public class CollisionManagerImpl implements CollisionManager {
                 if (canTakeProjectileDamage(player, projectile)) {
                     player.setHealth(player.getHealth() - projectile.getDamage());
                     registerProjectileDamage(player, projectile);
-                    audioManager.playSoundEffect(1);
                 }
             }
         }

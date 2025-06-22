@@ -38,7 +38,7 @@ public interface CollisionManager {
      * @param enemies the enemy list
      * @param projectiles the projectile list
      */
-    void handleEnemyProjectilenCollision(List<Enemy> enemies, List<Projectile> projectiles);
+    void handleEnemyProjectilenCollision(List<Enemy> enemies, List<Projectile> projectiles, Player player);
     /**
      * Handle collision between enemies and the player.
      * @param player

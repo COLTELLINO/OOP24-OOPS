@@ -43,9 +43,9 @@ import it.unibo.oop.view.window.ViewManagerImpl;
 public class GameThreadImpl implements Runnable, GameThread {
     private static final int PLAYER_X = 0;
     private static final int PLAYER_Y = 0;
-    private static final int PLAYER_MAX_HEALTH = 100;
-    private static final int PLAYER_HEALTH = 100;
-    private static final int PLAYER_ATTACK = 100;
+    private static final int PLAYER_MAX_HEALTH = 10000;
+    private static final int PLAYER_HEALTH = 10000;
+    private static final int PLAYER_ATTACK = 10000;
     private static final int PLAYER_SPEED = 5;
     private static final int PLAYER_SIZE = 50;
     private int playerLevel = 1;
@@ -157,7 +157,7 @@ public class GameThreadImpl implements Runnable, GameThread {
      */
     private void checkCollisions() {
         collisionManager.handleEnemyProjectilenCollision(enemyManager.getSpawnedEnemies(),
-            projectileManager.getPlayerProjectiles());
+            projectileManager.getPlayerProjectiles(), player);
         collisionManager.handlePlayerProjectilenCollision(player, projectileManager.getEnemyProjectiles());
         collisionManager.handlePlayerEnemyCollisions(player, enemyManager.getSpawnedEnemies());
         for (final Weapon weapon : weaponManager.getWeapons()) {
