@@ -20,7 +20,7 @@ import it.unibo.oop.utils.Percentage;
  */
 public class AudioManagerImpl implements AudioManager {
     private static final float FLOAT_DB = 20.0f;
-    private Percentage volume = Percentage.ZERO_PERCENT;
+    private Percentage volume = Percentage.TEN_PERCENT;
     private final List<URL> soundList = new ArrayList<>();
     private Clip musicClip;
     private boolean isMusicPlaying;
@@ -29,7 +29,6 @@ public class AudioManagerImpl implements AudioManager {
      * Initializes the AudioHandler and adds audio files to the sound list.
      */
     public AudioManagerImpl() {
-        this.setVolume(Percentage.TEN_PERCENT);
         this.soundList.add(AudioManagerImpl.class.getResource("/Audio/SoundEffects/explosion.wav"));
         this.soundList.add(AudioManagerImpl.class.getResource("/Audio/SoundEffects/hit.wav"));
         this.soundList.add(AudioManagerImpl.class.getResource("/Audio/SoundEffects/shot.wav"));

@@ -29,6 +29,7 @@ import it.unibo.oop.model.managers.WeaponManagerImpl;
 import it.unibo.oop.utils.Camera;
 import it.unibo.oop.utils.CountDownTimer;
 import it.unibo.oop.utils.GameState;
+import it.unibo.oop.utils.Percentage;
 import it.unibo.oop.utils.AudioIndex;
 import it.unibo.oop.utils.Timer;
 import it.unibo.oop.utils.TimerImpl;
@@ -71,6 +72,7 @@ public class GameThreadImpl implements Runnable, GameThread {
      *
      */
     public GameThreadImpl() {
+        this.audioManager.setVolume(Percentage.TEN_PERCENT);
         this.window = drawViewFactory.createViewManager(GameState.TITLESTATE, gameController, audioController, camera);
         this.window.addKeyListener(inputHandler);
         this.window.setFocusable(true);

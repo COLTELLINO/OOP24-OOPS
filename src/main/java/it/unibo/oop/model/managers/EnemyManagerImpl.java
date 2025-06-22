@@ -114,27 +114,27 @@ public class EnemyManagerImpl implements EnemyManager {
             baseCultist.getAttack() + buffMultiplier - 1, baseCultist.getSpeed(), baseCultist.getSize(), player);
         final Enemy slimeBoss = this.enemyFactory.createBoss(this.enemyFactory.createSlime(
             player.getX() + SPAWN_DISTANCE, player.getY() + SPAWN_DISTANCE, baseSlime.getMaxHealth() * buffMultiplier, 
-            baseSlime.getHealth() * buffMultiplier, baseSlime.getAttack() * buffMultiplier,
+            baseSlime.getHealth() * buffMultiplier, baseSlime.getAttack() + buffMultiplier - 1 + buffMultiplier - 1,
             baseSlime.getSpeed(), baseSlime.getSize(), player));
         final Enemy ghostBoss = this.enemyFactory.createBoss(this.enemyFactory.createGhost(
             player.getX() + SPAWN_DISTANCE, player.getY() + SPAWN_DISTANCE, baseGhost.getMaxHealth() * buffMultiplier, 
-            baseGhost.getHealth() * buffMultiplier, baseGhost.getAttack() * buffMultiplier,
+            baseGhost.getHealth() * buffMultiplier, baseGhost.getAttack() + buffMultiplier - 1,
             baseGhost.getSpeed(), baseGhost.getSize(), player));
         final Enemy zombieBoss = this.enemyFactory.createBoss(this.enemyFactory.createZombie(
             player.getX() + SPAWN_DISTANCE, player.getY() + SPAWN_DISTANCE, baseZombie.getMaxHealth() * buffMultiplier, 
-            baseZombie.getHealth() * buffMultiplier, baseZombie.getAttack() * buffMultiplier,
+            baseZombie.getHealth() * buffMultiplier, baseZombie.getAttack() + buffMultiplier - 1,
             baseZombie.getSpeed(), baseZombie.getSize(), player));
         final Enemy batBoss = this.enemyFactory.createBoss(this.enemyFactory.createBat(
             player.getX() + SPAWN_DISTANCE, player.getY() + SPAWN_DISTANCE, baseBat.getMaxHealth() * buffMultiplier, 
-            baseBat.getHealth() * buffMultiplier, baseBat.getAttack() * buffMultiplier,
+            baseBat.getHealth() * buffMultiplier, baseBat.getAttack() + buffMultiplier - 1,
             baseBat.getSpeed(), baseBat.getSize(), player));
         final Enemy skullBoss = this.enemyFactory.createBoss(this.enemyFactory.createSkull(
             player.getX() + SPAWN_DISTANCE, player.getY() + SPAWN_DISTANCE, baseSkull.getMaxHealth() * buffMultiplier, 
-            baseSkull.getHealth() * buffMultiplier, baseSkull.getAttack() * buffMultiplier,
+            baseSkull.getHealth() * buffMultiplier, baseSkull.getAttack() + buffMultiplier - 1,
             baseSkull.getSpeed(), baseSkull.getSize(), player));
         final Enemy cultistBoss = this.enemyFactory.createBoss(this.enemyFactory.createCultist(
             player.getX() + SPAWN_DISTANCE, player.getY() + SPAWN_DISTANCE, baseCultist.getMaxHealth() * buffMultiplier, 
-            baseCultist.getHealth() * buffMultiplier, baseCultist.getAttack() * buffMultiplier,
+            baseCultist.getHealth() * buffMultiplier, baseCultist.getAttack() + buffMultiplier - 1,
             baseCultist.getSpeed(), baseCultist.getSize(), player));
         Stream.of(slime, ghost, zombie, bat, skull, cultist)
             .forEach(e -> 
