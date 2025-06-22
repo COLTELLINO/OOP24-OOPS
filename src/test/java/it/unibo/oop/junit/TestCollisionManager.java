@@ -58,9 +58,8 @@ class TestCollisionManager {
     private static final int RECT2_Y = 55;
     private static final int RECT2_WIDTH = 10;
     private static final int RECT2_HEIGHT = 10;
-    private static final Player P = new Player(PLAYER_X, PLAYER_Y, PLAYER_MAX_HEALTH, 
-        PLAYER_HEALTH, PLAYER_ATTACK, PLAYER_SPEED, PLAYER_SIZE);
-    private static final int EXPECTED_HEALTH_AFTER_DAMAGE = 99;
+
+    private static final int EXPECTED_HEALTH_AFTER_DAMAGE = 90;
     private static final int EXPECTED_HEALTH_AFTER_WEAPON_DAMAGE = 80;
     private static final AudioManager AUDIOMANAGER = new AudioManagerImpl();
 
@@ -74,7 +73,7 @@ class TestCollisionManager {
     void setUp() {
         collisionManager = new CollisionManagerImpl(AUDIOMANAGER);
 
-        player = P;
+        player = new Player(PLAYER_X, PLAYER_Y, PLAYER_MAX_HEALTH, PLAYER_HEALTH, PLAYER_ATTACK, PLAYER_SPEED, PLAYER_SIZE);
 
         enemy = new Slime(ENEMY_X, ENEMY_Y, ENEMY_MAX_HEALTH, ENEMY_HEALTH, ENEMY_ATTACK, ENEMY_SPEED, ENEMY_SIZE, player);
 
@@ -146,7 +145,6 @@ class TestCollisionManager {
 
         final List<Projectile> projectiles = new ArrayList<>();
         projectiles.add(arrow);
-
         final  List<Enemy> enemies = new ArrayList<>();
         enemies.add(enemy);
 

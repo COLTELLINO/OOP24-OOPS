@@ -32,7 +32,6 @@ public class Bow extends Weapon {
     };
     private Direction direction = Direction.UP;
     private Direction lastDirection = Direction.UP;
-    private static final int DAMAGESCALER = 1;
     private static final int ATTACKSPEEDSCALER = 2;
     private static final int SPEEDSCALER = 10;
 
@@ -95,30 +94,30 @@ public class Bow extends Weapon {
         switch (getLevel()) {
             case 1 -> {
                 projectiles.add(new Arrow(player.getX(), player.getY(), direction,
-                    DAMAGE, SPEED, PROJECTILE_SIZE, player.getSize()));
+                    getBaseDamage(), SPEED, PROJECTILE_SIZE, player.getSize()));
             }
             case 2 -> {
                 projectiles.add(new Arrow(player.getX(), player.getY(), direction,
-                    DAMAGE, SPEED, PROJECTILE_SIZE, player.getSize()));
+                    getBaseDamage(), SPEED, PROJECTILE_SIZE, player.getSize()));
                 projectiles.add(new Arrow(player.getX(), player.getY(), direction.getOpposite(),
-                    DAMAGE, SPEED, PROJECTILE_SIZE, player.getSize()));
+                    getBaseDamage(), SPEED, PROJECTILE_SIZE, player.getSize()));
             }
             case 3 -> {
                 for (final Direction dir : Direction.verticalHorizontal()) {
                     projectiles.add(new Arrow(player.getX(), player.getY(), dir,
-                        DAMAGE, SPEED, PROJECTILE_SIZE, player.getSize()));
+                        getBaseDamage(), SPEED, PROJECTILE_SIZE, player.getSize()));
                 }
             }
             case 4 -> {
                 for (final Direction dir : Direction.verticalHorizontal()) {
                     projectiles.add(new Arrow(player.getX(), player.getY(), dir,
-                        DAMAGE, SPEED, PROJECTILE_SIZE, player.getSize()));
+                        getBaseDamage(), SPEED, PROJECTILE_SIZE, player.getSize()));
                 }
             }
             case WeaponManager.MAX_LEVEL -> {
                 for (final Direction dir : Direction.verticalHorizontal()) {
                     projectiles.add(new Arrow(player.getX(), player.getY(), dir, 
-                    DAMAGE, SPEED + SPEEDSCALER, PROJECTILE_SIZE, player.getSize()));
+                    getBaseDamage(), SPEED + SPEEDSCALER, PROJECTILE_SIZE, player.getSize()));
                 }
             }
             default -> throw new IllegalStateException("Unexpected level: " + getLevel());
@@ -149,7 +148,12 @@ public class Bow extends Weapon {
      */
     @Override
     protected int getBaseDamage() {
-        return DAMAGE + ((getLevel() - 1) * DAMAGESCALER);
+        final Player player = getPlayer();
+        final int baseDamage = DAMAGE * player.getAttack() / 100;
+        if (Math.random() * 100 < player.getCritRate()) {
+            return baseDamage * player.getCritDamage() / 100;
+        }
+        return baseDamage;
     }
 
     /**

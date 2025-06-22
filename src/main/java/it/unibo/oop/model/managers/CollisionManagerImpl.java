@@ -161,14 +161,7 @@ public class CollisionManagerImpl implements CollisionManager {
                 if (isColliding(enemy.getHitbox(), projectile.getProjectileHitBox())) {
                     projectile.handleCollision();
                     if (canTakeProjectileDamage(enemy, projectile)) {
-                        final int damage;
-                        final int baseDamage = projectile.getDamage() * player.getAttack() / 100;
-                        if (Math.random() * 100 < player.getCritRate()) {
-                            damage = baseDamage * player.getCritDamage() / 100;
-                        } else {
-                            damage = baseDamage;
-                        }
-                        enemy.setHealth(enemy.getHealth() - damage);
+                        enemy.setHealth(enemy.getHealth() - projectile.getDamage());
                         registerProjectileDamage(enemy, projectile);
                         audioManager.playSoundEffect(1);
                         damageEvents.add(new DamageEvent(enemy.getX(), enemy.getY(), projectile.getDamage()));
