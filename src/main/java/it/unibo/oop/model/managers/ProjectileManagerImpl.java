@@ -77,7 +77,6 @@ public class ProjectileManagerImpl implements ProjectileManager {
     @Override
     public void addPlayerProjectile(final Projectile projectile) {
         playerProjectileList.add(projectile);
-        audioManager.playSoundEffect(2);
         if (projectile instanceof StaffProjectile) {
             projectile.setManagerObserver(explodedProjectile -> {
                 audioManager.playSoundEffect(0);

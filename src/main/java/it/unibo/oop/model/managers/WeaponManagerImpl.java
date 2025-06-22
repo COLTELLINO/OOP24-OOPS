@@ -33,6 +33,7 @@ public class WeaponManagerImpl implements WeaponManager {
     private final Player player;
     private final Random random;
     private int playerLastLevel = 1;
+    private final AudioManager audioManager;
     private final ProjectileManager projectileManager;
 
     /**
@@ -56,13 +57,15 @@ public class WeaponManagerImpl implements WeaponManager {
      * 
      * @param player the player associated with the weapons
      * @param projectileManager
+     * @param audioManager
      */
-    public WeaponManagerImpl(final Player player, final ProjectileManager projectileManager) {
+    public WeaponManagerImpl(final Player player, final ProjectileManager projectileManager, final AudioManager audioManager) {
         this.upgrades = new ArrayList<>();
         this.upgradePool = new ArrayList<>();
         this.player = player;
         this.random = new Random();
         this.projectileManager = projectileManager;
+        this.audioManager = audioManager;
         initializeWeaponPool();
     }
 
@@ -146,6 +149,7 @@ public class WeaponManagerImpl implements WeaponManager {
         for (final Weapon weapon : weapons) {
             if (weapon instanceof Bow) {
                 ((Bow) weapon).setObserver(() -> {
+                    audioManager.playSoundEffect(2);
                     ((Bow) weapon).getProjectiles().forEach(this.projectileManager::addPlayerProjectile);
                 });
             } else if (weapon instanceof MagicStaff) {

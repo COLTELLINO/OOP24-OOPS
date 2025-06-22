@@ -59,7 +59,7 @@ public class GameThreadImpl implements Runnable, GameThread {
     private final InputHandler inputHandler = new InputHandler(player);
     private final EnemyManager enemyManager = new EnemyManagerImpl(player, countDownTimer);
     private final ProjectileManager projectileManager = new ProjectileManagerImpl(audioManager);
-    private final WeaponManager weaponManager = new WeaponManagerImpl(player, projectileManager);
+    private final WeaponManager weaponManager = new WeaponManagerImpl(player, projectileManager, audioManager);
     private final ExperienceManager experienceManager = new ExperienceManagerImpl(player);
     private final CollisionManager collisionManager = new CollisionManagerImpl(audioManager);
     private final GameController gameController = new GameController(player, enemyManager, projectileManager, 

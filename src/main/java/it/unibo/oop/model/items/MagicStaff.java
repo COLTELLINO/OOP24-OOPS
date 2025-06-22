@@ -185,7 +185,7 @@ public class MagicStaff extends Weapon {
      * @return the list of projectiles
      */
     public List<Projectile> getProjectiles() {
-        ArrayList<Projectile> list = new ArrayList<>(projectiles);
+        final List<Projectile> list = new ArrayList<>(projectiles);
         projectiles.clear();
         return list;
     }

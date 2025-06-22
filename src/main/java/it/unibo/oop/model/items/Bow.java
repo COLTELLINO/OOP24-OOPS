@@ -131,7 +131,9 @@ public class Bow extends Weapon {
      * @return the list of projectiles
      */
     public List<Projectile> getProjectiles() {
-        return new ArrayList<>(projectiles);
+        final List<Projectile> list = new ArrayList<>(projectiles);
+        projectiles.clear();
+        return list;
     }
     /**
      * @return the player associated with the bow.

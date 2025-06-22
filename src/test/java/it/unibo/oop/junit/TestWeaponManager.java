@@ -34,7 +34,7 @@ class TestWeaponManager {
     void setUp() {
         final Player player = new Player(0, 0, 100, 100, 10, SPEED, SIZE);
         final ProjectileManager projectileManager = new ProjectileManagerImpl(AUDIOMANAGER);
-        weaponManager = new WeaponManagerImpl(player, projectileManager);
+        weaponManager = new WeaponManagerImpl(player, projectileManager, AUDIOMANAGER);
     }
 
     @Test
