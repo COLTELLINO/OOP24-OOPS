@@ -154,13 +154,14 @@ public class CollisionManagerImpl implements CollisionManager {
      * @param projectiles the projectile list
      */
     @Override
-    public void handleEnemyProjectilenCollision(final List<Enemy> enemies, final List<Projectile> projectiles, final Player player) {
+    public void handleEnemyProjectilenCollision(final List<Enemy> enemies, 
+        final List<Projectile> projectiles, final Player player) {
         for (final Enemy enemy : enemies) {
             for (final Projectile projectile : projectiles) {
                 if (isColliding(enemy.getHitbox(), projectile.getProjectileHitBox())) {
                     projectile.handleCollision();
                     if (canTakeProjectileDamage(enemy, projectile)) {
-                        int damage;
+                        final int damage;
                         final int baseDamage = projectile.getDamage() * player.getAttack() / 100;
                         if (Math.random() * 100 < player.getCritRate()) {
                             damage = baseDamage * player.getCritDamage() / 100;
