@@ -20,16 +20,16 @@ import it.unibo.oop.utils.Percentage;
  */
 public class AudioManagerImpl implements AudioManager {
     private static final float FLOAT_DB = 20.0f;
-    private Percentage volume = Percentage.TEN_PERCENT;
+    private Percentage volume = Percentage.ZERO_PERCENT;
     private final List<URL> soundList = new ArrayList<>();
     private Clip musicClip;
-    private Clip soundEffectClip;
     private boolean isMusicPlaying;
 
     /**
      * Initializes the AudioHandler and adds audio files to the sound list.
      */
     public AudioManagerImpl() {
+        this.setVolume(Percentage.TEN_PERCENT);
         this.soundList.add(AudioManagerImpl.class.getResource("/Audio/SoundEffects/explosion.wav"));
         this.soundList.add(AudioManagerImpl.class.getResource("/Audio/SoundEffects/hit.wav"));
         this.soundList.add(AudioManagerImpl.class.getResource("/Audio/SoundEffects/shot.wav"));
@@ -67,7 +67,7 @@ public class AudioManagerImpl implements AudioManager {
     public void playMusic(final int i) {
         this.stopMusic();
         this.setMusicPlaying(true);
-        this.musicClip = this.setClip(i);
+        this.musicClip = this.clipSetup(i);
         this.applyVolume(musicClip);
         this.play(musicClip);
         this.loop(musicClip);
@@ -103,7 +103,7 @@ public class AudioManagerImpl implements AudioManager {
      */
     @Override
     public void playSoundEffect(final int i) {
-        this.soundEffectClip = this.setClip(i);
+        final Clip soundEffectClip = this.clipSetup(i);
         this.applyVolume(soundEffectClip);
         this.play(soundEffectClip);
     }
@@ -128,8 +128,9 @@ public class AudioManagerImpl implements AudioManager {
     }
     /**
      * Applies the volume to the clip.
+     * @param clip
      */
-    private void applyVolume(Clip clip) {
+    private void applyVolume(final Clip clip) {
         if (clip != null && clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
             final FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
             final float dB = (float) (Math.log(this.volume.getPercentage()) / Math.log(10.0) * FLOAT_DB);
@@ -139,11 +140,12 @@ public class AudioManagerImpl implements AudioManager {
     /**
      * Sets the audio file to be played.
      * @param i the index of the audio file in the sound list
+     * @return the clip to play.
      */
-    private Clip setClip(final int i) {
+    private Clip clipSetup(final int i) {
         if (this.soundList.size() > i && this.soundList.get(i) != null) {
             try {
-                Clip clip = AudioSystem.getClip();
+                final Clip clip = AudioSystem.getClip();
                 clip.open(AudioSystem.getAudioInputStream(this.soundList.get(i)));
                 return clip;
             } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
@@ -155,24 +157,27 @@ public class AudioManagerImpl implements AudioManager {
     }
     /**
      * Plays the currently set audio file.
+     * @param clip
      */
-    private void play(Clip clip) {
+    private void play(final Clip clip) {
         if (clip != null) {
             clip.start();
         }
     }
     /**
      * Loops the currently set audio file.
+     * @param clip
      */
-    private void loop(Clip clip) {
+    private void loop(final Clip clip) {
         if (clip != null) {
             clip.loop(Clip.LOOP_CONTINUOUSLY);
         }
     }
     /**
      * Stops the currently playing audio file.
+     * @param clip
      */
-    private void stop(Clip clip) {
+    private void stop(final Clip clip) {
         if (clip != null) {
             clip.stop();
         }
