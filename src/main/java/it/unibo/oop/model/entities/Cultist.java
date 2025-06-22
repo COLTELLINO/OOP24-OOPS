@@ -12,7 +12,7 @@ public class Cultist extends AttackingEnemy {
     private static final int BASE_SPEED = 1;
     private static final int BASE_SIZE = 32;
     private static final int MIN_PLAYER_DISTANCE = 300;
-    private final CountDownTimer countDownTimer = new CountDownTimer(180);
+    private final CountDownTimer countDownTimer = new CountDownTimer(120);
     /**
      * @param x
      * @param y
