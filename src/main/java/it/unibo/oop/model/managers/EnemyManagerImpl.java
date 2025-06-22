@@ -140,24 +140,40 @@ public class EnemyManagerImpl implements EnemyManager {
             .forEach(e -> 
                 e.setOnDeathObserver(() -> {
                     experienceManager.spawnXP(e.getX() + e.getSize() / 2,
-                        e.getY() + e.getSize() / 2, this.countDownTimer.getTotalSeconds());
+                    e.getY() + e.getSize() / 2, this.countDownTimer.getTotalSeconds());
                 }));
-        skull.setObserver(() -> {
-            projectileManager.addEnemyProjectile(skull.getProjectile());
-        });
-        cultist.setObserver(() -> {
-            final Enemy skullSpawn = this.enemyFactory
-                .createBaseSkull(cultist.getX(), cultist.getY(), player);
-            skullSpawn.setOnDeathObserver(() -> {
-                    experienceManager.spawnXP(skullSpawn.getX() + skullSpawn.getSize() / 2,
-                        skull.getY() + skullSpawn.getSize() / 2, this.countDownTimer.getTotalSeconds());
-                });
-            skullSpawn.setObserver(() -> {
-                    projectileManager.addEnemyProjectile(skullSpawn.getProjectile());
-                });
-            this.spawnEnemy(skullSpawn);
+        Stream.of(skull, skullBoss)
+            .forEach(e -> e.setObserver(() -> {
+                    projectileManager.addEnemyProjectile(e.getProjectile());
+            }));
+        Stream.of(cultist, cultistBoss)
+                .forEach(e -> e.setObserver(() -> {
+                    final Enemy skullSpawn = this.enemyFactory
+                        .createBaseSkull(e.getX(), e.getY(), player);
+                    skullSpawn.setOnDeathObserver(() -> {
+                            experienceManager.spawnXP(skullSpawn.getX() + skullSpawn.getSize() / 2,
+                                skullSpawn.getY() + skullSpawn.getSize() / 2, this.countDownTimer.getTotalSeconds());
+                        });
+                    skullSpawn.setObserver(() -> {
+                            projectileManager.addEnemyProjectile(skullSpawn.getProjectile());
+                        });
+                    this.spawnEnemy(skullSpawn);
+                }));
+        slimeBoss.setOnDeathObserver(() -> {
+            experienceManager.spawnXP(
+                slimeBoss.getX() + slimeBoss.getSize() / 2,
+                slimeBoss.getY() + slimeBoss.getSize() / 2,
+                this.countDownTimer.getTotalSeconds() * buffMultiplier
+            );
+            final Enemy rightSlimeSpawn = this.enemyFactory.createBaseSlime(
+                slimeBoss.getX() - slimeBoss.getSize() / 2, slimeBoss.getY() + slimeBoss.getSize() / 4, player);
+            final Enemy leftSlimeSpawn = this.enemyFactory.createBaseSlime(
+                slimeBoss.getX() + slimeBoss.getSize() / 2, slimeBoss.getY() + slimeBoss.getSize() / 4, player);
+            this.spawnEnemy(rightSlimeSpawn);
+            this.spawnEnemy(leftSlimeSpawn);
         });
         if (seconds > 0 && seconds <= FIRST_DIFFICULTY_WAVE) {
+            this.addEnemy(slimeBoss);
             this.addEnemy(slime);
             this.addEnemy(ghost);
         } else if (seconds > FIRST_DIFFICULTY_WAVE && seconds <= SECOND_DIFFICULTY_WAVE) {

@@ -3,6 +3,7 @@ package it.unibo.oop.model.entities;
 import java.awt.Rectangle;
 
 import it.unibo.oop.model.managers.EnemyManagerImpl.EnemyObserver;
+import it.unibo.oop.model.projectiles.Projectile;
 import it.unibo.oop.utils.Direction;
 
 /**
@@ -258,10 +259,46 @@ public abstract class EnemyDecorator extends Enemy {
         decoratedEnemy.setOnDeathObserver(observer);
     }
     /**
+     * @param observer
+     */
+    @Override
+    public void setObserver(final EnemyObserver observer) {
+        decoratedEnemy.setObserver(observer);
+    }
+    /**
      * Updates the decorated enemy.
      */
     @Override
     public void update() {
         decoratedEnemy.update();
+    }
+    /**
+     * Set the projectile of the decorated enemy.
+     * @param projectile
+     */
+    @Override
+    public void setProjectile(final Projectile projectile) {
+        decoratedEnemy.setProjectile(projectile);
+    }
+    /**
+     * @return the projectile of the decorated enemy if it has one.
+     */
+    @Override
+    public Projectile getProjectile() {
+        return decoratedEnemy.getProjectile();
+    }
+    /**
+     * attacks the player if the enemy is attacking.
+     */
+    @Override
+    protected void attacking() {
+        decoratedEnemy.attacking();
+    }
+    /**
+     * @return the minimum distance from the player to trigger the observer action.
+     */
+    @Override
+    protected int getMinPlayerDistance() {
+        return decoratedEnemy.getMinPlayerDistance();
     }
 }

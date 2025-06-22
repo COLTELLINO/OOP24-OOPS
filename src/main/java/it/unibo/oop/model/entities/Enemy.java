@@ -234,4 +234,16 @@ public abstract class Enemy extends Entity {
     public void setOnDeathObserver(final EnemyObserver onDeathObserver) {
         this.onDeathObserver = Optional.of(onDeathObserver);
     }
+    /**
+     * attacks the player if the enemy is attacking.
+     * method is needed here to allow EnemyDecorator to work
+     */
+    protected void attacking() {
+    }
+    /**
+     * @return the minimum distance from the player to trigger the observer action.
+     */
+    protected int getMinPlayerDistance() {
+        return 0;
+    }
 }

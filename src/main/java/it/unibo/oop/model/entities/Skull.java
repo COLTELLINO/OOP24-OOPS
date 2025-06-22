@@ -42,7 +42,7 @@ public class Skull extends AttackingEnemy {
     /**
      * Executes the enemy attack.
      */
-     @Override
+    @Override
     protected void attacking() {
         if (!countDownTimer.isRunning()) {
             countDownTimer.reset();

@@ -36,9 +36,11 @@ public abstract class AttackingEnemy extends Enemy {
     /**
      * Executes the enemy attack.
      */
+    @Override
     protected abstract void attacking();
     /**
      * @return the minimum distance from the player to trigger the observer action.
      */
+    @Override
     protected abstract int getMinPlayerDistance();
 }
