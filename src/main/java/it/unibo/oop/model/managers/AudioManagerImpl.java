@@ -22,12 +22,13 @@ public class AudioManagerImpl implements AudioManager {
     private static final float FLOAT_DB = 20.0f;
     private Percentage volume = Percentage.TEN_PERCENT;
     private final List<URL> soundList = new ArrayList<>();
-    private Clip clip;
+    private Clip musicClip;
+    private Clip soundEffectClip;
     private boolean isMusicPlaying;
 
     /**
      * Initializes the AudioHandler and adds audio files to the sound list.
-    */
+     */
     public AudioManagerImpl() {
         this.soundList.add(AudioManagerImpl.class.getResource("/Audio/SoundEffects/explosion.wav"));
         this.soundList.add(AudioManagerImpl.class.getResource("/Audio/SoundEffects/hit.wav"));
@@ -64,11 +65,12 @@ public class AudioManagerImpl implements AudioManager {
      */
     @Override
     public void playMusic(final int i) {
+        this.stopMusic();
         this.setMusicPlaying(true);
-        this.setFile(i);
-        this.applyVolume();
-        this.play();
-        this.loop();
+        this.musicClip = this.setClip(i);
+        this.applyVolume(musicClip);
+        this.play(musicClip);
+        this.loop(musicClip);
     }
 
     /**
@@ -77,7 +79,7 @@ public class AudioManagerImpl implements AudioManager {
     @Override
     public void stopMusic() {
         this.setMusicPlaying(false);
-        this.stop();
+        this.stop(musicClip);
     }
     /**
      * Gets the music playing state.
@@ -101,9 +103,9 @@ public class AudioManagerImpl implements AudioManager {
      */
     @Override
     public void playSoundEffect(final int i) {
-        this.setFile(i);
-        this.applyVolume();
-        this.play();
+        this.soundEffectClip = this.setClip(i);
+        this.applyVolume(soundEffectClip);
+        this.play(soundEffectClip);
     }
     /**
      * Sets the volume of the audio.
@@ -113,7 +115,7 @@ public class AudioManagerImpl implements AudioManager {
     public void setVolume(final Percentage volume) {
         if (volume != null) {
             this.volume = volume;
-            this.applyVolume();
+            this.applyVolume(musicClip);
         }
     }
     /**
@@ -127,7 +129,7 @@ public class AudioManagerImpl implements AudioManager {
     /**
      * Applies the volume to the clip.
      */
-    private void applyVolume() {
+    private void applyVolume(Clip clip) {
         if (clip != null && clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
             final FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
             final float dB = (float) (Math.log(this.volume.getPercentage()) / Math.log(10.0) * FLOAT_DB);
@@ -138,22 +140,23 @@ public class AudioManagerImpl implements AudioManager {
      * Sets the audio file to be played.
      * @param i the index of the audio file in the sound list
      */
-    private void setFile(final int i) {
+    private Clip setClip(final int i) {
         if (this.soundList.size() > i && this.soundList.get(i) != null) {
             try {
-                clip = AudioSystem.getClip();
-                // Usa direttamente il URL senza passare da File
+                Clip clip = AudioSystem.getClip();
                 clip.open(AudioSystem.getAudioInputStream(this.soundList.get(i)));
+                return clip;
             } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
                 Logger.getLogger(this.getClass().getName())
                         .log(Level.SEVERE, e.getClass().getSimpleName() + " occurred: ", e);
             }
         }
+        return null;
     }
     /**
      * Plays the currently set audio file.
      */
-    private void play() {
+    private void play(Clip clip) {
         if (clip != null) {
             clip.start();
         }
@@ -161,7 +164,7 @@ public class AudioManagerImpl implements AudioManager {
     /**
      * Loops the currently set audio file.
      */
-    private void loop() {
+    private void loop(Clip clip) {
         if (clip != null) {
             clip.loop(Clip.LOOP_CONTINUOUSLY);
         }
@@ -169,7 +172,7 @@ public class AudioManagerImpl implements AudioManager {
     /**
      * Stops the currently playing audio file.
      */
-    private void stop() {
+    private void stop(Clip clip) {
         if (clip != null) {
             clip.stop();
         }
