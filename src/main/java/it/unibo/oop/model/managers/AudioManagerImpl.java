@@ -20,7 +20,7 @@ import it.unibo.oop.utils.Percentage;
  */
 public class AudioManagerImpl implements AudioManager {
     private static final float FLOAT_DB = 20.0f;
-    private Percentage volume = Percentage.TEN_PERCENT;
+    private Percentage volume = Percentage.ZERO_PERCENT;
     private final List<URL> soundList = new ArrayList<>();
     private Clip musicClip;
     private boolean isMusicPlaying;
