@@ -29,7 +29,7 @@ import it.unibo.oop.model.managers.WeaponManagerImpl;
 import it.unibo.oop.utils.Camera;
 import it.unibo.oop.utils.CountDownTimer;
 import it.unibo.oop.utils.GameState;
-import it.unibo.oop.utils.SoundIndex;
+import it.unibo.oop.utils.AudioIndex;
 import it.unibo.oop.utils.Timer;
 import it.unibo.oop.utils.TimerImpl;
 import it.unibo.oop.view.window.ViewManager;
@@ -122,7 +122,7 @@ public class GameThreadImpl implements Runnable, GameThread {
         }
         if (this.window.getCurrentGameState() == GameState.PLAYSTATE) {
             if (!this.audioManager.isMusicPlaying()) {
-                this.audioManager.playMusic(SoundIndex.MUSIC_OOP_ADVENTURE.getIndex());
+                this.audioManager.playMusic(AudioIndex.MUSIC_OOP_ADVENTURE.getIndex());
             }
             if (this.countDownTimer.isRunning()) {
                 this.countDownTimer.tick();

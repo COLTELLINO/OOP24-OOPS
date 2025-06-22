@@ -1,6 +1,5 @@
 package it.unibo.oop.model.managers;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -143,10 +142,11 @@ public class AudioManagerImpl implements AudioManager {
         if (this.soundList.size() > i && this.soundList.get(i) != null) {
             try {
                 clip = AudioSystem.getClip();
-                clip.open(AudioSystem.getAudioInputStream(new File(this.soundList.get(i).getPath())));
+                // Usa direttamente il URL senza passare da File
+                clip.open(AudioSystem.getAudioInputStream(this.soundList.get(i)));
             } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            Logger.getLogger(this.getClass().getName())
-                    .log(Level.SEVERE, e.getClass().getSimpleName() + " occurred: ", e);
+                Logger.getLogger(this.getClass().getName())
+                        .log(Level.SEVERE, e.getClass().getSimpleName() + " occurred: ", e);
             }
         }
     }

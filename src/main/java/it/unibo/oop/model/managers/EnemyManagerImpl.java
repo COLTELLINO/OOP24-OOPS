@@ -189,7 +189,7 @@ public class EnemyManagerImpl implements EnemyManager {
             }
         }
     }
-        /**
+    /**
      * Adds an enemy to the spawn list.
      * @param enemy
      */

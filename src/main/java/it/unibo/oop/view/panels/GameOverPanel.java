@@ -9,31 +9,26 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
-import it.unibo.oop.view.window.ViewManager;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Panel for the game over screen.
  */
+@SuppressFBWarnings(value = {"DM_EXIT"},
+        justification = "drawView is not exposed, but is used to change the game state."
+                      + "System.exit(0) is used to close all the Threads when the quit button is pressed."
+    )
 public final class GameOverPanel extends MyPanel {
     private static final long serialVersionUID = 1L;
-
-    @SuppressFBWarnings(
-        value = "EI_EXPOSE_REP",
-        justification = "drawView is not exposed"
-    )
-    private final transient ViewManager drawView;
 
     /**
      * Constructs the game over panel.
      * @param screenWidth width of the panel
      * @param screenHeight height of the panel
-     * @param drawView
      */
-    public GameOverPanel(final int screenWidth, final int screenHeight, final ViewManager drawView) {
+    public GameOverPanel(final int screenWidth, final int screenHeight) {
         super.setPreferredSize(new java.awt.Dimension(screenWidth, screenHeight));
         super.setLayout(new BorderLayout());
-        this.drawView = drawView;
 
         final JLabel titleLabel = new JLabel("GAME OVER", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, FONT_SIZE * 2));
@@ -46,7 +41,10 @@ public final class GameOverPanel extends MyPanel {
         buttonPanel.add(new JLabel());
         final JButton returnButton = new JButton("Quit");
         returnButton.setFont(new JButton().getFont());
-        returnButton.addActionListener(e -> SwingUtilities.getWindowAncestor(returnButton).dispose());
+        returnButton.addActionListener(e -> {
+            SwingUtilities.getWindowAncestor(returnButton).dispose();
+            System.exit(0);
+        });
         buttonPanel.add(returnButton);
         buttonPanel.add(new JLabel());
 

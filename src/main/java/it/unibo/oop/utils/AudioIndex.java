@@ -2,7 +2,7 @@ package it.unibo.oop.utils;
 /**
  * Enum representing sound indices for different sound effects and music tracks.
  */
-public enum SoundIndex {
+public enum AudioIndex {
     /**
      * 
      */
@@ -17,7 +17,7 @@ public enum SoundIndex {
      * Constructor for SoundIndex enum.
      * @param index
      */
-    SoundIndex(final int index) {
+    AudioIndex(final int index) {
         this.index = index;
     }
     /**

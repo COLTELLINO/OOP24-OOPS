@@ -53,7 +53,7 @@ public final class ViewManagerImpl implements ViewManager {
         this.optionPanel = new OptionPanel(this.sw / PROPORTION, this.sh / PROPORTION, this, audioController);
         this.gamePanel = new GamePanel(this.sw / PROPORTION, this.sh / PROPORTION, gameController, camera);
         this.pausePanel = new PausePanel(this.sw / PROPORTION, this.sh / PROPORTION, this, audioController);
-        this.gameOverPanel = new GameOverPanel(this.sw / PROPORTION, this.sh / PROPORTION, this);
+        this.gameOverPanel = new GameOverPanel(this.sw / PROPORTION, this.sh / PROPORTION);
         this.gamePanel.addMouseListener(mouseHandler);
         this.gamePanel.addMouseMotionListener(mouseHandler);
         this.changeGameState(gameState);

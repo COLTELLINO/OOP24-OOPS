@@ -18,9 +18,10 @@ import it.unibo.oop.view.window.ViewManager;
 /**
  * 
  */
-@SuppressFBWarnings(value = {"EI2"}, 
+@SuppressFBWarnings(value = {"EI2", "DM_EXIT"},
 justification = "The purpose of this class is to interact with the game window,"
-              + "so it needs to be able to use drawView to change the state of the game.")
+              + "so it needs to be able to use drawView to change the state of the game."
+              + "System.exit(0) is used to close all the Threads when the quit button is pressed.")
 public class TitlePanel extends MyPanel {
     @SuppressWarnings("unused") // TEMPORARY
     private static final double serialVersionUID = getSerialVersionUID();
@@ -52,6 +53,7 @@ public class TitlePanel extends MyPanel {
         settingsButton.addActionListener(e -> this.drawView.changeGameState(GameState.TITLEOPTIONSTATE));
         quitButton.addActionListener(e -> {
             SwingUtilities.getWindowAncestor(quitButton).dispose();
+            System.exit(0);
         });
 
         buttonPanel.add(newGameButton);
