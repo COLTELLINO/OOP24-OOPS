@@ -173,7 +173,6 @@ public class EnemyManagerImpl implements EnemyManager {
             this.spawnEnemy(leftSlimeSpawn);
         });
         if (seconds > 0 && seconds <= FIRST_DIFFICULTY_WAVE) {
-            this.addEnemy(slimeBoss);
             this.addEnemy(slime);
             this.addEnemy(ghost);
         } else if (seconds > FIRST_DIFFICULTY_WAVE && seconds <= SECOND_DIFFICULTY_WAVE) {
