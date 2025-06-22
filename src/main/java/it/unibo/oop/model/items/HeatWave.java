@@ -13,7 +13,7 @@ public class HeatWave extends Weapon {
 
     private static final int BASE_DAMAGE = 5;
     private static final int DAMAGE_PER_LEVEL = 1;
-    private static final int BASE_RADIUS = 50;
+    private static final int BASE_RADIUS = 100;
     private static final int RADIUS_PER_LEVEL = 15;
     private static final int BASE_COOLDOWN = 90;
     private static final int COOLDOWN_DECREASE_PER_LEVEL = 20;
