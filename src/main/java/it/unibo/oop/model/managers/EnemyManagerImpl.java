@@ -162,8 +162,8 @@ public class EnemyManagerImpl implements EnemyManager {
         Stream.of(ghostBoss, zombieBoss, batBoss, skullBoss, cultistBoss)
                 .forEach(e -> e.setOnDeathObserver(() -> {
             experienceManager.spawnXP(
-                slimeBoss.getX() + slimeBoss.getSize() / 2,
-                slimeBoss.getY() + slimeBoss.getSize() / 2,
+                e.getX() + e.getSize() / 2,
+                e.getY() + e.getSize() / 2,
                 this.countDownTimer.getTotalSeconds() * buffMultiplier);
             }));
         slimeBoss.setOnDeathObserver(() -> {
