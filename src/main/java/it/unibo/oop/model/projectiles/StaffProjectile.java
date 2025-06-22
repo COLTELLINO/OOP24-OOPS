@@ -69,4 +69,13 @@ public class StaffProjectile extends Projectile {
             exploded = true;
         }
     }
+
+    /**
+     * Checks if the projectile has exploded.
+     * 
+     * @return true if the projectile has exploded, false otherwise
+     */
+    public boolean isExploded() {
+        return exploded;
+    }
 }

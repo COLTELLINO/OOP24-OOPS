@@ -21,7 +21,7 @@ justification = "To position the weapon, the player size and position are needed
 public class Bow extends Weapon {
     private static final int DAMAGE = 1;
     private static final double COOLDOWN = 30;
-    private static final int SPEED = 10;
+    private static final int SPEED = 20;
     private static final int PROJECTILE_SIZE = 30;
 
     private double cooldown;
@@ -71,8 +71,6 @@ public class Bow extends Weapon {
         } else {
             direction = lastDirection;
         }
-        projectiles.forEach(Projectile::update);
-        projectiles.removeIf(Projectile::isOutOfBounds);
     }
     /**
      * If an observer is present, trigger its action.

@@ -24,7 +24,7 @@ public class MagicStaff extends Weapon {
     private static final int LEVEL_CAP = 5;
     private static final int DAMAGE = 2;
     private static final double COOLDOWN = 80;
-    private static final int SPEED = 3;
+    private static final int SPEED = 6;
     private static final int PROJECTILE_SIZE = 30;
     private static final int EXPLOSION_SIZE = 200;
     private static final int EXPLOSION_LIFETIME = 30;
@@ -34,7 +34,7 @@ public class MagicStaff extends Weapon {
 
     private double cooldown;
     private final Player player;
-    private final List<Projectile> projectiles;
+    private final List<StaffProjectile> projectiles;
     private final Map<Rectangle, Integer> explosionHitboxes;
     private WeaponObserver observer = () -> {
         // Default no-op implementation
@@ -86,9 +86,7 @@ public class MagicStaff extends Weapon {
         } else {
             direction = lastDirection;
         }
-
-        projectiles.forEach(Projectile::update);
-        projectiles.removeIf(Projectile::isOutOfBounds);
+        projectiles.removeIf(StaffProjectile::isExploded);
 
         final Iterator<Map.Entry<Rectangle, Integer>> iterator = explosionHitboxes.entrySet().iterator();
         while (iterator.hasNext()) {
@@ -123,7 +121,7 @@ public class MagicStaff extends Weapon {
         projectile.setObserver(explodedProjectile -> {
             final int explosionX;
             final int explosionY;
-            final int offset1 = 70; 
+            final int offset1 = 70;
             final int offset2 = 50;
             final int offset3 = 60;
 
@@ -187,7 +185,9 @@ public class MagicStaff extends Weapon {
      * @return the list of projectiles
      */
     public List<Projectile> getProjectiles() {
-        return new ArrayList<>(projectiles);
+        ArrayList<Projectile> list = new ArrayList<>(projectiles);
+        projectiles.clear();
+        return list;
     }
 
     /**
@@ -196,12 +196,6 @@ public class MagicStaff extends Weapon {
     @Override
     protected int getBaseDamage() {
         return DAMAGE + ((getLevel() - 1) * DAMAGESCALER);
-    }
-    /**
-     * @return the list of projectiles.
-     */
-    public List<Projectile> getProjectilesList() {
-        return projectiles;
     }
 
     /**
